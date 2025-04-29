@@ -12,11 +12,7 @@ import 'package:test_sales/controller/product_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/controller/monthly_target_controller.dart';
 import 'package:test_sales/controller/user_provider.dart';
-import 'package:test_sales/view/screens/home_screens/create_invoice_screen.dart';
-import 'package:test_sales/view/screens/home_screens/home_screen.dart';
-import 'package:test_sales/view/screens/registration_screens/login_screen.dart';
 import 'package:test_sales/view/screens/splash_screen.dart';
-
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
