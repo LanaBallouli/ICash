@@ -92,7 +92,11 @@
   "cash": "Cash",
   "debt": "Debt",
   "add_item_prompt": "Fill in all fields to add an item:",
-  "unit_price": "Unit price:"
+  "unit_price": "Unit price:",
+  "failed_to_create_user_profile": "Failed to create user profile",
+  "login_failed": "Login failed",
+  "user_already_registered": "User already registered"
+
 
 
 

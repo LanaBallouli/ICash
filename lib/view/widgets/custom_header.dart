@@ -43,7 +43,8 @@ class CustomHeader extends StatelessWidget {
                   String currentLangCode = langController.currentLangCode;
                   return IconButton(
                     onPressed: () {
-                      langController.changeLang(langCode: currentLangCode == 'ar' ? 'en' : 'ar');
+                      langController.changeLang(
+                          langCode: currentLangCode == 'ar' ? 'en' : 'ar');
                     },
                     icon: Icon(Icons.language),
                   );

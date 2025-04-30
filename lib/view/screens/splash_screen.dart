@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../controller/login_provider.dart';
+import '../../controller/login_controller.dart';
 import '../../controller/secure_storage_controller.dart';
 import 'registration_screens/login_screen.dart';
 
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final secureStorageProvider = context.read<SecureStorageProvider>();
       final credentials = await secureStorageProvider.loadCredentials();
 
-      final loginProvider = context.read<LoginProvider>();
+      final loginProvider = context.read<LoginController>();
       loginProvider.initializeCredentials(
         credentials['email'],
         credentials['password'],

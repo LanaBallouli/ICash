@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/controller/Invoice_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-import 'package:test_sales/controller/login_provider.dart';
+import 'package:test_sales/controller/login_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:test_sales/controller/product_controller.dart';
@@ -36,7 +36,7 @@ Future<void> main() async {
      builder: (context, child) {
        return  MultiProvider(
          providers: [
-           ChangeNotifierProvider(create: (_) => LoginProvider()),
+           ChangeNotifierProvider(create: (_) => LoginController()),
            ChangeNotifierProvider(create: (_) => MonthlyTargetController()),
            ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
            ChangeNotifierProvider(create: (_) => UserProvider()),
@@ -59,8 +59,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final langController = Provider.of<LangController>(context);
 
     return MaterialApp(
+      locale: langController.locale,
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

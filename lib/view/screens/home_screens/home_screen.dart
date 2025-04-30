@@ -29,10 +29,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu),
-        ),
         centerTitle: true,
         title: Text(
           AppLocalizations.of(context)!.main_screen,
@@ -67,22 +63,21 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Consumer<UserProvider>(
-                        builder: (context, userProvider, child) {
-                          return Text(
-                            "${AppLocalizations.of(context)!.hi} ${userProvider.userName ?? ''}!",
-                            style: AppStyles.getFontStyle(
-                              langController,
-                              fontSize: 24,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        },
-                      )),
+                  Consumer<UserProvider>(
+                    builder: (context, userProvider, child) {
+                      return Text(
+                        "${AppLocalizations.of(context)!.hi} ${userProvider.userName ?? ''}!",
+                        style: AppStyles.getFontStyle(
+                          langController,
+                          fontSize: 24,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 10),
                   InputWidget(
                     textEditingController: searchTextEditingController,
@@ -91,16 +86,13 @@ class HomeScreen extends StatelessWidget {
                     label: AppLocalizations.of(context)!.search,
                   ),
                   const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      AppLocalizations.of(context)!.dashboard,
-                      style: AppStyles.getFontStyle(
-                        langController,
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Text(
+                    AppLocalizations.of(context)!.dashboard,
+                    style: AppStyles.getFontStyle(
+                      langController,
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -108,9 +100,7 @@ class HomeScreen extends StatelessWidget {
                     width: double.infinity,
                     child: GridView.count(
                       shrinkWrap: true,
-                      // Enable shrinking
                       physics: const NeverScrollableScrollPhysics(),
-                      // Disable GridView scrolling
                       crossAxisCount: 2,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
@@ -231,17 +221,15 @@ class HomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          AppLocalizations.of(context)!.quick_access,
-                          style: AppStyles.getFontStyle(
-                            langController,
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      Text(
+                        AppLocalizations.of(context)!.quick_access,
+                        style: AppStyles.getFontStyle(
+                          langController,
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(
@@ -263,11 +251,13 @@ class HomeScreen extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         AlertDialog(
-                                         backgroundColor: Colors.white,
+                                          backgroundColor: Colors.white,
                                           alignment: Alignment.topCenter,
                                           title: Align(
                                             alignment: Alignment.center,
@@ -296,7 +286,9 @@ class HomeScreen extends StatelessWidget {
                                                 );
                                               },
                                             ),
-                                            SizedBox(height: 16.h,),
+                                            SizedBox(
+                                              height: 16.h,
+                                            ),
                                             ButtonWidget(
                                               buttonName: "Debt",
                                               buttonColor: Colors.white,
@@ -362,17 +354,15 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "المهام",
-                      style: AppStyles.getFontStyle(
-                        langController,
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Text(
+                    "المهام",
+                    style: AppStyles.getFontStyle(
+                      langController,
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(

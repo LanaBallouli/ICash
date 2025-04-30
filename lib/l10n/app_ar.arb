@@ -92,5 +92,9 @@
   "cash": "نقدي",
   "debt": "ذمم",
   "add_item_prompt": "قم بتعبئة الحقول لإضافة منتج:",
-  "unit_price": "سعر الوحدة:"
+  "unit_price": "سعر الوحدة:",
+  "failed_to_create_user_profile": "فشل إنشاء مستخدم جديد",
+  "login_failed": "فشل تسجيل الدخول",
+  "user_already_registered": ""
+
 }

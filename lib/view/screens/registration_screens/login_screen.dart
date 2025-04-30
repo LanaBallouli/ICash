@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-import 'package:test_sales/controller/login_provider.dart';
+import 'package:test_sales/controller/login_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
+import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
 import 'package:test_sales/view/widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
@@ -25,10 +26,11 @@ class LoginScreen extends StatelessWidget {
         children: [
           const CustomHeader(),
           Expanded(
-            child: Selector<LoginProvider, bool>(
-              selector: (context, loginProvider) => loginProvider.isLoginMode,
+            child: Selector<LoginController, bool>(
+              selector: (context, loginController) => loginController.isLoginMode,
               builder: (context, isLoginMode, _) {
                 return SingleChildScrollView(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.symmetric(horizontal: 13),
                   child: _buildLoginForm(context, isLoginMode),
                 );
@@ -41,20 +43,19 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginForm(BuildContext context, bool isLoginMode) {
-    final loginProvider = context.watch<LoginProvider>();
+    final loginController = context.watch<LoginController>();
 
     final List<Widget> formChildren = [
       _buildTitle(context, isLoginMode),
       _buildSubtitle(context, isLoginMode),
-      _buildEmailInput(context, loginProvider),
-      if (!isLoginMode) _buildNameInput(context, loginProvider),
-      _buildPasswordInput(context, loginProvider),
-      if (!isLoginMode) _buildConfirmPasswordInput(context, loginProvider),
+      _buildEmailInput(context, loginController),
+      if (!isLoginMode) _buildNameInput(context, loginController),
+      _buildPasswordInput(context, loginController),
+      if (!isLoginMode) _buildConfirmPasswordInput(context, loginController),
       if (isLoginMode) _rememberMeAndForgetPassword(context),
-      _buildSubmitButton(context, isLoginMode, loginProvider),
-      // if (isLoginMode) _buildForgotPasswordButton(context),
+      _buildSubmitButton(context, isLoginMode, loginController),
       const SizedBox(height: 20),
-      _buildSwitchModeRow(context, isLoginMode, loginProvider),
+      _buildSwitchModeRow(context, isLoginMode, loginController),
     ];
 
     return ListView.builder(
@@ -105,20 +106,21 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailInput(BuildContext context, LoginProvider loginProvider) {
+  Widget _buildEmailInput(BuildContext context, LoginController loginController) {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Selector<LoginProvider, String?>(
-        selector: (context, loginProvider) => loginProvider.errors['email'],
+      child: Selector<LoginController, String?>(
+        selector: (context, loginController) => loginController.errors['email'],
         builder: (context, errorText, _) {
           return InputWidget(
-            textEditingController: loginProvider.emailController,
+            textEditingController: loginController.emailController,
             obscureText: false,
             prefixIcon: const Icon(Icons.email),
             label: AppLocalizations.of(context)!.email,
+            labelColor: Colors.grey,
             keyboardType: TextInputType.emailAddress,
             hintText: "demo@demo.com",
-            onChanged: (value) => loginProvider.validateField(
+            onChanged: (value) => loginController.validateField(
               field: 'email',
               value: value,
               context: context,
@@ -130,20 +132,21 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNameInput(BuildContext context, LoginProvider loginProvider) {
+  Widget _buildNameInput(BuildContext context, LoginController loginController) {
     return Padding(
       padding: const EdgeInsets.only(top: 22),
-      child: Selector<LoginProvider, String?>(
-        selector: (context, loginProvider) => loginProvider.errors['name'],
+      child: Selector<LoginController, String?>(
+        selector: (context, loginController) => loginController.errors['name'],
         builder: (context, errorText, _) {
           return InputWidget(
-            textEditingController: loginProvider.nameController,
+            textEditingController: loginController.nameController,
             obscureText: false,
             keyboardType: TextInputType.name,
             prefixIcon: const Icon(Icons.person),
             label: AppLocalizations.of(context)!.user_name,
+            labelColor: Colors.grey,
             hintText: AppLocalizations.of(context)!.enter_name,
-            onChanged: (value) => loginProvider.validateField(
+            onChanged: (value) => loginController.validateField(
               field: 'name',
               value: value,
               context: context,
@@ -156,30 +159,31 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildPasswordInput(
-      BuildContext context, LoginProvider loginProvider) {
+      BuildContext context, LoginController loginController) {
     return Padding(
       padding: const EdgeInsets.only(top: 22),
-      child: Selector<LoginProvider, bool>(
-        selector: (context, loginProvider) => loginProvider.obscureText,
+      child: Selector<LoginController, bool>(
+        selector: (context, loginController) => loginController.obscureText,
         builder: (context, obscureText, _) {
           return InputWidget(
-            textEditingController: loginProvider.passwordController,
+            textEditingController: loginController.passwordController,
             obscureText: obscureText,
             prefixIcon: const Icon(Icons.password),
             suffixIcon: IconButton(
-              onPressed: () => loginProvider.togglePasswordVisibility(),
+              onPressed: () => loginController.togglePasswordVisibility(),
               icon: obscureText
                   ? const Icon(Icons.visibility)
                   : const Icon(Icons.visibility_off),
             ),
             label: AppLocalizations.of(context)!.password,
+            labelColor: Colors.grey,
             hintText: AppLocalizations.of(context)!.password_hint,
-            onChanged: (value) => loginProvider.validateField(
+            onChanged: (value) => loginController.validateField(
               field: 'password',
               value: value,
               context: context,
             ),
-            errorText: loginProvider.errors['password'],
+            errorText: loginController.errors['password'],
           );
         },
       ),
@@ -187,30 +191,31 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildConfirmPasswordInput(
-      BuildContext context, LoginProvider loginProvider) {
+      BuildContext context, LoginController loginController) {
     return Padding(
       padding: const EdgeInsets.only(top: 22, bottom: 22),
-      child: Selector<LoginProvider, bool>(
-        selector: (context, loginProvider) => loginProvider.obscureText2,
+      child: Selector<LoginController, bool>(
+        selector: (context, loginController) => loginController.obscureText2,
         builder: (context, obscureText, _) {
           return InputWidget(
-            textEditingController: loginProvider.confirmPasswordController,
+            textEditingController: loginController.confirmPasswordController,
             obscureText: obscureText,
             prefixIcon: const Icon(Icons.password),
             suffixIcon: IconButton(
-              onPressed: () => loginProvider.toggleConfirmPasswordVisibility(),
+              onPressed: () => loginController.toggleConfirmPasswordVisibility(),
               icon: obscureText
                   ? const Icon(Icons.visibility)
                   : const Icon(Icons.visibility_off),
             ),
             label: AppLocalizations.of(context)!.confirm,
+            labelColor: Colors.grey,
             hintText: AppLocalizations.of(context)!.confirm_hint,
-            onChanged: (value) => loginProvider.validateField(
+            onChanged: (value) => loginController.validateField(
               field: 'confirmPassword',
               value: value,
               context: context,
             ),
-            errorText: loginProvider.errors['confirmPassword'],
+            errorText: loginController.errors['confirmPassword'],
           );
         },
       ),
@@ -218,7 +223,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _rememberMeAndForgetPassword(BuildContext context) {
-    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+    LoginController loginController = Provider.of<LoginController>(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.sp),
       child: Row(
@@ -226,7 +231,7 @@ class LoginScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            child: _buildRememberMeButton(context, loginProvider),
+            child: _buildRememberMeButton(context, loginController),
           ),
           _buildForgotPasswordButton(context),
         ],
@@ -235,10 +240,10 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildRememberMeButton(
-      BuildContext context, LoginProvider loginProvider) {
+      BuildContext context, LoginController loginController) {
     final langController = Provider.of<LangController>(context, listen: false);
-    return Selector<LoginProvider, bool>(
-      selector: (context, loginProvider) => loginProvider.isRememberMeChecked,
+    return Selector<LoginController, bool>(
+      selector: (context, loginController) => loginController.isRememberMeChecked,
       builder: (context, isRememberMeChecked, _) {
         return CheckboxListTile(
           title: Text(
@@ -251,13 +256,13 @@ class LoginScreen extends StatelessWidget {
           ),
           value: isRememberMeChecked,
           onChanged: (bool? value) async {
-            loginProvider.setRememberMe(value ?? false);
+            loginController.setRememberMe(value ?? false);
             final secureStorageProvider =
                 Provider.of<SecureStorageProvider>(context, listen: false);
             if (value == true) {
               await secureStorageProvider.saveCredentials(
-                loginProvider.emailController.text,
-                loginProvider.passwordController.text,
+                loginController.emailController.text,
+                loginController.passwordController.text,
               );
             } else {
               await secureStorageProvider.clearCredentials();
@@ -273,7 +278,14 @@ class LoginScreen extends StatelessWidget {
   Widget _buildForgotPasswordButton(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ForgetPassScreen(),
+          ),
+        );
+      },
       child: Text(
         AppLocalizations.of(context)!.forgot_password,
         style: AppStyles.getFontStyle(
@@ -287,11 +299,11 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildSubmitButton(
-      BuildContext context, bool isLoginMode, LoginProvider loginProvider) {
+      BuildContext context, bool isLoginMode, LoginController loginController) {
     return Padding(
       padding: const EdgeInsets.only(top: 0),
-      child: Selector<LoginProvider, bool>(
-        selector: (context, loginProvider) => loginProvider.isLoading,
+      child: Selector<LoginController, bool>(
+        selector: (context, loginController) => loginController.isLoading,
         builder: (context, isLoading, _) {
           return isLoading
               ? const Center(
@@ -306,44 +318,44 @@ class LoginScreen extends StatelessWidget {
                   textColor: Colors.white,
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    loginProvider.setLoading(true);
+                    loginController.setLoading(true);
                     try {
-                      loginProvider.validateForm(
-                        email: loginProvider.emailController.text,
-                        password: loginProvider.passwordController.text,
+                      loginController.validateForm(
+                        email: loginController.emailController.text,
+                        password: loginController.passwordController.text,
                         confirmPassword: isLoginMode
                             ? null
-                            : loginProvider.confirmPasswordController.text,
+                            : loginController.confirmPasswordController.text,
                         name: isLoginMode
                             ? null
-                            : loginProvider.nameController.text,
+                            : loginController.nameController.text,
                         context: context,
                       );
-                      if (loginProvider.isFormValid()) {
+                      if (loginController.isFormValid()) {
                         final secureStorageProvider =
                             Provider.of<SecureStorageProvider>(context,
                                 listen: false);
-                        if (loginProvider.isRememberMeChecked) {
+                        if (loginController.isRememberMeChecked) {
                           await secureStorageProvider.saveCredentials(
-                            loginProvider.emailController.text,
-                            loginProvider.passwordController.text,
+                            loginController.emailController.text,
+                            loginController.passwordController.text,
                           );
                         } else {
                           await secureStorageProvider.clearCredentials();
                         }
                         if (isLoginMode) {
-                          await loginProvider.signInWithEmail(
+                          await loginController.signInWithEmail(
                             context,
-                            loginProvider.emailController.text,
-                            loginProvider.passwordController.text,
+                            loginController.emailController.text,
+                            loginController.passwordController.text,
                           );
                           print("Login");
                         } else {
-                          await loginProvider.signUpWithEmail(
+                          await loginController.signUpWithEmail(
                             context,
-                            loginProvider.emailController.text,
-                            loginProvider.passwordController.text,
-                            loginProvider.nameController.text,
+                            loginController.emailController.text,
+                            loginController.passwordController.text,
+                            loginController.nameController.text,
                           );
                           print("sign up");
                         }
@@ -364,7 +376,7 @@ class LoginScreen extends StatelessWidget {
                         );
                       }
                     } finally {
-                      loginProvider.setLoading(false);
+                      loginController.setLoading(false);
                     }
                   },
                 );
@@ -374,7 +386,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildSwitchModeRow(
-      BuildContext context, bool isLoginMode, LoginProvider loginProvider) {
+      BuildContext context, bool isLoginMode, LoginController loginController) {
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Row(
@@ -392,8 +404,8 @@ class LoginScreen extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            _clearFields(loginProvider);
-            loginProvider.setLoginMode(!isLoginMode);
+            _clearFields(loginController);
+            loginController.setLoginMode(!isLoginMode);
           },
           child: Text(
             isLoginMode
@@ -411,10 +423,10 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void _clearFields(LoginProvider loginProvider) {
-    loginProvider.emailController.clear();
-    loginProvider.passwordController.clear();
-    loginProvider.confirmPasswordController.clear();
-    loginProvider.nameController.clear();
+  void _clearFields(LoginController loginController) {
+    loginController.emailController.clear();
+    loginController.passwordController.clear();
+    loginController.confirmPasswordController.clear();
+    loginController.nameController.clear();
   }
 }

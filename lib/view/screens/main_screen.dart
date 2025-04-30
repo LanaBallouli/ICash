@@ -1,7 +1,12 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/view/screens/home_screens/home_screen.dart';
 import 'package:test_sales/view/screens/management_screens/management_screen.dart';
+import 'package:test_sales/view/screens/map_screen.dart';
+import 'package:test_sales/view/screens/reports_screen.dart';
+import 'package:test_sales/view/screens/settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,13 +21,20 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> pages = [
     const HomeScreen(),
     const ManagementScreen(),
+    const ReportsScreen(),
+    const SettingsScreen(),
+    const MapScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(toolbarHeight: 0),
       body: pages[activeIndex],
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        backgroundColor: AppConstants.buttonColor,
+        borderColor: AppConstants.buttonColor,
+        borderWidth: 2.w,
         icons: const [
           Icons.home_outlined,
           Icons.manage_accounts_outlined,
@@ -31,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         ],
         activeIndex: activeIndex,
         gapLocation: GapLocation.center,
-        activeColor: Colors.black,
+        activeColor: AppConstants.primaryColor2,
         inactiveColor: Colors.black45,
         notchSmoothness: NotchSmoothness.softEdge,
         shadow: BoxShadow(
@@ -46,7 +58,11 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            activeIndex = 4;
+          });
+        },
         backgroundColor: Colors.transparent,
         elevation: 0,
         child: Container(
@@ -62,13 +78,10 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: Stack(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
+                backgroundColor: AppConstants.primaryColor2,
                 radius: 30,
-                backgroundImage: AssetImage('assets/images/map.png'),
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: Icon(Icons.map_outlined, size: 30),
+                child: Image.asset("assets/images/google-maps.png", height: 30.h, width: 30.w,),
               ),
             ],
           ),

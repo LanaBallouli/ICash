@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/lang_controller.dart';
 
 import '../../../app_constants.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final String? label;
+  final Color? labelColor;
   final bool obscureText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -23,6 +27,7 @@ class InputWidget extends StatelessWidget {
     super.key,
     required this.textEditingController,
     this.label,
+    this.labelColor,
     required this.obscureText,
     this.prefixIcon,
     this.suffixIcon,
@@ -39,6 +44,7 @@ class InputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LangController langController = Provider.of<LangController>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -53,7 +59,6 @@ class InputWidget extends StatelessWidget {
             ),
           ),
           child: TextField(
-            textAlign: TextAlign.left,
             textAlignVertical: TextAlignVertical.center,
             obscureText: obscureText,
             controller: textEditingController,
@@ -67,13 +72,18 @@ class InputWidget extends StatelessWidget {
               ),
               suffixIcon: suffixIcon,
               labelText: label,
+              labelStyle: AppStyles.getFontStyle(
+                langController,
+                color: labelColor ?? Colors.black,
+              ),
               hintText: hintText,
               hintStyle: TextStyle(
                 fontSize: fontSize ?? 14.sp,
                 color: hintColor ?? Color(0xFFBBBFC5),
                 fontWeight: FontWeight.w500,
               ),
-              contentPadding: EdgeInsets.only(left: 14.0.sp, top: 12.5.sp, bottom: 12.5.sp),
+              contentPadding:
+                  EdgeInsets.only(left: 14.0.sp, top: 12.5.sp, bottom: 12.5.sp, right: 14.sp),
               border: InputBorder.none,
             ),
           ),

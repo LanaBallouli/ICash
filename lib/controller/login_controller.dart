@@ -6,7 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../view/screens/registration_screens/email_verification_screen.dart';
 import '../view/screens/main_screen.dart';
 
-class LoginProvider extends ChangeNotifier {
+class LoginController extends ChangeNotifier {
   bool obscureText = true;
   bool obscureText2 = true;
   bool isLoginMode = true;
@@ -101,7 +101,7 @@ class LoginProvider extends ChangeNotifier {
     }
 
     if (errors[field] != oldError) {
-      notifyListeners(); // Notify only if there's a change
+      notifyListeners();
     }
   }
 

@@ -658,6 +658,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unit price:'**
   String get unit_price;
+
+  /// No description provided for @failed_to_create_user_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create user profile'**
+  String get failed_to_create_user_profile;
+
+  /// No description provided for @login_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get login_failed;
+
+  /// No description provided for @user_already_registered.
+  ///
+  /// In en, this message translates to:
+  /// **'User already registered'**
+  String get user_already_registered;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

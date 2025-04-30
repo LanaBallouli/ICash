@@ -289,4 +289,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unit_price => 'Unit price:';
+
+  @override
+  String get failed_to_create_user_profile => 'Failed to create user profile';
+
+  @override
+  String get login_failed => 'Login failed';
+
+  @override
+  String get user_already_registered => 'User already registered';
 }
