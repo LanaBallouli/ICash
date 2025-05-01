@@ -101,5 +101,12 @@
   "clients": "العملاء",
   "remove_from_favorites_confirmation": "هل أنت متأكد أنك تريد إزالته من المفضلة؟",
   "yes": "نعم",
-  "more_details": "تفاصيل أكثر"
+  "more_details": "تفاصيل أكثر",
+  "profile": "الملف الشخصي",
+  "performance": "الأداء",
+  "recent_activity_log": "سجل الأنشطة الأخيرة",
+  "assigned_clients": "العملاء المعينون",
+  "sales_reports": "تقارير المبيعات",
+  "attendance_and_work_hours": "الحضور وساعات العمل",
+  "feedback": "ملاحظات"
 }

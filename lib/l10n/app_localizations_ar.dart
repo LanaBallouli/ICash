@@ -316,4 +316,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get more_details => 'تفاصيل أكثر';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get performance => 'الأداء';
+
+  @override
+  String get recent_activity_log => 'سجل الأنشطة الأخيرة';
+
+  @override
+  String get assigned_clients => 'العملاء المعينون';
+
+  @override
+  String get sales_reports => 'تقارير المبيعات';
+
+  @override
+  String get attendance_and_work_hours => 'الحضور وساعات العمل';
+
+  @override
+  String get feedback => 'ملاحظات';
 }

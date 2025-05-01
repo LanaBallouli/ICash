@@ -27,7 +27,6 @@ Future<void> main() async {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhqdm9ib3RzamRtbW9zY2ZncXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NzYwMTgsImV4cCI6MjA1MzA1MjAxOH0.OdO2l43Uqd8tqBRN4LUoz8fVmgLgYy6nu-W0RW7lYHA',
   );
 
-  await GoogleFonts.config;
   final langController = LangController();
   await langController.initSharedPreferences();
 

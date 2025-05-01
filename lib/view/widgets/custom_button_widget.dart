@@ -37,7 +37,7 @@ class CustomButtonWidget extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: colors ?? [AppConstants.buttonColor, Color(0xFF0F481F)],
+          colors: colors ?? [AppConstants.primaryColor2, Color(0xFF0F481F)],
         ),
       ),
       child: TextButton(

@@ -712,6 +712,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More details'**
   String get more_details;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Section'**
+  String get profile;
+
+  /// No description provided for @performance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get performance;
+
+  /// No description provided for @recent_activity_log.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity Log'**
+  String get recent_activity_log;
+
+  /// No description provided for @assigned_clients.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned Clients'**
+  String get assigned_clients;
+
+  /// No description provided for @sales_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales Reports'**
+  String get sales_reports;
+
+  /// No description provided for @attendance_and_work_hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendance and Work Hours'**
+  String get attendance_and_work_hours;
+
+  /// No description provided for @feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

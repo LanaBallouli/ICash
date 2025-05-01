@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
-
 import '../app_constants.dart';
 import '../l10n/app_localizations.dart';
 import '../model/users.dart';
@@ -12,6 +10,7 @@ class ManagementController extends ChangeNotifier {
   String? selectedCategory;
   final List<Users> fav = [];
   late Users users;
+
 
   void initializeSelectedCategory(BuildContext context) {
     selectedCategory = AppLocalizations.of(context)!.sales_men;
@@ -27,11 +26,11 @@ class ManagementController extends ChangeNotifier {
     return fav.contains(users);
   }
 
-  void toggleFavourite(BuildContext context, Users Users) {
-    if (fav.contains(Users)) {
-      _showConfirmationDialog(context, Users);
+  void toggleFavourite(BuildContext context, Users users) {
+    if (fav.contains(users)) {
+      _showConfirmationDialog(context, users);
     } else {
-      fav.add(Users);
+      fav.add(users);
       notifyListeners();
     }
   }
@@ -57,17 +56,17 @@ class ManagementController extends ChangeNotifier {
     }
 
     if (selectedCategory == localizations.sales_men) {
-      return pizza;
+      return salesMen;
     } else if (selectedCategory == localizations.clients) {
-      return burger;
+      return clients;
     } else if (selectedCategory == localizations.products) {
-      return sandwich;
+      return products;
     } else {
       return [];
     }
   }
 
-  final List<ManagementItemWidget> pizza = [
+  final List<ManagementItemWidget> salesMen = [
     ManagementItemWidget(
         users: Users(
             status: "Active",
@@ -76,9 +75,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -89,9 +88,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -102,9 +101,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            // imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -115,69 +114,14 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
-            routeId: 1,
-            updatedAt: DateTime.now())),
-  ];
-
-  final List<ManagementItemWidget> burger = [
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
-            password: "@Lana123",
-            regionId: 1,
-            routeId: 1,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
-            password: "@Lana123",
-            regionId: 1,
-            routeId: 1,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
-            password: "@Lana123",
-            regionId: 1,
-            routeId: 1,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
-            password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
   ];
 
-  final List<ManagementItemWidget> sandwich = [
+  final List<ManagementItemWidget> clients = [
     ManagementItemWidget(
         users: Users(
             status: "Active",
@@ -186,9 +130,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -199,9 +143,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -212,9 +156,9 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
     ManagementItemWidget(
@@ -225,9 +169,64 @@ class ManagementController extends ChangeNotifier {
             fullName: "Lana Baha",
             email: "lanabaloley@gmail.com",
             createdAt: DateTime.now(),
-            imageUrl: "assets/images/accept.png",
+            imageUrl: "assets/images/default_image.png",
             password: "@Lana123",
-            regionId: 1,
+            region : "Amman",
+            routeId: 1,
+            updatedAt: DateTime.now())),
+  ];
+
+  final List<ManagementItemWidget> products = [
+    ManagementItemWidget(
+        users: Users(
+            status: "Active",
+            role: "Sales man",
+            phone: 0799471732,
+            fullName: "Lana Baha",
+            email: "lanabaloley@gmail.com",
+            createdAt: DateTime.now(),
+            imageUrl: "assets/images/default_image.png",
+            password: "@Lana123",
+            region : "Amman",
+            routeId: 1,
+            updatedAt: DateTime.now())),
+    ManagementItemWidget(
+        users: Users(
+            status: "Active",
+            role: "Sales man",
+            phone: 0799471732,
+            fullName: "Lana Baha",
+            email: "lanabaloley@gmail.com",
+            createdAt: DateTime.now(),
+            imageUrl: "assets/images/default_image.png",
+            password: "@Lana123",
+            region : "Amman",
+            routeId: 1,
+            updatedAt: DateTime.now())),
+    ManagementItemWidget(
+        users: Users(
+            status: "Active",
+            role: "Sales man",
+            phone: 0799471732,
+            fullName: "Lana Baha",
+            email: "lanabaloley@gmail.com",
+            createdAt: DateTime.now(),
+            imageUrl: "assets/images/default_image.png",
+            password: "@Lana123",
+            region : "Amman",
+            routeId: 1,
+            updatedAt: DateTime.now())),
+    ManagementItemWidget(
+        users: Users(
+            status: "Active",
+            role: "Sales man",
+            phone: 0799471732,
+            fullName: "Lana Baha",
+            email: "lanabaloley@gmail.com",
+            createdAt: DateTime.now(),
+            imageUrl: "assets/images/default_image.png",
+            password: "@Lana123",
+            region : "Amman",
             routeId: 1,
             updatedAt: DateTime.now())),
   ];

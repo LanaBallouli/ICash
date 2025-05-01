@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/model/users.dart';
+import 'package:test_sales/view/screens/management_screens/salesmen_more_details_screen.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 import '../custom_button_widget.dart';
@@ -11,12 +12,10 @@ import '../custom_button_widget.dart';
 class ManagementItemWidget extends StatelessWidget {
   final Users users;
 
-  const ManagementItemWidget({Key? key, required this.users}) : super(key: key);
+  const ManagementItemWidget({super.key, required this.users});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
 
     return Consumer<ManagementController>(
       builder: (context, managementController, child) {
@@ -30,7 +29,8 @@ class ManagementItemWidget extends StatelessWidget {
                 height: 240.h,
                 width: 174.w,
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
+                  border:
+                      Border.all(color: AppConstants.buttonColor, width: 1.5.w),
                   borderRadius: BorderRadius.circular(25.r),
                   color: Colors.white,
                 ),
@@ -43,7 +43,8 @@ class ManagementItemWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                           users.fullName ?? "name",
                           style: GoogleFonts.sora(
-                            color: isDarkMode ? Colors.white54 : Color(0xFF24262F),
+                            color:
+                                Color(0xFF24262F),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -84,12 +85,8 @@ class ManagementItemWidget extends StatelessWidget {
                   width: 89.w,
                   child: CircleAvatar(
                     backgroundColor: Color(0xFFE7E7E7),
-                    child: Image.asset(
-                      users.imageUrl ?? "assets/images/default_image.png",
-                      height: 75.h,
-                      width: 75.w,
-                      fit: BoxFit.cover,
-                    ),
+                    foregroundImage: AssetImage(
+                        users.imageUrl ?? "assets/images/default_image.png"),
                   ),
                 ),
               ),
@@ -110,15 +107,15 @@ class ManagementItemWidget extends StatelessWidget {
                       },
                       icon: managementController.isFavourite(users)
                           ? Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 17.w,
-                      )
+                              Icons.favorite,
+                              color: Colors.red,
+                              size: 17.w,
+                            )
                           : Icon(
-                        Icons.favorite_border,
-                        color: Color(0xFF222628),
-                        size: 17.w,
-                      ),
+                              Icons.favorite_border,
+                              color: Color(0xFF222628),
+                              size: 17.w,
+                            ),
                     ),
                   ),
                 ),
@@ -132,9 +129,19 @@ class ManagementItemWidget extends StatelessWidget {
                   height: 45.h,
                   title: AppLocalizations.of(context)!.more_details,
                   titleColor: Colors.white,
-                  colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                  colors: [
+                    AppConstants.primaryColor2,
+                    AppConstants.primaryColor2
+                  ],
                   borderRadius: 25.r,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SalesmenMoreDetailsScreen(users: users,),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

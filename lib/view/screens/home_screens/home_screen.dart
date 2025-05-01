@@ -7,8 +7,7 @@ import 'package:test_sales/view/screens/home_screens/debt_invoice_screen.dart';
 import 'package:test_sales/view/screens/home_screens/monthly_target_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/notification_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/title_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../controller/lang_controller.dart';
 import '../../../controller/user_provider.dart';
 import '../../../l10n/app_localizations.dart';
@@ -28,12 +27,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: TitleWidget(title: AppLocalizations.of(context)!.main_screen),
-        actions: [NotificationWidget()],
-      ),
+      appBar: MainAppbarWidget(title: AppLocalizations.of(context)!.main_screen),
       body: SingleChildScrollView(
         child: Column(
           children: [

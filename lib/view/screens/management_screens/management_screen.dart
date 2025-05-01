@@ -5,9 +5,7 @@ import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/notification_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/title_widget.dart';
-
+import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../widgets/management_widgets/category_buttons_widget.dart';
 import '../../widgets/management_widgets/category_grid_view_widget.dart';
 
@@ -19,14 +17,7 @@ class ManagementScreen extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: TitleWidget(
-          title: AppLocalizations.of(context)!.management_screen,
-        ),
-        actions: [NotificationWidget()],
-      ),
+      appBar: MainAppbarWidget(title: AppLocalizations.of(context)!.management_screen),
       body: Consumer<ManagementController>(
         builder: (context, managementController, child) {
           return SingleChildScrollView(

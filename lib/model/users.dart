@@ -7,7 +7,7 @@ class Users {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? regionId;
+  String? region;
   int? routeId;
   String? imageUrl;
 
@@ -20,7 +20,7 @@ class Users {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.regionId,
+      this.region,
       this.routeId,
       this.imageUrl});
 
@@ -33,7 +33,7 @@ class Users {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    regionId = json['region_id'];
+    region = json['region'];
     routeId = json['route_id'];
   }
 
@@ -47,7 +47,7 @@ class Users {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['region_id'] = this.regionId;
+    data['region'] = this.region;
     data['route_id'] = this.routeId;
     return data;
   }

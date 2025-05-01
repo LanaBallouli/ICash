@@ -316,4 +316,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get more_details => 'More details';
+
+  @override
+  String get profile => 'Profile Section';
+
+  @override
+  String get performance => 'Performance';
+
+  @override
+  String get recent_activity_log => 'Recent Activity Log';
+
+  @override
+  String get assigned_clients => 'Assigned Clients';
+
+  @override
+  String get sales_reports => 'Sales Reports';
+
+  @override
+  String get attendance_and_work_hours => 'Attendance and Work Hours';
+
+  @override
+  String get feedback => 'Feedback';
 }

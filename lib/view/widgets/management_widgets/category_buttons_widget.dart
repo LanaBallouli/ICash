@@ -9,6 +9,8 @@ import '../../../controller/lang_controller.dart';
 import '../../../l10n/app_localizations.dart';
 
 class CategoryButtonsWidget extends StatelessWidget {
+  const CategoryButtonsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ManagementController>(
