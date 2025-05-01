@@ -7,7 +7,8 @@ import 'package:test_sales/view/screens/home_screens/debt_invoice_screen.dart';
 import 'package:test_sales/view/screens/home_screens/monthly_target_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/home_widgets/notification_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/notification_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/title_widget.dart';
 import '../../../controller/lang_controller.dart';
 import '../../../controller/user_provider.dart';
 import '../../../l10n/app_localizations.dart';
@@ -30,32 +31,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
-          AppLocalizations.of(context)!.main_screen,
-          style: AppStyles.getFontStyle(
-            langController,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: 20,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (BuildContext context) {
-                  return NotificationWidget();
-                },
-              );
-            },
-            icon: const Icon(
-              Icons.notifications_none_sharp,
-              color: Colors.black,
-            ),
-          ),
-        ],
+        title: TitleWidget(title: AppLocalizations.of(context)!.main_screen),
+        actions: [NotificationWidget()],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -241,75 +218,78 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Circle(
-                              name:
-                                  AppLocalizations.of(context)!.create_invoice,
-                              icon: "assets/images/bills.png",
-                              size: 50,
-                              onPress: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          alignment: Alignment.topCenter,
-                                          title: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Choose invoice type",
-                                              style: AppStyles.getFontStyle(
-                                                langController,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16.sp,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Circle(
+                                name: AppLocalizations.of(context)!
+                                    .create_invoice,
+                                icon: "assets/images/bills.png",
+                                size: 50,
+                                onPress: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            alignment: Alignment.topCenter,
+                                            title: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Choose invoice type",
+                                                style: AppStyles.getFontStyle(
+                                                  langController,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16.sp,
+                                                ),
                                               ),
                                             ),
+                                            actions: [
+                                              ButtonWidget(
+                                                buttonName: "Cash",
+                                                buttonColor: Colors.white,
+                                                textColor: Colors.black,
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CashInvoiceScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              ButtonWidget(
+                                                buttonName: "Debt",
+                                                buttonColor: Colors.white,
+                                                textColor: Colors.black,
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DebtInvoiceScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            ],
                                           ),
-                                          actions: [
-                                            ButtonWidget(
-                                              buttonName: "Cash",
-                                              buttonColor: Colors.white,
-                                              textColor: Colors.black,
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CashInvoiceScreen(),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                            SizedBox(
-                                              height: 16.h,
-                                            ),
-                                            ButtonWidget(
-                                              buttonName: "Debt",
-                                              buttonColor: Colors.white,
-                                              textColor: Colors.black,
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DebtInvoiceScreen(),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 16.0),

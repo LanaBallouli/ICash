@@ -676,6 +676,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User already registered'**
   String get user_already_registered;
+
+  /// No description provided for @management_screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Management Screen'**
+  String get management_screen;
+
+  /// No description provided for @sales_men.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales Men'**
+  String get sales_men;
+
+  /// No description provided for @clients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get clients;
+
+  /// No description provided for @remove_from_favorites_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove it from favorites?'**
+  String get remove_from_favorites_confirmation;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @more_details.
+  ///
+  /// In en, this message translates to:
+  /// **'More details'**
+  String get more_details;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

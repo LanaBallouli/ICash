@@ -1,4 +1,4 @@
-class User {
+class Users {
   String? fullName;
   String? email;
   int? phone;
@@ -9,21 +9,22 @@ class User {
   DateTime? updatedAt;
   int? regionId;
   int? routeId;
+  String? imageUrl;
 
-  User(
-      {
-        this.fullName,
-        this.email,
-        this.phone,
-        this.password,
-        this.role,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.regionId,
-        this.routeId});
+  Users(
+      {this.fullName,
+      this.email,
+      this.phone,
+      this.password,
+      this.role,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.regionId,
+      this.routeId,
+      this.imageUrl});
 
-  User.fromJson(Map<dynamic, dynamic> json) {
+  Users.fromJson(Map<dynamic, dynamic> json) {
     fullName = json['full_name'];
     email = json['email'];
     phone = json['phone'];

@@ -34,24 +34,6 @@ class CustomHeader extends StatelessWidget {
             top: 60,
             child: _buildImage('assets/images/background.png', 224, 224),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, top: 16),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Consumer<LangController>(
-                builder: (context, langController, child) {
-                  String currentLangCode = langController.currentLangCode;
-                  return IconButton(
-                    onPressed: () {
-                      langController.changeLang(
-                          langCode: currentLangCode == 'ar' ? 'en' : 'ar');
-                    },
-                    icon: Icon(Icons.language),
-                  );
-                },
-              ),
-            ),
-          )
         ],
       ),
     );

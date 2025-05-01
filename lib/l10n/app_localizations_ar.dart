@@ -240,7 +240,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tax_number => 'الرقم الضريبي:';
 
   @override
-  String get products => 'المنتجات:';
+  String get products => 'المنتجات';
 
   @override
   String get no_clients => 'لا يوجد عملاء';
@@ -297,5 +297,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String get login_failed => 'فشل تسجيل الدخول';
 
   @override
-  String get user_already_registered => '';
+  String get user_already_registered => 'هذا المستخدم مسجل بالفعل';
+
+  @override
+  String get management_screen => 'الإدارة';
+
+  @override
+  String get sales_men => 'المندوبين';
+
+  @override
+  String get clients => 'العملاء';
+
+  @override
+  String get remove_from_favorites_confirmation => 'هل أنت متأكد أنك تريد إزالته من المفضلة؟';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get more_details => 'تفاصيل أكثر';
 }

@@ -95,10 +95,12 @@
   "unit_price": "Unit price:",
   "failed_to_create_user_profile": "Failed to create user profile",
   "login_failed": "Login failed",
-  "user_already_registered": "User already registered"
-
-
-
-
+  "user_already_registered": "User already registered",
+  "management_screen": "Management Screen",
+  "sales_men": "Sales Men",
+  "clients": "Clients",
+  "remove_from_favorites_confirmation": "Are you sure you want to remove it from favorites?",
+  "yes": "Yes",
+  "more_details": "More details"
 
 }

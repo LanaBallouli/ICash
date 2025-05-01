@@ -298,4 +298,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get user_already_registered => 'User already registered';
+
+  @override
+  String get management_screen => 'Management Screen';
+
+  @override
+  String get sales_men => 'Sales Men';
+
+  @override
+  String get clients => 'Clients';
+
+  @override
+  String get remove_from_favorites_confirmation => 'Are you sure you want to remove it from favorites?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get more_details => 'More details';
 }

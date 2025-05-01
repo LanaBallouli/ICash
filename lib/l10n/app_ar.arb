@@ -76,7 +76,7 @@
   "add_item": "إضافة منتج",
   "notifications": "الإشعارات",
   "tax_number": "الرقم الضريبي:",
-  "products": "المنتجات:",
+  "products": "المنتجات",
   "no_clients": "لا يوجد عملاء",
   "no_products": "لا يوجد منتجات",
   "category": "الفئة",
@@ -95,6 +95,11 @@
   "unit_price": "سعر الوحدة:",
   "failed_to_create_user_profile": "فشل إنشاء مستخدم جديد",
   "login_failed": "فشل تسجيل الدخول",
-  "user_already_registered": ""
-
+  "user_already_registered": "هذا المستخدم مسجل بالفعل",
+  "management_screen": "الإدارة",
+  "sales_men": "المندوبين",
+  "clients": "العملاء",
+  "remove_from_favorites_confirmation": "هل أنت متأكد أنك تريد إزالته من المفضلة؟",
+  "yes": "نعم",
+  "more_details": "تفاصيل أكثر"
 }
