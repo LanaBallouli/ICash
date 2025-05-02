@@ -216,7 +216,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get success_target => 'تم إنشاء هدف شهري بنجاح';
 
   @override
-  String get client_name => 'اسم العميل:';
+  String get client_name => 'اسم العميل';
 
   @override
   String get select_client_name => 'اختر اسم العميل';
@@ -337,4 +337,52 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get feedback => 'ملاحظات';
+
+  @override
+  String get role => 'الدور';
+
+  @override
+  String get region => 'المنطقة';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get joining_date => 'تاريخ الانضمام';
+
+  @override
+  String get total_sales => 'إجمالي المبيعات';
+
+  @override
+  String get closed_deals => 'الصفقات المغلقة';
+
+  @override
+  String get targets => 'الأهداف';
+
+  @override
+  String get latest_invoice => 'آخر فاتورة';
+
+  @override
+  String get latest_visit => 'آخر زيارة';
+
+  @override
+  String get login_history => 'تاريخ تسجيل الدخول';
+
+  @override
+  String get location_based_activities => 'الأنشطة بناءً على الموقع';
+
+  @override
+  String get task_completion => 'حالة المهام الخاصة به';
+
+  @override
+  String get monthly_sales => 'المبيعات الشهرية';
+
+  @override
+  String get product_wise_sales => 'المبيعات حسب المنتج';
+
+  @override
+  String get top_customers => 'أفضل العملاء';
+
+  @override
+  String get details => 'تفاصيل';
 }

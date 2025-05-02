@@ -108,7 +108,7 @@ class ManagementItemWidget extends StatelessWidget {
                       icon: managementController.isFavourite(users)
                           ? Icon(
                               Icons.favorite,
-                              color: Colors.red,
+                              color: AppConstants.errorColor,
                               size: 17.w,
                             )
                           : Icon(

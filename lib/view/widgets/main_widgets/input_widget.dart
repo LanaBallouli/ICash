@@ -60,6 +60,7 @@ class InputWidget extends StatelessWidget {
           ),
           child: TextField(
             textAlignVertical: TextAlignVertical.center,
+            style: AppStyles.getFontStyle(langController, fontSize: 16.sp),
             obscureText: obscureText,
             controller: textEditingController,
             onChanged: onChanged,

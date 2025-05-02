@@ -337,4 +337,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedback => 'Feedback';
+
+  @override
+  String get role => 'Role';
+
+  @override
+  String get region => 'Region';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get joining_date => 'Joining Date';
+
+  @override
+  String get total_sales => 'Total Sales';
+
+  @override
+  String get closed_deals => 'Closed Deals';
+
+  @override
+  String get targets => 'Targets';
+
+  @override
+  String get latest_invoice => 'Latest Invoice';
+
+  @override
+  String get latest_visit => 'Latest Visit';
+
+  @override
+  String get login_history => 'Login History';
+
+  @override
+  String get location_based_activities => 'Location-Based Activities';
+
+  @override
+  String get task_completion => 'Task Completion Status';
+
+  @override
+  String get monthly_sales => 'Monthly Sales';
+
+  @override
+  String get product_wise_sales => 'Product-wise Sales';
+
+  @override
+  String get top_customers => 'Top Customers';
+
+  @override
+  String get details => 'Details';
 }

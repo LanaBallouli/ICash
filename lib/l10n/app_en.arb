@@ -108,12 +108,22 @@
   "assigned_clients": "Assigned Clients",
   "sales_reports": "Sales Reports",
   "attendance_and_work_hours": "Attendance and Work Hours",
-  "feedback": "Feedback"
-
-
-
-
-
-
+  "feedback": "Feedback",
+  "role": "Role",
+  "region": "Region",
+  "status": "Status",
+  "joining_date": "Joining Date",
+  "total_sales": "Total Sales",
+  "closed_deals": "Closed Deals",
+  "targets": "Targets",
+  "latest_invoice": "Latest Invoice",
+  "latest_visit": "Latest Visit",
+  "login_history": "Login History",
+  "location_based_activities": "Location-Based Activities",
+  "task_completion": "Task Completion Status",
+  "monthly_sales": "Monthly Sales",
+  "product_wise_sales": "Product-wise Sales",
+  "top_customers": "Top Customers",
+  "details": "Details"
 
 }

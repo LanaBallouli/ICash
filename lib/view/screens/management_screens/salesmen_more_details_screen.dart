@@ -7,7 +7,6 @@ import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
-
 import '../../../controller/lang_controller.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
@@ -22,7 +21,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
-        title: AppLocalizations.of(context)!.more_details,
+        title:
+            "${users.fullName ?? "Name"} - ${AppLocalizations.of(context)!.details}",
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -30,152 +30,309 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: SizedBox(
-                  height: 120.h,
-                  width: 120.w,
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFFE7E7E7),
-                    foregroundImage: AssetImage(
-                        users.imageUrl ?? "assets/images/default_image.png"),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Center(
-                  child: Text(
-                users.fullName ?? "name",
-                style: AppStyles.getFontStyle(langController,
-                    color: Colors.black,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w600),
-              )),
+              _buildProfileHeader(langController),
               SizedBox(height: 15.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.profile,
-                leadingIcon: Icons.person_outline_rounded,
-                initExpanded: false,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.fullName),
-                      obscureText: false,
-                      label: "Name",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.email),
-                      obscureText: false,
-                      label: "Email",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.phone.toString()),
-                      obscureText: false,
-                      label: "Phone",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.role),
-                      obscureText: false,
-                      label: "Role",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.region),
-                      obscureText: false,
-                      label: "Region",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.status),
-                      obscureText: false,
-                      label: "Status",
-                      readOnly: true,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: InputWidget(
-                      textEditingController: TextEditingController(text: users.createdAt.toString()),
-                      obscureText: false,
-                      label: "Joining Date",
-                      readOnly: true,
-                    ),
-                  ),
-                ],
-              ),
+              _buildProfileSection(context, langController),
               SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.performance,
-                leadingIcon: Icons.assessment_outlined,
-                initExpanded: false,
-                children: [],
-              ),
+              _buildPerformanceSection(context),
               SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.recent_activity_log,
-                leadingIcon: Icons.access_time,
-                initExpanded: false,
-                children: [],
-              ),
+              _buildRecentActivitySection(context),
               SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.assigned_clients,
-                leadingIcon: Icons.groups_2_outlined,
-                initExpanded: false,
-                children: [],
-              ),
+              _buildAssignedClientsSection(context),
               SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.sales_reports,
-                leadingIcon: Icons.file_copy_outlined,
-                initExpanded: false,
-                children: [],
-              ),
+              _buildSalesReportsSection(context),
               SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.attendance_and_work_hours,
-                leadingIcon: Icons.timeline,
-                initExpanded: false,
-                children: [],
-              ),
-              SizedBox(height: 10.h),
-              MoreDetailsWidget(
-                title: AppLocalizations.of(context)!.feedback,
-                leadingIcon: Icons.location_history_outlined,
-                initExpanded: false,
-                children: [],
-              ),
+              _buildFeedbackSection(context),
               SizedBox(height: 10.h),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProfileHeader(LangController langController) {
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 120.h,
+            width: 120.w,
+            child: CircleAvatar(
+              backgroundColor: const Color(0xFFE7E7E7),
+              foregroundImage: AssetImage(
+                  users.imageUrl ?? "assets/images/default_image.png"),
+            ),
+          ),
+          SizedBox(height: 10.h),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileSection(
+      BuildContext context, LangController langController) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.profile,
+      leadingIcon: Icons.person_outline_rounded,
+      initExpanded: false,
+      children: _buildProfileInputs(context, langController),
+    );
+  }
+
+  List<Widget> _buildProfileInputs(
+      BuildContext context, LangController langController) {
+    final profileDetails = [
+      {
+        "label": AppLocalizations.of(context)!.user_name,
+        "value": users.fullName
+      },
+      {"label": AppLocalizations.of(context)!.email, "value": users.email},
+      {
+        "label": AppLocalizations.of(context)!.phone,
+        "value": users.phone?.toString()
+      },
+      {"label": AppLocalizations.of(context)!.role, "value": users.role},
+      {"label": AppLocalizations.of(context)!.region, "value": users.region},
+      {"label": AppLocalizations.of(context)!.status, "value": users.status},
+      {
+        "label": AppLocalizations.of(context)!.joining_date,
+        "value": users.createdAt?.toString()
+      },
+    ];
+
+    return profileDetails.map((detail) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          children: [
+            InputWidget(
+              textEditingController:
+                  TextEditingController(text: detail["value"] ?? ""),
+              obscureText: false,
+              label: detail["label"]!,
+              readOnly: true,
+            ),
+            SizedBox(
+              height: 10.h,
+            )
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+  Widget _buildPerformanceSection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.performance,
+      leadingIcon: Icons.assessment_outlined,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController:
+                TextEditingController(text: users.totalSales.toString()),
+            obscureText: false,
+            readOnly: true,
+            label: AppLocalizations.of(context)!.total_sales,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController:
+                TextEditingController(text: users.closedDeals.toString()),
+            obscureText: false,
+            readOnly: true,
+            label: AppLocalizations.of(context)!.closed_deals,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController:
+                TextEditingController(text: users.targetAchievement.toString()),
+            obscureText: false,
+            readOnly: true,
+            label: AppLocalizations.of(context)!.targets,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildRecentActivitySection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.recent_activity_log,
+      leadingIcon: Icons.access_time,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: users.invoices?.last.totalAmount.toString()),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.latest_invoice,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: users.visits?.last.visitDate.toString()),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.latest_visit,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.login_history,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.task_completion,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildAssignedClientsSection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.assigned_clients,
+      leadingIcon: Icons.groups_2_outlined,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            children: [
+              InputWidget(
+                textEditingController: TextEditingController(),
+                obscureText: false,
+                label: AppLocalizations.of(context)!.client_name,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              InputWidget(
+                textEditingController: TextEditingController(),
+                obscureText: false,
+                label: AppLocalizations.of(context)!.client_name,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSalesReportsSection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.sales_reports,
+      leadingIcon: Icons.file_copy_outlined,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: users.monthlySales?.last.totalSales.toString()),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.monthly_sales,
+            readOnly: true,
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.product_wise_sales,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            obscureText: false,
+            label: AppLocalizations.of(context)!.top_customers,
+            readOnly: true,
+            suffixIcon: IconButton(
+                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeedbackSection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.feedback,
+      leadingIcon: Icons.location_history_outlined,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            obscureText: false,
+            label: "ملاحظة من لانا",
+          ),
+        )
+      ],
     );
   }
 }

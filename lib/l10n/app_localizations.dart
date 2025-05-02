@@ -754,6 +754,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feedback'**
   String get feedback;
+
+  /// No description provided for @role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get role;
+
+  /// No description provided for @region.
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get region;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @joining_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining Date'**
+  String get joining_date;
+
+  /// No description provided for @total_sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Sales'**
+  String get total_sales;
+
+  /// No description provided for @closed_deals.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed Deals'**
+  String get closed_deals;
+
+  /// No description provided for @targets.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets'**
+  String get targets;
+
+  /// No description provided for @latest_invoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Invoice'**
+  String get latest_invoice;
+
+  /// No description provided for @latest_visit.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Visit'**
+  String get latest_visit;
+
+  /// No description provided for @login_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Login History'**
+  String get login_history;
+
+  /// No description provided for @location_based_activities.
+  ///
+  /// In en, this message translates to:
+  /// **'Location-Based Activities'**
+  String get location_based_activities;
+
+  /// No description provided for @task_completion.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Completion Status'**
+  String get task_completion;
+
+  /// No description provided for @monthly_sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Sales'**
+  String get monthly_sales;
+
+  /// No description provided for @product_wise_sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Product-wise Sales'**
+  String get product_wise_sales;
+
+  /// No description provided for @top_customers.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Customers'**
+  String get top_customers;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -7,10 +7,10 @@ class Product {
   String? unit;
   String? productNum;
   int? stockQuantity;
-  int? reorderLimit;
   String? createdAt;
   String? updatedAt;
   double? discount;
+
 
   Product(
       {this.id,
@@ -21,7 +21,6 @@ class Product {
       this.unit,
       this.productNum,
       this.stockQuantity,
-      this.reorderLimit,
       this.createdAt,
       this.updatedAt,
       this.discount});
@@ -35,7 +34,6 @@ class Product {
     unit = json['unit'];
     productNum = json['product_num'];
     stockQuantity = json['stock_quantity'];
-    reorderLimit = json['reorder_limit'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     discount = json['discount'];
@@ -51,7 +49,6 @@ class Product {
     data['unit'] = this.unit;
     data['product_num'] = this.productNum;
     data['stock_quantity'] = this.stockQuantity;
-    data['reorder_limit'] = this.reorderLimit;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['discount'] = this.discount;

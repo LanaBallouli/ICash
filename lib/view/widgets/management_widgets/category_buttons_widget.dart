@@ -67,7 +67,6 @@ class CategoryButtonsWidget extends StatelessWidget {
       child: Semantics(
         label: 'Select $label',
         child: Container(
-          // margin: EdgeInsets.only(right: 12.0),
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: isSelected ? AppConstants.primaryColor2 : Colors.white,
