@@ -58,6 +58,7 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "8",
         onPressed: () {
           setState(() {
             activeIndex = 4;

@@ -862,6 +862,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm Deletion'**
   String get confirm_deletion;
+
+  /// No description provided for @add_salesman.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Sales Man'**
+  String get add_salesman;
+
+  /// No description provided for @field_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Field Required'**
+  String get field_required;
+
+  /// No description provided for @salesman_added.
+  ///
+  /// In en, this message translates to:
+  /// **'SalesMan Added'**
+  String get salesman_added;
+
+  /// No description provided for @no_assigned_clients.
+  ///
+  /// In en, this message translates to:
+  /// **'No Assigned Clients'**
+  String get no_assigned_clients;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -15,7 +15,6 @@ class Visit {
     this.nextVisitTime,
   });
 
-  /// Factory constructor to create a `Visit` object from JSON.
   factory Visit.fromJson(Map<String, dynamic> json) {
     return Visit(
       id: json['id'],
@@ -27,7 +26,6 @@ class Visit {
     );
   }
 
-  /// Converts the `Visit` object to JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -39,7 +37,6 @@ class Visit {
     };
   }
 
-  /// Creates a copy of the `Visit` object with updated values.
   Visit copyWith({
     int? id,
     int? userId,
@@ -58,7 +55,6 @@ class Visit {
     );
   }
 
-  /// Validates the `Visit` object.
   void validate() {
     if (visitDate == null) {
       throw ArgumentError("Visit date cannot be null.");

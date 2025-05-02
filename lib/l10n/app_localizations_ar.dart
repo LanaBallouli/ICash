@@ -391,4 +391,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirm_deletion => 'تأكيد الحذف';
+
+  @override
+  String get add_salesman => 'إضافة مندوب جديد';
+
+  @override
+  String get field_required => 'الحقل مطلوب';
+
+  @override
+  String get salesman_added => 'تمت إضافة مندوب جديد';
+
+  @override
+  String get no_assigned_clients => 'لا يوجد عملاء معينون';
 }

@@ -9,7 +9,6 @@ import 'package:test_sales/view/widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
 import '../../../controller/lang_controller.dart';
 import '../../../controller/management_controller.dart';
@@ -96,22 +95,29 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     final profileDetails = [
       {
         "label": AppLocalizations.of(context)!.user_name,
-        "value": users.fullName
+        "value": users.fullName ?? "name"
       },
-      {"label": AppLocalizations.of(context)!.email, "value": users.email},
+      {
+        "label": AppLocalizations.of(context)!.email,
+        "value": users.email ?? "email"
+      },
       {
         "label": AppLocalizations.of(context)!.phone,
-        "value": users.phone?.toString()
+        "value": users.phone?.toString() ?? "1246789"
       },
       {"label": AppLocalizations.of(context)!.role, "value": users.role},
       {
         "label": AppLocalizations.of(context)!.region,
         "value": users.region?.name ?? "region"
       },
-      {"label": AppLocalizations.of(context)!.status, "value": users.status},
+      {
+        "label": AppLocalizations.of(context)!.status,
+        "value": users.status ?? "active"
+      },
       {
         "label": AppLocalizations.of(context)!.joining_date,
-        "value": formatDateWithTime(users.createdAt!).toString()
+        "value":
+            formatDateWithTime(users.createdAt ?? DateTime.now()).toString()
       },
     ];
 
@@ -159,7 +165,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
             textEditingController:
-                TextEditingController(text: users.closedDeals.toString()),
+                TextEditingController(text: "${users.closedDeals ?? "deals"}"),
             obscureText: false,
             readOnly: true,
             label: AppLocalizations.of(context)!.closed_deals,
@@ -171,8 +177,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
-            textEditingController:
-                TextEditingController(text: users.targetAchievement.toString()),
+            textEditingController: TextEditingController(
+                text: "${users.targetAchievement ?? "achievement"}"),
             obscureText: false,
             readOnly: true,
             label: AppLocalizations.of(context)!.targets,
@@ -188,13 +194,29 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
       return formatter.format(dateTime);
     }
 
-    String? latestInvoiceAmount;
-    if (users.invoices != null && users.invoices!.isNotEmpty) {
-      latestInvoiceAmount =
-          users.invoices!.last.calculateTotalAmount().toString();
-    } else {
-      latestInvoiceAmount = "No invoices available";
+    String _getLatestInvoiceAmount() {
+      if (users.invoices != null && users.invoices!.isNotEmpty) {
+        final latestInvoice = users.invoices!.reduce((current, next) =>
+        (next.creationTime?.isAfter(current.creationTime?? DateTime.now()) ?? false) ? next : current);
+        return latestInvoice.calculateTotalAmount().toString();
+      } else {
+        return "No invoices available";
+      }
     }
+
+    String getLatestVisitDate() {
+      if (users.visits != null && users.visits!.isNotEmpty) {
+        final latestVisit = users.visits!.reduce((current, next) =>
+        (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ?? false) ? next : current);
+        return formatDateWithTime(latestVisit.visitDate ?? DateTime.now());
+      } else {
+        return "No visits available";
+      }
+    }
+
+    final String latestInvoiceAmount = _getLatestInvoiceAmount();
+    final String latestVisitDate = getLatestVisitDate();
+
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.recent_activity_log,
       leadingIcon: Icons.access_time,
@@ -203,8 +225,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController:
-                TextEditingController(text: latestInvoiceAmount),
+            textEditingController: TextEditingController(text: latestInvoiceAmount),
             obscureText: false,
             label: AppLocalizations.of(context)!.latest_invoice,
             readOnly: true,
@@ -214,25 +235,21 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(
-                text: formatDateWithTime(users.visits!.last.visitDate!)
-                    .toString()),
+            textEditingController: TextEditingController(text: latestVisitDate),
             obscureText: false,
             label: AppLocalizations.of(context)!.latest_visit,
             readOnly: true,
             suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
@@ -241,12 +258,12 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             label: AppLocalizations.of(context)!.login_history,
             readOnly: true,
             suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
@@ -255,12 +272,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             label: AppLocalizations.of(context)!.task_completion,
             readOnly: true,
             suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
+
 
   Widget _buildAssignedClientsSection(BuildContext context) {
     return MoreDetailsWidget(
@@ -273,7 +293,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: users.clients == null || users.clients!.isEmpty
               ? Center(
                   child: Text(
-                    "AppLocalizations.of(context)!.no_assigned_clients",
+                    AppLocalizations.of(context)!.no_assigned_clients,
                     style: TextStyle(fontSize: 14.sp, color: Colors.black54),
                   ),
                 )
@@ -308,6 +328,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildSalesReportsSection(BuildContext context) {
+    String _getLatestMonthlySales(Users users) {
+      if (users.monthlySales != null && users.monthlySales!.isNotEmpty) {
+        final latestMonthlySales = users.monthlySales!.reduce((current, next) =>
+        (next.startDate?.isAfter(current.startDate?? DateTime.now()) ?? false) ? next : current);
+        return latestMonthlySales.totalSales.toString();
+      } else {
+        return "No monthly sales data available";
+      }
+    }
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.sales_reports,
       leadingIcon: Icons.file_copy_outlined,
@@ -317,7 +346,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(
-                text: users.monthlySales?.last.totalSales.toString()),
+              text: _getLatestMonthlySales(users),
+            ),
             obscureText: false,
             label: AppLocalizations.of(context)!.monthly_sales,
             readOnly: true,
@@ -326,8 +356,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               icon: Icon(Icons.arrow_forward_outlined),
             ),
           ),
-        ),
-        SizedBox(
+        ),        SizedBox(
           height: 10.h,
         ),
         Padding(

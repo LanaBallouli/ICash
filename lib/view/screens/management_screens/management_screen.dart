@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
+import 'package:test_sales/view/screens/management_screens/add_salesman_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../widgets/management_widgets/category_buttons_widget.dart';
@@ -14,7 +15,6 @@ class ManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the search controller
     final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
@@ -30,12 +30,8 @@ class ManagementScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Category buttons for selecting a category
                 CategoryButtonsWidget(),
-
                 SizedBox(height: 18.h),
-
-                // Search input field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: InputWidget(
@@ -45,15 +41,12 @@ class ManagementScreen extends StatelessWidget {
                     label: AppLocalizations.of(context)!.search,
                     suffixIcon: IconButton(
                       onPressed: () {
-                        // Perform search or filtering logic here
                         print("Search triggered for: ${searchController.text}");
                       },
                       icon: const Icon(Icons.filter_list),
                     ),
                   ),
                 ),
-
-                // Display the grid view if a valid category is selected
                 if ([
                   AppLocalizations.of(context)!.sales_men,
                   AppLocalizations.of(context)!.clients,
@@ -66,6 +59,24 @@ class ManagementScreen extends StatelessWidget {
                     ),
                   ),
               ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: "1",
+        shape: OvalBorder(),
+        backgroundColor: AppConstants.primaryColor2,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 25.sp,
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddSalesmanScreen(),
             ),
           );
         },

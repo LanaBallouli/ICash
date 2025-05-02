@@ -126,6 +126,10 @@
   "top_customers": "أفضل العملاء",
   "details": "تفاصيل",
   "delete_user": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
-  "confirm_deletion": "تأكيد الحذف"
+  "confirm_deletion": "تأكيد الحذف",
+  "add_salesman": "إضافة مندوب جديد",
+  "field_required": "الحقل مطلوب",
+  "salesman_added": "تمت إضافة مندوب جديد",
+  "no_assigned_clients": "لا يوجد عملاء معينون"
 
 }

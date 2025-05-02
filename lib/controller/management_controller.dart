@@ -26,7 +26,6 @@ class ManagementController extends ChangeNotifier {
       closedDeals: 15,
       targetAchievement: 90.0,
       region: Region(name: "New York"),
-      // imageUrl: "assets/images/john_doe.jpg",
       visits: [
         Visit(visitDate: DateTime(2023, 10, 1)),
         Visit(visitDate: DateTime(2023, 10, 15)),
@@ -123,6 +122,28 @@ class ManagementController extends ChangeNotifier {
   ];
   Users? selectedUser;
 
+
+  void addNewUser(Users user){
+    salesMen.add(user);
+    notifyListeners();
+  }
+
+  Future<void> createSalesman(Users salesman) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://api.example.com/salesmen'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(salesman.toJson()),
+      );
+
+      if (response.statusCode != 201) {
+        throw Exception('Failed to create salesman');
+      }
+    } catch (e) {
+      print('Error creating salesman: $e');
+      rethrow;
+    }
+  }
 
 
   void updateSelectedCategory(String category) {

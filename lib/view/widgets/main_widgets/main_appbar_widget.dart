@@ -12,7 +12,7 @@ class MainAppbarWidget extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    final langController = Provider.of<LangController>(context);
+    final langController = Provider.of<LangController>(context, listen: false);
 
     return AppBar(
       backgroundColor: Colors.white,

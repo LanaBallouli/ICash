@@ -391,4 +391,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirm_deletion => 'Confirm Deletion';
+
+  @override
+  String get add_salesman => 'Add New Sales Man';
+
+  @override
+  String get field_required => 'Field Required';
+
+  @override
+  String get salesman_added => 'SalesMan Added';
+
+  @override
+  String get no_assigned_clients => 'No Assigned Clients';
 }

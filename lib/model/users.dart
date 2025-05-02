@@ -12,7 +12,7 @@ class Users {
   String? password;
   String? role;
   String? status;
-  DateTime? createdAt;
+  final DateTime? createdAt;
   DateTime? updatedAt;
   int? routeId;
   String? imageUrl;
@@ -27,26 +27,26 @@ class Users {
   String? notes;
 
   Users({
-    required this.id,
-    this.fullName,
-    this.email,
-    this.phone,
-    this.password,
-    this.role,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.region,
-    this.routeId,
-    this.imageUrl,
-    this.totalSales = 0.0,
-    this.closedDeals = 0,
-    this.targetAchievement = 0.0,
-    this.invoices = const [],
-    this.visits = const [],
-    this.monthlySales = const [],
-    this.clients = const [],
-    this.notes,
+     this.id= 2,
+    this.fullName = "Unknown", // Default: "Unknown"
+    this.email = "N/A", // Default: "N/A"
+    this.phone = 0, // Default: 0
+    this.password = "", // Default: Empty string
+    this.role = "User", // Default: "User"
+    this.status = "Active", // Default: "Active"
+    this.createdAt, // Default: Null (can be set to `DateTime.now()` if needed)
+    this.updatedAt, // Default: Null (can be set to `DateTime.now()` if needed)
+    this.region, // Default: Null
+    this.routeId = 0, // Default: 0
+    this.imageUrl = "assets/images/default_image.png", // Default: Placeholder image
+    this.totalSales = 0.0, // Default: 0.0
+    this.closedDeals = 0, // Default: 0
+    this.targetAchievement = 0.0, // Default: 0.0
+    this.invoices = const [], // Default: Empty list
+    this.visits = const [], // Default: Empty list
+    this.monthlySales = const [], // Default: Empty list
+    this.clients = const [], // Default: Empty list
+    this.notes = "", // Default: Empty string
   });
 
   /// Factory constructor to create a `Users` object from JSON.
