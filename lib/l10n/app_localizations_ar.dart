@@ -385,4 +385,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get details => 'تفاصيل';
+
+  @override
+  String get delete_user => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟';
+
+  @override
+  String get confirm_deletion => 'تأكيد الحذف';
 }

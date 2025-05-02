@@ -67,7 +67,7 @@ class ProductController extends ChangeNotifier {
 
       products = List<Product>.from(
         (response as List)
-            .map((clientJson) => Product.fromJson(json: clientJson)),
+            .map((clientJson) => Product.fromJson( clientJson)),
       );
 
       notifyListeners();

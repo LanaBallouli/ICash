@@ -5,5 +5,5 @@ class AppConstants {
   static const Color primaryColor = Color(0xFF170F4C);
   static const Color primaryColor2 = Color(0xFF10376A);
   static const Color buttonColor = Color(0xFFECF0F6);
-  static const Color errorColor = Color(0xFFc40000);
+  static const Color errorColor = Color(0xFF910000);
 }

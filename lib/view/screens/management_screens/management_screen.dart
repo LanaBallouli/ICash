@@ -14,10 +14,14 @@ class ManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController();
+    // Initialize the search controller
+    final TextEditingController searchController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MainAppbarWidget(title: AppLocalizations.of(context)!.management_screen),
+      appBar: MainAppbarWidget(
+        title: AppLocalizations.of(context)!.management_screen,
+      ),
       body: Consumer<ManagementController>(
         builder: (context, managementController, child) {
           return SingleChildScrollView(
@@ -26,10 +30,12 @@ class ManagementScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Category buttons for selecting a category
                 CategoryButtonsWidget(),
-                SizedBox(
-                  height: 18.h,
-                ),
+
+                SizedBox(height: 18.h),
+
+                // Search input field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: InputWidget(
@@ -38,17 +44,27 @@ class ManagementScreen extends StatelessWidget {
                     backgroundColor: AppConstants.buttonColor,
                     label: AppLocalizations.of(context)!.search,
                     suffixIcon: IconButton(
-                        onPressed: () {}, icon: Icon(Icons.filter_list)),
+                      onPressed: () {
+                        // Perform search or filtering logic here
+                        print("Search triggered for: ${searchController.text}");
+                      },
+                      icon: const Icon(Icons.filter_list),
+                    ),
                   ),
                 ),
+
+                // Display the grid view if a valid category is selected
                 if ([
                   AppLocalizations.of(context)!.sales_men,
                   AppLocalizations.of(context)!.clients,
                   AppLocalizations.of(context)!.products,
                 ].contains(managementController.selectedCategory))
                   CategoryGridViewWidget(
-                    items: managementController.getItemsForCategory(context),
-                  )
+                    items: managementController.getFilteredItems(
+                      context,
+                      managementController.selectedCategory,
+                    ),
+                  ),
               ],
             ),
           );

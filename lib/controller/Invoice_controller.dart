@@ -76,16 +76,16 @@ class InvoiceController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedInvoiceType(String? type) {
-    if (invoiceType != type) {
-      invoiceType = type;
-      if (type != null) {
-        clientsController.fetchClientsBasedOnInvoiceType(invoiceType);
-      }
-      // Only notify if the value has changed
-      notifyListeners();
-    }
-  }
+  // void setSelectedInvoiceType(String? type) {
+  //   if (invoiceType != type) {
+  //     invoiceType = type;
+  //     if (type != null) {
+  //       clientsController.fetchClientsBasedOnInvoiceType(invoiceType);
+  //     }
+  //     // Only notify if the value has changed
+  //     notifyListeners();
+  //   }
+  // }
 
   Future<int> getNextInvoiceNumber() async {
     try {

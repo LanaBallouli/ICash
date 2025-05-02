@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
 
 class CategoryGridViewWidget extends StatelessWidget {
-  final List<ManagementItemWidget> items;
+  final List<dynamic> items;
 
   const CategoryGridViewWidget({required this.items, super.key});
 
@@ -26,7 +27,7 @@ class CategoryGridViewWidget extends StatelessWidget {
                 mainAxisSpacing: 10.h,
               ),
               itemBuilder: (context, index) {
-                return items[index];
+                return ManagementItemWidget(users: items[index]);
               },
             ),
           ),

@@ -1,44 +1,129 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:test_sales/app_styles.dart';
-import 'package:test_sales/controller/lang_controller.dart';
-import 'package:test_sales/model/invoice.dart';
-import 'package:test_sales/model/monthly_sales.dart';
-import 'package:test_sales/model/visit.dart';
-import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
-import '../app_constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../l10n/app_localizations.dart';
+import '../model/client.dart';
+import '../model/invoice.dart';
+import '../model/monthly_sales.dart';
+import '../model/product.dart';
+import '../model/region.dart';
 import '../model/users.dart';
-import '../view/widgets/custom_button_widget.dart';
+import '../model/visit.dart';
 
 class ManagementController extends ChangeNotifier {
   int selectedIndex = 0;
   String? selectedCategory;
   final List<Users> fav = [];
-  late Users users;
+  List<Users> salesMen = [
+    Users(
+      id: 1,
+      fullName: "John Doe",
+      email: "john.doe@example.com",
+      phone: 1234567890,
+      role: "Salesman",
+      status: "Active",
+      totalSales: 50000.0,
+      closedDeals: 15,
+      targetAchievement: 90.0,
+      region: Region(name: "New York"),
+      // imageUrl: "assets/images/john_doe.jpg",
+      visits: [
+        Visit(visitDate: DateTime(2023, 10, 1)),
+        Visit(visitDate: DateTime(2023, 10, 15)),
+      ],
+      invoices: [
+        Invoice(
+          products: [
+            Product(price: 100.0),
+            Product(price: 200.0),
+          ],
+        ),
+      ],
+      monthlySales: [
+        MonthlySales(totalSales: 10000.0),
+        MonthlySales(totalSales: 15000.0),
+      ],
+      clients: [
+        Client(tradeName: "Client A"),
+        Client(tradeName: "Client B"),
+      ],
+      createdAt: DateTime(2023, 1, 1),
+      updatedAt: DateTime(2023, 10, 1),
+    ),
+    Users(
+      id: 2,
+      fullName: "Jane Smith",
+      email: "jane.smith@example.com",
+      phone: 9876543210,
+      role: "Salesman",
+      status: "Active",
+      totalSales: 75000.0,
+      closedDeals: 20,
+      targetAchievement: 95.0,
+      region: Region(name: "Los Angeles"),
+      // imageUrl: "assets/images/jane_smith.jpg",
+      visits: [
+        Visit(visitDate: DateTime(2023, 9, 20)),
+        Visit(visitDate: DateTime(2023, 10, 5)),
+      ],
+      invoices: [
+        Invoice(
+          products: [
+            Product(price: 300.0),
+            Product(price: 400.0),
+          ],
+        ),
+      ],
+      monthlySales: [
+        MonthlySales(totalSales: 20000.0),
+        MonthlySales(totalSales: 25000.0),
+      ],
+      clients: [
+        Client(tradeName: "Client C"),
+        Client(tradeName: "Client D"),
+      ],
+      createdAt: DateTime(2023, 2, 1),
+      updatedAt: DateTime(2023, 10, 5),
+    ),
+    Users(
+      id: 3,
+      fullName: "Alice Johnson",
+      email: "alice.johnson@example.com",
+      phone: 5555555555,
+      role: "Salesman",
+      status: "Inactive",
+      totalSales: 30000.0,
+      closedDeals: 10,
+      targetAchievement: 80.0,
+      region: Region(name: "Chicago"),
+      // imageUrl: "assets/images/alice_johnson.jpg",
+      visits: [
+        Visit(visitDate: DateTime(2023, 8, 10)),
+        Visit(visitDate: DateTime(2023, 9, 1)),
+      ],
+      invoices: [
+        Invoice(
+          products: [
+            Product(price: 500.0),
+            Product(price: 600.0),
+          ],
+        ),
+      ],
+      monthlySales: [
+        MonthlySales(totalSales: 12000.0),
+        MonthlySales(totalSales: 18000.0),
+      ],
+      clients: [
+        Client(tradeName: "Client E"),
+        Client(tradeName: "Client F"),
+      ],
+      createdAt: DateTime(2023, 3, 1),
+      updatedAt: DateTime(2023, 9, 10),
+    ),
+  ];
+  Users? selectedUser;
 
-  void initializeSelectedCategory(BuildContext context) {
-    selectedCategory = AppLocalizations.of(context)!.sales_men;
-    notifyListeners();
-  }
 
-  void selectedUsers(Users selectedUser) {
-    users = selectedUser;
-    notifyListeners();
-  }
-
-  bool isFavourite(Users users) {
-    return fav.contains(users);
-  }
-
-  void toggleFavourite(BuildContext context, Users users) {
-    if (fav.contains(users)) {
-      _showConfirmationDialog(context, users);
-    } else {
-      fav.add(users);
-      notifyListeners();
-    }
-  }
 
   void updateSelectedCategory(String category) {
     if (selectedCategory != category) {
@@ -54,295 +139,71 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
-  List<ManagementItemWidget> getItemsForCategory(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    if (localizations == null) {
-      throw Exception("Localization not available in the current context.");
+  Future<void> fetchSalesMen() async {
+    try {
+      final response = await http.get(Uri.parse('https://api.example.com/salesmen'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        salesMen = data.map((json) => Users.fromJson(json)).toList();
+        notifyListeners();
+      } else {
+        throw Exception('Failed to load salesmen');
+      }
+    } catch (e) {
+      print('Error fetching salesmen: $e');
     }
+  }
+
+  void deleteUser(Users user) {
+    if (salesMen.contains(user)) {
+      salesMen.remove(user);
+      notifyListeners();
+
+      _deleteUserFromAPI(user.id!);
+    }
+  }
+
+  Future<void> _deleteUserFromAPI(int userId) async {
+    try {
+      final response = await http.delete(Uri.parse('https://api.example.com/salesmen/$userId'));
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to delete user');
+      }
+    } catch (e) {
+      print('Error deleting user from API: $e');
+    }
+  }
+
+  void toggleFavourite(BuildContext context, Users user) {
+    if (fav.contains(user)) {
+      fav.remove(user);
+    } else {
+      fav.add(user);
+    }
+    notifyListeners();
+  }
+
+  bool isFavourite(Users user){
+    if(fav.contains(user)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  List<dynamic> getFilteredItems(BuildContext context, String? selectedCategory) {
+    final localizations = AppLocalizations.of(context)!;
 
     if (selectedCategory == localizations.sales_men) {
       return salesMen;
     } else if (selectedCategory == localizations.clients) {
-      return clients;
+      return [];
     } else if (selectedCategory == localizations.products) {
-      return products;
+      return [];
     } else {
       return [];
     }
-  }
-
-  final List<ManagementItemWidget> salesMen = [
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            visits: [Visit(visitDate: DateTime.now())],
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            region: "Amman",
-            closedDeals: 5,
-            routeId: 1,
-            totalSales: 3333,
-            targetAchievement: 90,
-            invoices: [Invoice(totalAmount: 30)],
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            invoices: [Invoice(totalAmount: 30)],
-            closedDeals: 5,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            visits: [Visit(visitDate: DateTime.now())],
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            region: "Amman",
-            totalSales: 31113,
-            targetAchievement: 90,
-            routeId: 1,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            closedDeals: 5,
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            invoices: [Invoice(totalAmount: 30)],
-            visits: [Visit(visitDate: DateTime.now())],
-            password: "@Lana123",
-            region: "Amman",
-            totalSales: 3333,
-            routeId: 1,
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            closedDeals: 5,
-            email: "lanabaloley@gmail.com",
-            invoices: [Invoice(totalAmount: 30)],
-            createdAt: DateTime.now(),
-            totalSales: 3333,
-            imageUrl: "assets/images/default_image.png",
-            password: "@Lana123",
-            visits: [Visit(visitDate: DateTime.now())],
-            region: "Amman",
-            routeId: 1,
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-  ];
-
-  final List<ManagementItemWidget> clients = [
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            invoices: [Invoice(totalAmount: 30)],
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            password: "@Lana123",
-            closedDeals: 5,
-            totalSales: 3333,
-            monthlySales: [MonthlySales(totalSales: 30)],
-            visits: [Visit(visitDate: DateTime.now())],
-            region: "Amman",
-            routeId: 1,
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            closedDeals: 5,
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            invoices: [Invoice(totalAmount: 30)],
-            imageUrl: "assets/images/default_image.png",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            totalSales: 3333,
-            region: "Amman",
-            routeId: 1,
-            visits: [Visit(visitDate: DateTime.now())],
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            password: "@Lana123",
-            totalSales: 3333,
-            region: "Amman",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            routeId: 1,
-            closedDeals: 5,
-            visits: [Visit(visitDate: DateTime.now())],
-            invoices: [Invoice(totalAmount: 30)],
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            totalSales: 3333,
-            invoices: [Invoice(totalAmount: 30)],
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            region: "Amman",
-            visits: [Visit(visitDate: DateTime.now())],
-            routeId: 1,
-            closedDeals: 5,
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-  ];
-
-  final List<ManagementItemWidget> products = [
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            password: "@Lana123",
-            totalSales: 3333,
-            region: "Amman",
-            routeId: 1,
-            invoices: [Invoice(totalAmount: 30)],
-            monthlySales: [MonthlySales(totalSales: 30)],
-            closedDeals: 5,
-            visits: [Visit(visitDate: DateTime.now())],
-            targetAchievement: 90,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            totalSales: 3333,
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            region: "Amman",
-            targetAchievement: 90,
-            visits: [Visit(visitDate: DateTime.now())],
-            invoices: [Invoice(totalAmount: 30)],
-            routeId: 1,
-            closedDeals: 5,
-            updatedAt: DateTime.now())),
-    ManagementItemWidget(
-      users: Users(
-        status: "Active",
-        role: "Sales man",
-        phone: 0799471732,
-        fullName: "Lana Baha",
-        email: "lanabaloley@gmail.com",
-        createdAt: DateTime.now(),
-        imageUrl: "assets/images/default_image.png",
-        monthlySales: [MonthlySales(totalSales: 30)],
-        password: "@Lana123",
-        totalSales: 3333,
-        targetAchievement: 90,
-        region: "Amman",
-        routeId: 1,
-        updatedAt: DateTime.now(),
-        closedDeals: 7,
-        invoices: [Invoice(totalAmount: 30)],
-        visits: [Visit(visitDate: DateTime.now())],
-      ),
-    ),
-    ManagementItemWidget(
-        users: Users(
-            status: "Active",
-            role: "Sales man",
-            phone: 0799471732,
-            fullName: "Lana Baha",
-            totalSales: 3333,
-            email: "lanabaloley@gmail.com",
-            createdAt: DateTime.now(),
-            imageUrl: "assets/images/default_image.png",
-            monthlySales: [MonthlySales(totalSales: 30)],
-            password: "@Lana123",
-            region: "Amman",
-            routeId: 1,
-            targetAchievement: 90,
-            invoices: [Invoice(totalAmount: 30)],
-            visits: [Visit(visitDate: DateTime.now())],
-            closedDeals: 5,
-            updatedAt: DateTime.now())),
-  ];
-
-  void _showConfirmationDialog(BuildContext context, Users users) {
-    final LangController langController =
-        Provider.of<LangController>(context, listen: false);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Text(
-            AppLocalizations.of(context)!.remove_from_favorites_confirmation,
-            textAlign: TextAlign.center,
-            style: AppStyles.getFontStyle(
-              langController,
-              fontSize: 14,
-              color: Colors.black54,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          actions: [
-            CustomButtonWidget(
-              title: AppLocalizations.of(context)!.yes,
-              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
-              height: 60,
-              borderRadius: 12,
-              titleColor: Colors.white,
-              width: 300,
-              onPressed: () {
-                fav.remove(users);
-                notifyListeners();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

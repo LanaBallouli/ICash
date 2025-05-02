@@ -14,6 +14,8 @@ class CustomButtonWidget extends StatelessWidget {
   TextStyle? style;
   double? height;
   double? width;
+  double? fontSize;
+  FontWeight? fontWeight;
 
   CustomButtonWidget(
       {super.key,
@@ -24,7 +26,9 @@ class CustomButtonWidget extends StatelessWidget {
       this.titleColor,
       this.borderRadius,
       this.width,
-      this.height});
+      this.height,
+      this.fontSize,
+      this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +51,9 @@ class CustomButtonWidget extends StatelessWidget {
           style: style ??
               AppStyles.getFontStyle(
                 langController,
-                fontSize: 14.sp,
+                fontSize: fontSize ?? 14.sp,
                 color: titleColor ?? Colors.white,
-                fontWeight: FontWeight.w600,
+                fontWeight: fontWeight ?? FontWeight.w600,
               ),
         ),
       ),

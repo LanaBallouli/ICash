@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/users.dart';
+import 'package:test_sales/view/widgets/custom_button_widget.dart';
+import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
 import '../../../controller/lang_controller.dart';
+import '../../../controller/management_controller.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
   final Users users;
@@ -43,7 +48,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               _buildSalesReportsSection(context),
               SizedBox(height: 10.h),
               _buildFeedbackSection(context),
-              SizedBox(height: 10.h),
+              SizedBox(height: 20.h),
+              _buildButtonsRow(context)
             ],
           ),
         ),
@@ -82,6 +88,11 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
 
   List<Widget> _buildProfileInputs(
       BuildContext context, LangController langController) {
+    String formatDateWithTime(DateTime dateTime) {
+      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
+      return formatter.format(dateTime);
+    }
+
     final profileDetails = [
       {
         "label": AppLocalizations.of(context)!.user_name,
@@ -93,11 +104,14 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         "value": users.phone?.toString()
       },
       {"label": AppLocalizations.of(context)!.role, "value": users.role},
-      {"label": AppLocalizations.of(context)!.region, "value": users.region},
+      {
+        "label": AppLocalizations.of(context)!.region,
+        "value": users.region?.name ?? "region"
+      },
       {"label": AppLocalizations.of(context)!.status, "value": users.status},
       {
         "label": AppLocalizations.of(context)!.joining_date,
-        "value": users.createdAt?.toString()
+        "value": formatDateWithTime(users.createdAt!).toString()
       },
     ];
 
@@ -110,7 +124,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               textEditingController:
                   TextEditingController(text: detail["value"] ?? ""),
               obscureText: false,
-              label: detail["label"]!,
+              label: "${detail["label"]}",
               readOnly: true,
             ),
             SizedBox(
@@ -169,6 +183,18 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildRecentActivitySection(BuildContext context) {
+    String formatDateWithTime(DateTime dateTime) {
+      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
+      return formatter.format(dateTime);
+    }
+
+    String? latestInvoiceAmount;
+    if (users.invoices != null && users.invoices!.isNotEmpty) {
+      latestInvoiceAmount =
+          users.invoices!.last.calculateTotalAmount().toString();
+    } else {
+      latestInvoiceAmount = "No invoices available";
+    }
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.recent_activity_log,
       leadingIcon: Icons.access_time,
@@ -177,13 +203,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(
-                text: users.invoices?.last.totalAmount.toString()),
+            textEditingController:
+                TextEditingController(text: latestInvoiceAmount),
             obscureText: false,
             label: AppLocalizations.of(context)!.latest_invoice,
             readOnly: true,
             suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
         ),
         SizedBox(
@@ -193,7 +221,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(
-                text: users.visits?.last.visitDate.toString()),
+                text: formatDateWithTime(users.visits!.last.visitDate!)
+                    .toString()),
             obscureText: false,
             label: AppLocalizations.of(context)!.latest_visit,
             readOnly: true,
@@ -241,26 +270,38 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            children: [
-              InputWidget(
-                textEditingController: TextEditingController(),
-                obscureText: false,
-                label: AppLocalizations.of(context)!.client_name,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              InputWidget(
-                textEditingController: TextEditingController(),
-                obscureText: false,
-                label: AppLocalizations.of(context)!.client_name,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-            ],
-          ),
+          child: users.clients == null || users.clients!.isEmpty
+              ? Center(
+                  child: Text(
+                    "AppLocalizations.of(context)!.no_assigned_clients",
+                    style: TextStyle(fontSize: 14.sp, color: Colors.black54),
+                  ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: users.clients?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final client = users.clients![index];
+                    return Column(
+                      children: [
+                        InputWidget(
+                          textEditingController: TextEditingController(
+                              text: client.tradeName ?? "Unknown Client"),
+                          label: AppLocalizations.of(context)!.client_name,
+                          obscureText: false,
+                          suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.arrow_forward)),
+                          readOnly: true,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        )
+                      ],
+                    );
+                  },
+                ),
         ),
       ],
     );
@@ -327,12 +368,69 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(),
+            textEditingController:
+                TextEditingController(text: users.notes ?? ""),
             obscureText: false,
             label: "ملاحظة من لانا",
           ),
         )
       ],
+    );
+  }
+
+  Widget _buildButtonsRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: CustomButtonWidget(
+            title: "Update",
+            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+            borderRadius: 12.r,
+            titleColor: Colors.white,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            onPressed: () {},
+          ),
+        ),
+        SizedBox(
+          width: 20.h,
+        ),
+        Expanded(
+          child: CustomButtonWidget(
+            title: "Delete User",
+            colors: [Color(0xFF910000), Color(0xFF910000)],
+            borderRadius: 12.r,
+            titleColor: Colors.white,
+            fontSize: 15.sp,
+            onPressed: () {
+              _deleteCurrentUser(context);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  void _deleteCurrentUser(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer<ManagementController>(
+          builder: (context, managementController, child) {
+            return DialogWidget(
+              user: users,
+              title: AppLocalizations.of(context)!.confirm_deletion,
+              content: AppLocalizations.of(context)!.delete_user,
+              onPressed: () {
+                managementController.deleteUser(users);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

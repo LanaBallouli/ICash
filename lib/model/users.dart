@@ -1,9 +1,11 @@
+import 'package:test_sales/model/client.dart';
+import 'package:test_sales/model/invoice.dart';
+import 'package:test_sales/model/monthly_sales.dart';
+import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/visit.dart';
 
-import 'invoice.dart';
-import 'monthly_sales.dart';
-
 class Users {
+  int id;
   String? fullName;
   String? email;
   int? phone;
@@ -12,7 +14,6 @@ class Users {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
-  String? region;
   int? routeId;
   String? imageUrl;
   double? totalSales;
@@ -21,8 +22,12 @@ class Users {
   List<Invoice>? invoices;
   List<Visit>? visits;
   List<MonthlySales>? monthlySales;
+  List<Client>? clients;
+  Region? region;
+  String? notes;
 
   Users({
+    required this.id,
     this.fullName,
     this.email,
     this.phone,
@@ -34,11 +39,77 @@ class Users {
     this.region,
     this.routeId,
     this.imageUrl,
-    this.totalSales,
-    this.closedDeals,
-    this.targetAchievement,
-    this.invoices,
-    this.visits,
-    this.monthlySales,
+    this.totalSales = 0.0,
+    this.closedDeals = 0,
+    this.targetAchievement = 0.0,
+    this.invoices = const [],
+    this.visits = const [],
+    this.monthlySales = const [],
+    this.clients = const [],
+    this.notes,
   });
+
+  /// Factory constructor to create a `Users` object from JSON.
+  factory Users.fromJson(Map<String, dynamic> json) {
+    return Users(
+      id: json['id'],
+      fullName: json['full_name'],
+      email: json['email'],
+      phone: json['phone'],
+      password: json['password'],
+      role: json['role'],
+      status: json['status'],
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      routeId: json['route_id'],
+      imageUrl: json['image_url'],
+      totalSales: (json['total_sales'] as num?)?.toDouble(),
+      closedDeals: json['closed_deals'],
+      targetAchievement: (json['target_achievement'] as num?)?.toDouble(),
+      invoices: (json['invoices'] as List<dynamic>?)
+          ?.map((invoiceJson) => Invoice.fromJson(invoiceJson))
+          .toList() ??
+          [],
+      visits: (json['visits'] as List<dynamic>?)
+          ?.map((visitJson) => Visit.fromJson(visitJson))
+          .toList() ??
+          [],
+      monthlySales: (json['monthly_sales'] as List<dynamic>?)
+          ?.map((monthlySaleJson) => MonthlySales.fromJson(monthlySaleJson))
+          .toList() ??
+          [],
+      clients: (json['clients'] as List<dynamic>?)
+          ?.map((clientJson) => Client.fromJson(clientJson))
+          .toList() ??
+          [],
+      region: json['region'] != null ? Region.fromJson(json['region']) : null,
+      notes: json['notes'],
+    );
+  }
+
+  /// Converts the `Users` object to JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'full_name': fullName,
+      'email': email,
+      'phone': phone,
+      'password': password,
+      'role': role,
+      'status': status,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+      'route_id': routeId,
+      'image_url': imageUrl,
+      'total_sales': totalSales,
+      'closed_deals': closedDeals,
+      'target_achievement': targetAchievement,
+      'invoices': invoices?.map((invoice) => invoice.toJson()).toList(),
+      'visits': visits?.map((visit) => visit.toJson()).toList(),
+      'monthly_sales': monthlySales?.map((monthlySale) => monthlySale.toJson()).toList(),
+      'clients': clients?.map((client) => client.toJson()).toList(),
+      'region': region?.toJson(),
+      'notes': notes,
+    };
+  }
 }

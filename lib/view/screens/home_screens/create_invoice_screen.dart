@@ -31,8 +31,8 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
       final products = Provider.of<ProductController>(context, listen: false);
       clientsController = clients;
       productController = products;
-      clientsController.fetchCashClients();
-      clientsController.fetchDebtClients();
+      // clientsController.fetchCashClients();
+      // clientsController.fetchDebtClients();
       productController.fetchProducts();
     });
   }
@@ -146,7 +146,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
                         ),
                       ),
                       onPressed: () {
-                        invoiceController.setSelectedInvoiceType('cash');
+                        // invoiceController.setSelectedInvoiceType('cash');
                         invoiceController.setInvoiceTypeColor(true);
                       },
                       child: Text(
@@ -169,7 +169,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
                             WidgetStateProperty.all<Color>(invoiceController.debtColor!),
                       ),
                       onPressed: () {
-                        invoiceController.setSelectedInvoiceType('debt');
+                        // invoiceController.setSelectedInvoiceType('debt');
                         invoiceController.setInvoiceTypeColor(false);
                       },
                       child: Text(
@@ -228,28 +228,28 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
         final invoiceType = context.read<InvoiceController>().invoiceType;
 
         // Determine whether to show cash clients or debt clients
-        if (clientsController.cashClients.isEmpty &&
-            clientsController.debtClients.isEmpty) {
-          items = [
-            DropdownMenuItem(
-              child: Text(AppLocalizations.of(context)!.no_clients),
-            ),
-          ];
-        } else if (invoiceType == 'cash') {
-          items = clientsController.cashClients.map((client) {
-            return DropdownMenuItem<String>(
-              value: client.id.toString(),
-              child: Text(client.tradeName ?? 'Unknown'),
-            );
-          }).toList();
-        } else if (invoiceType == 'debt') {
-          items = clientsController.debtClients.map((client) {
-            return DropdownMenuItem<String>(
-              value: client.id.toString(),
-              child: Text(client.tradeName ?? 'Unknown'),
-            );
-          }).toList();
-        }
+        // if (clientsController.cashClients.isEmpty &&
+        //     clientsController.debtClients.isEmpty) {
+        //   items = [
+        //     DropdownMenuItem(
+        //       child: Text(AppLocalizations.of(context)!.no_clients),
+        //     ),
+        //   ];
+        // } else if (invoiceType == 'cash') {
+        //   items = clientsController.cashClients.map((client) {
+        //     return DropdownMenuItem<String>(
+        //       value: client.id.toString(),
+        //       child: Text(client.tradeName ?? 'Unknown'),
+        //     );
+        //   }).toList();
+        // } else if (invoiceType == 'debt') {
+        //   items = clientsController.debtClients.map((client) {
+        //     return DropdownMenuItem<String>(
+        //       value: client.id.toString(),
+        //       child: Text(client.tradeName ?? 'Unknown'),
+        //     );
+        //   }).toList();
+        // }
 
         return InvoiceDropdown(
           title: "${AppLocalizations.of(context)!.client_name} *",

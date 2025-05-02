@@ -124,5 +124,8 @@
   "monthly_sales": "المبيعات الشهرية",
   "product_wise_sales": "المبيعات حسب المنتج",
   "top_customers": "أفضل العملاء",
-  "details": "تفاصيل"
+  "details": "تفاصيل",
+  "delete_user": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
+  "confirm_deletion": "تأكيد الحذف"
+
 }
