@@ -886,6 +886,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Assigned Clients'**
   String get no_assigned_clients;
+
+  /// No description provided for @salesman_creation.
+  ///
+  /// In en, this message translates to:
+  /// **'A new sales man has been created.'**
+  String get salesman_creation;
+
+  /// No description provided for @error_adding_salesman.
+  ///
+  /// In en, this message translates to:
+  /// **'Error Adding Salesman'**
+  String get error_adding_salesman;
+
+  /// No description provided for @full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get full_name;
+
+  /// No description provided for @name_error_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter both first and last name.'**
+  String get name_error_2;
+
+  /// No description provided for @add_salesman_prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all the fields to add a new sales man'**
+  String get add_salesman_prompt;
+
+  /// No description provided for @enter_salesman_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter sales man name'**
+  String get enter_salesman_name;
+
+  /// No description provided for @enter_salesman_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter sales man password'**
+  String get enter_salesman_password;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -36,16 +36,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phone_hint => 'أدخل رقم هاتفك';
 
   @override
-  String get password => 'أدخل كلمة السر';
+  String get password => 'أدخل كلمة المرور';
 
   @override
   String get password_hint => 'أدخل كلمة المرور الخاصة بك';
 
   @override
-  String get confirm => 'تأكيد كلمة السر';
+  String get confirm => 'تأكيد كلمة المرور';
 
   @override
-  String get confirm_hint => 'أعد كتابة كلمة السر هنا';
+  String get confirm_hint => 'أعد كتابة كلمة المرور هنا';
 
   @override
   String get login_button => 'تسجيل الدخول';
@@ -69,7 +69,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phone_error => 'يرجى ادخال رقم هاتف صحيح';
 
   @override
-  String get password_error => 'يرجى ادخال كلمة سر صحيحة';
+  String get password_error => 'يرجى ادخال كلمة مرور صحيحة';
 
   @override
   String get password_mismatch_error => 'كلمات المرور غير متطابقة';
@@ -123,7 +123,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get total_debts => 'إجمالي الذمم المعلقة:';
 
   @override
-  String get quick_access => 'الوصول السريع';
+  String get quick_access => 'الوصول المروريع';
 
   @override
   String get create_invoice => 'إنشاء فاتورة';
@@ -403,4 +403,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no_assigned_clients => 'لا يوجد عملاء معينون';
+
+  @override
+  String get salesman_creation => 'لقد تم انشاء مندوب جديد';
+
+  @override
+  String get error_adding_salesman => 'حدث خطأ في إضافة المندوب';
+
+  @override
+  String get full_name => 'الاسم الكامل';
+
+  @override
+  String get name_error_2 => 'الرجاء إدخال الاسم الأول والأخير.';
+
+  @override
+  String get add_salesman_prompt => 'يرجى ملء جميع الحقول لإضافة مندوب مبيعات جديد.';
+
+  @override
+  String get enter_salesman_name => 'ادخل اسم مندوب المبيعات';
+
+  @override
+  String get enter_salesman_password => 'أدخل كلمة مرور مندوب المبيعات';
 }

@@ -13,11 +13,12 @@ class LoginController extends ChangeNotifier {
   bool isLoading = false;
   bool isRememberMeChecked = false;
 
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   void initializeCredentials(String? email, String? password) {
     emailController.text = email ?? '';
@@ -30,17 +31,14 @@ class LoginController extends ChangeNotifier {
     passwordController.dispose();
     nameController.dispose();
     confirmPasswordController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
-
-
-
 
   void setRememberMe(bool value) {
     isRememberMeChecked = value;
     notifyListeners();
   }
-
 
   void setLoading(bool value) {
     isLoading = value;
@@ -58,7 +56,6 @@ class LoginController extends ChangeNotifier {
   static final _emailRegExp = RegExp(
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
   );
-  static final _phoneRegExp = RegExp(r'^(079|077|078)[0-9]{7}$');
   static final _passwordRegExp = RegExp(
     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
   );
@@ -111,7 +108,7 @@ class LoginController extends ChangeNotifier {
         : null;
     if (errors['email'] != newError) {
       errors['email'] = newError;
-      notifyListeners(); // Notify only if there's a change
+      notifyListeners();
     }
   }
 
@@ -128,6 +125,7 @@ class LoginController extends ChangeNotifier {
 
     _validateEmail(email, context);
     _validatePassword(password, context);
+    _validatePhone(phone, context);
 
     if (!isLoginMode) {
       _validateConfirmPassword(confirmPassword, password, context);
@@ -142,16 +140,6 @@ class LoginController extends ChangeNotifier {
 
   bool isFormValid() {
     return !errors.values.any((error) => error != null);
-  }
-
-
-  void _validatePhone(String? phoneNo, BuildContext context) {
-    final newError = phoneNo == null || !_phoneRegExp.hasMatch(phoneNo)
-        ? AppLocalizations.of(context)!.phone_error
-        : null;
-    if (errors['phone'] != newError) {
-      errors['phone'] = newError;
-    }
   }
 
   void _validatePassword(String? password, BuildContext context) {
@@ -177,11 +165,33 @@ class LoginController extends ChangeNotifier {
   }
 
   void _validateName(String? name, BuildContext context) {
-    final newError = name == null || name.isEmpty
+    final newError = (name == null || name.isEmpty)
         ? AppLocalizations.of(context)!.name_error
-        : null;
+        : name.trim().split(' ').length < 2
+            ? AppLocalizations.of(context)!.name_error_2
+            : null;
+
     if (errors['name'] != newError) {
       errors['name'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validatePhone(String? phoneNo, BuildContext context) {
+    if (phoneNo == null || phoneNo.isEmpty) {
+      errors['phone'] = AppLocalizations.of(context)!.phone_error;
+      notifyListeners();
+      return;
+    }
+
+    final RegExp phoneRegex = RegExp(r'^(077|078|079)\d{7}$');
+    final bool isValid = phoneRegex.hasMatch(phoneNo);
+
+    final newError = isValid ? null : AppLocalizations.of(context)!.phone_error;
+
+    if (errors['phone'] != newError) {
+      errors['phone'] = newError;
+      notifyListeners();
     }
   }
 
@@ -192,10 +202,10 @@ class LoginController extends ChangeNotifier {
   }
 
   Future<void> signInWithEmail(
-      BuildContext context,
-      String email,
-      String password,
-      ) async {
+    BuildContext context,
+    String email,
+    String password,
+  ) async {
     try {
       final response = await Supabase.instance.client.auth.signInWithPassword(
         email: email,
@@ -257,11 +267,11 @@ class LoginController extends ChangeNotifier {
   }
 
   Future<void> signUpWithEmail(
-      BuildContext context,
-      String email,
-      String password,
-      String name,
-      ) async {
+    BuildContext context,
+    String email,
+    String password,
+    String name,
+  ) async {
     try {
       print("Starting signup process for email: $email");
 
@@ -371,5 +381,12 @@ class LoginController extends ChangeNotifier {
       print("Error checking email verification status: $e");
       return false;
     }
+  }
+
+  void clearFields() {
+    emailController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
+    nameController.clear();
   }
 }

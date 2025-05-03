@@ -8,10 +8,10 @@
   "enter_name": "أدخل اسم المستخدم",
   "phone": "رقم الهاتف",
   "phone_hint": "أدخل رقم هاتفك",
-  "password": "أدخل كلمة السر",
+  "password": "أدخل كلمة المرور",
   "password_hint": "أدخل كلمة المرور الخاصة بك",
-  "confirm": "تأكيد كلمة السر",
-  "confirm_hint": "أعد كتابة كلمة السر هنا",
+  "confirm": "تأكيد كلمة المرور",
+  "confirm_hint": "أعد كتابة كلمة المرور هنا",
   "login_button": "تسجيل الدخول",
   "forgot_password": "نسيت كلمة المرور؟",
   "signup_prompt": "ليس لديك حساب؟",
@@ -19,7 +19,7 @@
   "signup_button": "انشئ حساب",
   "email_error": "يرجى ادخال ايميل صحيح",
   "phone_error": "يرجى ادخال رقم هاتف صحيح",
-  "password_error": "يرجى ادخال كلمة سر صحيحة",
+  "password_error": "يرجى ادخال كلمة مرور صحيحة",
   "password_mismatch_error": "كلمات المرور غير متطابقة",
   "name_error": "الاسم لا يمكن أن يكون فارغًا",
   "fix_errors_message": "يرجى إصلاح الأخطاء قبل المتابعة",
@@ -37,7 +37,7 @@
   "debts_num": "عدد الفواتير غير المسددة:",
   "total_rep": "",
   "total_debts": "إجمالي الذمم المعلقة:",
-  "quick_access": "الوصول السريع",
+  "quick_access": "الوصول المروريع",
   "create_invoice": "إنشاء فاتورة",
   "create_invoice_prompt": "قم بتعبئة الحقول لإنشاء فاتورة:",
   "invoice_type": "نوع الفاتورة:",
@@ -130,6 +130,14 @@
   "add_salesman": "إضافة مندوب جديد",
   "field_required": "الحقل مطلوب",
   "salesman_added": "تمت إضافة مندوب جديد",
-  "no_assigned_clients": "لا يوجد عملاء معينون"
+  "no_assigned_clients": "لا يوجد عملاء معينون",
+  "salesman_creation": "لقد تم انشاء مندوب جديد",
+  "error_adding_salesman": "حدث خطأ في إضافة المندوب",
+  "full_name": "الاسم الكامل",
+  "name_error_2": "الرجاء إدخال الاسم الأول والأخير.",
+  "add_salesman_prompt": "يرجى ملء جميع الحقول لإضافة مندوب مبيعات جديد.",
+  "enter_salesman_name": "ادخل اسم مندوب المبيعات",
+  "enter_salesman_password": "أدخل كلمة مرور مندوب المبيعات"
+
 
 }

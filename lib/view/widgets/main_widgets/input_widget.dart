@@ -28,7 +28,7 @@ class InputWidget extends StatelessWidget {
     required this.textEditingController,
     this.label,
     this.labelColor,
-    required this.obscureText,
+    this.obscureText = false,
     this.prefixIcon,
     this.suffixIcon,
     this.hintText,

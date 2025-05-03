@@ -130,7 +130,18 @@
   "add_salesman": "Add New Sales Man",
   "field_required": "Field Required",
   "salesman_added": "SalesMan Added",
-  "no_assigned_clients": "No Assigned Clients"
+  "no_assigned_clients": "No Assigned Clients",
+  "salesman_creation": "A new sales man has been created.",
+  "error_adding_salesman": "Error Adding Salesman",
+  "full_name": "Full name",
+  "name_error_2": "Please enter both first and last name.",
+  "add_salesman_prompt": "Please fill in all the fields to add a new sales man",
+  "enter_salesman_name": "Enter sales man name",
+  "enter_salesman_password": "Enter sales man password"
+
+
+
+
 
 
 

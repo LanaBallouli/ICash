@@ -10,6 +10,10 @@ import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
 import 'package:test_sales/view/widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
+import 'package:test_sales/view/widgets/registration_widgets/email_field_widget.dart';
+import 'package:test_sales/view/widgets/registration_widgets/name_input_widget.dart';
+import 'package:test_sales/view/widgets/registration_widgets/password_field_widget.dart';
+import 'package:test_sales/view/widgets/registration_widgets/phone_input_widget.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -27,10 +31,12 @@ class LoginScreen extends StatelessWidget {
           const CustomHeader(),
           Expanded(
             child: Selector<LoginController, bool>(
-              selector: (context, loginController) => loginController.isLoginMode,
+              selector: (context, loginController) =>
+                  loginController.isLoginMode,
               builder: (context, isLoginMode, _) {
                 return SingleChildScrollView(
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.symmetric(horizontal: 13),
                   child: _buildLoginForm(context, isLoginMode),
                 );
@@ -48,9 +54,10 @@ class LoginScreen extends StatelessWidget {
     final List<Widget> formChildren = [
       _buildTitle(context, isLoginMode),
       _buildSubtitle(context, isLoginMode),
-      _buildEmailInput(context, loginController),
-      if (!isLoginMode) _buildNameInput(context, loginController),
-      _buildPasswordInput(context, loginController),
+      EmailFieldWidget(),
+      if (!isLoginMode) NameInputWidget(),
+      if (!isLoginMode) PhoneInputWidget(),
+      PasswordFieldWidget(),
       if (!isLoginMode) _buildConfirmPasswordInput(context, loginController),
       if (isLoginMode) _rememberMeAndForgetPassword(context),
       _buildSubmitButton(context, isLoginMode, loginController),
@@ -106,116 +113,49 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailInput(BuildContext context, LoginController loginController) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Selector<LoginController, String?>(
-        selector: (context, loginController) => loginController.errors['email'],
-        builder: (context, errorText, _) {
-          return InputWidget(
-            textEditingController: loginController.emailController,
-            obscureText: false,
-            prefixIcon: const Icon(Icons.email),
-            label: AppLocalizations.of(context)!.email,
-            labelColor: Colors.grey,
-            keyboardType: TextInputType.emailAddress,
-            hintText: "demo@demo.com",
-            onChanged: (value) => loginController.validateField(
-              field: 'email',
-              value: value,
-              context: context,
-            ),
-            errorText: errorText,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildNameInput(BuildContext context, LoginController loginController) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 22),
-      child: Selector<LoginController, String?>(
-        selector: (context, loginController) => loginController.errors['name'],
-        builder: (context, errorText, _) {
-          return InputWidget(
-            textEditingController: loginController.nameController,
-            obscureText: false,
-            keyboardType: TextInputType.name,
-            prefixIcon: const Icon(Icons.person),
-            label: AppLocalizations.of(context)!.user_name,
-            labelColor: Colors.grey,
-            hintText: AppLocalizations.of(context)!.enter_name,
-            onChanged: (value) => loginController.validateField(
-              field: 'name',
-              value: value,
-              context: context,
-            ),
-            errorText: errorText,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildPasswordInput(
-      BuildContext context, LoginController loginController) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 22),
-      child: Selector<LoginController, bool>(
-        selector: (context, loginController) => loginController.obscureText,
-        builder: (context, obscureText, _) {
-          return InputWidget(
-            textEditingController: loginController.passwordController,
-            obscureText: obscureText,
-            prefixIcon: const Icon(Icons.password),
-            suffixIcon: IconButton(
-              onPressed: () => loginController.togglePasswordVisibility(),
-              icon: obscureText
-                  ? const Icon(Icons.visibility)
-                  : const Icon(Icons.visibility_off),
-            ),
-            label: AppLocalizations.of(context)!.password,
-            labelColor: Colors.grey,
-            hintText: AppLocalizations.of(context)!.password_hint,
-            onChanged: (value) => loginController.validateField(
-              field: 'password',
-              value: value,
-              context: context,
-            ),
-            errorText: loginController.errors['password'],
-          );
-        },
-      ),
-    );
-  }
-
   Widget _buildConfirmPasswordInput(
       BuildContext context, LoginController loginController) {
+    final langController = Provider.of<LangController>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(top: 22, bottom: 22),
       child: Selector<LoginController, bool>(
         selector: (context, loginController) => loginController.obscureText2,
         builder: (context, obscureText, _) {
-          return InputWidget(
-            textEditingController: loginController.confirmPasswordController,
-            obscureText: obscureText,
-            prefixIcon: const Icon(Icons.password),
-            suffixIcon: IconButton(
-              onPressed: () => loginController.toggleConfirmPasswordVisibility(),
-              icon: obscureText
-                  ? const Icon(Icons.visibility)
-                  : const Icon(Icons.visibility_off),
-            ),
-            label: AppLocalizations.of(context)!.confirm,
-            labelColor: Colors.grey,
-            hintText: AppLocalizations.of(context)!.confirm_hint,
-            onChanged: (value) => loginController.validateField(
-              field: 'confirmPassword',
-              value: value,
-              context: context,
-            ),
-            errorText: loginController.errors['confirmPassword'],
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.confirm,
+                style: AppStyles.getFontStyle(
+                  langController,
+                  color: Color(0xFF6C7278),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              InputWidget(
+                textEditingController:
+                    loginController.confirmPasswordController,
+                obscureText: obscureText,
+                prefixIcon: const Icon(Icons.password),
+                suffixIcon: IconButton(
+                  onPressed: () =>
+                      loginController.toggleConfirmPasswordVisibility(),
+                  icon: obscureText
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off),
+                ),
+                labelColor: Colors.grey,
+                hintText: AppLocalizations.of(context)!.confirm_hint,
+                onChanged: (value) => loginController.validateField(
+                  field: 'confirmPassword',
+                  value: value,
+                  context: context,
+                ),
+                errorText: loginController.errors['confirmPassword'],
+              ),
+            ],
           );
         },
       ),
@@ -243,7 +183,8 @@ class LoginScreen extends StatelessWidget {
       BuildContext context, LoginController loginController) {
     final langController = Provider.of<LangController>(context, listen: false);
     return Selector<LoginController, bool>(
-      selector: (context, loginController) => loginController.isRememberMeChecked,
+      selector: (context, loginController) =>
+          loginController.isRememberMeChecked,
       builder: (context, isRememberMeChecked, _) {
         return CheckboxListTile(
           title: Text(
@@ -321,16 +262,18 @@ class LoginScreen extends StatelessWidget {
                     loginController.setLoading(true);
                     try {
                       loginController.validateForm(
-                        email: loginController.emailController.text,
-                        password: loginController.passwordController.text,
-                        confirmPassword: isLoginMode
-                            ? null
-                            : loginController.confirmPasswordController.text,
-                        name: isLoginMode
-                            ? null
-                            : loginController.nameController.text,
-                        context: context,
-                      );
+                          email: loginController.emailController.text,
+                          password: loginController.passwordController.text,
+                          confirmPassword: isLoginMode
+                              ? null
+                              : loginController.confirmPasswordController.text,
+                          name: isLoginMode
+                              ? null
+                              : loginController.nameController.text,
+                          context: context,
+                          phone: isLoginMode
+                              ? null
+                              : loginController.phoneNumberController.text);
                       if (loginController.isFormValid()) {
                         final secureStorageProvider =
                             Provider.of<SecureStorageProvider>(context,

@@ -403,4 +403,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_assigned_clients => 'No Assigned Clients';
+
+  @override
+  String get salesman_creation => 'A new sales man has been created.';
+
+  @override
+  String get error_adding_salesman => 'Error Adding Salesman';
+
+  @override
+  String get full_name => 'Full name';
+
+  @override
+  String get name_error_2 => 'Please enter both first and last name.';
+
+  @override
+  String get add_salesman_prompt => 'Please fill in all the fields to add a new sales man';
+
+  @override
+  String get enter_salesman_name => 'Enter sales man name';
+
+  @override
+  String get enter_salesman_password => 'Enter sales man password';
 }

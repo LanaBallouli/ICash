@@ -10,6 +10,7 @@ import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
+import '../../../app_styles.dart';
 import '../../../controller/lang_controller.dart';
 import '../../../controller/management_controller.dart';
 
@@ -129,7 +130,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             InputWidget(
               textEditingController:
                   TextEditingController(text: detail["value"] ?? ""),
-              obscureText: false,
               label: "${detail["label"]}",
               readOnly: true,
             ),
@@ -153,7 +153,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: InputWidget(
             textEditingController:
                 TextEditingController(text: users.totalSales.toString()),
-            obscureText: false,
             readOnly: true,
             label: AppLocalizations.of(context)!.total_sales,
           ),
@@ -166,7 +165,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: InputWidget(
             textEditingController:
                 TextEditingController(text: "${users.closedDeals ?? "deals"}"),
-            obscureText: false,
             readOnly: true,
             label: AppLocalizations.of(context)!.closed_deals,
           ),
@@ -179,7 +177,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: InputWidget(
             textEditingController: TextEditingController(
                 text: "${users.targetAchievement ?? "achievement"}"),
-            obscureText: false,
             readOnly: true,
             label: AppLocalizations.of(context)!.targets,
           ),
@@ -196,8 +193,12 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
 
     String _getLatestInvoiceAmount() {
       if (users.invoices != null && users.invoices!.isNotEmpty) {
-        final latestInvoice = users.invoices!.reduce((current, next) =>
-        (next.creationTime?.isAfter(current.creationTime?? DateTime.now()) ?? false) ? next : current);
+        final latestInvoice = users.invoices!.reduce((current, next) => (next
+                    .creationTime
+                    ?.isAfter(current.creationTime ?? DateTime.now()) ??
+                false)
+            ? next
+            : current);
         return latestInvoice.calculateTotalAmount().toString();
       } else {
         return "No invoices available";
@@ -207,7 +208,10 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     String getLatestVisitDate() {
       if (users.visits != null && users.visits!.isNotEmpty) {
         final latestVisit = users.visits!.reduce((current, next) =>
-        (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ?? false) ? next : current);
+            (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ??
+                    false)
+                ? next
+                : current);
         return formatDateWithTime(latestVisit.visitDate ?? DateTime.now());
       } else {
         return "No visits available";
@@ -225,8 +229,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(text: latestInvoiceAmount),
-            obscureText: false,
+            textEditingController:
+                TextEditingController(text: latestInvoiceAmount),
             label: AppLocalizations.of(context)!.latest_invoice,
             readOnly: true,
             suffixIcon: IconButton(
@@ -240,7 +244,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(text: latestVisitDate),
-            obscureText: false,
             label: AppLocalizations.of(context)!.latest_visit,
             readOnly: true,
             suffixIcon: IconButton(
@@ -254,7 +257,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(),
-            obscureText: false,
             label: AppLocalizations.of(context)!.login_history,
             readOnly: true,
             suffixIcon: IconButton(
@@ -268,7 +270,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(),
-            obscureText: false,
             label: AppLocalizations.of(context)!.task_completion,
             readOnly: true,
             suffixIcon: IconButton(
@@ -280,7 +281,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
       ],
     );
   }
-
 
   Widget _buildAssignedClientsSection(BuildContext context) {
     return MoreDetailsWidget(
@@ -309,7 +309,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
                           textEditingController: TextEditingController(
                               text: client.tradeName ?? "Unknown Client"),
                           label: AppLocalizations.of(context)!.client_name,
-                          obscureText: false,
                           suffixIcon: IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.arrow_forward)),
@@ -331,12 +330,16 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     String _getLatestMonthlySales(Users users) {
       if (users.monthlySales != null && users.monthlySales!.isNotEmpty) {
         final latestMonthlySales = users.monthlySales!.reduce((current, next) =>
-        (next.startDate?.isAfter(current.startDate?? DateTime.now()) ?? false) ? next : current);
+            (next.startDate?.isAfter(current.startDate ?? DateTime.now()) ??
+                    false)
+                ? next
+                : current);
         return latestMonthlySales.totalSales.toString();
       } else {
         return "No monthly sales data available";
       }
     }
+
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.sales_reports,
       leadingIcon: Icons.file_copy_outlined,
@@ -348,7 +351,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             textEditingController: TextEditingController(
               text: _getLatestMonthlySales(users),
             ),
-            obscureText: false,
             label: AppLocalizations.of(context)!.monthly_sales,
             readOnly: true,
             suffixIcon: IconButton(
@@ -356,14 +358,14 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               icon: Icon(Icons.arrow_forward_outlined),
             ),
           ),
-        ),        SizedBox(
+        ),
+        SizedBox(
           height: 10.h,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(),
-            obscureText: false,
             label: AppLocalizations.of(context)!.product_wise_sales,
             readOnly: true,
             suffixIcon: IconButton(
@@ -377,7 +379,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(),
-            obscureText: false,
             label: AppLocalizations.of(context)!.top_customers,
             readOnly: true,
             suffixIcon: IconButton(
@@ -399,7 +400,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           child: InputWidget(
             textEditingController:
                 TextEditingController(text: users.notes ?? ""),
-            obscureText: false,
             label: "ملاحظة من لانا",
           ),
         )
@@ -442,15 +442,25 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   void _deleteCurrentUser(BuildContext context) {
+    final langController = Provider.of<LangController>(context, listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return DialogWidget(
-              user: users,
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content: AppLocalizations.of(context)!.delete_user,
+              content: Text(
+                AppLocalizations.of(context)!.delete_user,
+                textAlign: TextAlign.center,
+                style: AppStyles.getFontStyle(
+                  langController,
+                  fontSize: 12,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              imageUrl: "assets/images/cancel.png",
               onPressed: () {
                 managementController.deleteUser(users);
                 Navigator.of(context).pop();
