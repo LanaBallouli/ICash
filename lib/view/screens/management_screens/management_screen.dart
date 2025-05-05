@@ -16,7 +16,6 @@ class ManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
@@ -24,6 +23,10 @@ class ManagementScreen extends StatelessWidget {
       ),
       body: Consumer<ManagementController>(
         builder: (context, managementController, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            managementController.getFilteredItems(
+                context, AppLocalizations.of(context)!.sales_men);
+          });
           return SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
@@ -40,9 +43,7 @@ class ManagementScreen extends StatelessWidget {
                     backgroundColor: AppConstants.buttonColor,
                     label: AppLocalizations.of(context)!.search,
                     suffixIcon: IconButton(
-                      onPressed: () {
-                        print("Search triggered for: ${searchController.text}");
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.filter_list),
                     ),
                   ),

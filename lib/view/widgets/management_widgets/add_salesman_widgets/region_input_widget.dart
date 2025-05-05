@@ -26,6 +26,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
     final langController = Provider.of<LangController>(context, listen: false);
     final managementController = context.watch<ManagementController>();
 
+
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
       child: Form(
@@ -69,10 +70,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                           border:
                               UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: managementController
-                                .regionController.text.isNotEmpty
-                            ? managementController.regionController.text
-                            : null,
+                        value: managementController.selectedRegion,
                         items: regions
                             .map((region) => DropdownMenuItem(
                                   value: region,
@@ -80,18 +78,11 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                                 ))
                             .toList(),
                         onChanged: (value) {
-                          if (value != null) {
-                            managementController.regionController.text = value;
-                            managementController.validateField(
-                              field: 'region',
-                              value: value,
-                              context: context,
-                            );
-                          }
+                          managementController.setSelectedRegion(value, context);
                         },
                         validator: (value) {
-                          if (value == null || !regions.contains(value)) {
-                            return AppLocalizations.of(context)!.field_required;
+                          if (errorText != null) {
+                            return errorText;
                           }
                           return null;
                         },

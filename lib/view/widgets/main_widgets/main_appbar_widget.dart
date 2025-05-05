@@ -7,8 +7,9 @@ import '../../../controller/lang_controller.dart';
 
 class MainAppbarWidget extends StatelessWidget implements PreferredSizeWidget{
   final String title;
+  final Widget? leading;
 
-  const MainAppbarWidget({super.key, required this.title});
+  const MainAppbarWidget({super.key, required this.title, this.leading});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class MainAppbarWidget extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: Colors.white,
       centerTitle: true,
+      leading: leading,
       title: Text(
         title,
         style: AppStyles.getFontStyle(

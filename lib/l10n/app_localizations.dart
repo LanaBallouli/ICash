@@ -994,6 +994,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something Went Wrong'**
   String get something_went_wrong;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @salesman_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'The salesman information has been updated.'**
+  String get salesman_updated;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

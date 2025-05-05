@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/users.dart';
+import 'package:test_sales/view/screens/management_screens/update_salesman_screen.dart';
 import 'package:test_sales/view/widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
@@ -398,9 +399,12 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
+            height: 100.h,
             textEditingController:
                 TextEditingController(text: users.notes ?? ""),
-            label: "ملاحظة من لانا",
+            label: AppLocalizations.of(context)!.notes,
+            readOnly: true,
+            maxLines: 3,
           ),
         )
       ],
@@ -412,15 +416,24 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: CustomButtonWidget(
-            title: "Update",
-            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
-            borderRadius: 12.r,
-            titleColor: Colors.white,
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w600,
-            onPressed: () {},
-          ),
+          child: Consumer<ManagementController>(builder: (context, managementController, child) {
+            return CustomButtonWidget(
+              title: "Update",
+              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+              borderRadius: 12.r,
+              titleColor: Colors.white,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateSalesmanScreen(user: users, managementController: managementController,),
+                  ),
+                );
+              },
+            );
+          },),
         ),
         SizedBox(
           width: 20.h,
@@ -442,7 +455,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   void _deleteCurrentUser(BuildContext context) {
-    final langController = Provider.of<LangController>(context, listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -450,7 +462,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           builder: (context, managementController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content:  AppLocalizations.of(context)!.delete_user,
+              content: AppLocalizations.of(context)!.delete_user,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
                 managementController.deleteUser(users);

@@ -20,8 +20,22 @@ import '../../../app_constants.dart';
 import '../../widgets/custom_button_widget.dart';
 import '../../widgets/management_widgets/add_salesman_widgets/type_input_widget.dart';
 
-class AddSalesmanScreen extends StatelessWidget {
-  const AddSalesmanScreen({super.key});
+class UpdateSalesmanScreen extends StatelessWidget {
+  Users user;
+  ManagementController managementController;
+
+  UpdateSalesmanScreen(
+      {super.key, required this.user, required this.managementController}) {
+    managementController.nameController.text = user.fullName!;
+    managementController.emailController.text = user.email!;
+    managementController.phoneNumberController.text = user.phone.toString();
+    managementController.selectedRegion = user.region?.name;
+    managementController.passwordController.text = user.password!;
+    managementController.typeController.text = user.type!;
+    managementController.targetController.text =
+        user.targetAchievement.toString();
+    managementController.notesController.text = user.notes!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +43,12 @@ class AddSalesmanScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
-        title: AppLocalizations.of(context)!.add_salesman,
+        title: "${user.fullName} - ${AppLocalizations.of(context)!.update}",
         leading: Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return IconButton(
                 onPressed: () {
                   Navigator.pop(context);
-
                   managementController.clearFields();
                   managementController.clearErrors();
                 },
@@ -62,7 +75,8 @@ class AddSalesmanScreen extends StatelessWidget {
                 ),
               ),
               NameInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_salesman_name),
+                hintText: AppLocalizations.of(context)!.enter_salesman_name,
+              ),
               EmailFieldWidget(),
               PasswordFieldWidget(
                   hintText:
@@ -148,21 +162,22 @@ class AddSalesmanScreen extends StatelessWidget {
                     print("Debug: Parsed target achievement: $target");
 
                     // Add the new user
-                    managementController.addNewUser(
+                    managementController.updateUser(
                       Users(
-                        fullName: managementController.nameController.text,
-                        email: managementController.emailController.text,
-                        password: managementController.passwordController.text,
-                        phone: phone,
-                        region: Region(
-                            name: managementController.selectedRegion, id: 1),
-                        targetAchievement: target,
-                        closedDeals: 0,
-                        totalSales: 0,
-                        notes: managementController.notesController.text,
-                        createdAt: DateTime.now(),
-                        type: managementController.selectedType
-                      ),
+                          id: user.id,
+                          fullName: managementController.nameController.text,
+                          email: managementController.emailController.text,
+                          password:
+                              managementController.passwordController.text,
+                          phone: phone,
+                          region: Region(
+                              name: managementController.selectedRegion, id: 1),
+                          targetAchievement: target,
+                          closedDeals: user.closedDeals,
+                          totalSales: user.totalSales,
+                          notes: managementController.notesController.text,
+                          createdAt: user.createdAt,
+                          type: managementController.selectedType),
                     );
 
                     // Debug: Log success message
@@ -174,8 +189,7 @@ class AddSalesmanScreen extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return DialogWidget(
-                          title:
-                              AppLocalizations.of(context)!.salesman_creation,
+                          title: AppLocalizations.of(context)!.salesman_updated,
                           imageUrl: "assets/images/success.png",
                           actions: [
                             CustomButtonWidget(

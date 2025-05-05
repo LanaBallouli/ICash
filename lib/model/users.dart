@@ -25,6 +25,7 @@ class Users {
   List<Client>? clients;
   Region? region;
   String? notes;
+  String? type;
 
   Users({
      this.id= 2,
@@ -47,6 +48,7 @@ class Users {
     this.monthlySales = const [], // Default: Empty list
     this.clients = const [], // Default: Empty list
     this.notes = "", // Default: Empty string
+    this.type = ""
   });
 
   /// Factory constructor to create a `Users` object from JSON.

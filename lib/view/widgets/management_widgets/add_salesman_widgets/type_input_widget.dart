@@ -28,10 +28,6 @@ class _TypeInputWidgetState extends State<TypeInputWidget> {
     final langController = Provider.of<LangController>(context, listen: false);
     final managementController = context.watch<ManagementController>();
 
-    // Ensure the initial value is valid
-    final validValue = type.contains(managementController.typeController.text)
-        ? managementController.typeController.text
-        : null;
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
@@ -64,7 +60,6 @@ class _TypeInputWidgetState extends State<TypeInputWidget> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 14.0.sp, right: 14.sp),
                       child: DropdownButtonFormField<String>(
-                        dropdownColor: Colors.white,
                         hint: Text(
                           AppLocalizations.of(context)!.choose_salesman_type,
                           style: TextStyle(
@@ -74,31 +69,26 @@ class _TypeInputWidgetState extends State<TypeInputWidget> {
                           ),
                         ),
                         decoration: InputDecoration(
-                          border: UnderlineInputBorder(borderSide: BorderSide.none),
+                          border:
+                          UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: validValue,
+                        value: managementController.selectedType,
                         items: type
-                            .map((role) => DropdownMenuItem(
-                          value: role,
-                          child: Text(role),
+                            .map((type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
                         ))
                             .toList(),
                         onChanged: (value) {
-                          if (value != null) {
-                            managementController.typeController.text = value;
-                            managementController.validateField(
-                              field: 'type',
-                              value: value,
-                              context: context,
-                            );
-                          }
+                          managementController.setSelectedType(value, context);
                         },
                         validator: (value) {
-                          if (value == null || !type.contains(value)) {
-                            return AppLocalizations.of(context)!.field_required;
+                          if (errorText != null) {
+                            return errorText;
                           }
                           return null;
                         },
+                        dropdownColor: Colors.white,
                       ),
                     ),
                   ),
@@ -109,5 +99,6 @@ class _TypeInputWidgetState extends State<TypeInputWidget> {
         ),
       ),
     );
+
   }
 }

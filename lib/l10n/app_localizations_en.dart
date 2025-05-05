@@ -457,4 +457,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get something_went_wrong => 'Something Went Wrong';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get salesman_updated => 'The salesman information has been updated.';
 }

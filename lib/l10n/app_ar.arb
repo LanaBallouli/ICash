@@ -148,7 +148,10 @@
   "notes": "ملاحظات",
   "add_notes": "قم بإضافة ملاحظات",
   "type_error": "لا يمكن أن يكون نوع مندوب المبيعات فارغًا",
-  "something_went_wrong": "حدث خطأ ما"
+  "something_went_wrong": "حدث خطأ ما",
+  "update": "تعديل",
+  "salesman_updated": "تم تعديل معلومات المندوب"
+
 
 
 

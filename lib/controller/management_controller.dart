@@ -25,7 +25,7 @@ class ManagementController extends ChangeNotifier {
       totalSales: 50000.0,
       closedDeals: 15,
       targetAchievement: 90.0,
-      region: Region(name: "New York"),
+      region: Region(name: "Amman"),
       visits: [
         Visit(visitDate: DateTime(2023, 10, 1)),
         Visit(visitDate: DateTime(2023, 10, 15)),
@@ -59,7 +59,7 @@ class ManagementController extends ChangeNotifier {
       totalSales: 75000.0,
       closedDeals: 20,
       targetAchievement: 95.0,
-      region: Region(name: "Los Angeles"),
+      region: Region(name: "Amman"),
       // imageUrl: "assets/images/jane_smith.jpg",
       visits: [
         Visit(visitDate: DateTime(2023, 9, 20)),
@@ -94,7 +94,7 @@ class ManagementController extends ChangeNotifier {
       totalSales: 30000.0,
       closedDeals: 10,
       targetAchievement: 80.0,
-      region: Region(name: "Chicago"),
+      region: Region(name: "Amman"),
       // imageUrl: "assets/images/alice_johnson.jpg",
       visits: [
         Visit(visitDate: DateTime(2023, 8, 10)),
@@ -122,13 +122,26 @@ class ManagementController extends ChangeNotifier {
   ];
   Users? selectedUser;
   bool obscureText = false;
+  String? selectedRegion;
+  String? selectedType;
+
+  void setSelectedRegion(String? value, BuildContext context) {
+    selectedRegion = value;
+    validateField(field: 'region', value: value, context: context);
+    notifyListeners();
+  }
+
+  void setSelectedType(String? value, BuildContext context) {
+    selectedType = value;
+    validateField(field: 'type', value: value, context: context);
+    notifyListeners();
+  }
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
-  final TextEditingController regionController = TextEditingController();
   final TextEditingController targetController = TextEditingController();
   final TextEditingController typeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -142,6 +155,11 @@ class ManagementController extends ChangeNotifier {
     'region': null,
     'type': null,
   };
+
+  void clearErrors() {
+    errors.updateAll((key, value) => null);
+    notifyListeners();
+  }
 
   static final _emailRegExp = RegExp(
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
@@ -311,6 +329,14 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateUser(Users updatedUser) {
+    int index = salesMen.indexWhere((user) => user.id == updatedUser.id);
+    if (index != -1) {
+      salesMen[index] = updatedUser;
+      notifyListeners();
+    }
+  }
+
   void updateSelectedCategory(String category) {
     if (selectedCategory != category) {
       selectedCategory = category;
@@ -362,5 +388,16 @@ class ManagementController extends ChangeNotifier {
     } else {
       return [];
     }
+  }
+
+  void clearFields() {
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+    phoneNumberController.clear();
+    selectedRegion = null;
+    typeController.clear();
+    targetController.clear();
+    notesController.clear();
   }
 }
