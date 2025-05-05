@@ -10,10 +10,10 @@ import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
 import 'package:test_sales/view/widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/email_field_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/name_input_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/password_field_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/phone_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/email_field_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/name_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/password_field_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -32,11 +32,11 @@ class LoginScreen extends StatelessWidget {
           Expanded(
             child: Selector<LoginController, bool>(
               selector: (context, loginController) =>
-                  loginController.isLoginMode,
+              loginController.isLoginMode,
               builder: (context, isLoginMode, _) {
                 return SingleChildScrollView(
                   keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: const EdgeInsets.symmetric(horizontal: 13),
                   child: _buildLoginForm(context, isLoginMode),
                 );
@@ -136,7 +136,7 @@ class LoginScreen extends StatelessWidget {
               ),
               InputWidget(
                 textEditingController:
-                    loginController.confirmPasswordController,
+                loginController.confirmPasswordController,
                 obscureText: obscureText,
                 prefixIcon: const Icon(Icons.password),
                 suffixIcon: IconButton(
@@ -184,7 +184,7 @@ class LoginScreen extends StatelessWidget {
     final langController = Provider.of<LangController>(context, listen: false);
     return Selector<LoginController, bool>(
       selector: (context, loginController) =>
-          loginController.isRememberMeChecked,
+      loginController.isRememberMeChecked,
       builder: (context, isRememberMeChecked, _) {
         return CheckboxListTile(
           title: Text(
@@ -199,7 +199,7 @@ class LoginScreen extends StatelessWidget {
           onChanged: (bool? value) async {
             loginController.setRememberMe(value ?? false);
             final secureStorageProvider =
-                Provider.of<SecureStorageProvider>(context, listen: false);
+            Provider.of<SecureStorageProvider>(context, listen: false);
             if (value == true) {
               await secureStorageProvider.saveCredentials(
                 loginController.emailController.text,
@@ -248,81 +248,81 @@ class LoginScreen extends StatelessWidget {
         builder: (context, isLoading, _) {
           return isLoading
               ? const Center(
-                  child: CircularProgressIndicator(
-                  color: Color(0xFF170F4C),
-                ))
+              child: CircularProgressIndicator(
+                color: Color(0xFF170F4C),
+              ))
               : ButtonWidget(
-                  buttonName: isLoginMode
-                      ? AppLocalizations.of(context)!.login_button
-                      : AppLocalizations.of(context)!.signup_button,
-                  buttonColor: const Color(0xFF170F4C),
-                  textColor: Colors.white,
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    loginController.setLoading(true);
-                    try {
-                      loginController.validateForm(
-                          email: loginController.emailController.text,
-                          password: loginController.passwordController.text,
-                          confirmPassword: isLoginMode
-                              ? null
-                              : loginController.confirmPasswordController.text,
-                          name: isLoginMode
-                              ? null
-                              : loginController.nameController.text,
-                          context: context,
-                          phone: isLoginMode
-                              ? null
-                              : loginController.phoneNumberController.text);
-                      if (loginController.isFormValid()) {
-                        final secureStorageProvider =
-                            Provider.of<SecureStorageProvider>(context,
-                                listen: false);
-                        if (loginController.isRememberMeChecked) {
-                          await secureStorageProvider.saveCredentials(
-                            loginController.emailController.text,
-                            loginController.passwordController.text,
-                          );
-                        } else {
-                          await secureStorageProvider.clearCredentials();
-                        }
-                        if (isLoginMode) {
-                          await loginController.signInWithEmail(
-                            context,
-                            loginController.emailController.text,
-                            loginController.passwordController.text,
-                          );
-                          print("Login");
-                        } else {
-                          await loginController.signUpWithEmail(
-                            context,
-                            loginController.emailController.text,
-                            loginController.passwordController.text,
-                            loginController.nameController.text,
-                          );
-                          print("sign up");
-                        }
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: const Color(0xFFE7F4FF),
-                            content: Text(
-                              AppLocalizations.of(context)!.error,
-                              style: GoogleFonts.cabin(
-                                color: const Color(0xFF170F4C),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                    } finally {
-                      loginController.setLoading(false);
-                    }
-                  },
-                );
+            buttonName: isLoginMode
+                ? AppLocalizations.of(context)!.login_button
+                : AppLocalizations.of(context)!.signup_button,
+            buttonColor: const Color(0xFF170F4C),
+            textColor: Colors.white,
+            onPressed: () async {
+              FocusScope.of(context).unfocus();
+              loginController.setLoading(true);
+              try {
+                loginController.validateForm(
+                    email: loginController.emailController.text,
+                    password: loginController.passwordController.text,
+                    confirmPassword: isLoginMode
+                        ? null
+                        : loginController.confirmPasswordController.text,
+                    name: isLoginMode
+                        ? null
+                        : loginController.nameController.text,
+                    context: context,
+                    phone: isLoginMode
+                        ? null
+                        : loginController.phoneNumberController.text);
+                if (loginController.isFormValid()) {
+                  final secureStorageProvider =
+                  Provider.of<SecureStorageProvider>(context,
+                      listen: false);
+                  if (loginController.isRememberMeChecked) {
+                    await secureStorageProvider.saveCredentials(
+                      loginController.emailController.text,
+                      loginController.passwordController.text,
+                    );
+                  } else {
+                    await secureStorageProvider.clearCredentials();
+                  }
+                  if (isLoginMode) {
+                    await loginController.signInWithEmail(
+                      context,
+                      loginController.emailController.text,
+                      loginController.passwordController.text,
+                    );
+                    print("Login");
+                  } else {
+                    await loginController.signUpWithEmail(
+                      context,
+                      loginController.emailController.text,
+                      loginController.passwordController.text,
+                      loginController.nameController.text,
+                    );
+                    print("sign up");
+                  }
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: const Color(0xFFE7F4FF),
+                      content: Text(
+                        AppLocalizations.of(context)!.error,
+                        style: GoogleFonts.cabin(
+                          color: const Color(0xFF170F4C),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              } finally {
+                loginController.setLoading(false);
+              }
+            },
+          );
         },
       ),
     );

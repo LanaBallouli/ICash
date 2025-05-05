@@ -168,7 +168,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get fill_all_fields => 'Please fill all fields';
+  String get fill_all_fields => 'Please fill in all the fields';
 
   @override
   String get invalid_amount => 'Please enter a valid amount';
@@ -420,8 +420,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add_salesman_prompt => 'Please fill in all the fields to add a new sales man';
 
   @override
-  String get enter_salesman_name => 'Enter sales man name';
+  String get enter_salesman_name => 'Enter the sales man\'s name';
 
   @override
-  String get enter_salesman_password => 'Enter sales man password';
+  String get enter_salesman_password => 'Enter the sales man\'s password';
+
+  @override
+  String get enter_salesman_phone => 'Enter the sales man\'s phone number';
+
+  @override
+  String get choose_region => 'Choose the sales man\'s region';
+
+  @override
+  String get select_target => 'Target to be achieved';
+
+  @override
+  String get select_target_prompt => 'Enter the sales man\'s target';
+
+  @override
+  String get target_error => 'Target must be greater than 0.';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get choose_salesman_type => 'Choose the sales man\'s type';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get add_notes => 'Add notes';
+
+  @override
+  String get type_error => 'The sales man\'s type can\'t be empty';
+
+  @override
+  String get something_went_wrong => 'Something Went Wrong';
 }

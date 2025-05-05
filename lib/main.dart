@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         Locale('ar'), // Arabic
       ],
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: MainScreen(),
     );
   }
 }

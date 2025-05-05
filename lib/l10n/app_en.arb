@@ -52,7 +52,7 @@
   "goal_amount": "Target Amount",
   "save": "Save",
   "cancel": "Cancel",
-  "fill_all_fields": "Please fill all fields",
+  "fill_all_fields": "Please fill in all the fields",
   "invalid_amount": "Please enter a valid amount",
   "email_already_taken": "Email already taken",
   "signup_successful_message": "Sign up successfully",
@@ -136,8 +136,27 @@
   "full_name": "Full name",
   "name_error_2": "Please enter both first and last name.",
   "add_salesman_prompt": "Please fill in all the fields to add a new sales man",
-  "enter_salesman_name": "Enter sales man name",
-  "enter_salesman_password": "Enter sales man password"
+  "enter_salesman_name": "Enter the sales man's name",
+  "enter_salesman_password": "Enter the sales man's password",
+  "enter_salesman_phone": "Enter the sales man's phone number",
+  "choose_region": "Choose the sales man's region",
+  "select_target": "Target to be achieved",
+  "select_target_prompt": "Enter the sales man's target",
+  "target_error": "Target must be greater than 0.",
+  "type": "Type",
+  "choose_salesman_type": "Choose the sales man's type",
+  "notes": "Notes",
+  "add_notes": "Add notes",
+  "type_error": "The sales man's type can't be empty",
+  "something_went_wrong": "Something Went Wrong"
+
+
+
+
+
+
+
+
 
 
 

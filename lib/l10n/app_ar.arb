@@ -137,7 +137,20 @@
   "name_error_2": "الرجاء إدخال الاسم الأول والأخير.",
   "add_salesman_prompt": "يرجى ملء جميع الحقول لإضافة مندوب مبيعات جديد.",
   "enter_salesman_name": "ادخل اسم مندوب المبيعات",
-  "enter_salesman_password": "أدخل كلمة مرور مندوب المبيعات"
+  "enter_salesman_password": "أدخل كلمة مرور مندوب المبيعات",
+  "enter_salesman_phone": "أدخل رقم هاتف المندوب",
+  "choose_region": "اختر منطقة مندوب المبيعات",
+  "select_target": "الهدف المراد تحقيقه",
+  "select_target_prompt": "ادخل الهدف لمندوب المبيعات",
+  "target_error": "يجب أن يكون الهدف أكبر من 0",
+  "type": "النوع",
+  "choose_salesman_type": "اختر نوع مندوب المبيعات",
+  "notes": "ملاحظات",
+  "add_notes": "قم بإضافة ملاحظات",
+  "type_error": "لا يمكن أن يكون نوع مندوب المبيعات فارغًا",
+  "something_went_wrong": "حدث خطأ ما"
+
+
 
 
 }

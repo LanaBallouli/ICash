@@ -3,23 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-
-import '../../../controller/login_controller.dart';
-import '../../../l10n/app_localizations.dart';
-import '../main_widgets/input_widget.dart';
+import '../../../../controller/management_controller.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../main_widgets/input_widget.dart';
 
 class PhoneInputWidget extends StatelessWidget {
-  const PhoneInputWidget({super.key});
+  String? hintText;
+  PhoneInputWidget({super.key, this.hintText});
 
   @override
   Widget build(BuildContext context) {
-    final loginController = context.watch<LoginController>();
+    final managementController = context.watch<ManagementController>();
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: Selector<LoginController, String?>(
-        selector: (context, loginController) => loginController.errors['email'],
+      child: Selector<ManagementController, String?>(
+        selector: (context, managementController) => managementController.errors['phone'],
         builder: (context, errorText, _) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -36,11 +36,11 @@ class PhoneInputWidget extends StatelessWidget {
               ),
               InputWidget(
                 borderColor: Color(0xFFEFF0F6),
-                textEditingController: loginController.phoneNumberController,
+                textEditingController: managementController.phoneNumberController,
                 obscureText: false,
                 keyboardType: TextInputType.phone,
-                hintText: AppLocalizations.of(context)!.phone_hint,
-                onChanged: (value) => loginController.validateField(
+                hintText: hintText ?? AppLocalizations.of(context)!.phone_hint,
+                onChanged: (value) => managementController.validateField(
                   field: 'phone',
                   value: value,
                   context: context,

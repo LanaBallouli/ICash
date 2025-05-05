@@ -10,7 +10,7 @@ import 'custom_button_widget.dart';
 
 class DialogWidget extends StatelessWidget {
   String title;
-  Widget? content;
+  String? content;
   Color? backgroundColor;
   List<Widget>? actions;
   String? imageUrl;
@@ -41,17 +41,16 @@ class DialogWidget extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
-      content: content ??
-          Text(
-            "",
-            textAlign: TextAlign.center,
-            style: AppStyles.getFontStyle(
-              langController,
-              fontSize: 12,
-              color: Colors.black45,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+      content: Text(
+        content ?? "",
+        textAlign: TextAlign.center,
+        style: AppStyles.getFontStyle(
+          langController,
+          fontSize: 12,
+          color: Colors.black45,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
       icon: Image.asset(
         imageUrl!,
         height: 100.h,

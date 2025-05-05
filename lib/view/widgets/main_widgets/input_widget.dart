@@ -22,6 +22,8 @@ class InputWidget extends StatelessWidget {
   final double? fontSize;
   final Color? hintColor;
   final bool? readOnly;
+  final double? height;
+  final int? maxLines;
 
   const InputWidget({
     super.key,
@@ -40,6 +42,8 @@ class InputWidget extends StatelessWidget {
     this.fontSize,
     this.hintColor,
     this.readOnly = false,
+    this.height,
+    this.maxLines
   });
 
   @override
@@ -49,7 +53,7 @@ class InputWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 60.h,
+          height: height ?? 60.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.r),
             color: backgroundColor,
@@ -58,34 +62,37 @@ class InputWidget extends StatelessWidget {
               width: 1.w,
             ),
           ),
-          child: TextField(
-            textAlignVertical: TextAlignVertical.center,
-            style: AppStyles.getFontStyle(langController, fontSize: 16.sp),
-            obscureText: obscureText,
-            controller: textEditingController,
-            onChanged: onChanged,
-            keyboardType: keyboardType,
-            readOnly: readOnly ?? false,
-            decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide.none,
+          child: Center(
+            child: TextField(
+              maxLines: maxLines ?? 1,
+              textAlignVertical: TextAlignVertical.center,
+              style: AppStyles.getFontStyle(langController, fontSize: 16.sp),
+              obscureText: obscureText,
+              controller: textEditingController,
+              onChanged: onChanged,
+              keyboardType: keyboardType,
+              readOnly: readOnly ?? false,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide.none,
+                ),
+                suffixIcon: suffixIcon,
+                labelText: label,
+                labelStyle: AppStyles.getFontStyle(
+                  langController,
+                  color: labelColor ?? Colors.black,
+                ),
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  fontSize: fontSize ?? 14.sp,
+                  color: hintColor ?? Color(0xFFBBBFC5),
+                  fontWeight: FontWeight.w500,
+                ),
+                contentPadding:
+                    EdgeInsets.only(left: 14.0.sp, top: 12.5.sp, bottom: 12.5.sp, right: 14.sp),
+                border: InputBorder.none,
               ),
-              suffixIcon: suffixIcon,
-              labelText: label,
-              labelStyle: AppStyles.getFontStyle(
-                langController,
-                color: labelColor ?? Colors.black,
-              ),
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontSize: fontSize ?? 14.sp,
-                color: hintColor ?? Color(0xFFBBBFC5),
-                fontWeight: FontWeight.w500,
-              ),
-              contentPadding:
-                  EdgeInsets.only(left: 14.0.sp, top: 12.5.sp, bottom: 12.5.sp, right: 14.sp),
-              border: InputBorder.none,
             ),
           ),
         ),

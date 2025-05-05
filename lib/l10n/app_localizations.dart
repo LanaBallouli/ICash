@@ -416,7 +416,7 @@ abstract class AppLocalizations {
   /// No description provided for @fill_all_fields.
   ///
   /// In en, this message translates to:
-  /// **'Please fill all fields'**
+  /// **'Please fill in all the fields'**
   String get fill_all_fields;
 
   /// No description provided for @invalid_amount.
@@ -920,14 +920,80 @@ abstract class AppLocalizations {
   /// No description provided for @enter_salesman_name.
   ///
   /// In en, this message translates to:
-  /// **'Enter sales man name'**
+  /// **'Enter the sales man\'s name'**
   String get enter_salesman_name;
 
   /// No description provided for @enter_salesman_password.
   ///
   /// In en, this message translates to:
-  /// **'Enter sales man password'**
+  /// **'Enter the sales man\'s password'**
   String get enter_salesman_password;
+
+  /// No description provided for @enter_salesman_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the sales man\'s phone number'**
+  String get enter_salesman_phone;
+
+  /// No description provided for @choose_region.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the sales man\'s region'**
+  String get choose_region;
+
+  /// No description provided for @select_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Target to be achieved'**
+  String get select_target;
+
+  /// No description provided for @select_target_prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the sales man\'s target'**
+  String get select_target_prompt;
+
+  /// No description provided for @target_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Target must be greater than 0.'**
+  String get target_error;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
+  /// No description provided for @choose_salesman_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the sales man\'s type'**
+  String get choose_salesman_type;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @add_notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Add notes'**
+  String get add_notes;
+
+  /// No description provided for @type_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The sales man\'s type can\'t be empty'**
+  String get type_error;
+
+  /// No description provided for @something_went_wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something Went Wrong'**
+  String get something_went_wrong;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

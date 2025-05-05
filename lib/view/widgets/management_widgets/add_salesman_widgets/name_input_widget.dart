@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 
-import '../../../controller/login_controller.dart';
-import '../../../l10n/app_localizations.dart';
-import '../main_widgets/input_widget.dart';
+import '../../../../controller/login_controller.dart';
+import '../../../../controller/management_controller.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../main_widgets/input_widget.dart';
 
 class NameInputWidget extends StatelessWidget {
   String? hintText;
@@ -15,13 +16,14 @@ class NameInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginController = context.watch<LoginController>();
+    final managementController = context.watch<ManagementController>();
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.only(top: 15),
-      child: Selector<LoginController, String?>(
-        selector: (context, loginController) => loginController.errors['name'],
+      child: Selector<ManagementController, String?>(
+        selector: (context, managementController) =>
+            managementController.errors['name'],
         builder: (context, errorText, _) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -37,14 +39,13 @@ class NameInputWidget extends StatelessWidget {
                 ),
               ),
               InputWidget(
-                textEditingController: loginController.nameController,
+                textEditingController: managementController.nameController,
                 obscureText: false,
                 keyboardType: TextInputType.name,
                 prefixIcon: const Icon(Icons.person),
                 labelColor: Colors.grey,
-                hintText: hintText ??
-                    AppLocalizations.of(context)!.enter_name,
-                onChanged: (value) => loginController.validateField(
+                hintText: hintText ?? AppLocalizations.of(context)!.enter_name,
+                onChanged: (value) => managementController.validateField(
                   field: 'name',
                   value: value,
                   context: context,

@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 
-import '../../../controller/lang_controller.dart';
-import '../../../controller/login_controller.dart';
-import '../../../l10n/app_localizations.dart';
-import '../main_widgets/input_widget.dart';
+import '../../../../controller/lang_controller.dart';
+import '../../../../controller/login_controller.dart';
+import '../../../../controller/management_controller.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../main_widgets/input_widget.dart';
 
 class PasswordFieldWidget extends StatelessWidget {
   String? hintText;
@@ -15,7 +16,7 @@ class PasswordFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginController = context.watch<LoginController>();
+    final managementController = context.watch<ManagementController>();
     final langController = Provider.of<LangController>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(top: 15),
@@ -32,15 +33,17 @@ class PasswordFieldWidget extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          Selector<LoginController, bool>(
-            selector: (context, loginController) => loginController.obscureText,
+          Selector<ManagementController, bool>(
+            selector: (context, managementController) =>
+                managementController.obscureText,
             builder: (context, obscureText, _) {
               return InputWidget(
-                textEditingController: loginController.passwordController,
+                textEditingController: managementController.passwordController,
                 obscureText: obscureText,
                 prefixIcon: const Icon(Icons.password),
                 suffixIcon: IconButton(
-                  onPressed: () => loginController.togglePasswordVisibility(),
+                  onPressed: () =>
+                      managementController.togglePasswordVisibility(),
                   icon: obscureText
                       ? const Icon(Icons.visibility)
                       : const Icon(Icons.visibility_off),
@@ -48,12 +51,12 @@ class PasswordFieldWidget extends StatelessWidget {
                 labelColor: Colors.grey,
                 hintText:
                     hintText ?? AppLocalizations.of(context)!.password_hint,
-                onChanged: (value) => loginController.validateField(
+                onChanged: (value) => managementController.validateField(
                   field: 'password',
                   value: value,
                   context: context,
                 ),
-                errorText: loginController.errors['password'],
+                errorText: managementController.errors['password'],
               );
             },
           )

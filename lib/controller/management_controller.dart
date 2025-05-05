@@ -121,30 +121,195 @@ class ManagementController extends ChangeNotifier {
     ),
   ];
   Users? selectedUser;
+  bool obscureText = false;
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
+  final TextEditingController regionController = TextEditingController();
+  final TextEditingController targetController = TextEditingController();
+  final TextEditingController typeController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
 
-  void addNewUser(Users user){
-    salesMen.add(user);
-    notifyListeners();
-  }
+  final Map<String, String?> errors = {
+    'email': null,
+    'phone': null,
+    'password': null,
+    'name': null,
+    'target': null,
+    'region': null,
+    'type': null,
+  };
 
-  Future<void> createSalesman(Users salesman) async {
-    try {
-      final response = await http.post(
-        Uri.parse('https://api.example.com/salesmen'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(salesman.toJson()),
-      );
+  static final _emailRegExp = RegExp(
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+  );
+  static final _phoneRegExp = RegExp(r'^(079|077|078)[0-9]{7}$');
+  static final _passwordRegExp = RegExp(
+    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+  );
 
-      if (response.statusCode != 201) {
-        throw Exception('Failed to create salesman');
-      }
-    } catch (e) {
-      print('Error creating salesman: $e');
-      rethrow;
+  void _validateEmail(String? email, BuildContext context) {
+    final newError = email == null || !_emailRegExp.hasMatch(email)
+        ? AppLocalizations.of(context)!.email_error
+        : null;
+    if (errors['email'] != newError) {
+      errors['email'] = newError;
+      notifyListeners();
     }
   }
 
+  void _validatePhone(String? phoneNo, BuildContext context) {
+    final newError = phoneNo == null || !_phoneRegExp.hasMatch(phoneNo)
+        ? AppLocalizations.of(context)!.phone_error
+        : null;
+    if (errors['phone'] != newError) {
+      errors['phone'] = newError;
+    }
+  }
+
+  void _validatePassword(String? password, BuildContext context) {
+    final newError = password == null || !_passwordRegExp.hasMatch(password)
+        ? AppLocalizations.of(context)!.password_error
+        : null;
+    if (errors['password'] != newError) {
+      errors['password'] = newError;
+    }
+  }
+
+  void _validateName(String? name, BuildContext context) {
+    final newError = (name == null || name.isEmpty)
+        ? AppLocalizations.of(context)!.name_error
+        : name.trim().split(' ').length < 2
+            ? AppLocalizations.of(context)!.name_error_2
+            : null;
+
+    if (errors['name'] != newError) {
+      errors['name'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateTarget(String? target, BuildContext context) {
+    final newError = target == null ||
+            double.tryParse(target) == null ||
+            double.parse(target) <= 0
+        ? AppLocalizations.of(context)!.target_error
+        : null;
+
+    if (errors['target'] != newError) {
+      errors['target'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateType(String? type, BuildContext context) {
+    final newError = type == null || type.isEmpty
+        ? AppLocalizations.of(context)!.type_error
+        : null;
+
+    if (errors['type'] != newError) {
+      errors['type'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateRegion(String? region, BuildContext context) {
+    final newError = region == null || region.isEmpty
+        ? AppLocalizations.of(context)!.type_error
+        : null;
+
+    if (errors['type'] != newError) {
+      errors['type'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void validateForm(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required String? phone,
+      required String? name,
+      required String? target,
+      required String? type,
+      required String? region}) {
+    final oldErrors = Map<String, String?>.from(errors);
+
+    _validateEmail(email, context);
+    _validatePassword(password, context);
+    _validatePhone(phone, context);
+    _validateName(name, context);
+    _validateTarget(target, context);
+    _validateType(type, context);
+    _validateRegion(region, context);
+
+    if (!_mapsEqual(oldErrors, errors)) {
+      notifyListeners();
+    }
+  }
+
+  bool _mapsEqual(Map<String, String?> a, Map<String, String?> b) {
+    if (a.length != b.length) return false;
+    for (final key in a.keys) {
+      if (a[key] != b[key]) return false;
+    }
+    return true;
+  }
+
+  void validateField({
+    required BuildContext context,
+    required String field,
+    required String? value,
+  }) {
+    final oldError = errors[field];
+
+    switch (field) {
+      case 'email':
+        _validateEmail(value, context);
+        break;
+      case 'phone':
+        _validatePhone(value, context);
+        break;
+      case 'password':
+        _validatePassword(value, context);
+        break;
+      case 'name':
+        _validateName(value, context);
+        break;
+      case 'target':
+        _validateTarget(value, context);
+        break;
+      case 'type':
+        _validateType(value, context);
+        break;
+      case 'region':
+        _validateRegion(value, context);
+        break;
+      default:
+        errors[field] = null;
+    }
+
+    if (errors[field] != oldError) {
+      notifyListeners();
+    }
+  }
+
+  bool isFormValid() {
+    return !errors.values.any((error) => error != null);
+  }
+
+  void togglePasswordVisibility() {
+    obscureText = !obscureText;
+    notifyListeners();
+  }
+
+  void addNewUser(Users user) {
+    salesMen.add(user);
+    notifyListeners();
+  }
 
   void updateSelectedCategory(String category) {
     if (selectedCategory != category) {
@@ -160,40 +325,10 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchSalesMen() async {
-    try {
-      final response = await http.get(Uri.parse('https://api.example.com/salesmen'));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        salesMen = data.map((json) => Users.fromJson(json)).toList();
-        notifyListeners();
-      } else {
-        throw Exception('Failed to load salesmen');
-      }
-    } catch (e) {
-      print('Error fetching salesmen: $e');
-    }
-  }
-
   void deleteUser(Users user) {
     if (salesMen.contains(user)) {
       salesMen.remove(user);
       notifyListeners();
-
-      _deleteUserFromAPI(user.id!);
-    }
-  }
-
-  Future<void> _deleteUserFromAPI(int userId) async {
-    try {
-      final response = await http.delete(Uri.parse('https://api.example.com/salesmen/$userId'));
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to delete user');
-      }
-    } catch (e) {
-      print('Error deleting user from API: $e');
     }
   }
 
@@ -206,15 +341,16 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isFavourite(Users user){
-    if(fav.contains(user)){
+  bool isFavourite(Users user) {
+    if (fav.contains(user)) {
       return true;
     } else {
       return false;
     }
   }
 
-  List<dynamic> getFilteredItems(BuildContext context, String? selectedCategory) {
+  List<dynamic> getFilteredItems(
+      BuildContext context, String? selectedCategory) {
     final localizations = AppLocalizations.of(context)!;
 
     if (selectedCategory == localizations.sales_men) {

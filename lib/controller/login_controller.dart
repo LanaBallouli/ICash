@@ -31,7 +31,6 @@ class LoginController extends ChangeNotifier {
     passwordController.dispose();
     nameController.dispose();
     confirmPasswordController.dispose();
-    phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -51,11 +50,13 @@ class LoginController extends ChangeNotifier {
     'password': null,
     'confirmPassword': null,
     'name': null,
+    'target': null,
   };
 
   static final _emailRegExp = RegExp(
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
   );
+  static final _phoneRegExp = RegExp(r'^(079|077|078)[0-9]{7}$');
   static final _passwordRegExp = RegExp(
     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
   );
@@ -93,6 +94,9 @@ class LoginController extends ChangeNotifier {
       case 'name':
         _validateName(value, context);
         break;
+      case 'target':
+        _validateTarget(value, context);
+        break;
       default:
         errors[field] = null;
     }
@@ -112,7 +116,6 @@ class LoginController extends ChangeNotifier {
     }
   }
 
-  // Validate All Fields Based on Mode
   void validateForm({
     required BuildContext context,
     required String email,
@@ -125,7 +128,6 @@ class LoginController extends ChangeNotifier {
 
     _validateEmail(email, context);
     _validatePassword(password, context);
-    _validatePhone(phone, context);
 
     if (!isLoginMode) {
       _validateConfirmPassword(confirmPassword, password, context);
@@ -140,6 +142,15 @@ class LoginController extends ChangeNotifier {
 
   bool isFormValid() {
     return !errors.values.any((error) => error != null);
+  }
+
+  void _validatePhone(String? phoneNo, BuildContext context) {
+    final newError = phoneNo == null || !_phoneRegExp.hasMatch(phoneNo)
+        ? AppLocalizations.of(context)!.phone_error
+        : null;
+    if (errors['phone'] != newError) {
+      errors['phone'] = newError;
+    }
   }
 
   void _validatePassword(String? password, BuildContext context) {
@@ -177,7 +188,7 @@ class LoginController extends ChangeNotifier {
     }
   }
 
-  void _validatePhone(String? phoneNo, BuildContext context) {
+  void validatePhone(String? phoneNo, BuildContext context) {
     if (phoneNo == null || phoneNo.isEmpty) {
       errors['phone'] = AppLocalizations.of(context)!.phone_error;
       notifyListeners();
@@ -194,6 +205,19 @@ class LoginController extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  void _validateTarget(String? target, BuildContext context) {
+    final newError = target == null || double.tryParse(target) == null || double.parse(target) <= 0
+        ? AppLocalizations.of(context)!.target_error
+        : null;
+
+    if (errors['target'] != newError) {
+      errors['target'] = newError;
+      notifyListeners();
+    }
+  }
+
 
   void setLoginMode(bool isLogin) {
     isLoginMode = isLogin;

@@ -424,4 +424,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enter_salesman_password => 'أدخل كلمة مرور مندوب المبيعات';
+
+  @override
+  String get enter_salesman_phone => 'أدخل رقم هاتف المندوب';
+
+  @override
+  String get choose_region => 'اختر منطقة مندوب المبيعات';
+
+  @override
+  String get select_target => 'الهدف المراد تحقيقه';
+
+  @override
+  String get select_target_prompt => 'ادخل الهدف لمندوب المبيعات';
+
+  @override
+  String get target_error => 'يجب أن يكون الهدف أكبر من 0';
+
+  @override
+  String get type => 'النوع';
+
+  @override
+  String get choose_salesman_type => 'اختر نوع مندوب المبيعات';
+
+  @override
+  String get notes => 'ملاحظات';
+
+  @override
+  String get add_notes => 'قم بإضافة ملاحظات';
+
+  @override
+  String get type_error => 'لا يمكن أن يكون نوع مندوب المبيعات فارغًا';
+
+  @override
+  String get something_went_wrong => 'حدث خطأ ما';
 }

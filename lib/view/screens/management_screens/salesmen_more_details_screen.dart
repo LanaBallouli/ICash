@@ -450,16 +450,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           builder: (context, managementController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content: Text(
-                AppLocalizations.of(context)!.delete_user,
-                textAlign: TextAlign.center,
-                style: AppStyles.getFontStyle(
-                  langController,
-                  fontSize: 12,
-                  color: Colors.black45,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              content:  AppLocalizations.of(context)!.delete_user,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
                 managementController.deleteUser(users);

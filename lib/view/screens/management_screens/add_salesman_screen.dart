@@ -1,47 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
-import 'package:test_sales/model/users.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
-import 'package:test_sales/view/widgets/custom_button_widget.dart';
+import 'package:test_sales/model/region.dart';
+import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/email_field_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/name_input_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/password_field_widget.dart';
-import 'package:test_sales/view/widgets/registration_widgets/phone_input_widget.dart';
-import '../../../controller/login_controller.dart';
-import '../../../model/region.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/notes_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/email_field_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/name_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/password_field_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/region_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/target_input_widget.dart';
+import '../../../app_constants.dart';
+import '../../widgets/custom_button_widget.dart';
+import '../../widgets/management_widgets/add_salesman_widgets/type_input_widget.dart';
 
-class AddSalesmanScreen extends StatefulWidget {
+class AddSalesmanScreen extends StatelessWidget {
   const AddSalesmanScreen({super.key});
-
-  @override
-  _AddSalesmanScreenState createState() => _AddSalesmanScreenState();
-}
-
-class _AddSalesmanScreenState extends State<AddSalesmanScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  String? _selectedRole;
-  String? _selectedStatus;
-  String? _selectedRegion;
-  late LoginController loginController =
-      Provider.of<LoginController>(context, listen: false);
-
-  @override
-  void initState() {
-    super.initState();
-    loginController.clearFields();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,203 +32,180 @@ class _AddSalesmanScreenState extends State<AddSalesmanScreen> {
           MainAppbarWidget(title: AppLocalizations.of(context)!.add_salesman),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10.h),
-                Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.add_salesman_prompt,
-                    style: AppStyles.getFontStyle(
-                      langController,
-                      color: Colors.black54,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10.h),
+              Center(
+                child: Text(
+                  AppLocalizations.of(context)!.add_salesman_prompt,
+                  style: AppStyles.getFontStyle(
+                    langController,
+                    color: Colors.black54,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                NameInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_salesman_name,
-                ),
-                EmailFieldWidget(),
-                PasswordFieldWidget(
+              ),
+              NameInputWidget(
+                  hintText: AppLocalizations.of(context)!.enter_salesman_name),
+              EmailFieldWidget(),
+              PasswordFieldWidget(
                   hintText:
-                      AppLocalizations.of(context)!.enter_salesman_password,
-                ),
-                PhoneInputWidget(),
-                SizedBox(height: 16),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.password),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.field_required;
-                    } else if (value.length < 8) {
-                      return AppLocalizations.of(context)!.password_error;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  value: _selectedRole,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.role),
-                  items: ["Salesman", "Admin"]
-                      .map((role) =>
-                          DropdownMenuItem(value: role, child: Text(role)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedRole = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.field_required;
-                    }
-                    return null;
-                  },
-                ),
-                // SizedBox(height: 16),
-                // DropdownButtonFormField<String>(
-                //   value: _selectedStatus,
-                //   decoration: InputDecoration(
-                //       labelText: AppLocalizations.of(context)!.status),
-                //   items: ["Active", "Inactive"]
-                //       .map((status) =>
-                //           DropdownMenuItem(value: status, child: Text(status)))
-                //       .toList(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       _selectedStatus = value;
-                //     });
-                //   },
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return AppLocalizations.of(context)!.field_required;
-                //     }
-                //     return null;
-                //   },
-                // ),
-                SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  value: _selectedRegion,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.region),
-                  items: ["Amman", "New York", "Los Angeles"]
-                      .map((region) =>
-                          DropdownMenuItem(value: region, child: Text(region)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedRegion = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.field_required;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!
-                          .save(); // Save form state if using onSaved
-
-                      try {
-                        // Create the new salesman object
-                        final newSalesman = Users(
-                          fullName: _fullNameController.text,
-                          email: _emailController.text,
-                          phone: int.tryParse(_phoneController.text) ?? 0,
-                          // Handle invalid input gracefully
-                          password: _passwordController.text,
-                          role: _selectedRole!,
-                          status: _selectedStatus!,
-                          region: Region(name: _selectedRegion!),
-                          totalSales: 0,
-                          closedDeals: 0,
-                          targetAchievement: 0,
-                          createdAt: DateTime.now(),
-                          updatedAt: DateTime.now(),
-                          id: UniqueKey()
-                              .hashCode, // Generate a unique ID dynamically
-                        );
-
-                        // Add the new salesman to the management controller
-                        final managementController =
-                            Provider.of<ManagementController>(context,
-                                listen: false);
-                        managementController.addNewUser(newSalesman);
-
-                        Navigator.of(context).pop();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DialogWidget(
-                              title: AppLocalizations.of(context)!
-                                  .salesman_creation,
-                              imageUrl: "assets/images/success.png",
-                              backgroundColor: Color(0xFFFAFEF9),
-                              actions: [
-                                CustomButtonWidget(
-                                  title: AppLocalizations.of(context)!.ok,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  colors: [
-                                    AppConstants.primaryColor2,
-                                    AppConstants.primaryColor2
-                                  ],
-                                  borderRadius: 12.r,
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DialogWidget(
-                              title: AppLocalizations.of(context)!
-                                  .error_adding_salesman,
-                              imageUrl: "assets/images/cancel.png",
-                              backgroundColor: Color(0xFFFEF2EE),
-                              actions: [
-                                CustomButtonWidget(
-                                  title: AppLocalizations.of(context)!.ok,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  colors: [
-                                    AppConstants.primaryColor2,
-                                    AppConstants.primaryColor2
-                                  ],
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    }
-                  },
-                  child: Text(AppLocalizations.of(context)!.save),
-                ),
-              ],
-            ),
+                      AppLocalizations.of(context)!.enter_salesman_password),
+              PhoneInputWidget(
+                  hintText: AppLocalizations.of(context)!.enter_salesman_phone),
+              RegionInputWidget(),
+              TypeInputWidget(),
+              TargetInputWidget(),
+              NotesInputWidget(),
+              SizedBox(
+                height: 20.h,
+              ),
+              _buildButtonsRow(context),
+              SizedBox(
+                height: 20.h,
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildButtonsRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: Consumer<ManagementController>(
+          builder: (context, managementController, child) {
+            return CustomButtonWidget(
+              title: AppLocalizations.of(context)!.save,
+              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+              borderRadius: 12.r,
+              titleColor: Colors.white,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w600,
+              onPressed: () {
+                // Debug: Log the input values before validation
+                print("Debug: Validating form with the following inputs:");
+                print("Email: ${managementController.emailController.text}");
+                print("Password: ${managementController.passwordController.text}");
+                print("Name: ${managementController.nameController.text}");
+                print("Phone: ${managementController.phoneNumberController.text}");
+                print("Target: ${managementController.targetController.text}");
+                print("Type: ${managementController.typeController.text}");
+                print("Region: ${managementController.regionController.text}");
+
+                // Validate the form
+                managementController.validateForm(
+                  context: context,
+                  email: managementController.emailController.text,
+                  password: managementController.passwordController.text,
+                  name: managementController.nameController.text,
+                  phone: managementController.phoneNumberController.text,
+                  target: managementController.targetController.text,
+                  type: managementController.typeController.text,
+                  region: managementController.regionController.text,
+                );
+
+                // Debug: Log whether the form is valid
+                print("Debug: Is form valid? ${managementController.isFormValid()}");
+
+                if (managementController.isFormValid()) {
+                  // Debug: Log the parsed phone and target values
+                  final phone = int.tryParse(managementController.phoneNumberController.text);
+                  final target = double.tryParse(managementController.targetController.text);
+
+                  print("Debug: Parsed phone number: $phone");
+                  print("Debug: Parsed target achievement: $target");
+
+                  // Add the new user
+                  managementController.addNewUser(
+                    Users(
+                      fullName: managementController.nameController.text,
+                      email: managementController.emailController.text,
+                      password: managementController.passwordController.text,
+                      phone: phone,
+                      region: Region(name: managementController.regionController.text, id: 1),
+                      targetAchievement: target,
+                      closedDeals: 0,
+                      totalSales: 0,
+                      notes: managementController.notesController.text,
+                      createdAt: DateTime.now(),
+                    ),
+                  );
+
+                  // Debug: Log success message
+                  print("Debug: New user added successfully.");
+
+                  // Navigate back and show success dialog
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogWidget(
+                        title: AppLocalizations.of(context)!.salesman_creation,
+                        imageUrl: "assets/images/success.png",
+                        actions: [
+                          CustomButtonWidget(
+                            title: AppLocalizations.of(context)!.ok,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            borderRadius: 12.r,
+                            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  // Debug: Log failure message
+                  print("Debug: Form validation failed.");
+
+                  // Show error dialog
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogWidget(
+                        title: AppLocalizations.of(context)!.something_went_wrong,
+                        content: AppLocalizations.of(context)!.fill_all_fields,
+                        imageUrl: "assets/images/cancel.png",
+                        actions: [
+                          CustomButtonWidget(
+                            title: AppLocalizations.of(context)!.ok,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            borderRadius: 12.r,
+                            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            );          },
+        )),
+        SizedBox(
+          width: 20.h,
+        ),
+        Expanded(
+          child: CustomButtonWidget(
+            title: AppLocalizations.of(context)!.cancel,
+            colors: [AppConstants.buttonColor, AppConstants.buttonColor],
+            borderRadius: 12.r,
+            titleColor: Colors.grey,
+            fontSize: 15.sp,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        )
+      ],
     );
   }
 }
