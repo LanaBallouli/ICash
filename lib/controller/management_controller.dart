@@ -22,6 +22,7 @@ class ManagementController extends ChangeNotifier {
       phone: 1234567890,
       role: "Salesman",
       type: "Cash",
+      password: "@Lana123",
       status: "Active",
       totalSales: 50000.0,
       closedDeals: 15,
@@ -51,6 +52,8 @@ class ManagementController extends ChangeNotifier {
       updatedAt: DateTime(2023, 10, 1),
     ),
     Users(
+      type: "Cash",
+      password: "@Lana123",
       id: 2,
       fullName: "Jane Smith",
       email: "jane.smith@example.com",
@@ -87,6 +90,8 @@ class ManagementController extends ChangeNotifier {
     ),
     Users(
       id: 3,
+      type: "Cash",
+      password: "@Lana123",
       fullName: "Alice Johnson",
       email: "alice.johnson@example.com",
       phone: 5555555555,
@@ -119,6 +124,30 @@ class ManagementController extends ChangeNotifier {
       ],
       createdAt: DateTime(2023, 3, 1),
       updatedAt: DateTime(2023, 9, 10),
+    ),
+  ];
+  List<Client> clients = [
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: 101,
+      latitude: 37.7749,
+      longitude: -122.4194,
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
     ),
   ];
   Users? selectedUser;
@@ -383,7 +412,7 @@ class ManagementController extends ChangeNotifier {
     if (selectedCategory == localizations.sales_men) {
       return salesMen;
     } else if (selectedCategory == localizations.clients) {
-      return [];
+      return clients;
     } else if (selectedCategory == localizations.products) {
       return [];
     } else {
@@ -400,6 +429,5 @@ class ManagementController extends ChangeNotifier {
     selectedType = null;
     targetController.clear();
     notesController.clear();
-
   }
 }

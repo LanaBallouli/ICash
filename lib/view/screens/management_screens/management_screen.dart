@@ -9,6 +9,7 @@ import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../widgets/management_widgets/category_buttons_widget.dart';
 import '../../widgets/management_widgets/category_grid_view_widget.dart';
+import '../../widgets/management_widgets/category_list_view_widget.dart';
 
 class ManagementScreen extends StatelessWidget {
   const ManagementScreen({super.key});
@@ -48,12 +49,9 @@ class ManagementScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if ([
-                    AppLocalizations.of(context)!.sales_men,
-                    AppLocalizations.of(context)!.clients,
-                    AppLocalizations.of(context)!.products,
-                  ].contains(managementController.selectedCategory))
-                    CategoryGridViewWidget(
+                  if (managementController.selectedCategory ==
+                      AppLocalizations.of(context)!.clients)
+                    CategoryListViewWidget(
                       items: managementController.getFilteredItems(
                         context,
                         managementController.selectedCategory,
@@ -63,9 +61,10 @@ class ManagementScreen extends StatelessWidget {
                     CategoryGridViewWidget(
                       items: managementController.getFilteredItems(
                         context,
-                        AppLocalizations.of(context)!.sales_men,
+                        managementController.selectedCategory ??
+                            AppLocalizations.of(context)!.sales_men,
                       ),
-                    )
+                    ),
                 ],
               ),
             );

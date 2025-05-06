@@ -19,7 +19,7 @@ import 'package:test_sales/view/widgets/dialog_widget.dart';
 
 import '../../../model/region.dart';
 
-class UpdateSalesmanScreen extends StatelessWidget {
+class UpdateSalesmanScreen extends StatefulWidget {
   final Users user;
   final int index;
 
@@ -30,48 +30,38 @@ class UpdateSalesmanScreen extends StatelessWidget {
   });
 
   @override
+  State<UpdateSalesmanScreen> createState() => _UpdateSalesmanScreenState();
+}
+
+class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
+  late ManagementController managementController;
+
+  @override
+  void initState() {
+    super.initState();
+    managementController =
+        Provider.of<ManagementController>(context, listen: false);
+
+    managementController.nameController.text = widget.user.fullName ?? "";
+    managementController.emailController.text = widget.user.email ?? "";
+    managementController.phoneNumberController.text =
+        widget.user.phone.toString();
+    managementController.targetController.text =
+        widget.user.targetAchievement?.toString() ?? "";
+    managementController.typeController.text = widget.user.type!;
+    managementController.setSelectedRegion(widget.user.region!.name, context);
+    managementController.setSelectedType(widget.user.type, context);
+    managementController.passwordController.text = widget.user.password ?? "";
+    managementController.notesController.text = widget.user.notes ?? "";
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final managementController = context.watch<ManagementController>();
-
-    if (managementController.nameController.text.isEmpty) {
-      managementController.nameController.text = user.fullName ?? "";
-    }
-    if (managementController.emailController.text.isEmpty) {
-      managementController.emailController.text = user.email ?? "";
-    }
-    if (managementController.phoneNumberController.text.isEmpty) {
-      managementController.phoneNumberController.text = user.phone.toString();
-    }
-    if (managementController.targetController.text.isEmpty) {
-      managementController.targetController.text =
-          user.targetAchievement?.toString() ?? "";
-    }
-    if (managementController.typeController.text.isEmpty && user.type != null) {
-      managementController.typeController.text = user.type!;
-    }
-
-    if (managementController.selectedRegion == null && user.region != null) {
-      managementController.setSelectedRegion(user.region!.name, context);
-    }
-
-    if (managementController.selectedType == null && user.type != null) {
-      managementController.setSelectedType(user.type, context);
-    }
-
-    if (managementController.passwordController.text.isEmpty) {
-      managementController.passwordController.text = user.password ?? "";
-    }
-
-    if (managementController.notesController.text.isEmpty) {
-      managementController.notesController.text = user.notes ?? "";
-    }
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
-        title: "${user.fullName} - ${AppLocalizations.of(context)!.update}",
+        title:
+            "${widget.user.fullName} - ${AppLocalizations.of(context)!.update}",
         leading: Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return IconButton(
@@ -100,9 +90,13 @@ class UpdateSalesmanScreen extends StatelessWidget {
               RegionInputWidget(),
               TargetInputWidget(),
               TypeInputWidget(),
-              SizedBox(height: 15.h,),
+              SizedBox(
+                height: 15.h,
+              ),
               NotesInputWidget(),
-              SizedBox(height: 15.h,),
+              SizedBox(
+                height: 15.h,
+              ),
               _buildButtonsRow(context, managementController),
               SizedBox(height: 20.h),
             ],
@@ -192,7 +186,7 @@ class UpdateSalesmanScreen extends StatelessWidget {
 
               // Create updated user object
               final updatedUser = Users(
-                id: user.id,
+                id: widget.user.id,
                 fullName: managementController.nameController.text,
                 email: managementController.emailController.text,
                 password: managementController.passwordController.text,
@@ -201,13 +195,14 @@ class UpdateSalesmanScreen extends StatelessWidget {
                 targetAchievement: target,
                 type: managementController.typeController.text,
                 notes: managementController.notesController.text,
-                closedDeals: user.closedDeals,
-                totalSales: user.totalSales,
-                createdAt: user.createdAt,
+                closedDeals: widget.user.closedDeals,
+                totalSales: widget.user.totalSales,
+                createdAt: widget.user.createdAt,
                 updatedAt: DateTime.now(),
               );
 
-              managementController.updateUser(user: updatedUser, index: index);
+              managementController.updateUser(
+                  user: updatedUser, index: widget.index);
 
               showDialog(
                 context: context,
@@ -218,6 +213,7 @@ class UpdateSalesmanScreen extends StatelessWidget {
                     CustomButtonWidget(
                       title: AppLocalizations.of(context)!.ok,
                       onPressed: () {
+                        Navigator.pop(context);
                         Navigator.pop(context);
                         Navigator.pop(context);
                         managementController.clearFields();

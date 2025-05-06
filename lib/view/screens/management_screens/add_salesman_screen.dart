@@ -150,19 +150,20 @@ class AddSalesmanScreen extends StatelessWidget {
                     // Add the new user
                     managementController.addNewUser(
                       Users(
-                        fullName: managementController.nameController.text,
-                        email: managementController.emailController.text,
-                        password: managementController.passwordController.text,
-                        phone: phone,
-                        region: Region(
-                            name: managementController.selectedRegion, id: 1),
-                        targetAchievement: target,
-                        closedDeals: 0,
-                        totalSales: 0,
-                        notes: managementController.notesController.text,
-                        createdAt: DateTime.now(),
-                        type: managementController.selectedType
-                      ),
+                          fullName: managementController.nameController.text,
+                          email: managementController.emailController.text,
+                          password:
+                              managementController.passwordController.text,
+                          phone: phone,
+                          region: Region(
+                              name: managementController.selectedRegion, id: 1),
+                          targetAchievement: target,
+                          closedDeals: 0,
+                          totalSales: 0,
+                          notes: managementController.notesController.text,
+                          createdAt: DateTime.now(),
+                          type: managementController.selectedType,
+                          role: "Sales Man"),
                     );
 
                     // Debug: Log success message

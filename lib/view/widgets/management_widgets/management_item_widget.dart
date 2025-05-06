@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_more_details_screen.dart';
@@ -18,6 +20,7 @@ class ManagementItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final langController = Provider.of<LangController>(context, listen: false);
     return Consumer<ManagementController>(
       builder: (context, managementController, child) {
         return SizedBox(
@@ -52,25 +55,83 @@ class ManagementItemWidget extends StatelessWidget {
                       ),
                       SizedBox(height: 16.h),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.w),
-                        child: Text(
-                          "users.description ?? No description available",
-                          style: GoogleFonts.sora(
-                            fontSize: 10.sp,
-                            color: Color(0xFF969AB0),
-                            fontWeight: FontWeight.w400,
-                          ),
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context)!.region}:",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Color(0xFF969AB0),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              users.region?.name ?? "region",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 12.h),
-                      Center(
-                        child: Text(
-                          "",
-                          style: GoogleFonts.sora(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context)!.closed_deals}:",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Color(0xFF969AB0),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              users.closedDeals.toString() ?? "0",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context)!.total_sales}:",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Color(0xFF969AB0),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              users.totalSales.toString() ?? "totalSales",
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 10.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 30.h),
@@ -90,6 +151,7 @@ class ManagementItemWidget extends StatelessWidget {
                   ),
                 ),
               ),
+
               Positioned(
                 right: 0,
                 top: 20,
