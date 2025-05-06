@@ -61,7 +61,6 @@ class ManagementScreen extends StatelessWidget {
                     CategoryGridViewWidget(
                       items: managementController.getFilteredItems(
                         context,
-                        managementController.selectedCategory ??
                             AppLocalizations.of(context)!.sales_men,
                       ),
                     ),

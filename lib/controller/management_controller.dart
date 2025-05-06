@@ -149,6 +149,50 @@ class ManagementController extends ChangeNotifier {
         ),
       ],
     ),
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: 101,
+      latitude: 37.7749,
+      longitude: -122.4194,
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
+    ),
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: 101,
+      latitude: 37.7749,
+      longitude: -122.4194,
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
+    ),
   ];
   Users? selectedUser;
   bool obscureText = false;

@@ -26,9 +26,14 @@ class CategoryListViewWidget extends StatelessWidget {
                   itemCount: items.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return ClientsWidget(
-                      client: items[index],
-                      index: index,
+                    return Column(
+                      children: [
+                        ClientsWidget(
+                          client: items[index],
+                          index: index,
+                        ),
+                        SizedBox(height: 15.h,)
+                      ],
                     );
                   },
                 );

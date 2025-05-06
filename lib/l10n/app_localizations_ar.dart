@@ -36,7 +36,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phone_hint => 'أدخل رقم هاتفك';
 
   @override
-  String get password => 'أدخل كلمة المرور';
+  String get password => 'كلمة المرور';
 
   @override
   String get password_hint => 'أدخل كلمة المرور الخاصة بك';
@@ -463,4 +463,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get salesman_updated => 'تم تعديل معلومات المندوب';
+
+  @override
+  String get name => 'الاسم';
 }

@@ -463,4 +463,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get salesman_updated => 'The salesman information has been updated.';
+
+  @override
+  String get name => 'Name';
 }
