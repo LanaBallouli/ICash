@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-
-import '../../../../controller/login_controller.dart';
 import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';

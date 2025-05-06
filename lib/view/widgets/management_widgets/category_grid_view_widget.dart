@@ -27,7 +27,7 @@ class CategoryGridViewWidget extends StatelessWidget {
                 mainAxisSpacing: 10.h,
               ),
               itemBuilder: (context, index) {
-                return ManagementItemWidget(users: items[index]);
+                return ManagementItemWidget(users: items[index], index: index,);
               },
             ),
           ),

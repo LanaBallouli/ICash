@@ -17,8 +17,10 @@ import '../../../controller/management_controller.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
   final Users users;
+  final int index;
 
-  const SalesmenMoreDetailsScreen({super.key, required this.users});
+  const SalesmenMoreDetailsScreen(
+      {super.key, required this.users, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +115,10 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         "value": users.region?.name ?? "region"
       },
       {
+        "label": AppLocalizations.of(context)!.password,
+        "value": users.password ?? "password"
+      },
+      {
         "label": AppLocalizations.of(context)!.status,
         "value": users.status ?? "active"
       },
@@ -121,6 +127,10 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         "value":
             formatDateWithTime(users.createdAt ?? DateTime.now()).toString()
       },
+      {
+        "label": AppLocalizations.of(context)!.type,
+        "value": users.type ?? "type"
+      }
     ];
 
     return profileDetails.map((detail) {
@@ -328,7 +338,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildSalesReportsSection(BuildContext context) {
-    String _getLatestMonthlySales(Users users) {
+    String getLatestMonthlySales(Users users) {
       if (users.monthlySales != null && users.monthlySales!.isNotEmpty) {
         final latestMonthlySales = users.monthlySales!.reduce((current, next) =>
             (next.startDate?.isAfter(current.startDate ?? DateTime.now()) ??
@@ -350,7 +360,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(
-              text: _getLatestMonthlySales(users),
+              text: getLatestMonthlySales(users),
             ),
             label: AppLocalizations.of(context)!.monthly_sales,
             readOnly: true,
@@ -434,7 +444,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => UpdateSalesmanScreen(
                         user: users,
-                        managementController: managementController,
+                        index: index,
                       ),
                     ),
                   );

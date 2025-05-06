@@ -17,71 +17,78 @@ class ManagementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: MainAppbarWidget(
-        title: AppLocalizations.of(context)!.management_screen,
-      ),
-      body: Consumer<ManagementController>(
-        builder: (context, managementController, child) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            managementController.getFilteredItems(
-                context, AppLocalizations.of(context)!.sales_men);
-          });
-          return SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CategoryButtonsWidget(),
-                SizedBox(height: 18.h),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: InputWidget(
-                    textEditingController: searchController,
-                    obscureText: false,
-                    backgroundColor: AppConstants.buttonColor,
-                    label: AppLocalizations.of(context)!.search,
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.filter_list),
-                    ),
-                  ),
-                ),
-                if ([
-                  AppLocalizations.of(context)!.sales_men,
-                  AppLocalizations.of(context)!.clients,
-                  AppLocalizations.of(context)!.products,
-                ].contains(managementController.selectedCategory))
-                  CategoryGridViewWidget(
-                    items: managementController.getFilteredItems(
-                      context,
-                      managementController.selectedCategory,
-                    ),
-                  ),
-              ],
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "1",
-        shape: OvalBorder(),
-        backgroundColor: AppConstants.primaryColor2,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 25.sp,
+        backgroundColor: Colors.white,
+        appBar: MainAppbarWidget(
+          title: AppLocalizations.of(context)!.management_screen,
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddSalesmanScreen(),
-            ),
-          );
-        },
-      ),
-    );
+        body: Consumer<ManagementController>(
+          builder: (context, managementController, child) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              managementController.getFilteredItems(
+                  context, AppLocalizations.of(context)!.sales_men);
+            });
+            return SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CategoryButtonsWidget(),
+                  SizedBox(height: 18.h),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: InputWidget(
+                      textEditingController: searchController,
+                      obscureText: false,
+                      backgroundColor: AppConstants.buttonColor,
+                      label: AppLocalizations.of(context)!.search,
+                      suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.filter_list),
+                      ),
+                    ),
+                  ),
+                  if ([
+                    AppLocalizations.of(context)!.sales_men,
+                    AppLocalizations.of(context)!.clients,
+                    AppLocalizations.of(context)!.products,
+                  ].contains(managementController.selectedCategory))
+                    CategoryGridViewWidget(
+                      items: managementController.getFilteredItems(
+                        context,
+                        managementController.selectedCategory,
+                      ),
+                    )
+                  else
+                    CategoryGridViewWidget(
+                      items: managementController.getFilteredItems(
+                        context,
+                        AppLocalizations.of(context)!.sales_men,
+                      ),
+                    )
+                ],
+              ),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          heroTag: "1",
+          shape: OvalBorder(),
+          backgroundColor: AppConstants.primaryColor2,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 25.sp,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddSalesmanScreen(),
+              ),
+            );
+          },
+        ),
+        resizeToAvoidBottomInset: false);
   }
 }

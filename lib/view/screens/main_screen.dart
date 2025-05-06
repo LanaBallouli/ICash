@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     const SettingsScreen(),
     const MapScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,13 +83,18 @@ class _MainScreenState extends State<MainScreen> {
               CircleAvatar(
                 backgroundColor: AppConstants.primaryColor2,
                 radius: 30,
-                child: Image.asset("assets/images/google-maps.png", height: 30.h, width: 30.w,),
+                child: Image.asset(
+                  "assets/images/google-maps.png",
+                  height: 30.h,
+                  width: 30.w,
+                ),
               ),
             ],
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
     );
   }
 }

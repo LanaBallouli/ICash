@@ -11,12 +11,13 @@ import '../custom_button_widget.dart';
 
 class ManagementItemWidget extends StatelessWidget {
   final Users users;
+  final int index;
 
-  const ManagementItemWidget({super.key, required this.users});
+  const ManagementItemWidget(
+      {super.key, required this.users, required this.index});
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<ManagementController>(
       builder: (context, managementController, child) {
         return SizedBox(
@@ -43,8 +44,7 @@ class ManagementItemWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                           users.fullName ?? "name",
                           style: GoogleFonts.sora(
-                            color:
-                                Color(0xFF24262F),
+                            color: Color(0xFF24262F),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -138,7 +138,10 @@ class ManagementItemWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SalesmenMoreDetailsScreen(users: users,),
+                        builder: (context) => SalesmenMoreDetailsScreen(
+                          users: users,
+                          index: index,
+                        ),
                       ),
                     );
                   },

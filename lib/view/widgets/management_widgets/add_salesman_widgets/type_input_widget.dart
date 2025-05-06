@@ -3,21 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
-
 import '../../../../controller/lang_controller.dart';
-import '../../../../controller/login_controller.dart';
 import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class TypeInputWidget extends StatefulWidget {
-  const TypeInputWidget({super.key});
+class TypeInputWidget extends StatelessWidget {
+  final String? selectedType;
+  TypeInputWidget({super.key, this.selectedType});
 
-  @override
-  State<TypeInputWidget> createState() => _TypeInputWidgetState();
-}
-
-class _TypeInputWidgetState extends State<TypeInputWidget> {
   final _formKey = GlobalKey<FormState>();
+
   final List<String> type = [
     "Cash",
     "Debt",
@@ -72,7 +67,7 @@ class _TypeInputWidgetState extends State<TypeInputWidget> {
                           border:
                           UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: managementController.selectedType,
+                        value:managementController.selectedType ?? selectedType,
                         items: type
                             .map((type) => DropdownMenuItem(
                           value: type,

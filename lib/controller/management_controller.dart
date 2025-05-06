@@ -21,6 +21,7 @@ class ManagementController extends ChangeNotifier {
       email: "john.doe@example.com",
       phone: 1234567890,
       role: "Salesman",
+      type: "Cash",
       status: "Active",
       totalSales: 50000.0,
       closedDeals: 15,
@@ -329,12 +330,12 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUser(Users updatedUser) {
-    int index = salesMen.indexWhere((user) => user.id == updatedUser.id);
-    if (index != -1) {
-      salesMen[index] = updatedUser;
-      notifyListeners();
-    }
+  updateUser({
+    required Users user,
+    required int index,
+  }) {
+    salesMen[index] = user;
+    notifyListeners();
   }
 
   void updateSelectedCategory(String category) {
@@ -399,5 +400,6 @@ class ManagementController extends ChangeNotifier {
     selectedType = null;
     targetController.clear();
     notesController.clear();
+
   }
 }
