@@ -416,24 +416,32 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Consumer<ManagementController>(builder: (context, managementController, child) {
-            return CustomButtonWidget(
-              title: "Update",
-              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
-              borderRadius: 12.r,
-              titleColor: Colors.white,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w600,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UpdateSalesmanScreen(user: users, managementController: managementController,),
-                  ),
-                );
-              },
-            );
-          },),
+          child: Consumer<ManagementController>(
+            builder: (context, managementController, child) {
+              return CustomButtonWidget(
+                title: AppLocalizations.of(context)!.update,
+                colors: [
+                  AppConstants.primaryColor2,
+                  AppConstants.primaryColor2
+                ],
+                borderRadius: 12.r,
+                titleColor: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateSalesmanScreen(
+                        user: users,
+                        managementController: managementController,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
         SizedBox(
           width: 20.h,

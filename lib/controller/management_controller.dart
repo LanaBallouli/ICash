@@ -396,7 +396,7 @@ class ManagementController extends ChangeNotifier {
     nameController.clear();
     phoneNumberController.clear();
     selectedRegion = null;
-    typeController.clear();
+    selectedType = null;
     targetController.clear();
     notesController.clear();
   }

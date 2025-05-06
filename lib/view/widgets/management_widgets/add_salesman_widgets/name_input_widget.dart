@@ -16,15 +16,12 @@ class NameInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final managementController = context.watch<ManagementController>();
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.only(top: 15),
-      child: Selector<ManagementController, String?>(
-        selector: (context, managementController) =>
-            managementController.errors['name'],
-        builder: (context, errorText, _) {
+      child: Consumer<ManagementController>(
+        builder: (context, managementController, _) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +47,7 @@ class NameInputWidget extends StatelessWidget {
                   value: value,
                   context: context,
                 ),
-                errorText: errorText,
+                errorText: managementController.errors['name'],
               ),
             ],
           );
