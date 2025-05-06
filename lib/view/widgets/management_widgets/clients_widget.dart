@@ -6,6 +6,7 @@ import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
+import 'package:test_sales/view/screens/management_screens/client_more_details_screen.dart';
 import 'package:test_sales/view/widgets/custom_button_widget.dart';
 import '../../../app_constants.dart';
 
@@ -38,7 +39,6 @@ class ClientsWidget extends StatelessWidget {
             border: Border.all(color: AppConstants.primaryColor2, width: 1.5.w),
           ),
         ),
-
         Expanded(
           child: Container(
             height: 120.h,
@@ -83,7 +83,6 @@ class ClientsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
@@ -100,7 +99,17 @@ class ClientsWidget extends StatelessWidget {
                         AppConstants.primaryColor2
                       ],
                       borderRadius: 12.r,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClientMoreDetailsScreen(
+                              client: client,
+                              index: index,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

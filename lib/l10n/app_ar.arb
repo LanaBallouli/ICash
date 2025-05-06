@@ -151,10 +151,9 @@
   "something_went_wrong": "حدث خطأ ما",
   "update": "تعديل",
   "salesman_updated": "تم تعديل معلومات المندوب",
-  "name": "الاسم"
-
-
-
-
-
+  "name": "الاسم",
+  "add_client": "إضافة عميل جديد",
+  "add_client_prompt": "يرجى ملء جميع الحقول لإضافة عميل جديد.",
+  "trade_name": "الاسم التجاري",
+  "salesman_name": "اسم مندوب المبيعات"
 }

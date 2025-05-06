@@ -1012,6 +1012,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name'**
   String get name;
+
+  /// No description provided for @add_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Client'**
+  String get add_client;
+
+  /// No description provided for @add_client_prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all the fields to add a new client'**
+  String get add_client_prompt;
+
+  /// No description provided for @trade_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Name'**
+  String get trade_name;
+
+  /// No description provided for @salesman_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales man name'**
+  String get salesman_name;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -151,5 +151,12 @@
   "something_went_wrong": "Something Went Wrong",
   "update": "Update",
   "salesman_updated": "The salesman information has been updated.",
-  "name": "Name"
+  "name": "Name",
+  "add_client": "Add New Client",
+  "add_client_prompt": "Please fill in all the fields to add a new client",
+  "trade_name": "Trade Name",
+  "salesman_name": "Sales man name"
+
+
+
 }

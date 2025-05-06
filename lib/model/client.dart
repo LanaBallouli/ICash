@@ -1,3 +1,4 @@
+import 'package:test_sales/model/invoice.dart';
 import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/users.dart';
 import 'package:test_sales/model/visit.dart';
@@ -18,6 +19,14 @@ class Client {
   String? professionLicensePath;
   String? nationalId;
   List<Visit>? visits;
+  String? imageUrl;
+  int? phone;
+  String? status;
+  String? type;
+  String? role;
+  List<Invoice>? invoices;
+  List<Users>? users;
+  String? notes;
 
   Client({
     this.id,
@@ -35,6 +44,14 @@ class Client {
     this.professionLicensePath,
     this.nationalId,
     this.visits,
+    this.imageUrl,
+    this.phone,
+    this.status,
+    this.type,
+    this.role,
+    this.invoices,
+    this.users,
+    this.notes
   });
 
   /// Factory constructor to create a `Client` object from JSON.

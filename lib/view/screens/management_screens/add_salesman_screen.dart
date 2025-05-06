@@ -35,7 +35,6 @@ class AddSalesmanScreen extends StatelessWidget {
             return IconButton(
                 onPressed: () {
                   Navigator.pop(context);
-
                   managementController.clearFields();
                   managementController.clearErrors();
                 },

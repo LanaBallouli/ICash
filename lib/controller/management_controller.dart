@@ -220,6 +220,11 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
+
+  final TextEditingController clientNameController =TextEditingController();
+  final TextEditingController clientPhoneController =TextEditingController();
+  final TextEditingController clientRoleController =TextEditingController();
+
   final Map<String, String?> errors = {
     'email': null,
     'phone': null,

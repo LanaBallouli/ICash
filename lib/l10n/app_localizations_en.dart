@@ -466,4 +466,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get name => 'Name';
+
+  @override
+  String get add_client => 'Add New Client';
+
+  @override
+  String get add_client_prompt => 'Please fill in all the fields to add a new client';
+
+  @override
+  String get trade_name => 'Trade Name';
+
+  @override
+  String get salesman_name => 'Sales man name';
 }

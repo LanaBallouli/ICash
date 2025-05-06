@@ -466,4 +466,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get name => 'الاسم';
+
+  @override
+  String get add_client => 'إضافة عميل جديد';
+
+  @override
+  String get add_client_prompt => 'يرجى ملء جميع الحقول لإضافة عميل جديد.';
+
+  @override
+  String get trade_name => 'الاسم التجاري';
+
+  @override
+  String get salesman_name => 'اسم مندوب المبيعات';
 }
