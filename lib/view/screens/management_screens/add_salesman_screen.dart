@@ -26,6 +26,9 @@ class AddSalesmanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
+    ManagementController managementController =
+        Provider.of<ManagementController>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
@@ -60,21 +63,25 @@ class AddSalesmanScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              NameInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_salesman_name),
+
               EmailFieldWidget(),
               PasswordFieldWidget(
                   hintText:
                       AppLocalizations.of(context)!.enter_salesman_password),
               PhoneInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_salesman_phone),
+                  hintText: AppLocalizations.of(context)!.enter_salesman_phone,
+                  phoneController: managementController.phoneNumberController),
               RegionInputWidget(),
-              TypeInputWidget(),
+              TypeInputWidget(
+                hintText: AppLocalizations.of(context)!.choose_salesman_type,
+                selectedType: managementController.selectedType,
+                typeOptions: ["Cash", "Debt"],
+              ),
               TargetInputWidget(),
               SizedBox(
                 height: 15.h,
               ),
-              NotesInputWidget(),
+              NotesInputWidget(notesController: managementController.notesController,),
               SizedBox(
                 height: 20.h,
               ),

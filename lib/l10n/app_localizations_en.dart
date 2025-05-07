@@ -478,4 +478,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get salesman_name => 'Sales man name';
+
+  @override
+  String get choose_client_type => 'Choose client type';
+
+  @override
+  String get enter_client_trade_name => 'Enter client\'s trade name';
+
+  @override
+  String get enter_client_phone => 'Enter client\'s phone number';
+
+  @override
+  String get enter_client_address => 'Enter the client\'s detailed address';
+
+  @override
+  String get address => 'Address';
 }

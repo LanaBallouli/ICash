@@ -11,7 +11,8 @@ import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 
 class NotesInputWidget extends StatelessWidget {
-  const NotesInputWidget({super.key});
+  final TextEditingController notesController;
+  const NotesInputWidget({super.key, required this.notesController});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class NotesInputWidget extends StatelessWidget {
         InputWidget(
           height: 100.h,
           borderColor: Color(0xFFEFF0F6),
-          textEditingController: managementController.notesController,
+          textEditingController: notesController,
           obscureText: false,
           keyboardType: TextInputType.text,
           hintText: AppLocalizations.of(context)!.add_notes,

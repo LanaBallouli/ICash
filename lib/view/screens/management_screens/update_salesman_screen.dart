@@ -81,19 +81,30 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
             children: [
               SizedBox(height: 10.h),
               NameInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_name),
+                hintText: AppLocalizations.of(context)!.enter_name,
+                title: AppLocalizations.of(context)!.salesman_name,
+                nameController: managementController.nameController,
+              ),
               EmailFieldWidget(),
               PasswordFieldWidget(
                 hintText: AppLocalizations.of(context)!.enter_salesman_password,
               ),
-              PhoneInputWidget(),
+              PhoneInputWidget(
+                phoneController: managementController.phoneNumberController,
+              ),
               RegionInputWidget(),
               TargetInputWidget(),
-              TypeInputWidget(),
+              TypeInputWidget(
+                hintText: AppLocalizations.of(context)!.choose_salesman_type,
+                typeOptions: ["Cash", "Debt"],
+                selectedType: managementController.selectedType,
+              ),
               SizedBox(
                 height: 15.h,
               ),
-              NotesInputWidget(),
+              NotesInputWidget(
+                notesController: managementController.notesController,
+              ),
               SizedBox(
                 height: 15.h,
               ),

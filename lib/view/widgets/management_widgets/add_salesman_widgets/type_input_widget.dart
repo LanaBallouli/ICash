@@ -9,20 +9,22 @@ import '../../../../l10n/app_localizations.dart';
 
 class TypeInputWidget extends StatelessWidget {
   final String? selectedType;
-  TypeInputWidget({super.key, this.selectedType});
+  final String hintText; // Key for localization of the hint text
+  final List<String> typeOptions; // Dynamic list of options
+
+  TypeInputWidget({
+    super.key,
+    this.selectedType,
+    required this.hintText,
+    required this.typeOptions,
+  });
 
   final _formKey = GlobalKey<FormState>();
-
-  final List<String> type = [
-    "Cash",
-    "Debt",
-  ];
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     final managementController = context.watch<ManagementController>();
-
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
@@ -56,7 +58,7 @@ class TypeInputWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 14.0.sp, right: 14.sp),
                       child: DropdownButtonFormField<String>(
                         hint: Text(
-                          AppLocalizations.of(context)!.choose_salesman_type,
+                          hintText,
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: Color(0xFFBBBFC5),
@@ -64,11 +66,10 @@ class TypeInputWidget extends StatelessWidget {
                           ),
                         ),
                         decoration: InputDecoration(
-                          border:
-                          UnderlineInputBorder(borderSide: BorderSide.none),
+                          border: UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value:managementController.selectedType ?? selectedType,
-                        items: type
+                        value: managementController.selectedType ?? selectedType,
+                        items: typeOptions
                             .map((type) => DropdownMenuItem(
                           value: type,
                           child: Text(type),
@@ -94,6 +95,5 @@ class TypeInputWidget extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

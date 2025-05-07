@@ -8,7 +8,8 @@ import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class RegionInputWidget extends StatefulWidget {
-  const RegionInputWidget({super.key});
+  final String? selectedRegion;
+  const RegionInputWidget({super.key, this.selectedRegion});
 
   @override
   State<RegionInputWidget> createState() => _RegionInputWidgetState();
@@ -70,7 +71,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                           border:
                               UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: managementController.selectedRegion,
+                        value: widget.selectedRegion ?? managementController.selectedRegion,
                         items: regions
                             .map((region) => DropdownMenuItem(
                                   value: region,

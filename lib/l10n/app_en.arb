@@ -155,8 +155,10 @@
   "add_client": "Add New Client",
   "add_client_prompt": "Please fill in all the fields to add a new client",
   "trade_name": "Trade Name",
-  "salesman_name": "Sales man name"
-
-
-
+  "salesman_name": "Sales man name",
+  "choose_client_type": "Choose client type",
+  "enter_client_trade_name": "Enter client's trade name",
+  "enter_client_phone": "Enter client's phone number",
+  "enter_client_address": "Enter the client's detailed address",
+  "address": "Address"
 }

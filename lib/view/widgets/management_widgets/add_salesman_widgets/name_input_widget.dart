@@ -9,8 +9,10 @@ import '../../main_widgets/input_widget.dart';
 
 class NameInputWidget extends StatelessWidget {
   String? hintText;
+  String title;
+  TextEditingController nameController;
 
-  NameInputWidget({super.key, this.hintText});
+  NameInputWidget({super.key, required this.hintText, required this.nameController, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class NameInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppLocalizations.of(context)!.full_name,
+                title,
                 style: AppStyles.getFontStyle(
                   langController,
                   color: Color(0xFF6C7278),
@@ -34,12 +36,12 @@ class NameInputWidget extends StatelessWidget {
                 ),
               ),
               InputWidget(
-                textEditingController: managementController.nameController,
+                textEditingController: nameController,
                 obscureText: false,
                 keyboardType: TextInputType.name,
                 prefixIcon: const Icon(Icons.person),
                 labelColor: Colors.grey,
-                hintText: hintText ?? AppLocalizations.of(context)!.enter_name,
+                hintText: hintText,
                 onChanged: (value) => managementController.validateField(
                   field: 'name',
                   value: value,

@@ -1036,6 +1036,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sales man name'**
   String get salesman_name;
+
+  /// No description provided for @choose_client_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose client type'**
+  String get choose_client_type;
+
+  /// No description provided for @enter_client_trade_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter client\'s trade name'**
+  String get enter_client_trade_name;
+
+  /// No description provided for @enter_client_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter client\'s phone number'**
+  String get enter_client_phone;
+
+  /// No description provided for @enter_client_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the client\'s detailed address'**
+  String get enter_client_address;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -10,8 +10,10 @@ import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../widgets/management_widgets/category_buttons_widget.dart';
 import '../../widgets/management_widgets/category_grid_view_widget.dart';
 import '../../widgets/management_widgets/category_list_view_widget.dart';
+import 'add_client_screen.dart';
 
 class ManagementScreen extends StatelessWidget {
+
   const ManagementScreen({super.key});
 
   @override
@@ -61,7 +63,7 @@ class ManagementScreen extends StatelessWidget {
                     CategoryGridViewWidget(
                       items: managementController.getFilteredItems(
                         context,
-                            AppLocalizations.of(context)!.sales_men,
+                        AppLocalizations.of(context)!.sales_men,
                       ),
                     ),
                 ],
@@ -79,12 +81,22 @@ class ManagementScreen extends StatelessWidget {
             size: 25.sp,
           ),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddSalesmanScreen(),
-              ),
-            );
+            final managementController =
+                Provider.of<ManagementController>(context, listen: false);
+
+            if (managementController.selectedCategory ==
+                AppLocalizations.of(context)!.sales_men) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddSalesmanScreen()),
+              );
+            } else if (managementController.selectedCategory ==
+                AppLocalizations.of(context)!.clients) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddClientScreen()),
+              );
+            }
           },
         ),
         resizeToAvoidBottomInset: false);

@@ -478,4 +478,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get salesman_name => 'اسم مندوب المبيعات';
+
+  @override
+  String get choose_client_type => 'اختر نوع العميل';
+
+  @override
+  String get enter_client_trade_name => 'ادخل الاسم التجاري للعميل';
+
+  @override
+  String get enter_client_phone => 'ادخل رقم هاتف العميل';
+
+  @override
+  String get enter_client_address => 'ادخل عنوان العميل التفصيلي';
+
+  @override
+  String get address => 'العنوان';
 }
