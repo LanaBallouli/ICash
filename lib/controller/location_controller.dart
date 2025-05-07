@@ -1,58 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../model/address.dart';
 import '../model/region.dart';
 import '../view/screens/registration_screens/login_screen.dart';
 
 class LocationController extends ChangeNotifier {
-  bool isLocationGranted = false;
+  bool _isLocationGranted = false;
+
+  bool get isLocationGranted => _isLocationGranted;
 
   Future<bool> isLocationServiceEnabled() async {
     return await Geolocator.isLocationServiceEnabled();
   }
 
   Future<void> requestLocationPermission(BuildContext context) async {
-    try {
-      LocationPermission permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
 
-      if (permission == LocationPermission.deniedForever) {
-        isLocationGranted = false;
-        notifyListeners();
-        _showPermissionDeniedDialog(context);
-      } else if (permission == LocationPermission.whileInUse ||
-          permission == LocationPermission.always) {
-        isLocationGranted = true;
-        notifyListeners();
-      }
-
-      if (isLocationGranted) {
-        bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
-        if (!isLocationEnabled) {
-          await Geolocator.openLocationSettings();
-          _waitForLocationEnabled(context);
-        } else {
-          _navigateToLogin(context);
-        }
-      }
-    } catch (e) {
-      print("Error requesting location permission: $e");
+    if (permission == LocationPermission.deniedForever) {
+      _isLocationGranted = false;
+      notifyListeners();
       _showPermissionDeniedDialog(context);
+    } else if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      _isLocationGranted = true;
+      notifyListeners();
+    }
+
+    // If permission is granted, ensure location services are enabled
+    if (_isLocationGranted) {
+      bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!isLocationEnabled) {
+        await Geolocator.openLocationSettings();
+        _waitForLocationEnabled(context); // Wait for user to enable location
+      } else {
+        _navigateToLogin(
+            context); // Navigate immediately if location is enabled
+      }
     }
   }
 
   void _waitForLocationEnabled(BuildContext context) async {
-    final locationServiceStream = Geolocator.getServiceStatusStream();
-    await for (final status in locationServiceStream) {
-      if (status == ServiceStatus.enabled) {
-        _navigateToLogin(context);
-        break;
-      }
+    while (!(await Geolocator.isLocationServiceEnabled())) {
+      await Future.delayed(const Duration(seconds: 1)); // Check every second
     }
+    _navigateToLogin(context);
   }
 
   void _showPermissionDeniedDialog(BuildContext context) {
@@ -73,7 +70,7 @@ class LocationController extends ChangeNotifier {
   }
 
   void _navigateToLogin(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
@@ -83,11 +80,9 @@ class LocationController extends ChangeNotifier {
 
   LatLng? get selectedLocation => _selectedLocation;
 
-  void setSelectedLocation(LatLng? location) {
-    if (location != null) {
-      _selectedLocation = location;
-      notifyListeners();
-    }
+  void setSelectedLocation(LatLng location) {
+    _selectedLocation = location;
+    notifyListeners();
   }
 
   final List<Address> _savedAddresses = [];
@@ -98,7 +93,7 @@ class LocationController extends ChangeNotifier {
   TextEditingController buildingNumberController = TextEditingController();
   TextEditingController regionNameController = TextEditingController();
   TextEditingController additionalDirectionsController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
 

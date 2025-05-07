@@ -499,4 +499,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get change => 'Change';
+
+  @override
+  String get find_location => 'Find a specific location';
+
+  @override
+  String get set_location => 'Set Location';
+
+  @override
+  String get location_services_are_disabled => 'Location services are disabled.';
+
+  @override
+  String get location_permissions_are_denied => 'Location permissions are denied';
+
+  @override
+  String get location_permissions => 'Location permissions are permanently denied, we cannot request permissions.';
+
+  @override
+  String get location_permission_required => 'Location permission required';
 }

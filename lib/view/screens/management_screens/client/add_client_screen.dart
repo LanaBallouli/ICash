@@ -9,9 +9,10 @@ import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/notes_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/region_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/type_input_widget.dart';
-import '../../../app_styles.dart';
-import '../../../controller/lang_controller.dart';
-import '../../widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/location_widget.dart';
+import '../../../../app_styles.dart';
+import '../../../../controller/lang_controller.dart';
+import '../../../widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
 
 class AddClientScreen extends StatelessWidget {
   const AddClientScreen({super.key});
@@ -41,9 +42,8 @@ class AddClientScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              Container(
-                decoration: BoxDecoration(),
-              ),
+
+              LocationWidget(),
               Center(
                 child: Text(
                   AppLocalizations.of(context)!.add_client_prompt,
@@ -55,7 +55,6 @@ class AddClientScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
               NameInputWidget(
                   hintText:
                       AppLocalizations.of(context)!.enter_client_trade_name,

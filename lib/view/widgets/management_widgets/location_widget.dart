@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/model/region.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../../../app_constants.dart';
 import '../../../app_styles.dart';
@@ -58,130 +57,70 @@ class _LocationWidgetState extends State<LocationWidget> {
       context,
       listen: false,
     );
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
     final locationController = Provider.of<LocationController>(context);
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 200.h,
-            width: double.infinity,
-            child: GoogleMap(
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              markers: markers,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(31.985934703432616, 35.900362288558114),
-                zoom: 14,
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                final savedLocation = Provider.of<LocationController>(
-                  context,
-                  listen: false,
-                ).selectedLocation;
-                if (savedLocation != null) {}
-              },
-              onCameraIdle: () {
-                _fetchAreaNameFromMap();
-              },
-            ),
-          ),
-          SizedBox(height: 16.h),
-          Container(
-            height: 80.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(
-                color: isDarkMode ? Colors.grey : Colors.black12,
-              ),
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            child: ListTile(
-              leading: Icon(Icons.location_pin, color: Colors.grey),
-              title: Text(AppLocalizations.of(context)!.address),
-              subtitle: Text(_areaName),
-              trailing: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200.h,
+              width: double.infinity,
+              child: GoogleMap(
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                markers: markers,
+                initialCameraPosition: CameraPosition(
+                  target: _selectedLocation ??
+                      LatLng(31.985934703432616, 35.900362288558114),
+                  zoom: 14,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  final savedLocation = Provider.of<LocationController>(
+                    context,
+                    listen: false,
+                  ).selectedLocation;
+                  if (savedLocation != null) {}
                 },
-                child: Text(
-                  AppLocalizations.of(context)!.change,
-                  style: AppStyles.getFontStyle(
-                    langController,
-                    color: AppConstants.primaryColor2,
-                    fontWeight: FontWeight.w600,
+                onCameraIdle: () {
+                  _fetchAreaNameFromMap();
+                },
+              ),
+            ),
+            SizedBox(height: 16.h),
+            Container(
+              height: 90.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                  color:Colors.black12,
+                ),
+                color: Colors.white,
+              ),
+              child: ListTile(
+                leading: Icon(Icons.location_pin, color: Colors.grey),
+                title: Text(AppLocalizations.of(context)!.address),
+                subtitle: Text(_areaName),
+                trailing: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.change,
+                    style: AppStyles.getFontStyle(
+                      langController,
+                      color: AppConstants.primaryColor2,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.sp
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 20.h),
-          CustomButtonWidget(
-            title: AppLocalizations.of(context)!.save,
-            colors: [AppConstants.buttonColor, AppConstants.buttonColor],
-            titleColor: Theme.of(context).scaffoldBackgroundColor,
-            width: double.infinity,
-            borderRadius: 12.r,
-            height: 60.h,
-            onPressed: () {
-              if (locationController.streetController.text.isEmpty) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      content: Text(
-                        textAlign: TextAlign.center,
-                        AppLocalizations.of(context)!.fill_all_fields,
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 14.sp,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      actions: [
-                        CustomButtonWidget(
-                          title: AppLocalizations.of(context)!.ok,
-                          colors: [
-                            AppConstants.buttonColor,
-                            AppConstants.buttonColor,
-                          ],
-                          height: 60.h,
-                          borderRadius: 12.r,
-                          titleColor: Theme.of(context).scaffoldBackgroundColor,
-                          width: 300.w,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {
-                locationController.addAddress(
-                    street: locationController.streetController.text,
-                    regionName: Region(
-                        name: locationController.regionNameController.text),
-                    latitude: double.tryParse(
-                        locationController.latitudeController.text),
-                    longitude: double.tryParse(
-                        locationController.longitudeController.text),
-                    buildingNumber: int.tryParse(
-                        locationController.buildingNumberController.text),
-                    additionalDirections:
-                        locationController.additionalDirectionsController.text);
-              }
-            },
-          ),
-        ],
-      ),
-    );
+            SizedBox(height: 10.h),
+          ],
+        ),
+      );
   }
 
   Future<void> _fetchAreaName(double latitude, double longitude) async {
@@ -194,7 +133,7 @@ class _LocationWidgetState extends State<LocationWidget> {
         final placemark = placemarks.first;
         setState(() {
           _areaName =
-              "${placemark.locality ?? ''}, ${placemark.administrativeArea ?? ''}";
+              "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
         });
       } else {
         setState(() {

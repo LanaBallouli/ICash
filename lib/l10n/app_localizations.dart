@@ -1078,6 +1078,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change'**
   String get change;
+
+  /// No description provided for @find_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a specific location'**
+  String get find_location;
+
+  /// No description provided for @set_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Location'**
+  String get set_location;
+
+  /// No description provided for @location_services_are_disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled.'**
+  String get location_services_are_disabled;
+
+  /// No description provided for @location_permissions_are_denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are denied'**
+  String get location_permissions_are_denied;
+
+  /// No description provided for @location_permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are permanently denied, we cannot request permissions.'**
+  String get location_permissions;
+
+  /// No description provided for @location_permission_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission required'**
+  String get location_permission_required;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

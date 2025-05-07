@@ -162,6 +162,11 @@
   "enter_client_address": "ادخل عنوان العميل التفصيلي",
   "address": "العنوان",
   "address_error": "يرجى ادخال عنوان صحيح",
-  "change": "تغيير"
-
+  "change": "تغيير",
+  "find_location": "ابحث عن موقع محدد",
+  "set_location": "تعيين الموقع",
+  "location_services_are_disabled": " تم تعطيل خدمات الموقع.",
+  "location_permissions_are_denied": "تم رفض أذونات الموقع",
+  "location_permissions": "تم رفض أذونات الموقع بشكل دائم، ولا يمكننا طلب الأذونات.",
+  "location_permission_required": "مطلوب إذن الموقع"
 }

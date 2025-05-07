@@ -499,4 +499,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get change => 'تغيير';
+
+  @override
+  String get find_location => 'ابحث عن موقع محدد';
+
+  @override
+  String get set_location => 'تعيين الموقع';
+
+  @override
+  String get location_services_are_disabled => ' تم تعطيل خدمات الموقع.';
+
+  @override
+  String get location_permissions_are_denied => 'تم رفض أذونات الموقع';
+
+  @override
+  String get location_permissions => 'تم رفض أذونات الموقع بشكل دائم، ولا يمكننا طلب الأذونات.';
+
+  @override
+  String get location_permission_required => 'مطلوب إذن الموقع';
 }

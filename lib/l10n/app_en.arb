@@ -162,6 +162,12 @@
   "enter_client_address": "Enter the client's detailed address",
   "address": "Address",
   "address_error": "Please enter a valid address.",
-  "change": "Change"
+  "change": "Change",
+  "find_location": "Find a specific location",
+  "set_location": "Set Location",
+  "location_services_are_disabled": "Location services are disabled.",
+  "location_permissions_are_denied": "Location permissions are denied",
+  "location_permissions": "Location permissions are permanently denied, we cannot request permissions.",
+  "location_permission_required": "Location permission required"
 
 }
