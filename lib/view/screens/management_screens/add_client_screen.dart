@@ -41,6 +41,9 @@ class AddClientScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
+              Container(
+                decoration: BoxDecoration(),
+              ),
               Center(
                 child: Text(
                   AppLocalizations.of(context)!.add_client_prompt,

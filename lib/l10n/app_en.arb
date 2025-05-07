@@ -160,5 +160,8 @@
   "enter_client_trade_name": "Enter client's trade name",
   "enter_client_phone": "Enter client's phone number",
   "enter_client_address": "Enter the client's detailed address",
-  "address": "Address"
+  "address": "Address",
+  "address_error": "Please enter a valid address.",
+  "change": "Change"
+
 }

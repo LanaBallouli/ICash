@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/Invoice_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
+import 'package:test_sales/controller/location_controller.dart';
 import 'package:test_sales/controller/login_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,7 +14,6 @@ import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/controller/monthly_target_controller.dart';
 import 'package:test_sales/controller/user_provider.dart';
 import 'package:test_sales/view/screens/main_screen.dart';
-import 'package:test_sales/view/screens/splash_screen.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -43,6 +42,7 @@ Future<void> main() async {
            ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
            ChangeNotifierProvider(create: (_) => UserProvider()),
            ChangeNotifierProvider(create: (_) => ClientsController()),
+           ChangeNotifierProvider(create: (_) => LocationController()),
            ChangeNotifierProvider(create: (context) => InvoiceController(
              clientsController: context.read<ClientsController>(),
            ),),

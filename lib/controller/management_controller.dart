@@ -198,6 +198,7 @@ class ManagementController extends ChangeNotifier {
   bool obscureText = false;
   String? selectedRegion;
   String? selectedType;
+  bool isClient = false;
 
   void setSelectedRegion(String? value, BuildContext context) {
     selectedRegion = value;
@@ -220,11 +221,10 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
-
-  final TextEditingController clientNameController =TextEditingController();
-  final TextEditingController clientPhoneController =TextEditingController();
-  final TextEditingController clientRoleController =TextEditingController();
-  final TextEditingController clientNotesController =TextEditingController();
+  final TextEditingController clientNameController = TextEditingController();
+  final TextEditingController clientPhoneController = TextEditingController();
+  final TextEditingController clientRoleController = TextEditingController();
+  final TextEditingController clientNotesController = TextEditingController();
   final TextEditingController clientAddressController = TextEditingController();
   String? clientSelectedType;
   String? clientSelectedRegion;
@@ -237,6 +237,7 @@ class ManagementController extends ChangeNotifier {
     'target': null,
     'region': null,
     'type': null,
+    'address': null
   };
 
   void clearErrors() {
@@ -328,6 +329,15 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
+  void _validateAddress(String? address, BuildContext context) {
+    final newError = address == null || !_passwordRegExp.hasMatch(address)
+        ? AppLocalizations.of(context)!.address_error
+        : null;
+    if (errors['address'] != newError) {
+      errors['address'] = newError;
+    }
+  }
+
   void validateForm(
       {required BuildContext context,
       required String email,
@@ -336,7 +346,8 @@ class ManagementController extends ChangeNotifier {
       required String? name,
       required String? target,
       required String? type,
-      required String? region}) {
+      required String? region,
+      String? address}) {
     final oldErrors = Map<String, String?>.from(errors);
 
     _validateEmail(email, context);
@@ -346,6 +357,10 @@ class ManagementController extends ChangeNotifier {
     _validateTarget(target, context);
     _validateType(type, context);
     _validateRegion(region, context);
+
+    if (isClient) {
+      _validateAddress(address, context);
+    }
 
     if (!_mapsEqual(oldErrors, errors)) {
       notifyListeners();
@@ -387,6 +402,9 @@ class ManagementController extends ChangeNotifier {
         _validateType(value, context);
         break;
       case 'region':
+        _validateRegion(value, context);
+        break;
+      case 'address':
         _validateRegion(value, context);
         break;
       default:
@@ -482,5 +500,15 @@ class ManagementController extends ChangeNotifier {
     selectedType = null;
     targetController.clear();
     notesController.clear();
+  }
+
+  void clearClientFields() {
+    clientNameController.clear();
+    clientSelectedType = null;
+    clientPhoneController.clear();
+    clientSelectedRegion = null;
+    clientRoleController.clear();
+    clientAddressController.clear();
+    clientNotesController.clear();
   }
 }

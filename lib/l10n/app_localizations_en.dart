@@ -493,4 +493,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get address => 'Address';
+
+  @override
+  String get address_error => 'Please enter a valid address.';
+
+  @override
+  String get change => 'Change';
 }

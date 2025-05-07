@@ -493,4 +493,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get address => 'العنوان';
+
+  @override
+  String get address_error => 'يرجى ادخال عنوان صحيح';
+
+  @override
+  String get change => 'تغيير';
 }
