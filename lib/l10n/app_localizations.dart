@@ -1046,13 +1046,13 @@ abstract class AppLocalizations {
   /// No description provided for @enter_client_trade_name.
   ///
   /// In en, this message translates to:
-  /// **'Enter client\'s trade name'**
+  /// **'Enter the client\'s trade name'**
   String get enter_client_trade_name;
 
   /// No description provided for @enter_client_phone.
   ///
   /// In en, this message translates to:
-  /// **'Enter client\'s phone number'**
+  /// **'Enter the client\'s phone number'**
   String get enter_client_phone;
 
   /// No description provided for @enter_client_address.
@@ -1114,6 +1114,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location permission required'**
   String get location_permission_required;
+
+  /// No description provided for @person_in_charge.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the person in charge'**
+  String get person_in_charge;
+
+  /// No description provided for @enter_person_in_charge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the name of person in charge'**
+  String get enter_person_in_charge;
+
+  /// No description provided for @street.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get street;
+
+  /// No description provided for @enter_street.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter street name'**
+  String get enter_street;
+
+  /// No description provided for @building_num.
+  ///
+  /// In en, this message translates to:
+  /// **'Building Num.'**
+  String get building_num;
+
+  /// No description provided for @enter_building_num.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter building number'**
+  String get enter_building_num;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

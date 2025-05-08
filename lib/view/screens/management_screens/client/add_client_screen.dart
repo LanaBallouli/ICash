@@ -42,7 +42,6 @@ class AddClientScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-
               LocationWidget(),
               Center(
                 child: Text(
@@ -60,25 +59,36 @@ class AddClientScreen extends StatelessWidget {
                       AppLocalizations.of(context)!.enter_client_trade_name,
                   nameController: managementController.clientNameController,
                   title: AppLocalizations.of(context)!.trade_name),
+              NameInputWidget(
+                  hintText:
+                      AppLocalizations.of(context)!.enter_person_in_charge,
+                  nameController:
+                      managementController.clientPersonInChargeController,
+                  title: AppLocalizations.of(context)!.person_in_charge),
               PhoneInputWidget(
                 phoneController: managementController.clientPhoneController,
                 hintText: AppLocalizations.of(context)!.enter_client_phone,
               ),
-              AddressInputWidget(),
+              AddressInputWidget(
+                title: AppLocalizations.of(context)!.street,
+                hintText: AppLocalizations.of(context)!.enter_street,
+                controller: managementController.clientStreetController,
+              ),
+              AddressInputWidget(
+                title: AppLocalizations.of(context)!.building_num,
+                hintText: AppLocalizations.of(context)!.enter_building_num,
+                controller: managementController.clientBuildingNumController,
+              ),
               RegionInputWidget(
-                selectedRegion: managementController.clientSelectedRegion,
-              ),
+                  selectedRegion: managementController.clientSelectedRegion),
               TypeInputWidget(
-                hintText: AppLocalizations.of(context)!.choose_client_type,
-                typeOptions: ["Cash", "Debt"],
-                selectedType: managementController.clientSelectedType,
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
+                  hintText: AppLocalizations.of(context)!.choose_client_type,
+                  typeOptions: ["Cash", "Debt"],
+                  selectedType: managementController.clientSelectedType),
+              SizedBox(height: 15.h),
               NotesInputWidget(
-                notesController: managementController.clientNotesController,
-              ),
+                  notesController: managementController.clientNotesController),
+              SizedBox(height: 30.h)
             ],
           ),
         ),

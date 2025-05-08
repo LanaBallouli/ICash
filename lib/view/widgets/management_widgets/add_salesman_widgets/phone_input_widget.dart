@@ -9,8 +9,9 @@ import '../../main_widgets/input_widget.dart';
 
 class PhoneInputWidget extends StatelessWidget {
   String? hintText;
+  String? title;
   TextEditingController phoneController;
-  PhoneInputWidget({super.key, this.hintText, required this.phoneController});
+  PhoneInputWidget({super.key, this.hintText, required this.phoneController, this.title});
 
   @override
   Widget build(BuildContext context) {

@@ -157,8 +157,8 @@
   "trade_name": "Trade Name",
   "salesman_name": "Sales man name",
   "choose_client_type": "Choose client type",
-  "enter_client_trade_name": "Enter client's trade name",
-  "enter_client_phone": "Enter client's phone number",
+  "enter_client_trade_name": "Enter the client's trade name",
+  "enter_client_phone": "Enter the client's phone number",
   "enter_client_address": "Enter the client's detailed address",
   "address": "Address",
   "address_error": "Please enter a valid address.",
@@ -168,6 +168,12 @@
   "location_services_are_disabled": "Location services are disabled.",
   "location_permissions_are_denied": "Location permissions are denied",
   "location_permissions": "Location permissions are permanently denied, we cannot request permissions.",
-  "location_permission_required": "Location permission required"
+  "location_permission_required": "Location permission required",
+  "person_in_charge": "Name of the person in charge",
+  "enter_person_in_charge": "Enter the name of person in charge",
+  "street": "Street",
+  "enter_street": "Enter street name",
+  "building_num": "Building Num.",
+  "enter_building_num": "Enter building number"
 
 }

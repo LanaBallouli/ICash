@@ -483,10 +483,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get choose_client_type => 'Choose client type';
 
   @override
-  String get enter_client_trade_name => 'Enter client\'s trade name';
+  String get enter_client_trade_name => 'Enter the client\'s trade name';
 
   @override
-  String get enter_client_phone => 'Enter client\'s phone number';
+  String get enter_client_phone => 'Enter the client\'s phone number';
 
   @override
   String get enter_client_address => 'Enter the client\'s detailed address';
@@ -517,4 +517,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get location_permission_required => 'Location permission required';
+
+  @override
+  String get person_in_charge => 'Name of the person in charge';
+
+  @override
+  String get enter_person_in_charge => 'Enter the name of person in charge';
+
+  @override
+  String get street => 'Street';
+
+  @override
+  String get enter_street => 'Enter street name';
+
+  @override
+  String get building_num => 'Building Num.';
+
+  @override
+  String get enter_building_num => 'Enter building number';
 }

@@ -22,19 +22,32 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   late GoogleMapController _mapController;
   LatLng? _selectedLocation;
   String _locationName = "current location";
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _determinePosition().then((position) {
+    _fetchCurrentLocation();
+  }
+
+  Future<void> _fetchCurrentLocation() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      Position position = await _determinePosition();
       setState(() {
         _selectedLocation = LatLng(position.latitude, position.longitude);
+        _isLoading = false;
       });
       _moveCameraToPosition(_selectedLocation!);
       _fetchLocationName(position.latitude, position.longitude);
-    }).catchError((error) {
+    } catch (error) {
+      setState(() {
+        _isLoading = false;
+      });
       print("Error determining position: $error");
-    });
+    }
   }
 
   @override
@@ -45,15 +58,15 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
     );
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Stack(
         children: [
           GoogleMap(
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
             initialCameraPosition: _selectedLocation == null
-                ? CameraPosition(
-                    target: LatLng(31.985934703432616, 35.900362288558114),
-                    zoom: 14)
+                ? CameraPosition(target: LatLng(31.985934703432616, 35.900362288558114), zoom: 14)
                 : CameraPosition(target: _selectedLocation!, zoom: 14),
             onMapCreated: (GoogleMapController controller) {
               _mapController = controller;
@@ -126,18 +139,19 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                           onPressed: _selectedLocation == null
                               ? null
                               : () {
-                                  Provider.of<LocationController>(context,
-                                          listen: false)
-                                      .setSelectedLocation(_selectedLocation!);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AddClientScreen(),
-                                      settings: RouteSettings(
-                                          arguments: _selectedLocation),
-                                    ),
-                                  );
-                                },
+                            Provider.of<LocationController>(context,
+                                listen: false)
+                                .setSelectedLocation(_selectedLocation!);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AddClientScreen(),
+                                settings: RouteSettings(
+                                    arguments: _selectedLocation),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppConstants.primaryColor2,
                             shape: RoundedRectangleBorder(
@@ -181,9 +195,11 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   }
 
   Future<void> _moveCameraToPosition(LatLng position) async {
-    await _mapController.animateCamera(
-      CameraUpdate.newLatLngZoom(position, 14),
-    );
+    if (_mapController != null) {
+      await _mapController.animateCamera(
+        CameraUpdate.newLatLngZoom(position, 14),
+      );
+    }
   }
 
   Future<Position> _determinePosition() async {
@@ -220,7 +236,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
         final placemark = placemarks.first;
         setState(() {
           _locationName =
-              "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
+          "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
         });
       } else {
         setState(() {
@@ -229,7 +245,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
       }
     } catch (e) {
       setState(() {
-        _locationName = "Error fetching location";
+        _locationName = "Error fetching location: ${e.toString()}";
       });
     }
   }

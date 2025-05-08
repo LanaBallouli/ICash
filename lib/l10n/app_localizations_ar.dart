@@ -517,4 +517,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get location_permission_required => 'مطلوب إذن الموقع';
+
+  @override
+  String get person_in_charge => 'اسم الشخص المسؤول';
+
+  @override
+  String get enter_person_in_charge => 'ادخل اسم الشخص المسؤول';
+
+  @override
+  String get street => 'الشارع';
+
+  @override
+  String get enter_street => 'ادخل اسم الشارع';
+
+  @override
+  String get building_num => 'رقم البناية';
+
+  @override
+  String get enter_building_num => 'ادخل رقم البناية';
 }

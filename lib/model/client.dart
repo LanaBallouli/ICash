@@ -1,3 +1,4 @@
+import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/invoice.dart';
 import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/users.dart';
@@ -11,8 +12,7 @@ class Client {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? createdBy;
-  double? latitude;
-  double? longitude;
+  Address? address;
   Region? region;
   int? balance;
   String? commercialRegistration;
@@ -27,6 +27,7 @@ class Client {
   List<Invoice>? invoices;
   List<Users>? users;
   String? notes;
+  String? personInCharge;
 
   Client({
     this.id,
@@ -36,9 +37,8 @@ class Client {
     this.createdAt,
     this.createdBy,
     this.updatedAt,
-    this.latitude,
-    this.longitude,
     this.region,
+    this.address,
     this.balance,
     this.commercialRegistration,
     this.professionLicensePath,
@@ -51,7 +51,8 @@ class Client {
     this.role,
     this.invoices,
     this.users,
-    this.notes
+    this.notes,
+    this.personInCharge
   });
 
   /// Factory constructor to create a `Client` object from JSON.
@@ -64,8 +65,6 @@ class Client {
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
       createdBy: json['created_by'],
-      latitude: (json['latitude'] as num?)?.toDouble(),
-      longitude: (json['longitude'] as num?)?.toDouble(),
       region: json['region'] != null ? Region.fromJson(json['region']) : null,
       balance: json['balance'],
       commercialRegistration: json['commercial_registration'],
@@ -87,8 +86,6 @@ class Client {
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
       'created_by': createdBy,
-      'latitude': latitude,
-      'longitude': longitude,
       'region': region?.toJson(),
       'balance': balance,
       'commercial_registration': commercialRegistration,

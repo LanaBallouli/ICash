@@ -134,8 +134,6 @@ class ManagementController extends ChangeNotifier {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       createdBy: 101,
-      latitude: 37.7749,
-      longitude: -122.4194,
       region: Region(id: 1, name: "California"),
       balance: 5000,
       commercialRegistration: "CR123456",
@@ -156,8 +154,6 @@ class ManagementController extends ChangeNotifier {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       createdBy: 101,
-      latitude: 37.7749,
-      longitude: -122.4194,
       region: Region(id: 1, name: "California"),
       balance: 5000,
       commercialRegistration: "CR123456",
@@ -178,8 +174,6 @@ class ManagementController extends ChangeNotifier {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       createdBy: 101,
-      latitude: 37.7749,
-      longitude: -122.4194,
       region: Region(id: 1, name: "California"),
       balance: 5000,
       commercialRegistration: "CR123456",
@@ -222,10 +216,12 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController notesController = TextEditingController();
 
   final TextEditingController clientNameController = TextEditingController();
+  final TextEditingController clientPersonInChargeController = TextEditingController();
   final TextEditingController clientPhoneController = TextEditingController();
-  final TextEditingController clientRoleController = TextEditingController();
   final TextEditingController clientNotesController = TextEditingController();
-  final TextEditingController clientAddressController = TextEditingController();
+  final TextEditingController clientStreetController = TextEditingController();
+  final TextEditingController clientBuildingNumController = TextEditingController();
+
   String? clientSelectedType;
   String? clientSelectedRegion;
 
@@ -330,7 +326,7 @@ class ManagementController extends ChangeNotifier {
   }
 
   void _validateAddress(String? address, BuildContext context) {
-    final newError = address == null || !_passwordRegExp.hasMatch(address)
+    final newError = address == null
         ? AppLocalizations.of(context)!.address_error
         : null;
     if (errors['address'] != newError) {
@@ -405,7 +401,7 @@ class ManagementController extends ChangeNotifier {
         _validateRegion(value, context);
         break;
       case 'address':
-        _validateRegion(value, context);
+        _validateAddress(value, context);
         break;
       default:
         errors[field] = null;
@@ -435,6 +431,20 @@ class ManagementController extends ChangeNotifier {
     required int index,
   }) {
     salesMen[index] = user;
+    notifyListeners();
+  }
+
+
+  void addNewClient(Client client) {
+    clients.add(client);
+    notifyListeners();
+  }
+
+  updateClient({
+    required Client client,
+    required int index,
+  }) {
+    clients[index] = client;
     notifyListeners();
   }
 
@@ -504,11 +514,12 @@ class ManagementController extends ChangeNotifier {
 
   void clearClientFields() {
     clientNameController.clear();
+    clientPersonInChargeController.clear();
     clientSelectedType = null;
     clientPhoneController.clear();
     clientSelectedRegion = null;
-    clientRoleController.clear();
-    clientAddressController.clear();
+    clientStreetController.clear();
     clientNotesController.clear();
+    clientBuildingNumController.clear();
   }
 }

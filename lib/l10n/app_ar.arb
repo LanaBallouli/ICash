@@ -168,5 +168,14 @@
   "location_services_are_disabled": " تم تعطيل خدمات الموقع.",
   "location_permissions_are_denied": "تم رفض أذونات الموقع",
   "location_permissions": "تم رفض أذونات الموقع بشكل دائم، ولا يمكننا طلب الأذونات.",
-  "location_permission_required": "مطلوب إذن الموقع"
+  "location_permission_required": "مطلوب إذن الموقع",
+  "person_in_charge": "اسم الشخص المسؤول",
+  "enter_person_in_charge": "ادخل اسم الشخص المسؤول",
+  "street": "الشارع",
+  "enter_street": "ادخل اسم الشارع",
+  "building_num": "رقم البناية",
+  "enter_building_num": "ادخل رقم البناية"
+
+
+
 }

@@ -8,7 +8,15 @@ import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 
 class AddressInputWidget extends StatelessWidget {
-  const AddressInputWidget({super.key});
+  final String hintText;
+  final TextEditingController controller;
+  final String title;
+
+  const AddressInputWidget(
+      {super.key,
+      required this.hintText,
+      required this.controller,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class AddressInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppLocalizations.of(context)!.address,
+                title,
                 style: AppStyles.getFontStyle(
                   langController,
                   color: Color(0xFF6C7278),
@@ -36,11 +44,12 @@ class AddressInputWidget extends StatelessWidget {
               ),
               InputWidget(
                 borderColor: Color(0xFFEFF0F6),
-                textEditingController: managementController.clientAddressController,
+                textEditingController:
+                    controller,
                 obscureText: false,
                 maxLines: 3,
                 keyboardType: TextInputType.text,
-                hintText: AppLocalizations.of(context)!.enter_client_address,
+                hintText: hintText,
                 onChanged: (value) => managementController.validateField(
                   field: 'address',
                   value: value,
