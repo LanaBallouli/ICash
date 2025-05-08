@@ -1216,6 +1216,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose the client\'s region'**
   String get choose_client_region;
+
+  /// No description provided for @no_photos_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please take the required photos'**
+  String get no_photos_error;
+
+  /// No description provided for @id_photo_required.
+  ///
+  /// In en, this message translates to:
+  /// **'ID photo required'**
+  String get id_photo_required;
+
+  /// No description provided for @commercial_registration_photo_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Commercial Registration photo required'**
+  String get commercial_registration_photo_required;
+
+  /// No description provided for @profession_license_photo_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Profession License photo required'**
+  String get profession_license_photo_required;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -9,92 +9,91 @@ import '../../../../l10n/app_localizations.dart';
 
 class RegionInputWidget extends StatelessWidget {
   final String? selectedRegion;
-  final String? hintText;
-  final dynamic Function(String?)? onChanged;
+  final String hintText;
+  final List<String> typeOptions;
+  final Function(String?)? onChange;
   final String? Function(String?)? errorText;
   final String? err;
 
-  RegionInputWidget(
-      {super.key, this.selectedRegion, this.hintText, this.errorText, this.onChanged, this.err});
-
-  final _formKey = GlobalKey<FormState>();
-
-  final List<String> regions = [
-    "Amman",
-    "Zarqaa",
-  ];
+  RegionInputWidget({
+    super.key,
+    this.selectedRegion,
+    required this.hintText,
+    required this.typeOptions,
+    this.onChange,
+    this.errorText,
+    this.err
+  });
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-    final managementController = context.watch<ManagementController>();
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.region,
-              style: AppStyles.getFontStyle(
-                langController,
-                color: Color(0xFF6C7278),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.region,
+            style: AppStyles.getFontStyle(
+              langController,
+              color: Color(0xFF6C7278),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w700,
             ),
-            Selector<ManagementController, String?>(
-              selector: (context, managementController) =>
-                  managementController.errors['region'],
-              builder: (context, errorText, _) {
-                return Container(
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    color: AppConstants.buttonColor,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 14.0.sp, right: 14.sp),
-                      child: DropdownButtonFormField<String>(
-                        hint: Text(hintText ??
-                          AppLocalizations.of(context)!.choose_region,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Color(0xFFBBBFC5),
-                            fontWeight: FontWeight.w500,
-                          ),
+          ),
+          Consumer<ManagementController>(
+            builder: (context, managementController, _) {
+              final error = managementController.errors['region'];
+              return Container(
+                height: 60.h,
+                decoration: BoxDecoration(
+                  color: AppConstants.buttonColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14.sp),
+                    child: DropdownButtonFormField<String>(
+                      hint: Text(
+                        hintText,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Color(0xFFBBBFC5),
+                          fontWeight: FontWeight.w500,
                         ),
-                        decoration: InputDecoration(
-                          border:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                        ),
-                        value: selectedRegion ??
-                            managementController.selectedRegion,
-                        items: regions
-                            .map((region) => DropdownMenuItem(
-                                  value: region,
-                                  child: Text(region),
-                                ))
-                            .toList(),
-                        onChanged: onChanged ??
-                            (value) {
-                              managementController.setSelectedRegion(
-                                  value, context);
-                            },
-                        dropdownColor: Colors.white,
                       ),
+                      decoration: InputDecoration(
+                        border:
+                        UnderlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      value: selectedRegion,
+                      items: typeOptions
+                          .map((type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type),
+                      ))
+                          .toList(),
+                      onChanged: onChange ??(value) {
+                        managementController.setSelectedRegion(value, context);
+                      },
+                      validator: errorText ?? (value) {
+                        if (error != null) {
+                          return error;
+                        }
+                        return null;
+                      },
+                      dropdownColor: Colors.white,
                     ),
                   ),
-                );
-              },
-            ),
-            Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
-          ],
-        ),
+                ),
+              );
+            },
+          ),
+          Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
+        ],
       ),
     );
   }

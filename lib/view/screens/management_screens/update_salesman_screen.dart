@@ -92,7 +92,17 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
               PhoneInputWidget(
                 phoneController: managementController.phoneNumberController,
               ),
-              RegionInputWidget(),
+              RegionInputWidget(
+                hintText: AppLocalizations.of(context)!.choose_region,
+                typeOptions: [
+                  "Amman",
+                  "Zarqaa",
+                ],
+                onChange: (value) => managementController.validateField(
+                    context: context, field: 'region', value: value),
+                err: managementController.errors['region'],
+                selectedRegion: managementController.selectedRegion,
+              ),
               TargetInputWidget(),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,

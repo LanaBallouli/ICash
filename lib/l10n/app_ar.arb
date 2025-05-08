@@ -185,8 +185,10 @@
   "region_error": "يرجى ادخال منطقة صحيحة",
   "building_error": "يرجى ادخال رقم بناية صحيح",
   "street_error": "يرجى ادخال اسم شارع صحيح",
-  "choose_client_region": "اختر منطقة العميل"
-
+  "choose_client_region": "اختر منطقة العميل",
+  "id_photo_required": "صورة الهوية مطلوبة",
+  "commercial_registration_photo_required": "صورة السجل التجاري مطلوبة",
+  "profession_license_photo_required": "صورة عن رخصة المهن مطلوبة"
 
 
 

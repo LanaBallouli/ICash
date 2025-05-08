@@ -29,6 +29,10 @@ class AddClientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
+    final clientController =
+        Provider.of<ClientsController>(context, listen: false);
+    final cameraController =
+        Provider.of<CameraController>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,6 +41,11 @@ class AddClientScreen extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
+            clientController.clearClientFields();
+            clientController.clearErrors();
+            cameraController.clearImages('id');
+            cameraController.clearImages('commercial_registration');
+            cameraController.clearImages('profession_license');
           },
           icon: Icon(Icons.arrow_back),
         ),
@@ -111,9 +120,13 @@ class AddClientScreen extends StatelessWidget {
                     errorText: clientsController.errors['buildingNum'],
                   ),
                   RegionInputWidget(
+                    typeOptions: [
+                      'Amman',
+                      "Zarqaa",
+                    ],
                     selectedRegion: clientsController.clientSelectedRegion,
-                    onChanged: (value) => clientsController.validateField(
-                        context: context, field: 'region', value: value),
+                    onChange: (value) => clientsController
+                        .setClientSelectedRegion(value, context),
                     err: clientsController.errors['region'],
                     hintText:
                         AppLocalizations.of(context)!.choose_client_region,
@@ -143,21 +156,34 @@ class AddClientScreen extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  if (clientsController.clientSelectedType ==
-                      AppLocalizations.of(context)!.debt) ...[
+                  if (clientsController.clientSelectedType == AppLocalizations.of(context)!.debt) ...[
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.client_id,
                       photoType: "id",
                     ),
+                    if (clientsController.errors['id_photos'] != null)
+                      Text(
+                        clientsController.errors['id_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                      ),
                     UploadPhotos(
-                      title:
-                          AppLocalizations.of(context)!.commercial_registration,
+                      title: AppLocalizations.of(context)!.commercial_registration,
                       photoType: "commercial_registration",
                     ),
+                    if (clientsController.errors['commercial_registration_photos'] != null)
+                      Text(
+                        clientsController.errors['commercial_registration_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                      ),
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.profession_license,
                       photoType: "profession_license",
                     ),
+                    if (clientsController.errors['profession_license_photos'] != null)
+                      Text(
+                        clientsController.errors['profession_license_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                      ),
                   ],
                   NotesInputWidget(
                       notesController: clientsController.clientNotesController),
@@ -272,10 +298,10 @@ class AddClientScreen extends StatelessWidget {
                       ),
                     );
 
-                    // Debug: Log success message
                     print("Debug: New client added successfully.");
 
-                    // Navigate back and show success dialog
+                    Navigator.pop(context);
+
                     Navigator.pop(context);
                     showDialog(
                       context: context,
@@ -307,10 +333,8 @@ class AddClientScreen extends StatelessWidget {
                       },
                     );
                   } else {
-                    // Debug: Log failure message
                     print("Debug: Form validation failed.");
 
-                    // Show error dialog
                     showDialog(
                       context: context,
                       builder: (context) {

@@ -568,4 +568,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get choose_client_region => 'اختر منطقة العميل';
+
+  @override
+  String get no_photos_error => 'Please take the required photos';
+
+  @override
+  String get id_photo_required => 'صورة الهوية مطلوبة';
+
+  @override
+  String get commercial_registration_photo_required => 'صورة السجل التجاري مطلوبة';
+
+  @override
+  String get profession_license_photo_required => 'صورة عن رخصة المهن مطلوبة';
 }

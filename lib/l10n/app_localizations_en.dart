@@ -568,4 +568,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get choose_client_region => 'Choose the client\'s region';
+
+  @override
+  String get no_photos_error => 'Please take the required photos';
+
+  @override
+  String get id_photo_required => 'ID photo required';
+
+  @override
+  String get commercial_registration_photo_required => 'Commercial Registration photo required';
+
+  @override
+  String get profession_license_photo_required => 'Profession License photo required';
 }

@@ -185,7 +185,12 @@
   "region_error": "Please enter a valid region",
   "building_error": "Please enter a valid building number",
   "street_error": "Please enter a valid street name",
-  "choose_client_region": "Choose the client's region"
+  "choose_client_region": "Choose the client's region",
+  "no_photos_error": "Please take the required photos",
+  "id_photo_required": "ID photo required",
+  "commercial_registration_photo_required": "Commercial Registration photo required",
+  "profession_license_photo_required": "Profession License photo required"
+
 
 
 

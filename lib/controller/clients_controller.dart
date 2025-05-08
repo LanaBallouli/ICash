@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/model/client.dart';
 import '../l10n/app_localizations.dart';
 import '../model/region.dart';
@@ -174,10 +176,13 @@ class ClientsController extends ChangeNotifier {
   }
 
   void _validateBuildingNum(String? buildingNum, BuildContext context) {
-    final newError =
-    buildingNum == null ? AppLocalizations.of(context)!.building_error : null;
+    final newError = buildingNum == null || buildingNum.isEmpty
+        ? AppLocalizations.of(context)!.building_error
+        : null;
+
     if (errors['buildingNum'] != newError) {
       errors['buildingNum'] = newError;
+      notifyListeners();
     }
   }
 
@@ -190,28 +195,67 @@ class ClientsController extends ChangeNotifier {
     'buildingNum':null,
     'region': null,
     'type': null,
+    'id_photos':null,
+    'commercial_registration_photos': null,
+    'profession_license_photos':null
   };
 
-  void validateForm(
-      {required BuildContext context,
-        required String? tradeName,
-        required String? personInCharge,
-        required String? phone,
-        required String? street,
-        required int? buildingNum,
-        required String? region,
-        required String? type,
-      }) {
+  void validateForm({
+    required BuildContext context,
+    required String tradeName,
+    required String personInCharge,
+    required String phone,
+    required String street,
+    required int? buildingNum,
+    required String? region,
+    required String? type,
+  }) {
     final oldErrors = Map<String, String?>.from(errors);
 
+    // Validate other fields
     _validateTradeName(tradeName, context);
     _validatePersonInChargeName(personInCharge, context);
     _validatePhone(phone, context);
     _validateType(type, context);
     _validateRegion(region, context);
     _validateStreet(street, context);
-    _validateBuildingNum("$buildingNum", context);
+    _validateBuildingNum(buildingNum?.toString(), context);
 
+    final cameraController =Provider.of<CameraController>(context,listen: false);
+
+    if (type == AppLocalizations.of(context)!.debt) {
+      final hasIdPhotos = cameraController.getPhotosByType("id").isNotEmpty;
+      final hasCommercialRegistrationPhotos =
+          cameraController.getPhotosByType("commercial_registration").isNotEmpty;
+      final hasProfessionLicensePhotos =
+          cameraController.getPhotosByType("profession_license").isNotEmpty;
+
+      errors.remove('id_photos');
+      errors.remove('commercial_registration_photos');
+      errors.remove('profession_license_photos');
+
+      if (!hasIdPhotos) {
+        errors['id_photos'] = AppLocalizations.of(context)!.id_photo_required;
+      }
+      if (!hasCommercialRegistrationPhotos) {
+        errors['commercial_registration_photos'] =
+            AppLocalizations.of(context)!.commercial_registration_photo_required;
+      }
+      if (!hasProfessionLicensePhotos) {
+        errors['profession_license_photos'] =
+            AppLocalizations.of(context)!.profession_license_photo_required;
+      }
+
+      if (hasIdPhotos && hasCommercialRegistrationPhotos && hasProfessionLicensePhotos) {
+        errors.remove('id_photos');
+        errors.remove('commercial_registration_photos');
+        errors.remove('profession_license_photos');
+      }
+    } else {
+      errors.remove('id_photos');
+      errors.remove('commercial_registration_photos');
+      errors.remove('profession_license_photos');
+    }
 
     if (!_mapsEqual(oldErrors, errors)) {
       notifyListeners();
@@ -255,6 +299,8 @@ class ClientsController extends ChangeNotifier {
       case 'region':
         _validateRegion(value, context);
         break;
+      case 'images':
+
       default:
         errors[field] = null;
     }

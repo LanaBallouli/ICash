@@ -63,7 +63,6 @@ class AddSalesmanScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               EmailFieldWidget(),
               PasswordFieldWidget(
                   hintText:
@@ -71,7 +70,17 @@ class AddSalesmanScreen extends StatelessWidget {
               PhoneInputWidget(
                   hintText: AppLocalizations.of(context)!.enter_salesman_phone,
                   phoneController: managementController.phoneNumberController),
-              RegionInputWidget(),
+              RegionInputWidget(
+                hintText: AppLocalizations.of(context)!.choose_region,
+                typeOptions: [
+                  "Amman",
+                  "Zarqaa",
+                ],
+                onChange: (value) => managementController.validateField(
+                    context: context, field: 'region', value: value),
+                err: managementController.errors['region'],
+                selectedRegion: managementController.selectedRegion,
+              ),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
                 selectedType: managementController.selectedType,
@@ -81,7 +90,9 @@ class AddSalesmanScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              NotesInputWidget(notesController: managementController.notesController,),
+              NotesInputWidget(
+                notesController: managementController.notesController,
+              ),
               SizedBox(
                 height: 20.h,
               ),
