@@ -1,5 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import '../l10n/app_localizations.dart';
 import '../model/client.dart';
@@ -216,14 +218,18 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController notesController = TextEditingController();
 
   final TextEditingController clientNameController = TextEditingController();
-  final TextEditingController clientPersonInChargeController = TextEditingController();
+  final TextEditingController clientPersonInChargeController =
+      TextEditingController();
   final TextEditingController clientPhoneController = TextEditingController();
   final TextEditingController clientNotesController = TextEditingController();
   final TextEditingController clientStreetController = TextEditingController();
-  final TextEditingController clientBuildingNumController = TextEditingController();
-
+  final TextEditingController clientBuildingNumController =
+      TextEditingController();
+  final TextEditingController clientIdController = TextEditingController();
   String? clientSelectedType;
   String? clientSelectedRegion;
+
+
 
   final Map<String, String?> errors = {
     'email': null,
@@ -233,7 +239,8 @@ class ManagementController extends ChangeNotifier {
     'target': null,
     'region': null,
     'type': null,
-    'address': null
+    'address': null,
+    'clientId': null
   };
 
   void clearErrors() {
@@ -326,12 +333,21 @@ class ManagementController extends ChangeNotifier {
   }
 
   void _validateAddress(String? address, BuildContext context) {
-    final newError = address == null
-        ? AppLocalizations.of(context)!.address_error
-        : null;
+    final newError =
+        address == null ? AppLocalizations.of(context)!.address_error : null;
     if (errors['address'] != newError) {
       errors['address'] = newError;
     }
+  }
+
+  String? validateClientId(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Client ID is required.";
+    }
+    if (value.length != 10 || !RegExp(r'^\d{10}$').hasMatch(value)) {
+      return "Client ID must be exactly 10 digits.";
+    }
+    return null;
   }
 
   void validateForm(
@@ -403,6 +419,9 @@ class ManagementController extends ChangeNotifier {
       case 'address':
         _validateAddress(value, context);
         break;
+      case 'clientId':
+        _validateAddress(value, context);
+        break;
       default:
         errors[field] = null;
     }
@@ -433,7 +452,6 @@ class ManagementController extends ChangeNotifier {
     salesMen[index] = user;
     notifyListeners();
   }
-
 
   void addNewClient(Client client) {
     clients.add(client);
@@ -521,5 +539,45 @@ class ManagementController extends ChangeNotifier {
     clientStreetController.clear();
     clientNotesController.clear();
     clientBuildingNumController.clear();
+  }
+
+
+  final ImagePicker _picker = ImagePicker();
+  final List<String> idPhotos = [];
+  String? errorMessage;
+
+  Future<void> pickImage() async {
+    if (idPhotos.length >= 2) {
+      errorMessage = "You can only upload two images.";
+      notifyListeners();
+      return;
+    }
+
+    try {
+      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+
+      if (pickedImage != null) {
+        final File imageFile = File(pickedImage.path);
+        final Uint8List imageBytes = await imageFile.readAsBytes();
+
+        idPhotos.add(base64Encode(imageBytes));
+        errorMessage = null;
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Error picking image: $e");
+    }
+  }
+
+  void clearImages() {
+    idPhotos.clear();
+    errorMessage = null;
+    notifyListeners();
+  }
+
+  void removeImage(String base64String) {
+    idPhotos.remove(base64String);
+    errorMessage = null;
+    notifyListeners();
   }
 }

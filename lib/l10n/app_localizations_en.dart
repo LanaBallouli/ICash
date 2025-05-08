@@ -535,4 +535,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enter_building_num => 'Enter building number';
+
+  @override
+  String get client_id => 'ID photo';
+
+  @override
+  String get enter_client_id => 'Enter client\'s ID photo';
+
+  @override
+  String get commercial_registration => 'Commercial Registration';
+
+  @override
+  String get profession_license => 'Profession License';
 }

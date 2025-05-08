@@ -174,7 +174,13 @@
   "street": "الشارع",
   "enter_street": "ادخل اسم الشارع",
   "building_num": "رقم البناية",
-  "enter_building_num": "ادخل رقم البناية"
+  "enter_building_num": "ادخل رقم البناية",
+  "client_id": "صورة الهوية",
+  "enter_client_id": "ادخل صورة الهوية للعميل",
+  "commercial_registration": "السجل التجاري",
+  "profession_license": "رخصة مهن"
+
+
 
 
 

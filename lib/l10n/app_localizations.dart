@@ -1150,6 +1150,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter building number'**
   String get enter_building_num;
+
+  /// No description provided for @client_id.
+  ///
+  /// In en, this message translates to:
+  /// **'ID photo'**
+  String get client_id;
+
+  /// No description provided for @enter_client_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter client\'s ID photo'**
+  String get enter_client_id;
+
+  /// No description provided for @commercial_registration.
+  ///
+  /// In en, this message translates to:
+  /// **'Commercial Registration'**
+  String get commercial_registration;
+
+  /// No description provided for @profession_license.
+  ///
+  /// In en, this message translates to:
+  /// **'Profession License'**
+  String get profession_license;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

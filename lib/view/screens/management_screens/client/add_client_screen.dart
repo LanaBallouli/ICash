@@ -5,6 +5,7 @@ import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_clinet_widgets/address_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/add_clinet_widgets/upload_photos.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/name_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/notes_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/region_input_widget.dart';
@@ -20,8 +21,6 @@ class AddClientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-    final managementController =
-        Provider.of<ManagementController>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -36,62 +35,87 @@ class AddClientScreen extends StatelessWidget {
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 10.h),
-              LocationWidget(),
-              Center(
-                child: Text(
-                  AppLocalizations.of(context)!.add_client_prompt,
-                  style: AppStyles.getFontStyle(
-                    langController,
-                    color: Colors.black54,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              NameInputWidget(
-                  hintText:
-                      AppLocalizations.of(context)!.enter_client_trade_name,
-                  nameController: managementController.clientNameController,
-                  title: AppLocalizations.of(context)!.trade_name),
-              NameInputWidget(
-                  hintText:
-                      AppLocalizations.of(context)!.enter_person_in_charge,
-                  nameController:
-                      managementController.clientPersonInChargeController,
-                  title: AppLocalizations.of(context)!.person_in_charge),
-              PhoneInputWidget(
-                phoneController: managementController.clientPhoneController,
-                hintText: AppLocalizations.of(context)!.enter_client_phone,
-              ),
-              AddressInputWidget(
-                title: AppLocalizations.of(context)!.street,
-                hintText: AppLocalizations.of(context)!.enter_street,
-                controller: managementController.clientStreetController,
-              ),
-              AddressInputWidget(
-                title: AppLocalizations.of(context)!.building_num,
-                hintText: AppLocalizations.of(context)!.enter_building_num,
-                controller: managementController.clientBuildingNumController,
-              ),
-              RegionInputWidget(
-                  selectedRegion: managementController.clientSelectedRegion),
-              TypeInputWidget(
-                  hintText: AppLocalizations.of(context)!.choose_client_type,
-                  typeOptions: ["Cash", "Debt"],
-                  selectedType: managementController.clientSelectedType),
-              SizedBox(height: 15.h),
-              NotesInputWidget(
-                  notesController: managementController.clientNotesController),
-              SizedBox(height: 30.h)
-            ],
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Consumer<ManagementController>(
+              builder: (context, managementController, child) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10.h),
+                    LocationWidget(),
+                    Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.add_client_prompt,
+                        style: AppStyles.getFontStyle(
+                          langController,
+                          color: Colors.black54,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    NameInputWidget(
+                        hintText: AppLocalizations.of(context)!
+                            .enter_client_trade_name,
+                        nameController:
+                            managementController.clientNameController,
+                        prefix: SizedBox.shrink(),
+                        title: AppLocalizations.of(context)!.trade_name),
+                    NameInputWidget(
+                        hintText: AppLocalizations.of(context)!
+                            .enter_person_in_charge,
+                        prefix: SizedBox.shrink(),
+                        nameController:
+                            managementController.clientPersonInChargeController,
+                        title: AppLocalizations.of(context)!.person_in_charge),
+                    PhoneInputWidget(
+                      phoneController:
+                          managementController.clientPhoneController,
+                      hintText:
+                          AppLocalizations.of(context)!.enter_client_phone,
+                    ),
+                    AddressInputWidget(
+                      title: AppLocalizations.of(context)!.street,
+                      hintText: AppLocalizations.of(context)!.enter_street,
+                      controller: managementController.clientStreetController,
+                    ),
+                    AddressInputWidget(
+                      title: AppLocalizations.of(context)!.building_num,
+                      hintText:
+                          AppLocalizations.of(context)!.enter_building_num,
+                      controller:
+                          managementController.clientBuildingNumController,
+                    ),
+                    RegionInputWidget(
+                        selectedRegion:
+                            managementController.clientSelectedRegion),
+                    TypeInputWidget(
+                        hintText:
+                            AppLocalizations.of(context)!.choose_client_type,
+                        typeOptions: ["Cash", "Debt"],
+                        selectedType: managementController.clientSelectedType),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    if (managementController.clientSelectedType == "Debt") ...[
+                      UploadPhotos(
+                          title: AppLocalizations.of(context)!.client_id),
+                      UploadPhotos(
+                          title: AppLocalizations.of(context)!
+                              .commercial_registration),
+                      UploadPhotos(
+                          title:
+                              AppLocalizations.of(context)!.profession_license),
+                    ],
+                    NotesInputWidget(
+                        notesController:
+                            managementController.clientNotesController),
+                    SizedBox(height: 30.h)
+                  ],
+                );
+              },
+            )),
       ),
     );
   }

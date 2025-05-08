@@ -24,6 +24,7 @@ class InputWidget extends StatelessWidget {
   final bool? readOnly;
   final double? height;
   final int? maxLines;
+  final Function()? onTap;
 
   const InputWidget({
     super.key,
@@ -43,7 +44,8 @@ class InputWidget extends StatelessWidget {
     this.hintColor,
     this.readOnly = false,
     this.height,
-    this.maxLines
+    this.maxLines,
+    this.onTap
   });
 
   @override
@@ -64,6 +66,7 @@ class InputWidget extends StatelessWidget {
           ),
           child: Center(
             child: TextField(
+              onTap: onTap,
               maxLines: maxLines ?? 1,
               textAlignVertical: TextAlignVertical.center,
               style: AppStyles.getFontStyle(langController, fontSize: 16.sp),
@@ -78,6 +81,7 @@ class InputWidget extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 suffixIcon: suffixIcon,
+                prefixIcon: prefixIcon,
                 labelText: label,
                 labelStyle: AppStyles.getFontStyle(
                   langController,

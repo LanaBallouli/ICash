@@ -9,8 +9,8 @@ import '../../../../l10n/app_localizations.dart';
 
 class TypeInputWidget extends StatelessWidget {
   final String? selectedType;
-  final String hintText; // Key for localization of the hint text
-  final List<String> typeOptions; // Dynamic list of options
+  final String hintText;
+  final List<String> typeOptions;
 
   TypeInputWidget({
     super.key,
@@ -19,8 +19,6 @@ class TypeInputWidget extends StatelessWidget {
     required this.typeOptions,
   });
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
@@ -28,71 +26,68 @@ class TypeInputWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.type,
-              style: AppStyles.getFontStyle(
-                langController,
-                color: Color(0xFF6C7278),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.type,
+            style: AppStyles.getFontStyle(
+              langController,
+              color: Color(0xFF6C7278),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w700,
             ),
-            Selector<ManagementController, String?>(
-              selector: (context, managementController) =>
-              managementController.errors['type'],
-              builder: (context, errorText, _) {
-                return Container(
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    color: AppConstants.buttonColor,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 14.0.sp, right: 14.sp),
-                      child: DropdownButtonFormField<String>(
-                        hint: Text(
-                          hintText,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Color(0xFFBBBFC5),
-                            fontWeight: FontWeight.w500,
-                          ),
+          ),
+          Consumer<ManagementController>(
+            builder: (context, managementController, _) {
+              final errorText = managementController.errors['type'];
+              return Container(
+                height: 60.h,
+                decoration: BoxDecoration(
+                  color: AppConstants.buttonColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14.sp),
+                    child: DropdownButtonFormField<String>(
+                      hint: Text(
+                        hintText,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Color(0xFFBBBFC5),
+                          fontWeight: FontWeight.w500,
                         ),
-                        decoration: InputDecoration(
-                          border: UnderlineInputBorder(borderSide: BorderSide.none),
-                        ),
-                        value: managementController.selectedType ?? selectedType,
-                        items: typeOptions
-                            .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          managementController.setSelectedType(value, context);
-                        },
-                        validator: (value) {
-                          if (errorText != null) {
-                            return errorText;
-                          }
-                          return null;
-                        },
-                        dropdownColor: Colors.white,
                       ),
+                      decoration: InputDecoration(
+                        border:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      value: managementController.selectedType ?? selectedType,
+                      items: typeOptions
+                          .map((type) => DropdownMenuItem(
+                                value: type,
+                                child: Text(type),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        managementController.setSelectedType(value, context);
+                      },
+                      validator: (value) {
+                        if (errorText != null) {
+                          return errorText;
+                        }
+                        return null;
+                      },
+                      dropdownColor: Colors.white,
                     ),
                   ),
-                );
-              },
-            ),
-          ],
-        ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

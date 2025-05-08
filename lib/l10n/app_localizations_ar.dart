@@ -535,4 +535,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enter_building_num => 'ادخل رقم البناية';
+
+  @override
+  String get client_id => 'صورة الهوية';
+
+  @override
+  String get enter_client_id => 'ادخل صورة الهوية للعميل';
+
+  @override
+  String get commercial_registration => 'السجل التجاري';
+
+  @override
+  String get profession_license => 'رخصة مهن';
 }
