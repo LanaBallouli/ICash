@@ -546,5 +546,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get commercial_registration => 'السجل التجاري';
 
   @override
-  String get profession_license => 'رخصة مهن';
+  String get profession_license => 'رخصة المهن';
+
+  @override
+  String get additional_info => 'اتجاهات إضافية';
+
+  @override
+  String get enter_additional_info => 'ادخل اتجاهات اضافية لموقع العميل';
+
+  @override
+  String get client_creation => 'لقد تم انشاء عميل جديد';
 }

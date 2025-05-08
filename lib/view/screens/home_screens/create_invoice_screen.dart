@@ -111,7 +111,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               value: "132131",
             ),
           if (invoiceProvider.invoiceType == 'debt') SizedBox(height: 15.h),
-          _buildClientDropdown(context),
+          // _buildClientDropdown(context),
           SizedBox(height: 15.h),
           _buildProductDropdown(context),
           SizedBox(height: 15.h),
@@ -218,50 +218,50 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
     );
   }
 
-  Widget _buildClientDropdown(BuildContext context) {
-    return Consumer<ClientsController>(
-      builder: (context, clientsController, child) {
-        if (clientsController.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        List<DropdownMenuItem<String>> items = [];
-        final invoiceType = context.read<InvoiceController>().invoiceType;
-
-        // Determine whether to show cash clients or debt clients
-        // if (clientsController.cashClients.isEmpty &&
-        //     clientsController.debtClients.isEmpty) {
-        //   items = [
-        //     DropdownMenuItem(
-        //       child: Text(AppLocalizations.of(context)!.no_clients),
-        //     ),
-        //   ];
-        // } else if (invoiceType == 'cash') {
-        //   items = clientsController.cashClients.map((client) {
-        //     return DropdownMenuItem<String>(
-        //       value: client.id.toString(),
-        //       child: Text(client.tradeName ?? 'Unknown'),
-        //     );
-        //   }).toList();
-        // } else if (invoiceType == 'debt') {
-        //   items = clientsController.debtClients.map((client) {
-        //     return DropdownMenuItem<String>(
-        //       value: client.id.toString(),
-        //       child: Text(client.tradeName ?? 'Unknown'),
-        //     );
-        //   }).toList();
-        // }
-
-        return InvoiceDropdown(
-          title: "${AppLocalizations.of(context)!.client_name} *",
-          items: items,
-          hintText: clientsController.selectedClient ??
-              AppLocalizations.of(context)!.select_client_name,
-          value: clientsController.selectedClient,
-          onChanged: clientsController.setSelectedClient,
-        );
-      },
-    );
-  }
+  // Widget _buildClientDropdown(BuildContext context) {
+  //   return Consumer<ClientsController>(
+  //     builder: (context, clientsController, child) {
+  //       // if (clientsController.isLoading) {
+  //       //   return const Center(child: CircularProgressIndicator());
+  //       // }
+  //       List<DropdownMenuItem<String>> items = [];
+  //       final invoiceType = context.read<InvoiceController>().invoiceType;
+  //
+  //       // Determine whether to show cash clients or debt clients
+  //       // if (clientsController.cashClients.isEmpty &&
+  //       //     clientsController.debtClients.isEmpty) {
+  //       //   items = [
+  //       //     DropdownMenuItem(
+  //       //       child: Text(AppLocalizations.of(context)!.no_clients),
+  //       //     ),
+  //       //   ];
+  //       // } else if (invoiceType == 'cash') {
+  //       //   items = clientsController.cashClients.map((client) {
+  //       //     return DropdownMenuItem<String>(
+  //       //       value: client.id.toString(),
+  //       //       child: Text(client.tradeName ?? 'Unknown'),
+  //       //     );
+  //       //   }).toList();
+  //       // } else if (invoiceType == 'debt') {
+  //       //   items = clientsController.debtClients.map((client) {
+  //       //     return DropdownMenuItem<String>(
+  //       //       value: client.id.toString(),
+  //       //       child: Text(client.tradeName ?? 'Unknown'),
+  //       //     );
+  //       //   }).toList();
+  //       // }
+  //
+  //       // return InvoiceDropdown(
+  //       //   title: "${AppLocalizations.of(context)!.client_name} *",
+  //       //   items: items,
+  //       //   hintText: clientsController.selectedClient ??
+  //       //       AppLocalizations.of(context)!.select_client_name,
+  //       //   value: clientsController.selectedClient,
+  //       //   onChanged: clientsController.setSelectedClient,
+  //       // );
+  //     },
+  //   );
+  // }
 
   Widget _buildProductDropdown(BuildContext context) {
     LangController langController =

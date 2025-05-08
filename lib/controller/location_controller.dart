@@ -82,6 +82,11 @@ class LocationController extends ChangeNotifier {
 
   void setSelectedLocation(LatLng location) {
     _selectedLocation = location;
+
+    // Update latitude and longitude controllers with the selected location
+    latitudeController.text = location.latitude.toString();
+    longitudeController.text = location.longitude.toString();
+
     notifyListeners();
   }
 
@@ -109,7 +114,6 @@ class LocationController extends ChangeNotifier {
   void addAddress({
     required String? street,
     required int? buildingNumber,
-    required Region? regionName,
     required String? additionalDirections,
     required double? latitude,
     required double? longitude,
@@ -118,7 +122,6 @@ class LocationController extends ChangeNotifier {
       Address(
         street: street,
         buildingNumber: buildingNumber,
-        regionName: regionName,
         additionalDirections: additionalDirections,
         latitude: latitude,
         longitude: longitude,
@@ -145,7 +148,6 @@ class LocationController extends ChangeNotifier {
       additionalDirections: additionalDirectionsController.text,
       buildingNumber: int.tryParse(buildingNumberController.text),
       latitude: location.latitude,
-      regionName: Region(name: regionNameController.text),
       street: streetController.text,
     );
     clearControllers();

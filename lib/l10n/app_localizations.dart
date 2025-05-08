@@ -1174,6 +1174,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profession License'**
   String get profession_license;
+
+  /// No description provided for @additional_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Directions'**
+  String get additional_info;
+
+  /// No description provided for @enter_additional_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter additional directions of the client\'s location'**
+  String get enter_additional_info;
+
+  /// No description provided for @client_creation.
+  ///
+  /// In en, this message translates to:
+  /// **'A new client has been created.'**
+  String get client_creation;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

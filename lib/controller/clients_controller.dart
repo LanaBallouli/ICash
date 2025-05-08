@@ -1,165 +1,301 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:test_sales/model/client.dart';
+import '../l10n/app_localizations.dart';
+import '../model/region.dart';
+import '../model/visit.dart';
 
 class ClientsController extends ChangeNotifier {
-  late Database database;
-  String? selectedClient;
+  List<Client> clients = [
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: "aaa",
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
+    ),
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: "aaa",
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
+    ),
+    Client(
+      id: 1,
+      clientNumber: "C12345",
+      tradeName: "ABC Trading Co.",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      createdBy: 'aaa',
+      region: Region(id: 1, name: "California"),
+      balance: 5000,
+      commercialRegistration: "CR123456",
+      professionLicensePath: "path/to/license.pdf",
+      nationalId: "NID123456789",
+      visits: [
+        Visit(
+          id: 1,
+          visitDate: DateTime.now(),
+          notes: "Initial visit",
+        ),
+      ],
+    ),
+  ];
 
-  // List<CashClient> cashClients = [];
-  // List<DebtClient> debtClients = [];
-  final supabase = Supabase.instance.client;
-  bool isLoading = false;
 
-  // Future<void> addNewCashClient(CashClient newClient) async {
-  //   try {
-  //     isLoading = true;
-  //     // Convert the client object to JSON
-  //     final jsonData = newClient.toJson();
-  //
-  //     final response = await supabase.from('clients_cash').insert(jsonData);
-  //
-  //     if (response is Map<String, dynamic> && response.containsKey('error')) {
-  //       throw Exception(response['error']);
-  //     }
-  //
-  //     // Optionally, fetch the newly inserted client to ensure consistency
-  //     final fetchedClient = await supabase
-  //         .from('clients_cash')
-  //         .select('*')
-  //         .eq(
-  //             'trade_name',
-  //             newClient
-  //                 .tradeName!) // Match by trade name or another unique field
-  //         .single();
-  //
-  //     // Add the fetched client to the list
-  //     cashClients.add(CashClient.fromJson(json: fetchedClient));
-  //     notifyListeners();
-  //
-  //     print('New client cash added successfully: ${fetchedClient}');
-  //   } catch (e) {
-  //     print('Error adding new client cash: $e');
-  //     rethrow; // Propagate the error to the caller
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
+  final TextEditingController clientNameController = TextEditingController();
+  final TextEditingController clientPersonInChargeController =
+  TextEditingController();
+  final TextEditingController clientPhoneController = TextEditingController();
+  final TextEditingController clientNotesController = TextEditingController();
+  final TextEditingController clientStreetController = TextEditingController();
+  final TextEditingController clientBuildingNumController =
+  TextEditingController();
+  final TextEditingController clientAdditionalInfoController =
+  TextEditingController();
+  String? clientSelectedType;
+  String? clientSelectedRegion;
 
-  // Future<void> addNewDebtClient(DebtClient newClient) async {
-  //   try {
-  //     isLoading = true;
-  //     // Convert the client object to JSON
-  //     final jsonData = newClient.toJson();
-  //
-  //     final response = await supabase.from('clients_debt').insert(jsonData);
-  //
-  //     if (response is Map<String, dynamic> && response.containsKey('error')) {
-  //       throw Exception(response['error']);
-  //     }
-  //
-  //     // Optionally, fetch the newly inserted client to ensure consistency
-  //     final fetchedClient = await supabase
-  //         .from('clients_debt')
-  //         .select('*')
-  //         .eq(
-  //             'trade_name',
-  //             newClient
-  //                 .tradeName!) // Match by trade name or another unique field
-  //         .single();
-  //
-  //     // Add the fetched client to the list
-  //     debtClients.add(DebtClient.fromJson(json: fetchedClient));
-  //     notifyListeners();
-  //
-  //     print('New client debt added successfully: ${fetchedClient}');
-  //   } catch (e) {
-  //     print('Error adding new client debt: $e');
-  //     rethrow; // Propagate the error to the caller
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
 
-  // Future<void> fetchCashClients() async {
-  //   try {
-  //     isLoading = true;
-  //     // Fetch data from the 'clients_cash' table
-  //     final response = await supabase
-  //         .from('clients_cash')
-  //         .select('id, trade_name'); // Select only necessary fields
-  //
-  //     // Check if the response is a list
-  //     if (response == null || !(response is List)) {
-  //       throw Exception('Error fetching clients cash');
-  //     }
-  //
-  //     // Map the response data to a List<Client>
-  //     cashClients = List<CashClient>.from(
-  //       (response as List)
-  //           .map((clientJson) => CashClient.fromJson(json: clientJson)),
-  //     );
-  //
-  //     notifyListeners(); // Notify listeners about the change in the clients list
-  //   } catch (e) {
-  //     print('Failed to fetch clients cash: $e');
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // Future<void> fetchDebtClients() async {
-  //   try {
-  //     isLoading = true;
-  //
-  //     // Fetch data from the 'clients_cash' table
-  //     final response = await supabase
-  //         .from('clients_debt')
-  //         .select('id, trade_name'); // Select only necessary fields
-  //
-  //     // Check if the response is a list
-  //     if (response == null || !(response is List)) {
-  //       throw Exception('Error fetching clients debt');
-  //     }
-  //
-  //     // Map the response data to a List<Client>
-  //     debtClients = List<DebtClient>.from(
-  //       (response as List)
-  //           .map((clientJson) => DebtClient.fromJson(json: clientJson)),
-  //     );
-  //
-  //     notifyListeners(); // Notify listeners about the change in the clients list
-  //   } catch (e) {
-  //     print('Failed to fetch clients debt: $e');
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
 
-  void setSelectedClient(String? client) {
-    selectedClient = client;
+  static final _phoneRegExp = RegExp(r'^(079|077|078)[0-9]{7}$');
+
+
+  void clearErrors() {
+    errors.updateAll((key, value) => null);
     notifyListeners();
   }
 
-// Future<void> fetchClientsBasedOnInvoiceType(String? invoiceType) async {
-//   try {
-//     isLoading = true;
-//     if (invoiceType == 'cash_invoice') {
-//       await fetchCashClients();
-//     } else if (invoiceType == 'dept_invoice') {
-//       await fetchDebtClients();
-//     }
-//   } finally {
-//     isLoading = false;
-//     notifyListeners();
-//   }
-// }}
+
+  void setClientSelectedRegion(String? value, BuildContext context) {
+    clientSelectedRegion = value;
+    validateField(field: 'region', value: value, context: context);
+    notifyListeners();
+  }
+
+  void setClientSelectedType(String? value, BuildContext context) {
+    clientSelectedType = value;
+    validateField(field: 'type', value: value, context: context);
+    notifyListeners();
+  }
+
+  void _validatePhone(String? phoneNo, BuildContext context) {
+    final newError = phoneNo == null || !_phoneRegExp.hasMatch(phoneNo)
+        ? AppLocalizations.of(context)!.phone_error
+        : null;
+    if (errors['phone'] != newError) {
+      errors['phone'] = newError;
+    }
+  }
+
+  void _validateTradeName(String? name, BuildContext context) {
+    final newError = (name == null || name.isEmpty)
+        ? AppLocalizations.of(context)!.name_error
+        : name.trim().split(' ').length < 2
+        ? AppLocalizations.of(context)!.name_error_2
+        : null;
+
+    if (errors['tradeName'] != newError) {
+      errors['tradeName'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validatePersonInChargeName(String? name, BuildContext context) {
+    final newError = (name == null || name.isEmpty)
+        ? AppLocalizations.of(context)!.name_error
+        : name.trim().split(' ').length < 2
+        ? AppLocalizations.of(context)!.name_error_2
+        : null;
+
+    if (errors['personInCharge'] != newError) {
+      errors['personInCharge'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateType(String? type, BuildContext context) {
+    final newError = type == null || type.isEmpty
+        ? AppLocalizations.of(context)!.type_error
+        : null;
+
+    if (errors['type'] != newError) {
+      errors['type'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateRegion(String? region, BuildContext context) {
+    final newError = region == null || region.isEmpty
+        ? AppLocalizations.of(context)!.type_error
+        : null;
+
+    if (errors['type'] != newError) {
+      errors['type'] = newError;
+      notifyListeners();
+    }
+  }
+
+  void _validateStreet(String? street, BuildContext context) {
+    final newError =
+    street == null ? AppLocalizations.of(context)!.address_error : null;
+    if (errors['street'] != newError) {
+      errors['street'] = newError;
+    }
+  }
+
+  void _validateBuildingNum(String? buildingNum, BuildContext context) {
+    final newError =
+    buildingNum == null ? AppLocalizations.of(context)!.address_error : null;
+    if (errors['buildingNum'] != newError) {
+      errors['buildingNum'] = newError;
+    }
+  }
+
+
+  final Map<String, String?> errors = {
+    'tradeName': null,
+    'personInCharge':null,
+    'phone': null,
+    'street':null,
+    'buildingNum':null,
+    'region': null,
+    'type': null,
+  };
+
+  void validateForm(
+      {required BuildContext context,
+        required String? tradeName,
+        required String? personInCharge,
+        required String? phone,
+        required String? street,
+        required int? buildingNum,
+        required String? region,
+        required String? type,
+      }) {
+    final oldErrors = Map<String, String?>.from(errors);
+
+    _validateTradeName(tradeName, context);
+    _validatePersonInChargeName(personInCharge, context);
+    _validatePhone(phone, context);
+    _validateType(type, context);
+    _validateRegion(region, context);
+    _validateStreet(street, context);
+    _validateBuildingNum(buildingNum as String?, context);
+
+
+    if (!_mapsEqual(oldErrors, errors)) {
+      notifyListeners();
+    }
+  }
+
+  bool _mapsEqual(Map<String, String?> a, Map<String, String?> b) {
+    if (a.length != b.length) return false;
+    for (final key in a.keys) {
+      if (a[key] != b[key]) return false;
+    }
+    return true;
+  }
+
+  void validateField({
+    required BuildContext context,
+    required String field,
+    required String? value,
+  }) {
+    final oldError = errors[field];
+
+    switch (field) {
+      case 'tradeName':
+        _validateTradeName(value, context);
+        break;
+      case 'personInCharge':
+        _validatePersonInChargeName(value, context);
+        break;
+      case 'phone':
+        _validatePhone(value, context);
+        break;
+      case 'street':
+        _validateStreet(value, context);
+        break;
+      case 'buildingNum':
+        _validateBuildingNum(value, context);
+        break;
+      case 'type':
+        _validateType(value, context);
+        break;
+      case 'region':
+        _validateRegion(value, context);
+        break;
+      default:
+        errors[field] = null;
+    }
+
+    if (errors[field] != oldError) {
+      notifyListeners();
+    }
+  }
+
+  bool isFormValid() {
+    return !errors.values.any((error) => error != null);
+  }
+
+  void addNewClient(Client client) {
+    clients.add(client);
+    notifyListeners();
+  }
+
+  updateClient({
+    required Client client,
+    required int index,
+  }) {
+    clients[index] = client;
+    notifyListeners();
+  }
+
+
+  void deleteUser(Client client) {
+    if (clients.contains(client)) {
+      clients.remove(client);
+      notifyListeners();
+    }
+  }
+
+
+  void clearClientFields() {
+    clientNameController.clear();
+    clientPersonInChargeController.clear();
+    clientSelectedType = null;
+    clientPhoneController.clear();
+    clientSelectedRegion = null;
+    clientStreetController.clear();
+    clientNotesController.clear();
+    clientBuildingNumController.clear();
+  }
 
 }

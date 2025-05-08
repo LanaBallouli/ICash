@@ -178,7 +178,10 @@
   "client_id": "صورة الهوية",
   "enter_client_id": "ادخل صورة الهوية للعميل",
   "commercial_registration": "السجل التجاري",
-  "profession_license": "رخصة مهن"
+  "profession_license": "رخصة المهن",
+  "additional_info": "اتجاهات إضافية",
+  "enter_additional_info": "ادخل اتجاهات اضافية لموقع العميل",
+  "client_creation": "لقد تم انشاء عميل جديد"
 
 
 

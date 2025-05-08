@@ -9,7 +9,11 @@ import '../../../../l10n/app_localizations.dart';
 
 class RegionInputWidget extends StatefulWidget {
   final String? selectedRegion;
-  const RegionInputWidget({super.key, this.selectedRegion});
+  final dynamic Function(String?)? onChanged;
+  final String? Function(String?)? errorText;
+
+  const RegionInputWidget(
+      {super.key, this.selectedRegion, this.errorText, this.onChanged});
 
   @override
   State<RegionInputWidget> createState() => _RegionInputWidgetState();
@@ -26,7 +30,6 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     final managementController = context.watch<ManagementController>();
-
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
@@ -71,22 +74,26 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                           border:
                               UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: widget.selectedRegion ?? managementController.selectedRegion,
+                        value: widget.selectedRegion ??
+                            managementController.selectedRegion,
                         items: regions
                             .map((region) => DropdownMenuItem(
                                   value: region,
                                   child: Text(region),
                                 ))
                             .toList(),
-                        onChanged: (value) {
-                          managementController.setSelectedRegion(value, context);
-                        },
-                        validator: (value) {
-                          if (errorText != null) {
-                            return errorText;
-                          }
-                          return null;
-                        },
+                        onChanged: widget.onChanged ??
+                            (value) {
+                              managementController.setSelectedRegion(
+                                  value, context);
+                            },
+                        validator: widget.errorText ??
+                            (value) {
+                              if (errorText != null) {
+                                return errorText;
+                              }
+                              return null;
+                            },
                         dropdownColor: Colors.white,
                       ),
                     ),

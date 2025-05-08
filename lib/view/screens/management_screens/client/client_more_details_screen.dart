@@ -36,7 +36,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildProfileHeader(langController),
+              // _buildProfileHeader(langController),
               SizedBox(height: 15.h),
               _buildProfileSection(context, langController),
               SizedBox(height: 10.h),
@@ -56,24 +56,24 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader(LangController langController) {
-    return Center(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 120.h,
-            width: 120.w,
-            child: CircleAvatar(
-              backgroundColor: const Color(0xFFE7E7E7),
-              foregroundImage: AssetImage(
-                  client.imageUrl ?? "assets/images/default_image.png"),
-            ),
-          ),
-          SizedBox(height: 10.h),
-        ],
-      ),
-    );
-  }
+  // Widget _buildProfileHeader(LangController langController) {
+  //   return Center(
+  //     child: Column(
+  //       children: [
+  //         SizedBox(
+  //           height: 120.h,
+  //           width: 120.w,
+  //           child: CircleAvatar(
+  //             backgroundColor: const Color(0xFFE7E7E7),
+  //             foregroundImage: AssetImage(
+  //                 client.imageUrl ?? "assets/images/default_image.png"),
+  //           ),
+  //         ),
+  //         SizedBox(height: 10.h),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildProfileSection(
       BuildContext context, LangController langController) {
@@ -101,7 +101,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
         "label": AppLocalizations.of(context)!.phone,
         "value": client.phone?.toString() ?? "1246789"
       },
-      {"label": AppLocalizations.of(context)!.role, "value": client.role},
       {
         "label": AppLocalizations.of(context)!.region,
         "value": client.region?.name ?? "region"
@@ -171,15 +170,15 @@ class ClientMoreDetailsScreen extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: InputWidget(
-            textEditingController: TextEditingController(
-                text: client.role ?? "achievement"),
-            readOnly: true,
-            label: AppLocalizations.of(context)!.targets,
-          ),
-        )
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 10),
+        //   child: InputWidget(
+        //     textEditingController: TextEditingController(
+        //         text: client.role ?? "achievement"),
+        //     readOnly: true,
+        //     label: AppLocalizations.of(context)!.targets,
+        //   ),
+        // )
       ],
     );
   }
@@ -289,7 +288,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: client.users == null || client.users!.isEmpty
+          child: client.assignedSalesmen == null || client.assignedSalesmen!.isEmpty
               ? Center(
             child: Text(
               AppLocalizations.of(context)!.no_assigned_clients,
@@ -299,9 +298,9 @@ class ClientMoreDetailsScreen extends StatelessWidget {
               : ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: client.users?.length ?? 0,
+            itemCount: client.assignedSalesmen?.length ?? 0,
             itemBuilder: (context, index) {
-              final users = client.users![index];
+              final users = client.assignedSalesmen![index];
               return Column(
                 children: [
                   InputWidget(

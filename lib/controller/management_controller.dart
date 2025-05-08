@@ -1,9 +1,4 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import '../l10n/app_localizations.dart';
 import '../model/client.dart';
 import '../model/invoice.dart';
@@ -129,73 +124,10 @@ class ManagementController extends ChangeNotifier {
       updatedAt: DateTime(2023, 9, 10),
     ),
   ];
-  List<Client> clients = [
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: 101,
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
-    ),
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: 101,
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
-    ),
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: 101,
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
-    ),
-  ];
   Users? selectedUser;
   bool obscureText = false;
   String? selectedRegion;
   String? selectedType;
-  bool isClient = false;
 
   void setSelectedRegion(String? value, BuildContext context) {
     selectedRegion = value;
@@ -209,18 +141,6 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setClientSelectedRegion(String? value, BuildContext context) {
-    clientSelectedType = value;
-    validateField(field: 'region', value: value, context: context);
-    notifyListeners();
-  }
-
-  void setClientSelectedType(String? value, BuildContext context) {
-    clientSelectedType = value;
-    validateField(field: 'type', value: value, context: context);
-    notifyListeners();
-  }
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -230,18 +150,6 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
-  final TextEditingController clientNameController = TextEditingController();
-  final TextEditingController clientPersonInChargeController =
-      TextEditingController();
-  final TextEditingController clientPhoneController = TextEditingController();
-  final TextEditingController clientNotesController = TextEditingController();
-  final TextEditingController clientStreetController = TextEditingController();
-  final TextEditingController clientBuildingNumController =
-      TextEditingController();
-  final TextEditingController clientIdController = TextEditingController();
-  String? clientSelectedType;
-  String? clientSelectedRegion;
-
   final Map<String, String?> errors = {
     'email': null,
     'phone': null,
@@ -250,8 +158,6 @@ class ManagementController extends ChangeNotifier {
     'target': null,
     'region': null,
     'type': null,
-    'address': null,
-    'clientId': null
   };
 
   void clearErrors() {
@@ -343,24 +249,6 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
-  void _validateAddress(String? address, BuildContext context) {
-    final newError =
-        address == null ? AppLocalizations.of(context)!.address_error : null;
-    if (errors['address'] != newError) {
-      errors['address'] = newError;
-    }
-  }
-
-  String? validateClientId(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Client ID is required.";
-    }
-    if (value.length != 10 || !RegExp(r'^\d{10}$').hasMatch(value)) {
-      return "Client ID must be exactly 10 digits.";
-    }
-    return null;
-  }
-
   void validateForm(
       {required BuildContext context,
       required String email,
@@ -369,8 +257,7 @@ class ManagementController extends ChangeNotifier {
       required String? name,
       required String? target,
       required String? type,
-      required String? region,
-      String? address}) {
+      required String? region}) {
     final oldErrors = Map<String, String?>.from(errors);
 
     _validateEmail(email, context);
@@ -380,10 +267,6 @@ class ManagementController extends ChangeNotifier {
     _validateTarget(target, context);
     _validateType(type, context);
     _validateRegion(region, context);
-
-    if (isClient) {
-      _validateAddress(address, context);
-    }
 
     if (!_mapsEqual(oldErrors, errors)) {
       notifyListeners();
@@ -427,12 +310,7 @@ class ManagementController extends ChangeNotifier {
       case 'region':
         _validateRegion(value, context);
         break;
-      case 'address':
-        _validateAddress(value, context);
-        break;
-      case 'clientId':
-        _validateAddress(value, context);
-        break;
+
       default:
         errors[field] = null;
     }
@@ -461,19 +339,6 @@ class ManagementController extends ChangeNotifier {
     required int index,
   }) {
     salesMen[index] = user;
-    notifyListeners();
-  }
-
-  void addNewClient(Client client) {
-    clients.add(client);
-    notifyListeners();
-  }
-
-  updateClient({
-    required Client client,
-    required int index,
-  }) {
-    clients[index] = client;
     notifyListeners();
   }
 
@@ -522,7 +387,7 @@ class ManagementController extends ChangeNotifier {
     if (selectedCategory == localizations.sales_men) {
       return salesMen;
     } else if (selectedCategory == localizations.clients) {
-      return clients;
+      return [];
     } else if (selectedCategory == localizations.products) {
       return [];
     } else {
@@ -539,93 +404,5 @@ class ManagementController extends ChangeNotifier {
     selectedType = null;
     targetController.clear();
     notesController.clear();
-  }
-
-  void clearClientFields() {
-    clientNameController.clear();
-    clientPersonInChargeController.clear();
-    clientSelectedType = null;
-    clientPhoneController.clear();
-    clientSelectedRegion = null;
-    clientStreetController.clear();
-    clientNotesController.clear();
-    clientBuildingNumController.clear();
-  }
-
-  final Map<String, List<String>> _photosMap = {
-    "id": [],
-    "profession_license": [],
-    "commercial_registration": [],
-  };
-
-  String? _errorMessage;
-
-  // Getter for error message
-  String? get errorMessage => _errorMessage;
-
-  // Get photos by type
-  List<String> getPhotosByType(String photoType) {
-    return _photosMap[photoType] ?? [];
-  }
-
-  // Pick an image, compress it, and add it to the corresponding list
-  Future<void> pickImage(String photoType) async {
-    if (getPhotosByType(photoType).length >= 2) {
-      _errorMessage = "You can only upload two images.";
-      notifyListeners();
-      return;
-    }
-
-    try {
-      final XFile? pickedImage =
-      await ImagePicker().pickImage(source: ImageSource.camera);
-
-      if (pickedImage != null) {
-        // Convert XFile to File
-        File imageFile = File(pickedImage.path);
-
-        // Compress the image
-        XFile compressedImage = await _compressImage(imageFile);
-
-        // Read the compressed image bytes
-        final Uint8List imageBytes = await compressedImage.readAsBytes();
-
-        // Add the compressed image to the corresponding list
-        _photosMap[photoType]?.add(base64Encode(imageBytes));
-        _errorMessage = null;
-        notifyListeners();
-      }
-    } catch (e) {
-      print("Error picking or compressing image: $e");
-    }
-  }
-
-  // Remove an image from the corresponding list
-  void removeImage(String base64String, String photoType) {
-    _photosMap[photoType]?.remove(base64String);
-    notifyListeners();
-  }
-
-  // Clear all images of a specific type
-  void clearImages(String photoType) {
-    _photosMap[photoType]?.clear();
-    notifyListeners();
-  }
-
-  // Compress the image using flutter_image_compress
-  Future<XFile> _compressImage(File imageFile) async {
-    final compressedFile = await FlutterImageCompress.compressAndGetFile(
-      imageFile.absolute.path,
-      imageFile.absolute.path.replaceAll('.jpg', '_compressed.jpg'),
-      quality: 50, // Adjust the quality (0-100)
-      minWidth: 800, // Optional: Resize width
-      minHeight: 600, // Optional: Resize height
-    );
-
-    if (compressedFile == null) {
-      throw Exception("Failed to compress image.");
-    }
-
-    return compressedFile;
   }
 }

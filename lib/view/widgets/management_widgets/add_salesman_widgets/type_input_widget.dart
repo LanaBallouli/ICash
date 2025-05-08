@@ -12,13 +12,15 @@ class TypeInputWidget extends StatelessWidget {
   final String hintText;
   final List<String> typeOptions;
   final Function(String?)? onChange;
+  final String? Function(String?)? errorText;
 
   TypeInputWidget({
     super.key,
     this.selectedType,
     required this.hintText,
     required this.typeOptions,
-    this.onChange
+    this.onChange,
+    this.errorText
   });
 
   @override
@@ -42,7 +44,7 @@ class TypeInputWidget extends StatelessWidget {
           ),
           Consumer<ManagementController>(
             builder: (context, managementController, _) {
-              final errorText = managementController.errors['type'];
+              final error = managementController.errors['type'];
               return Container(
                 height: 60.h,
                 decoration: BoxDecoration(
@@ -75,9 +77,9 @@ class TypeInputWidget extends StatelessWidget {
                       onChanged: onChange ??(value) {
                         managementController.setSelectedType(value, context);
                       },
-                      validator: (value) {
-                        if (errorText != null) {
-                          return errorText;
+                      validator: errorText ?? (value) {
+                        if (error != null) {
+                          return error;
                         }
                         return null;
                       },

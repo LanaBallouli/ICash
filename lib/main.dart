@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/Invoice_controller.dart';
+import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/location_controller.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
            ChangeNotifierProvider(create: (_) => LoginController()),
            ChangeNotifierProvider(create: (_) => ManagementController()),
            ChangeNotifierProvider(create: (_) => MonthlyTargetController()),
+           ChangeNotifierProvider(create: (_) => CameraController()),
            ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
            ChangeNotifierProvider(create: (_) => UserProvider()),
            ChangeNotifierProvider(create: (_) => ClientsController()),

@@ -547,4 +547,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profession_license => 'Profession License';
+
+  @override
+  String get additional_info => 'Additional Directions';
+
+  @override
+  String get enter_additional_info => 'Enter additional directions of the client\'s location';
+
+  @override
+  String get client_creation => 'A new client has been created.';
 }

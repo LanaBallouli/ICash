@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
+import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/screens/management_screens/add_salesman_screen.dart';
@@ -11,15 +12,15 @@ import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../widgets/management_widgets/category_buttons_widget.dart';
 import '../../widgets/management_widgets/category_grid_view_widget.dart';
 import '../../widgets/management_widgets/category_list_view_widget.dart';
-import 'client/add_client_screen.dart';
 
 class ManagementScreen extends StatelessWidget {
-
   const ManagementScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
+    final clientsController =
+        Provider.of<ClientsController>(context, listen: false);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: MainAppbarWidget(
@@ -55,18 +56,10 @@ class ManagementScreen extends StatelessWidget {
                   if (managementController.selectedCategory ==
                       AppLocalizations.of(context)!.clients)
                     CategoryListViewWidget(
-                      items: managementController.getFilteredItems(
-                        context,
-                        managementController.selectedCategory,
-                      ),
+                      items: clientsController.clients
                     )
                   else
-                    CategoryGridViewWidget(
-                      items: managementController.getFilteredItems(
-                        context,
-                        AppLocalizations.of(context)!.sales_men,
-                      ),
-                    ),
+                    CategoryGridViewWidget(items: managementController.salesMen),
                 ],
               ),
             );

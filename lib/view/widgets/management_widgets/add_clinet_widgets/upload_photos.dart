@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:test_sales/controller/camera_controller.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
@@ -19,11 +20,11 @@ class UploadPhotos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final managementController = Provider.of<ManagementController>(context);
+    final cameraController = Provider.of<CameraController>(context);
     final langController = Provider.of<LangController>(context, listen: false);
 
     // Get the list of photos based on the photoType
-    List<String> photos = managementController.getPhotosByType(photoType);
+    List<String> photos = cameraController.getPhotosByType(photoType);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,14 +44,14 @@ class UploadPhotos extends StatelessWidget {
           readOnly: true,
           suffixIcon: Icon(Icons.camera_alt_outlined),
           onTap: () {
-            managementController.pickImage(photoType); // Pass photoType
+            cameraController.pickImage(photoType); // Pass photoType
           },
         ),
-        if (managementController.errorMessage != null)
+        if (cameraController.errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
-              managementController.errorMessage!,
+              cameraController.errorMessage!,
               style: TextStyle(
                 color: Colors.red,
                 fontSize: 12.sp,
@@ -75,7 +76,7 @@ class UploadPhotos extends StatelessWidget {
                   right: 4,
                   child: GestureDetector(
                     onTap: () {
-                      managementController.removeImage(base64String, photoType); // Pass photoType
+                      cameraController.removeImage(base64String, photoType); // Pass photoType
                     },
                     child: Icon(Icons.close, color: Colors.red, size: 18.sp),
                   ),

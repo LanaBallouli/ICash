@@ -7,11 +7,11 @@ import 'package:test_sales/model/visit.dart';
 class Client {
   int? id;
   String? clientNumber;
-  Users? userId;
   String? tradeName;
+  String? personInCharge;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? createdBy;
+  String? createdBy;
   Address? address;
   Region? region;
   int? balance;
@@ -19,20 +19,16 @@ class Client {
   String? professionLicensePath;
   String? nationalId;
   List<Visit>? visits;
-  String? imageUrl;
   int? phone;
   String? status;
   String? type;
-  String? role;
   List<Invoice>? invoices;
-  List<Users>? users;
+  List<Users>? assignedSalesmen;
   String? notes;
-  String? personInCharge;
 
   Client({
     this.id,
     this.clientNumber,
-    this.userId,
     this.tradeName,
     this.createdAt,
     this.createdBy,
@@ -44,13 +40,11 @@ class Client {
     this.professionLicensePath,
     this.nationalId,
     this.visits,
-    this.imageUrl,
     this.phone,
     this.status,
     this.type,
-    this.role,
     this.invoices,
-    this.users,
+    this.assignedSalesmen,
     this.notes,
     this.personInCharge
   });
@@ -60,7 +54,6 @@ class Client {
     return Client(
       id: json['id'],
       clientNumber: json['client_number'],
-      userId: json['user'] != null ? Users.fromJson(json['user']) : null,
       tradeName: json['trade_name'],
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
@@ -81,7 +74,6 @@ class Client {
     return {
       'id': id,
       'client_number': clientNumber,
-      'user': userId?.toJson(),
       'trade_name': tradeName,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),

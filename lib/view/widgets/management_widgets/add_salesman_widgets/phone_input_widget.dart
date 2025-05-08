@@ -11,18 +11,28 @@ class PhoneInputWidget extends StatelessWidget {
   String? hintText;
   String? title;
   TextEditingController phoneController;
-  PhoneInputWidget({super.key, this.hintText, required this.phoneController, this.title});
+  dynamic Function(String)? onChanged;
+  String? errorText;
+
+  PhoneInputWidget({
+    super.key,
+    this.hintText,
+    required this.phoneController,
+    this.title,
+    this.errorText,
+    this.onChanged
+  });
 
   @override
   Widget build(BuildContext context) {
-    final managementController = context.watch<ManagementController>();
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: Selector<ManagementController, String?>(
-        selector: (context, managementController) => managementController.errors['phone'],
-        builder: (context, errorText, _) {
+      child: Consumer<ManagementController>(
+        builder: (context, managementController, _) {
+          final error = managementController.errors['phone'];
+
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,12 +52,13 @@ class PhoneInputWidget extends StatelessWidget {
                 obscureText: false,
                 keyboardType: TextInputType.phone,
                 hintText: hintText ?? AppLocalizations.of(context)!.phone_hint,
-                onChanged: (value) => managementController.validateField(
-                  field: 'phone',
-                  value: value,
-                  context: context,
-                ),
-                errorText: errorText,
+                onChanged: onChanged ??
+                    (value) => managementController.validateField(
+                          field: 'phone',
+                          value: value,
+                          context: context,
+                        ),
+                errorText: errorText ?? error,
               ),
             ],
           );

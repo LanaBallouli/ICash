@@ -11,8 +11,10 @@ class NameInputWidget extends StatelessWidget {
   String? hintText;
   String title;
   TextEditingController nameController;
+  dynamic Function(String)? onChanged;
+  String? errorText;
 
-  NameInputWidget({super.key, required this.hintText, required this.nameController, required this.title});
+  NameInputWidget({super.key, required this.hintText, this.errorText, this.onChanged, required this.nameController, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +43,12 @@ class NameInputWidget extends StatelessWidget {
                 keyboardType: TextInputType.name,
                 labelColor: Colors.grey,
                 hintText: hintText,
-                onChanged: (value) => managementController.validateField(
+                onChanged:onChanged ?? (value) => managementController.validateField(
                   field: 'name',
                   value: value,
                   context: context,
                 ),
-                errorText: managementController.errors['name'],
+                errorText: errorText ?? managementController.errors['name'],
               ),
             ],
           );

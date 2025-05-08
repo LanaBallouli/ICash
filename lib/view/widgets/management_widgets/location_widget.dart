@@ -57,7 +57,6 @@ class _LocationWidgetState extends State<LocationWidget> {
       context,
       listen: false,
     );
-    final locationController = Provider.of<LocationController>(context);
 
     return SingleChildScrollView(
         child: Column(
