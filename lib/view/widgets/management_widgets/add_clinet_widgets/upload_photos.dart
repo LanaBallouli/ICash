@@ -9,13 +9,21 @@ import '../../main_widgets/input_widget.dart';
 
 class UploadPhotos extends StatelessWidget {
   final String title;
+  final String photoType; // Identifier for the type of photo
 
-  const UploadPhotos({super.key, required this.title});
+  const UploadPhotos({
+    super.key,
+    required this.title,
+    required this.photoType,
+  });
 
   @override
   Widget build(BuildContext context) {
     final managementController = Provider.of<ManagementController>(context);
     final langController = Provider.of<LangController>(context, listen: false);
+
+    // Get the list of photos based on the photoType
+    List<String> photos = managementController.getPhotosByType(photoType);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,12 +39,11 @@ class UploadPhotos extends StatelessWidget {
         ),
         InputWidget(
           textEditingController: TextEditingController(
-              text:
-              "Upload Photos (${managementController.idPhotos.length}/2)"),
+              text: "Upload Photos (${photos.length}/2)"),
           readOnly: true,
-          prefixIcon: Icon(Icons.camera_alt_outlined),
+          suffixIcon: Icon(Icons.camera_alt_outlined),
           onTap: () {
-            managementController.pickImage();
+            managementController.pickImage(photoType); // Pass photoType
           },
         ),
         if (managementController.errorMessage != null)
@@ -54,7 +61,7 @@ class UploadPhotos extends StatelessWidget {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: managementController.idPhotos.map((base64String) {
+          children: photos.map((base64String) {
             return Stack(
               children: [
                 Image.memory(
@@ -68,7 +75,7 @@ class UploadPhotos extends StatelessWidget {
                   right: 4,
                   child: GestureDetector(
                     onTap: () {
-                      managementController.removeImage(base64String);
+                      managementController.removeImage(base64String, photoType); // Pass photoType
                     },
                     child: Icon(Icons.close, color: Colors.red, size: 18.sp),
                   ),

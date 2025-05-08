@@ -11,18 +11,19 @@ class TypeInputWidget extends StatelessWidget {
   final String? selectedType;
   final String hintText;
   final List<String> typeOptions;
+  final Function(String?)? onChange;
 
   TypeInputWidget({
     super.key,
     this.selectedType,
     required this.hintText,
     required this.typeOptions,
+    this.onChange
   });
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-    final managementController = context.watch<ManagementController>();
 
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
@@ -71,7 +72,7 @@ class TypeInputWidget extends StatelessWidget {
                                 child: Text(type),
                               ))
                           .toList(),
-                      onChanged: (value) {
+                      onChanged: onChange ??(value) {
                         managementController.setSelectedType(value, context);
                       },
                       validator: (value) {

@@ -10,10 +10,9 @@ import '../../main_widgets/input_widget.dart';
 class NameInputWidget extends StatelessWidget {
   String? hintText;
   String title;
-  Widget? prefix;
   TextEditingController nameController;
 
-  NameInputWidget({super.key, required this.hintText, this.prefix, required this.nameController, required this.title});
+  NameInputWidget({super.key, required this.hintText, required this.nameController, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,6 @@ class NameInputWidget extends StatelessWidget {
                 textEditingController: nameController,
                 obscureText: false,
                 keyboardType: TextInputType.name,
-                prefixIcon: prefix ?? Icon(Icons.person),
                 labelColor: Colors.grey,
                 hintText: hintText,
                 onChanged: (value) => managementController.validateField(

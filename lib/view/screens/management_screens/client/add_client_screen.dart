@@ -60,12 +60,10 @@ class AddClientScreen extends StatelessWidget {
                             .enter_client_trade_name,
                         nameController:
                             managementController.clientNameController,
-                        prefix: SizedBox.shrink(),
                         title: AppLocalizations.of(context)!.trade_name),
                     NameInputWidget(
                         hintText: AppLocalizations.of(context)!
                             .enter_person_in_charge,
-                        prefix: SizedBox.shrink(),
                         nameController:
                             managementController.clientPersonInChargeController,
                         title: AppLocalizations.of(context)!.person_in_charge),
@@ -91,22 +89,30 @@ class AddClientScreen extends StatelessWidget {
                         selectedRegion:
                             managementController.clientSelectedRegion),
                     TypeInputWidget(
-                        hintText:
-                            AppLocalizations.of(context)!.choose_client_type,
-                        typeOptions: ["Cash", "Debt"],
-                        selectedType: managementController.clientSelectedType),
+                      hintText:
+                          AppLocalizations.of(context)!.choose_client_type,
+                      typeOptions: ["Cash", "Debt"],
+                      selectedType: managementController.clientSelectedType,
+                      onChange: (value) {
+                        managementController.setClientSelectedType(
+                            value, context);
+                      },
+                    ),
                     SizedBox(
                       height: 15.h,
                     ),
                     if (managementController.clientSelectedType == "Debt") ...[
                       UploadPhotos(
-                          title: AppLocalizations.of(context)!.client_id),
+                          title: AppLocalizations.of(context)!.client_id,
+                          photoType: "id"),
                       UploadPhotos(
                           title: AppLocalizations.of(context)!
-                              .commercial_registration),
+                              .commercial_registration,
+                          photoType: "commercial_registration"),
                       UploadPhotos(
                           title:
-                              AppLocalizations.of(context)!.profession_license),
+                              AppLocalizations.of(context)!.profession_license,
+                      photoType: "profession_license",),
                     ],
                     NotesInputWidget(
                         notesController:

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import '../l10n/app_localizations.dart';
@@ -208,6 +209,18 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setClientSelectedRegion(String? value, BuildContext context) {
+    clientSelectedType = value;
+    validateField(field: 'region', value: value, context: context);
+    notifyListeners();
+  }
+
+  void setClientSelectedType(String? value, BuildContext context) {
+    clientSelectedType = value;
+    validateField(field: 'type', value: value, context: context);
+    notifyListeners();
+  }
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -228,8 +241,6 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController clientIdController = TextEditingController();
   String? clientSelectedType;
   String? clientSelectedRegion;
-
-
 
   final Map<String, String?> errors = {
     'email': null,
@@ -541,43 +552,80 @@ class ManagementController extends ChangeNotifier {
     clientBuildingNumController.clear();
   }
 
+  final Map<String, List<String>> _photosMap = {
+    "id": [],
+    "profession_license": [],
+    "commercial_registration": [],
+  };
 
-  final ImagePicker _picker = ImagePicker();
-  final List<String> idPhotos = [];
-  String? errorMessage;
+  String? _errorMessage;
 
-  Future<void> pickImage() async {
-    if (idPhotos.length >= 2) {
-      errorMessage = "You can only upload two images.";
+  // Getter for error message
+  String? get errorMessage => _errorMessage;
+
+  // Get photos by type
+  List<String> getPhotosByType(String photoType) {
+    return _photosMap[photoType] ?? [];
+  }
+
+  // Pick an image, compress it, and add it to the corresponding list
+  Future<void> pickImage(String photoType) async {
+    if (getPhotosByType(photoType).length >= 2) {
+      _errorMessage = "You can only upload two images.";
       notifyListeners();
       return;
     }
 
     try {
-      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? pickedImage =
+      await ImagePicker().pickImage(source: ImageSource.camera);
 
       if (pickedImage != null) {
-        final File imageFile = File(pickedImage.path);
-        final Uint8List imageBytes = await imageFile.readAsBytes();
+        // Convert XFile to File
+        File imageFile = File(pickedImage.path);
 
-        idPhotos.add(base64Encode(imageBytes));
-        errorMessage = null;
+        // Compress the image
+        XFile compressedImage = await _compressImage(imageFile);
+
+        // Read the compressed image bytes
+        final Uint8List imageBytes = await compressedImage.readAsBytes();
+
+        // Add the compressed image to the corresponding list
+        _photosMap[photoType]?.add(base64Encode(imageBytes));
+        _errorMessage = null;
         notifyListeners();
       }
     } catch (e) {
-      print("Error picking image: $e");
+      print("Error picking or compressing image: $e");
     }
   }
 
-  void clearImages() {
-    idPhotos.clear();
-    errorMessage = null;
+  // Remove an image from the corresponding list
+  void removeImage(String base64String, String photoType) {
+    _photosMap[photoType]?.remove(base64String);
     notifyListeners();
   }
 
-  void removeImage(String base64String) {
-    idPhotos.remove(base64String);
-    errorMessage = null;
+  // Clear all images of a specific type
+  void clearImages(String photoType) {
+    _photosMap[photoType]?.clear();
     notifyListeners();
+  }
+
+  // Compress the image using flutter_image_compress
+  Future<XFile> _compressImage(File imageFile) async {
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      imageFile.absolute.path,
+      imageFile.absolute.path.replaceAll('.jpg', '_compressed.jpg'),
+      quality: 50, // Adjust the quality (0-100)
+      minWidth: 800, // Optional: Resize width
+      minHeight: 600, // Optional: Resize height
+    );
+
+    if (compressedFile == null) {
+      throw Exception("Failed to compress image.");
+    }
+
+    return compressedFile;
   }
 }
