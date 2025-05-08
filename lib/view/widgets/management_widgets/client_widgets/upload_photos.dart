@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/camera_controller.dart';
+import 'package:test_sales/l10n/app_localizations.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
@@ -10,7 +11,7 @@ import '../../main_widgets/input_widget.dart';
 
 class UploadPhotos extends StatelessWidget {
   final String title;
-  final String photoType; // Identifier for the type of photo
+  final String photoType;
 
   const UploadPhotos({
     super.key,
@@ -40,7 +41,7 @@ class UploadPhotos extends StatelessWidget {
         ),
         InputWidget(
           textEditingController: TextEditingController(
-              text: "Upload Photos (${photos.length}/2)"),
+              text: "${AppLocalizations.of(context)!.upload_photos} (${photos.length}/2)"),
           readOnly: true,
           suffixIcon: Icon(Icons.camera_alt_outlined),
           onTap: () {
@@ -58,7 +59,6 @@ class UploadPhotos extends StatelessWidget {
               ),
             ),
           ),
-        SizedBox(height: 15.h),
         Wrap(
           spacing: 8,
           runSpacing: 8,

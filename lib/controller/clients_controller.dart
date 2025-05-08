@@ -345,6 +345,7 @@ class ClientsController extends ChangeNotifier {
     clientStreetController.clear();
     clientNotesController.clear();
     clientBuildingNumController.clear();
+    clientAdditionalInfoController.clear();
   }
 
 }

@@ -15,7 +15,6 @@ import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/controller/monthly_target_controller.dart';
 import 'package:test_sales/controller/user_provider.dart';
 import 'package:test_sales/view/screens/main_screen.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_clinet_widgets/upload_photos.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {

@@ -857,6 +857,12 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this user?'**
   String get delete_user;
 
+  /// No description provided for @delete_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this client?'**
+  String get delete_client;
+
   /// No description provided for @confirm_deletion.
   ///
   /// In en, this message translates to:
@@ -1240,6 +1246,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profession License photo required'**
   String get profession_license_photo_required;
+
+  /// No description provided for @upload_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Photos'**
+  String get upload_photos;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

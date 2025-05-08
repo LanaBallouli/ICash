@@ -126,6 +126,7 @@
   "top_customers": "Top Customers",
   "details": "Details",
   "delete_user": "Are you sure you want to delete this user?",
+  "delete_client": "Are you sure you want to delete this client?",
   "confirm_deletion": "Confirm Deletion",
   "add_salesman": "Add New Sales Man",
   "field_required": "Field Required",
@@ -189,7 +190,10 @@
   "no_photos_error": "Please take the required photos",
   "id_photo_required": "ID photo required",
   "commercial_registration_photo_required": "Commercial Registration photo required",
-  "profession_license_photo_required": "Profession License photo required"
+  "profession_license_photo_required": "Profession License photo required",
+  "upload_photos": "Upload Photos",
+  "delete": "Delete"
+
 
 
 

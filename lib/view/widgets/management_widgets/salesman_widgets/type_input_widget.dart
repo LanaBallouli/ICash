@@ -15,14 +15,14 @@ class TypeInputWidget extends StatelessWidget {
   final String? Function(String?)? errorText;
   final String? err;
 
-  TypeInputWidget({
+  const TypeInputWidget({
     super.key,
     this.selectedType,
     required this.hintText,
     required this.typeOptions,
     this.onChange,
     this.errorText,
-    this.err
+    this.err,
   });
 
   @override
@@ -59,7 +59,8 @@ class TypeInputWidget extends StatelessWidget {
                     child: DropdownButtonFormField<String>(
                       hint: Text(
                         hintText,
-                        style: TextStyle(
+                        style: AppStyles.getFontStyle(
+                          langController,
                           fontSize: 14.sp,
                           color: Color(0xFFBBBFC5),
                           fontWeight: FontWeight.w500,
@@ -71,20 +72,30 @@ class TypeInputWidget extends StatelessWidget {
                       ),
                       value: managementController.selectedType ?? selectedType,
                       items: typeOptions
-                          .map((type) => DropdownMenuItem(
-                                value: type,
-                                child: Text(type),
-                              ))
+                          .map(
+                            (type) => DropdownMenuItem(
+                              value: type,
+                              child: Text(
+                                type,
+                                style: AppStyles.getFontStyle(langController,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          )
                           .toList(),
-                      onChanged: onChange ??(value) {
-                        managementController.setSelectedType(value, context);
-                      },
-                      validator: errorText ?? (value) {
-                        if (error != null) {
-                          return error;
-                        }
-                        return null;
-                      },
+                      onChanged: onChange ??
+                          (value) {
+                            managementController.setSelectedType(
+                                value, context);
+                          },
+                      validator: errorText ??
+                          (value) {
+                            if (error != null) {
+                              return error;
+                            }
+                            return null;
+                          },
                       dropdownColor: Colors.white,
                     ),
                   ),
@@ -92,7 +103,11 @@ class TypeInputWidget extends StatelessWidget {
               );
             },
           ),
-          Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
+          if (err != null)
+            Text(
+              err ?? "",
+              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+            )
         ],
       ),
     );

@@ -390,6 +390,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get delete_user => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟';
 
   @override
+  String get delete_client => 'Are you sure you want to delete this client?';
+
+  @override
   String get confirm_deletion => 'تأكيد الحذف';
 
   @override
@@ -580,4 +583,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profession_license_photo_required => 'صورة عن رخصة المهن مطلوبة';
+
+  @override
+  String get upload_photos => 'قم بتحميل الصور';
+
+  @override
+  String get delete => 'حذف';
 }

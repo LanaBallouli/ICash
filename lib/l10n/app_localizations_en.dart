@@ -390,6 +390,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete_user => 'Are you sure you want to delete this user?';
 
   @override
+  String get delete_client => 'Are you sure you want to delete this client?';
+
+  @override
   String get confirm_deletion => 'Confirm Deletion';
 
   @override
@@ -580,4 +583,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profession_license_photo_required => 'Profession License photo required';
+
+  @override
+  String get upload_photos => 'Upload Photos';
+
+  @override
+  String get delete => 'Delete';
 }

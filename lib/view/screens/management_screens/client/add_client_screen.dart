@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
@@ -10,21 +11,22 @@ import 'package:test_sales/model/client.dart';
 import 'package:test_sales/model/region.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_clinet_widgets/address_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_clinet_widgets/upload_photos.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/name_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/notes_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/region_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/type_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/location_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/name_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/notes_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/client_widgets/location_widget.dart';
 import '../../../../app_constants.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../widgets/custom_button_widget.dart';
-import '../../../widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
+import '../../../widgets/management_widgets/client_widgets/address_input_widget.dart';
+import '../../../widgets/management_widgets/client_widgets/upload_photos.dart';
+import '../../../widgets/management_widgets/salesman_widgets/phone_input_widget.dart';
 
 class AddClientScreen extends StatelessWidget {
-  const AddClientScreen({super.key});
+  final LatLng location;
+  const AddClientScreen({super.key, required this.location});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class AddClientScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 10.h),
-                  LocationWidget(),
+                  LocationWidget(location: location),
                   Center(
                     child: Text(
                       AppLocalizations.of(context)!.add_client_prompt,
@@ -153,19 +155,22 @@ class AddClientScreen extends StatelessWidget {
                     },
                     err: clientsController.errors['type'],
                   ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
+
                   if (clientsController.clientSelectedType == AppLocalizations.of(context)!.debt) ...[
+
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.client_id,
                       photoType: "id",
                     ),
+
                     if (clientsController.errors['id_photos'] != null)
                       Text(
                         clientsController.errors['id_photos']!,
                         style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.commercial_registration,
                       photoType: "commercial_registration",
@@ -175,6 +180,9 @@ class AddClientScreen extends StatelessWidget {
                         clientsController.errors['commercial_registration_photos']!,
                         style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.profession_license,
                       photoType: "profession_license",
@@ -184,6 +192,7 @@ class AddClientScreen extends StatelessWidget {
                         clientsController.errors['profession_license_photos']!,
                         style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
+
                   ],
                   NotesInputWidget(
                       notesController: clientsController.clientNotesController),
@@ -261,10 +270,6 @@ class AddClientScreen extends StatelessWidget {
                     print("Debug: Parsed phone number: $phone");
                     print("Debug: Parsed building num: $buildingNum");
 
-                    final double? latitude = double.tryParse(
-                        locationController.latitudeController.text);
-                    final double? longitude = double.tryParse(
-                        locationController.longitudeController.text);
 
                     clientsController.addNewClient(
                       Client(
@@ -274,8 +279,8 @@ class AddClientScreen extends StatelessWidget {
                           buildingNumber: int.tryParse(clientsController
                               .clientBuildingNumController.text),
                           street: clientsController.clientStreetController.text,
-                          latitude: latitude,
-                          longitude: longitude,
+                          latitude:location.latitude,
+                          longitude: location.longitude,
                         ),
                         commercialRegistration: cameraController
                             .getPhotosByType("commercial_registration")
@@ -369,8 +374,8 @@ class AddClientScreen extends StatelessWidget {
         SizedBox(
           width: 20.h,
         ),
-        Expanded(child: Consumer<ClientsController>(
-          builder: (context, clientsController, child) {
+        Expanded(child: Consumer2<ClientsController, CameraController>(
+          builder: (context, clientsController, cameraController, child) {
             return CustomButtonWidget(
               title: AppLocalizations.of(context)!.cancel,
               colors: [AppConstants.buttonColor, AppConstants.buttonColor],
@@ -379,8 +384,14 @@ class AddClientScreen extends StatelessWidget {
               fontSize: 15.sp,
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context);
                 clientsController.clearClientFields();
                 clientsController.clearErrors();
+                cameraController.clearImages('id');
+                cameraController
+                    .clearImages('commercial_registration');
+                cameraController
+                    .clearImages('profession_license');
               },
             );
           },

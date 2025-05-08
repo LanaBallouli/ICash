@@ -27,7 +27,7 @@ class AddressInputWidget extends StatelessWidget {
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: const EdgeInsets.only(top: 15.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

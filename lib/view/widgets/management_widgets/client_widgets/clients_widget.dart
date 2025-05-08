@@ -8,7 +8,7 @@ import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
 import 'package:test_sales/view/screens/management_screens/client/client_more_details_screen.dart';
 import 'package:test_sales/view/widgets/custom_button_widget.dart';
-import '../../../app_constants.dart';
+import '../../../../app_constants.dart';
 
 class ClientsWidget extends StatelessWidget {
   final Client client;
@@ -32,9 +32,9 @@ class ClientsWidget extends StatelessWidget {
           width: 10.w,
           decoration: BoxDecoration(
             color: AppConstants.primaryColor2,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12.r),
-              bottomLeft: Radius.circular(12.r),
+            borderRadius: _getBorderRadiusBasedOnLanguage(
+              context,
+              false,
             ),
             border: Border.all(color: AppConstants.primaryColor2, width: 1.5.w),
           ),
@@ -44,9 +44,9 @@ class ClientsWidget extends StatelessWidget {
             height: 120.h,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(12.r),
-                bottomRight: Radius.circular(12.r),
+              borderRadius: _getBorderRadiusBasedOnLanguage(
+                context,
+                true,
               ),
               border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
             ),
@@ -158,5 +158,25 @@ class ClientsWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  BorderRadius _getBorderRadiusBasedOnLanguage(
+      BuildContext context,
+      bool isButton,
+      ) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final rtlBorderRadius = BorderRadius.only(
+      topRight: Radius.circular(12.r),
+      bottomRight: Radius.circular(12.r),
+    );
+    final ltrBorderRadius = BorderRadius.only(
+      topLeft: Radius.circular(12.r),
+      bottomLeft: Radius.circular(12.r),
+    );
+    if (isArabic) {
+      return isButton ? ltrBorderRadius : rtlBorderRadius;
+    } else {
+      return isButton ? rtlBorderRadius : ltrBorderRadius;
+    }
   }
 }

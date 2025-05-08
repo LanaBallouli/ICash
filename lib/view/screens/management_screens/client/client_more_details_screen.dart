@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
+import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
 import 'package:test_sales/view/widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/client_widgets/location_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
@@ -28,7 +31,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
         title:
-        "${client.tradeName ?? "Name"} - ${AppLocalizations.of(context)!.details}",
+            "${client.tradeName ?? "Name"} - ${AppLocalizations.of(context)!.details}",
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -36,8 +39,11 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // _buildProfileHeader(langController),
-              SizedBox(height: 15.h),
+              LocationWidget(
+                location: LatLng(client.address?.latitude ?? 31.985934703432616,
+                    client.address?.longitude ?? 35.900362288558114),
+              ),
+              // SizedBox(height: 15.h),
               _buildProfileSection(context, langController),
               SizedBox(height: 10.h),
               _buildPerformanceSection(context),
@@ -55,25 +61,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildProfileHeader(LangController langController) {
-  //   return Center(
-  //     child: Column(
-  //       children: [
-  //         SizedBox(
-  //           height: 120.h,
-  //           width: 120.w,
-  //           child: CircleAvatar(
-  //             backgroundColor: const Color(0xFFE7E7E7),
-  //             foregroundImage: AssetImage(
-  //                 client.imageUrl ?? "assets/images/default_image.png"),
-  //           ),
-  //         ),
-  //         SizedBox(height: 10.h),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _buildProfileSection(
       BuildContext context, LangController langController) {
@@ -112,7 +99,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       {
         "label": AppLocalizations.of(context)!.joining_date,
         "value":
-        formatDateWithTime(client.createdAt ?? DateTime.now()).toString()
+            formatDateWithTime(client.createdAt ?? DateTime.now()).toString()
       },
       {
         "label": AppLocalizations.of(context)!.type,
@@ -127,7 +114,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           children: [
             InputWidget(
               textEditingController:
-              TextEditingController(text: detail["value"] ?? ""),
+                  TextEditingController(text: detail["value"] ?? ""),
               label: "${detail["label"]}",
               readOnly: true,
             ),
@@ -150,7 +137,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
             textEditingController:
-            TextEditingController(text: client.type.toString()),
+                TextEditingController(text: client.type.toString()),
             readOnly: true,
             label: AppLocalizations.of(context)!.total_sales,
           ),
@@ -162,7 +149,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
             textEditingController:
-            TextEditingController(text: "${client.phone ?? "deals"}"),
+                TextEditingController(text: "${client.phone ?? "deals"}"),
             readOnly: true,
             label: AppLocalizations.of(context)!.closed_deals,
           ),
@@ -170,15 +157,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: 10),
-        //   child: InputWidget(
-        //     textEditingController: TextEditingController(
-        //         text: client.role ?? "achievement"),
-        //     readOnly: true,
-        //     label: AppLocalizations.of(context)!.targets,
-        //   ),
-        // )
       ],
     );
   }
@@ -192,9 +170,9 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     String getLatestInvoiceAmount() {
       if (client.invoices != null && client.invoices!.isNotEmpty) {
         final latestInvoice = client.invoices!.reduce((current, next) => (next
-            .creationTime
-            ?.isAfter(current.creationTime ?? DateTime.now()) ??
-            false)
+                    .creationTime
+                    ?.isAfter(current.creationTime ?? DateTime.now()) ??
+                false)
             ? next
             : current);
         return latestInvoice.calculateTotalAmount().toString();
@@ -206,10 +184,10 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     String getLatestVisitDate() {
       if (client.visits != null && client.visits!.isNotEmpty) {
         final latestVisit = client.visits!.reduce((current, next) =>
-        (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ??
-            false)
-            ? next
-            : current);
+            (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ??
+                    false)
+                ? next
+                : current);
         return formatDateWithTime(latestVisit.visitDate ?? DateTime.now());
       } else {
         return "No visits available";
@@ -228,7 +206,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController:
-            TextEditingController(text: latestInvoiceAmount),
+                TextEditingController(text: latestInvoiceAmount),
             label: AppLocalizations.of(context)!.latest_invoice,
             readOnly: true,
             suffixIcon: IconButton(
@@ -288,104 +266,42 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: client.assignedSalesmen == null || client.assignedSalesmen!.isEmpty
+          child: client.assignedSalesmen == null ||
+                  client.assignedSalesmen!.isEmpty
               ? Center(
-            child: Text(
-              AppLocalizations.of(context)!.no_assigned_clients,
-              style: TextStyle(fontSize: 14.sp, color: Colors.black54),
-            ),
-          )
-              : ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: client.assignedSalesmen?.length ?? 0,
-            itemBuilder: (context, index) {
-              final users = client.assignedSalesmen![index];
-              return Column(
-                children: [
-                  InputWidget(
-                    textEditingController: TextEditingController(
-                        text: users.fullName ?? "Unknown Client"),
-                    label: AppLocalizations.of(context)!.salesman_name,
-                    suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward)),
-                    readOnly: true,
+                  child: Text(
+                    AppLocalizations.of(context)!.no_assigned_clients,
+                    style: TextStyle(fontSize: 14.sp, color: Colors.black54),
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  )
-                ],
-              );
-            },
-          ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: client.assignedSalesmen?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final users = client.assignedSalesmen![index];
+                    return Column(
+                      children: [
+                        InputWidget(
+                          textEditingController: TextEditingController(
+                              text: users.fullName ?? "Unknown Client"),
+                          label: AppLocalizations.of(context)!.salesman_name,
+                          suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.arrow_forward)),
+                          readOnly: true,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        )
+                      ],
+                    );
+                  },
+                ),
         ),
       ],
     );
   }
-
-  // Widget _buildSalesReportsSection(BuildContext context) {
-  //   String getLatestMonthlySales(Client client) {
-  //     if (client.monthlySales != null && client.monthlySales!.isNotEmpty) {
-  //       final latestMonthlySales = client.monthlySales!.reduce((current, next) =>
-  //       (next.startDate?.isAfter(current.startDate ?? DateTime.now()) ??
-  //           false)
-  //           ? next
-  //           : current);
-  //       return latestMonthlySales.totalSales.toString();
-  //     } else {
-  //       return "No monthly sales data available";
-  //     }
-  //   }
-  //
-  //   return MoreDetailsWidget(
-  //     title: AppLocalizations.of(context)!.sales_reports,
-  //     leadingIcon: Icons.file_copy_outlined,
-  //     initExpanded: false,
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-  //         child: InputWidget(
-  //           textEditingController: TextEditingController(
-  //             text: getLatestMonthlySales(client),
-  //           ),
-  //           label: AppLocalizations.of(context)!.monthly_sales,
-  //           readOnly: true,
-  //           suffixIcon: IconButton(
-  //             onPressed: () {},
-  //             icon: Icon(Icons.arrow_forward_outlined),
-  //           ),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         height: 10.h,
-  //       ),
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-  //         child: InputWidget(
-  //           textEditingController: TextEditingController(),
-  //           label: AppLocalizations.of(context)!.product_wise_sales,
-  //           readOnly: true,
-  //           suffixIcon: IconButton(
-  //               onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         height: 10.h,
-  //       ),
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-  //         child: InputWidget(
-  //           textEditingController: TextEditingController(),
-  //           label: AppLocalizations.of(context)!.top_customers,
-  //           readOnly: true,
-  //           suffixIcon: IconButton(
-  //               onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget _buildFeedbackSection(BuildContext context) {
     return MoreDetailsWidget(
@@ -398,7 +314,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           child: InputWidget(
             height: 100.h,
             textEditingController:
-            TextEditingController(text: client.notes ?? ""),
+                TextEditingController(text: client.notes ?? ""),
             label: AppLocalizations.of(context)!.notes,
             readOnly: true,
             maxLines: 3,
@@ -445,7 +361,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
         ),
         Expanded(
           child: CustomButtonWidget(
-            title: "Delete User",
+            title: AppLocalizations.of(context)!.delete,
             colors: [Color(0xFF910000), Color(0xFF910000)],
             borderRadius: 12.r,
             titleColor: Colors.white,
@@ -463,16 +379,16 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Consumer<ManagementController>(
-          builder: (context, managementController, child) {
+        return Consumer<ClientsController>(
+          builder: (context, clientsController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content: AppLocalizations.of(context)!.delete_user,
+              content: AppLocalizations.of(context)!.delete_client,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
-                // managementController.deleteUser(client);
-                // Navigator.of(context).pop();
-                // Navigator.of(context).pop();
+                clientsController.deleteUser(client);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             );
           },

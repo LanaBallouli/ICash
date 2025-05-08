@@ -40,7 +40,6 @@ class PasswordFieldWidget extends StatelessWidget {
               return InputWidget(
                 textEditingController: managementController.passwordController,
                 obscureText: obscureText,
-                prefixIcon: const Icon(Icons.password),
                 suffixIcon: IconButton(
                   onPressed: () =>
                       managementController.togglePasswordVisibility(),

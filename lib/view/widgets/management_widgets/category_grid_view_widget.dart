@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/model/users.dart';
-import 'package:test_sales/view/widgets/management_widgets/management_item_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_item_widget.dart';
 
 class CategoryGridViewWidget extends StatelessWidget {
   final List<dynamic> items;

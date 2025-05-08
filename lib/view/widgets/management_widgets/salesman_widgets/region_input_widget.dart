@@ -15,15 +15,14 @@ class RegionInputWidget extends StatelessWidget {
   final String? Function(String?)? errorText;
   final String? err;
 
-  RegionInputWidget({
-    super.key,
-    this.selectedRegion,
-    required this.hintText,
-    required this.typeOptions,
-    this.onChange,
-    this.errorText,
-    this.err
-  });
+  RegionInputWidget(
+      {super.key,
+      this.selectedRegion,
+      required this.hintText,
+      required this.typeOptions,
+      this.onChange,
+      this.errorText,
+      this.err});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,8 @@ class RegionInputWidget extends StatelessWidget {
                     child: DropdownButtonFormField<String>(
                       hint: Text(
                         hintText,
-                        style: TextStyle(
+                        style: AppStyles.getFontStyle(
+                          langController,
                           fontSize: 14.sp,
                           color: Color(0xFFBBBFC5),
                           fontWeight: FontWeight.w500,
@@ -67,24 +67,34 @@ class RegionInputWidget extends StatelessWidget {
                       ),
                       decoration: InputDecoration(
                         border:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
+                            UnderlineInputBorder(borderSide: BorderSide.none),
                       ),
                       value: selectedRegion,
                       items: typeOptions
-                          .map((type) => DropdownMenuItem(
-                        value: type,
-                        child: Text(type),
-                      ))
+                          .map(
+                            (type) => DropdownMenuItem(
+                              value: type,
+                              child: Text(
+                                type,
+                                style: AppStyles.getFontStyle(langController,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          )
                           .toList(),
-                      onChanged: onChange ??(value) {
-                        managementController.setSelectedRegion(value, context);
-                      },
-                      validator: errorText ?? (value) {
-                        if (error != null) {
-                          return error;
-                        }
-                        return null;
-                      },
+                      onChanged: onChange ??
+                          (value) {
+                            managementController.setSelectedRegion(
+                                value, context);
+                          },
+                      validator: errorText ??
+                          (value) {
+                            if (error != null) {
+                              return error;
+                            }
+                            return null;
+                          },
                       dropdownColor: Colors.white,
                     ),
                   ),
@@ -92,7 +102,11 @@ class RegionInputWidget extends StatelessWidget {
               );
             },
           ),
-          Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
+          if (err != null)
+            Text(
+              err ?? "",
+              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+            )
         ],
       ),
     );

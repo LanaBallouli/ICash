@@ -61,136 +61,141 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Stack(
-        children: [
-          GoogleMap(
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            initialCameraPosition: _selectedLocation == null
-                ? CameraPosition(target: LatLng(31.985934703432616, 35.900362288558114), zoom: 14)
-                : CameraPosition(target: _selectedLocation!, zoom: 14),
-            onMapCreated: (GoogleMapController controller) {
-              _mapController = controller;
-              if (_selectedLocation != null) {
-                _moveCameraToPosition(_selectedLocation!);
-              }
-            },
-            onCameraMove: (CameraPosition position) {
-              setState(() {
-                _selectedLocation = position.target;
-              });
-              _fetchLocationName(
-                  position.target.latitude, position.target.longitude);
-            },
-          ),
-          Center(
-            child: Icon(Icons.location_on, color: Colors.red, size: 40.sp),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 100.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 200.h,
-                width: 345.w,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
+              children: [
+                GoogleMap(
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  initialCameraPosition: _selectedLocation == null
+                      ? CameraPosition(
+                          target:
+                              LatLng(31.985934703432616, 35.900362288558114),
+                          zoom: 14)
+                      : CameraPosition(target: _selectedLocation!, zoom: 14),
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController = controller;
+                    if (_selectedLocation != null) {
+                      _moveCameraToPosition(_selectedLocation!);
+                    }
+                  },
+                  onCameraMove: (CameraPosition position) {
+                    setState(() {
+                      _selectedLocation = position.target;
+                    });
+                    _fetchLocationName(
+                        position.target.latitude, position.target.longitude);
+                  },
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 23.0,
-                        top: 24,
-                        right: 23,
+                Center(
+                  child:
+                      Icon(Icons.location_on, color: Colors.red, size: 40.sp),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 100.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 200.h,
+                      width: 345.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
-                      child: Text(
-                        AppLocalizations.of(context)!.find_location,
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 12.sp,
-                          color: Color(0xFF878787),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(
-                        Icons.pin_drop_outlined,
-                        color: AppConstants.primaryColor2,
-                      ),
-                      title: Text(
-                        _locationName,
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          color: Colors.grey,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 14.h),
-                    Center(
-                      child: SizedBox(
-                        height: 60.h,
-                        width: 300.w,
-                        child: ElevatedButton(
-                          onPressed: _selectedLocation == null
-                              ? null
-                              : () {
-                            Provider.of<LocationController>(context,
-                                listen: false)
-                                .setSelectedLocation(_selectedLocation!);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    AddClientScreen(),
-                                settings: RouteSettings(
-                                    arguments: _selectedLocation),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 23.0,
+                              top: 24,
+                              right: 23,
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context)!.find_location,
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                fontSize: 12.sp,
+                                color: Color(0xFF878787),
+                                fontWeight: FontWeight.w500,
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppConstants.primaryColor2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
                             ),
                           ),
-                          child: Text(
-                            AppLocalizations.of(context)!.set_location,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          ListTile(
+                            leading: Icon(
+                              Icons.pin_drop_outlined,
+                              color: AppConstants.primaryColor2,
+                            ),
+                            title: Text(
+                              _locationName,
+                              style: AppStyles.getFontStyle(
+                                langController,
+                                color: Colors.grey,
+                                fontSize: 12.sp,
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(height: 14.h),
+                          Center(
+                            child: SizedBox(
+                              height: 60.h,
+                              width: 300.w,
+                              child: ElevatedButton(
+                                onPressed: _selectedLocation == null
+                                    ? null
+                                    : () {
+                                        Provider.of<LocationController>(context,
+                                                listen: false)
+                                            .setSelectedLocation(
+                                                _selectedLocation!);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddClientScreen(
+                                              location: _selectedLocation!,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppConstants.primaryColor2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(context)!.set_location,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0, left: 8),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0, left: 8),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -236,7 +241,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
         final placemark = placemarks.first;
         setState(() {
           _locationName =
-          "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
+              "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
         });
       } else {
         setState(() {

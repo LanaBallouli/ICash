@@ -10,12 +10,12 @@ import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
 import 'package:test_sales/view/widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/email_field_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/name_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/password_field_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/add_salesman_widgets/phone_input_widget.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/management_widgets/salesman_widgets/email_field_widget.dart';
+import '../../widgets/management_widgets/salesman_widgets/name_input_widget.dart';
+import '../../widgets/management_widgets/salesman_widgets/password_field_widget.dart';
+import '../../widgets/management_widgets/salesman_widgets/phone_input_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

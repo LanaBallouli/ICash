@@ -188,7 +188,10 @@
   "choose_client_region": "اختر منطقة العميل",
   "id_photo_required": "صورة الهوية مطلوبة",
   "commercial_registration_photo_required": "صورة السجل التجاري مطلوبة",
-  "profession_license_photo_required": "صورة عن رخصة المهن مطلوبة"
+  "profession_license_photo_required": "صورة عن رخصة المهن مطلوبة",
+  "upload_photos": "قم بتحميل الصور",
+  "delete": "حذف"
+
 
 
 
