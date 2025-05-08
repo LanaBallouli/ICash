@@ -7,20 +7,18 @@ import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class RegionInputWidget extends StatefulWidget {
+class RegionInputWidget extends StatelessWidget {
   final String? selectedRegion;
+  final String? hintText;
   final dynamic Function(String?)? onChanged;
   final String? Function(String?)? errorText;
+  final String? err;
 
-  const RegionInputWidget(
-      {super.key, this.selectedRegion, this.errorText, this.onChanged});
+  RegionInputWidget(
+      {super.key, this.selectedRegion, this.hintText, this.errorText, this.onChanged, this.err});
 
-  @override
-  State<RegionInputWidget> createState() => _RegionInputWidgetState();
-}
-
-class _RegionInputWidgetState extends State<RegionInputWidget> {
   final _formKey = GlobalKey<FormState>();
+
   final List<String> regions = [
     "Amman",
     "Zarqaa",
@@ -62,7 +60,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 14.0.sp, right: 14.sp),
                       child: DropdownButtonFormField<String>(
-                        hint: Text(
+                        hint: Text(hintText ??
                           AppLocalizations.of(context)!.choose_region,
                           style: TextStyle(
                             fontSize: 14.sp,
@@ -74,7 +72,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                           border:
                               UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
-                        value: widget.selectedRegion ??
+                        value: selectedRegion ??
                             managementController.selectedRegion,
                         items: regions
                             .map((region) => DropdownMenuItem(
@@ -82,17 +80,10 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                                   child: Text(region),
                                 ))
                             .toList(),
-                        onChanged: widget.onChanged ??
+                        onChanged: onChanged ??
                             (value) {
                               managementController.setSelectedRegion(
                                   value, context);
-                            },
-                        validator: widget.errorText ??
-                            (value) {
-                              if (errorText != null) {
-                                return errorText;
-                              }
-                              return null;
                             },
                         dropdownColor: Colors.white,
                       ),
@@ -101,6 +92,7 @@ class _RegionInputWidgetState extends State<RegionInputWidget> {
                 );
               },
             ),
+            Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
           ],
         ),
       ),

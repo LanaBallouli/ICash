@@ -35,10 +35,11 @@ class AddClientScreen extends StatelessWidget {
       appBar: MainAppbarWidget(
         title: AppLocalizations.of(context)!.add_client,
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
       ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -113,7 +114,9 @@ class AddClientScreen extends StatelessWidget {
                     selectedRegion: clientsController.clientSelectedRegion,
                     onChanged: (value) => clientsController.validateField(
                         context: context, field: 'region', value: value),
-                    errorText: (value) => clientsController.errors['region'],
+                    err: clientsController.errors['region'],
+                    hintText:
+                        AppLocalizations.of(context)!.choose_client_region,
                   ),
                   AddressInputWidget(
                     title: AppLocalizations.of(context)!.additional_info,
@@ -135,12 +138,13 @@ class AddClientScreen extends StatelessWidget {
                     onChange: (value) {
                       clientsController.setClientSelectedType(value, context);
                     },
-                    errorText: (value) => clientsController.errors['type'],
+                    err: clientsController.errors['type'],
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
-                  if (clientsController.clientSelectedType == "Debt") ...[
+                  if (clientsController.clientSelectedType ==
+                      AppLocalizations.of(context)!.debt) ...[
                     UploadPhotos(
                       title: AppLocalizations.of(context)!.client_id,
                       photoType: "id",
@@ -188,9 +192,125 @@ class AddClientScreen extends StatelessWidget {
                 titleColor: Colors.white,
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                onPressed: () async {
-                  if (clientsController.errors.values
-                      .any((error) => error != null)) {
+                onPressed: () {
+                  // Debug: Log the input values before validation
+                  print("Debug: Validating form with the following inputs:");
+                  print(
+                      "tradeName: ${clientsController.clientNameController.text}");
+                  print(
+                      "personInCharge: ${clientsController.clientPersonInChargeController.text}");
+                  print(
+                      "phone: ${clientsController.clientPhoneController.text}");
+                  print(
+                      "street: ${clientsController.clientStreetController.text}");
+                  print(
+                      "buildingNum: ${clientsController.clientBuildingNumController.text}");
+                  print("Type: ${clientsController.clientSelectedType}");
+                  print("Region: ${clientsController.clientSelectedRegion}");
+
+                  // Validate the form
+                  clientsController.validateForm(
+                      context: context,
+                      tradeName: clientsController.clientNameController.text,
+                      personInCharge:
+                          clientsController.clientPersonInChargeController.text,
+                      phone: clientsController.clientPhoneController.text,
+                      street: clientsController.clientStreetController.text,
+                      buildingNum: int.tryParse(
+                          clientsController.clientBuildingNumController.text),
+                      region: clientsController.clientSelectedRegion,
+                      type: clientsController.clientSelectedType);
+
+                  // Debug: Log whether the form is valid
+                  print(
+                      "Debug: Is form valid? ${clientsController.isFormValid()}");
+
+                  if (clientsController.isFormValid()) {
+                    // Debug: Log the parsed phone and target values
+                    final phone = int.tryParse(
+                        clientsController.clientPhoneController.text);
+                    final buildingNum = double.tryParse(
+                        clientsController.clientBuildingNumController.text);
+
+                    print("Debug: Parsed phone number: $phone");
+                    print("Debug: Parsed building num: $buildingNum");
+
+                    final double? latitude = double.tryParse(
+                        locationController.latitudeController.text);
+                    final double? longitude = double.tryParse(
+                        locationController.longitudeController.text);
+
+                    clientsController.addNewClient(
+                      Client(
+                        address: Address(
+                          additionalDirections: clientsController
+                              .clientAdditionalInfoController.text,
+                          buildingNumber: int.tryParse(clientsController
+                              .clientBuildingNumController.text),
+                          street: clientsController.clientStreetController.text,
+                          latitude: latitude,
+                          longitude: longitude,
+                        ),
+                        commercialRegistration: cameraController
+                            .getPhotosByType("commercial_registration")
+                            .firstOrNull,
+                        nationalId:
+                            cameraController.getPhotosByType("id").firstOrNull,
+                        professionLicensePath: cameraController
+                            .getPhotosByType("profession_license")
+                            .firstOrNull,
+                        personInCharge: clientsController
+                            .clientPersonInChargeController.text,
+                        createdAt: DateTime.now(),
+                        notes: clientsController.clientNotesController.text,
+                        phone: int.tryParse(
+                            clientsController.clientPhoneController.text),
+                        region: Region(
+                            name: clientsController.clientSelectedRegion),
+                        tradeName: clientsController.clientNameController.text,
+                        type: clientsController.clientSelectedType,
+                      ),
+                    );
+
+                    // Debug: Log success message
+                    print("Debug: New client added successfully.");
+
+                    // Navigate back and show success dialog
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return DialogWidget(
+                          title: AppLocalizations.of(context)!.client_creation,
+                          imageUrl: "assets/images/success.png",
+                          actions: [
+                            CustomButtonWidget(
+                              title: AppLocalizations.of(context)!.ok,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                clientsController.clearClientFields();
+                                clientsController.clearErrors();
+                                cameraController.clearImages('id');
+                                cameraController
+                                    .clearImages('commercial_registration');
+                                cameraController
+                                    .clearImages('profession_license');
+                              },
+                              borderRadius: 12.r,
+                              colors: [
+                                AppConstants.primaryColor2,
+                                AppConstants.primaryColor2
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    // Debug: Log failure message
+                    print("Debug: Form validation failed.");
+
+                    // Show error dialog
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -200,101 +320,23 @@ class AddClientScreen extends StatelessWidget {
                           content:
                               AppLocalizations.of(context)!.fill_all_fields,
                           imageUrl: "assets/images/cancel.png",
-                          actions: [],
-                        );
-                      },
-                    );
-                    return;
-                  }
-
-                  final double? latitude = double.tryParse(
-                      locationController.latitudeController.text);
-                  final double? longitude = double.tryParse(
-                      locationController.longitudeController.text);
-
-                  if (latitude == null || longitude == null) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return DialogWidget(
-                          title: AppLocalizations.of(context)!.client_creation,
-                          imageUrl: "assets/images/success.png",
                           actions: [
                             CustomButtonWidget(
                               title: AppLocalizations.of(context)!.ok,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              borderRadius: 12.r,
                               colors: [
                                 AppConstants.primaryColor2,
                                 AppConstants.primaryColor2
                               ],
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )
+                            ),
                           ],
                         );
                       },
                     );
-                    return;
                   }
-
-                  clientsController.addNewClient(
-                    Client(
-                      address: Address(
-                        additionalDirections: clientsController
-                            .clientAdditionalInfoController.text,
-                        buildingNumber: int.tryParse(
-                            clientsController.clientBuildingNumController.text),
-                        street: clientsController.clientStreetController.text,
-                        latitude: latitude,
-                        longitude: longitude,
-                      ),
-                      commercialRegistration: cameraController
-                          .getPhotosByType("commercial_registration")
-                          .firstOrNull,
-                      nationalId:
-                          cameraController.getPhotosByType("id").firstOrNull,
-                      professionLicensePath: cameraController
-                          .getPhotosByType("profession_license")
-                          .firstOrNull,
-                      personInCharge:
-                          clientsController.clientPersonInChargeController.text,
-                      createdAt: DateTime.now(),
-                      notes: clientsController.clientNotesController.text,
-                      phone: int.tryParse(
-                          clientsController.clientPhoneController.text),
-                      region:
-                          Region(name: clientsController.clientSelectedRegion),
-                      tradeName: clientsController.clientNameController.text,
-                      type: clientsController.clientSelectedType,
-                    ),
-                  );
-
-                  clientsController.clearClientFields();
-                  clientsController.clearErrors();
-
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return DialogWidget(
-                          title: AppLocalizations.of(context)!.client_creation,
-                          imageUrl: "assets/images/success.png",
-                          actions: [
-                            CustomButtonWidget(
-                              title: AppLocalizations.of(context)!.ok,
-                              colors: [
-                                AppConstants.primaryColor2,
-                                AppConstants.primaryColor2
-                              ],
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )
-                          ],
-                        );
-                      });
-
-                  // Navigate back
-                  Navigator.pop(context);
                 },
               );
             },

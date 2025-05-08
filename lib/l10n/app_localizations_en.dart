@@ -556,4 +556,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get client_creation => 'A new client has been created.';
+
+  @override
+  String get region_error => 'Please enter a valid region';
+
+  @override
+  String get building_error => 'Please enter a valid building number';
+
+  @override
+  String get street_error => 'Please enter a valid street name';
+
+  @override
+  String get choose_client_region => 'Choose the client\'s region';
 }

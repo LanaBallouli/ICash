@@ -181,7 +181,15 @@
   "profession_license": "Profession License",
   "additional_info": "Additional Directions",
   "enter_additional_info": "Enter additional directions of the client's location",
-  "client_creation": "A new client has been created."
+  "client_creation": "A new client has been created.",
+  "region_error": "Please enter a valid region",
+  "building_error": "Please enter a valid building number",
+  "street_error": "Please enter a valid street name",
+  "choose_client_region": "Choose the client's region"
+
+
+
+
 
 
 

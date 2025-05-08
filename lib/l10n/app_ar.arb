@@ -181,7 +181,11 @@
   "profession_license": "رخصة المهن",
   "additional_info": "اتجاهات إضافية",
   "enter_additional_info": "ادخل اتجاهات اضافية لموقع العميل",
-  "client_creation": "لقد تم انشاء عميل جديد"
+  "client_creation": "لقد تم انشاء عميل جديد",
+  "region_error": "يرجى ادخال منطقة صحيحة",
+  "building_error": "يرجى ادخال رقم بناية صحيح",
+  "street_error": "يرجى ادخال اسم شارع صحيح",
+  "choose_client_region": "اختر منطقة العميل"
 
 
 

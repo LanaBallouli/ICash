@@ -240,11 +240,11 @@ class ManagementController extends ChangeNotifier {
 
   void _validateRegion(String? region, BuildContext context) {
     final newError = region == null || region.isEmpty
-        ? AppLocalizations.of(context)!.type_error
+        ? AppLocalizations.of(context)!.region_error
         : null;
 
-    if (errors['type'] != newError) {
-      errors['type'] = newError;
+    if (errors['region'] != newError) {
+      errors['region'] = newError;
       notifyListeners();
     }
   }

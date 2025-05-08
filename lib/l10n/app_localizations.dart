@@ -1192,6 +1192,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A new client has been created.'**
   String get client_creation;
+
+  /// No description provided for @region_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid region'**
+  String get region_error;
+
+  /// No description provided for @building_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid building number'**
+  String get building_error;
+
+  /// No description provided for @street_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid street name'**
+  String get street_error;
+
+  /// No description provided for @choose_client_region.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the client\'s region'**
+  String get choose_client_region;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

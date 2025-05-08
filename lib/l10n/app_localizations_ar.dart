@@ -556,4 +556,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get client_creation => 'لقد تم انشاء عميل جديد';
+
+  @override
+  String get region_error => 'يرجى ادخال منطقة صحيحة';
+
+  @override
+  String get building_error => 'يرجى ادخال رقم بناية صحيح';
+
+  @override
+  String get street_error => 'يرجى ادخال اسم شارع صحيح';
+
+  @override
+  String get choose_client_region => 'اختر منطقة العميل';
 }

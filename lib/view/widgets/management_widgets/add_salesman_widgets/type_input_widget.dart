@@ -13,6 +13,7 @@ class TypeInputWidget extends StatelessWidget {
   final List<String> typeOptions;
   final Function(String?)? onChange;
   final String? Function(String?)? errorText;
+  final String? err;
 
   TypeInputWidget({
     super.key,
@@ -20,7 +21,8 @@ class TypeInputWidget extends StatelessWidget {
     required this.hintText,
     required this.typeOptions,
     this.onChange,
-    this.errorText
+    this.errorText,
+    this.err
   });
 
   @override
@@ -90,6 +92,7 @@ class TypeInputWidget extends StatelessWidget {
               );
             },
           ),
+          Text(err ?? "", style: TextStyle(color: Colors.red, fontSize: 12.sp),)
         ],
       ),
     );

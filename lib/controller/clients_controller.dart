@@ -153,26 +153,29 @@ class ClientsController extends ChangeNotifier {
 
   void _validateRegion(String? region, BuildContext context) {
     final newError = region == null || region.isEmpty
-        ? AppLocalizations.of(context)!.type_error
+        ? AppLocalizations.of(context)!.region_error
         : null;
 
-    if (errors['type'] != newError) {
-      errors['type'] = newError;
+    if (errors['region'] != newError) {
+      errors['region'] = newError;
       notifyListeners();
     }
   }
 
   void _validateStreet(String? street, BuildContext context) {
-    final newError =
-    street == null ? AppLocalizations.of(context)!.address_error : null;
+    final newError = street == null || street.isEmpty
+        ? AppLocalizations.of(context)!.street_error
+        : null;
+
     if (errors['street'] != newError) {
       errors['street'] = newError;
+      notifyListeners();
     }
   }
 
   void _validateBuildingNum(String? buildingNum, BuildContext context) {
     final newError =
-    buildingNum == null ? AppLocalizations.of(context)!.address_error : null;
+    buildingNum == null ? AppLocalizations.of(context)!.building_error : null;
     if (errors['buildingNum'] != newError) {
       errors['buildingNum'] = newError;
     }
@@ -207,7 +210,7 @@ class ClientsController extends ChangeNotifier {
     _validateType(type, context);
     _validateRegion(region, context);
     _validateStreet(street, context);
-    _validateBuildingNum(buildingNum as String?, context);
+    _validateBuildingNum("$buildingNum", context);
 
 
     if (!_mapsEqual(oldErrors, errors)) {
