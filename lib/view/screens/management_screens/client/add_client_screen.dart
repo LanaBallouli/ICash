@@ -30,7 +30,7 @@ class AddClientScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     final clientController =
-    Provider.of<ClientsController>(context, listen: false);
+    Provider.of<ClientsController>(context);
     final cameraController =
     Provider.of<CameraController>(context, listen: false);
 

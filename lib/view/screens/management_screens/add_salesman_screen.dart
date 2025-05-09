@@ -22,7 +22,7 @@ class AddSalesmanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     ManagementController managementController =
-        Provider.of<ManagementController>(context, listen: false);
+        Provider.of<ManagementController>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -59,6 +59,15 @@ class AddSalesmanScreen extends StatelessWidget {
                 ),
               ),
               ManagementInputWidget(
+                hintText: AppLocalizations.of(context)!.enter_salesman_name,
+                controller: managementController.nameController,
+                title: AppLocalizations.of(context)!.full_name,
+                keyboardType: TextInputType.text,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'name', value: value),
+                errorText: managementController.errors['name'],
+              ),
+              ManagementInputWidget(
                 hintText: "demo@demo.com",
                 controller: managementController.emailController,
                 title: AppLocalizations.of(context)!.email,
@@ -71,7 +80,7 @@ class AddSalesmanScreen extends StatelessWidget {
                 hintText: AppLocalizations.of(context)!.enter_salesman_password,
                 controller: managementController.passwordController,
                 title: AppLocalizations.of(context)!.password,
-                keyboardType: TextInputType.visiblePassword,
+                keyboardType: TextInputType.text,
                 onChanged: (value) => managementController.validateField(
                     context: context, field: 'password', value: value),
                 errorText: managementController.errors['password'],
@@ -94,15 +103,17 @@ class AddSalesmanScreen extends StatelessWidget {
                       context: context, field: 'phone', value: value),
                   errorText: managementController.errors['phone']),
               RegionInputWidget(
-                hintText: AppLocalizations.of(context)!.choose_region,
                 typeOptions: [
-                  "Amman",
+                  'Amman',
                   "Zarqaa",
                 ],
-                onChange: (value) => managementController.validateField(
-                    context: context, field: 'region', value: value),
-                err: managementController.errors['region'],
                 selectedRegion: managementController.selectedRegion,
+                onChange: (value) =>
+                    managementController
+                        .setSelectedRegion(value, context),
+                err: managementController.errors['region'],
+                hintText:
+                AppLocalizations.of(context)!.choose_region,
               ),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
@@ -126,7 +137,9 @@ class AddSalesmanScreen extends StatelessWidget {
                   title: AppLocalizations.of(context)!.notes,
                   keyboardType: TextInputType.text,
                   onChanged: (value) {},
-                  errorText: null),
+                  errorText: null,
+              maxLines: 3,
+              height: 100.h,),
               SizedBox(
                 height: 20.h,
               ),

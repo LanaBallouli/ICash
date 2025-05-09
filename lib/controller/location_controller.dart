@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../model/address.dart';
-import '../model/region.dart';
 import '../view/screens/registration_screens/login_screen.dart';
 
 class LocationController extends ChangeNotifier {
@@ -76,91 +74,82 @@ class LocationController extends ChangeNotifier {
     );
   }
 
-  LatLng? _selectedLocation;
+  LatLng? selectedLocation;
 
-  LatLng? get selectedLocation => _selectedLocation;
 
   void setSelectedLocation(LatLng location) {
-    _selectedLocation = location;
-
-    // Update latitude and longitude controllers with the selected location
+    selectedLocation = location;
+    _fetchLocationName(location.latitude, location.longitude);
     latitudeController.text = location.latitude.toString();
     longitudeController.text = location.longitude.toString();
 
     notifyListeners();
   }
 
-  final List<Address> _savedAddresses = [];
 
-  List<Address> get savedAddresses => _savedAddresses;
-
-  TextEditingController streetController = TextEditingController();
-  TextEditingController buildingNumberController = TextEditingController();
-  TextEditingController regionNameController = TextEditingController();
-  TextEditingController additionalDirectionsController =
-      TextEditingController();
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
 
-  bool validateFields() {
-    return streetController.text.isNotEmpty &&
-        buildingNumberController.text.isNotEmpty &&
-        regionNameController.text.isNotEmpty &&
-        additionalDirectionsController.text.isNotEmpty &&
-        double.tryParse(latitudeController.text) != null &&
-        double.tryParse(longitudeController.text) != null;
-  }
 
-  void addAddress({
-    required String? street,
-    required int? buildingNumber,
-    required String? additionalDirections,
-    required double? latitude,
-    required double? longitude,
-  }) {
-    _savedAddresses.add(
-      Address(
-        street: street,
-        buildingNumber: buildingNumber,
-        additionalDirections: additionalDirections,
-        latitude: latitude,
-        longitude: longitude,
-      ),
-    );
+
+  String locationName = "current location";
+  bool isLoading = false;
+
+
+  Future<void> fetchCurrentLocation() async {
+    isLoading = true;
     notifyListeners();
-  }
 
-  void clearAddresses() {
-    _savedAddresses.clear();
-    notifyListeners();
-  }
-
-  bool hasSavedAddresses() {
-    return _savedAddresses.isNotEmpty;
-  }
-
-  bool saveCurrentAddress(String areaName, LatLng location) {
-    if (!validateFields()) {
-      return false;
+    try {
+      Position position = await _determinePosition();
+      selectedLocation = LatLng(position.latitude, position.longitude);
+      _fetchLocationName(position.latitude, position.longitude);
+    } catch (error) {
+      print("Error determining position: $error");
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-    addAddress(
-      longitude: location.longitude,
-      additionalDirections: additionalDirectionsController.text,
-      buildingNumber: int.tryParse(buildingNumberController.text),
-      latitude: location.latitude,
-      street: streetController.text,
-    );
-    clearControllers();
-    return true;
   }
 
-  void clearControllers() {
-    streetController.clear();
-    buildingNumberController.clear();
-    regionNameController.clear();
-    additionalDirectionsController.clear();
-    latitudeController.clear();
-    longitudeController.clear();
+
+  Future<void> _fetchLocationName(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        final placemark = placemarks.first;
+        locationName =
+        "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
+      } else {
+        locationName = "Unknown Location";
+      }
+    } catch (e) {
+      locationName = "Error fetching location: ${e.toString()}";
+    }
     notifyListeners();
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error("Location services are disabled.");
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error("Location permissions are denied.");
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error("Location permissions are permanently denied.");
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 }
