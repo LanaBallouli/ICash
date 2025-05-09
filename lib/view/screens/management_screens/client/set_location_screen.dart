@@ -18,7 +18,6 @@ class SetLocationScreen extends StatelessWidget {
 
     return Consumer<LocationController>(
       builder: (context, locationController, child) {
-        // Fetch the current location if not already fetched
         if (!locationController.isLoading && locationController.selectedLocation == null) {
           locationController.fetchCurrentLocation();
         }
@@ -38,7 +37,6 @@ class SetLocationScreen extends StatelessWidget {
                   zoom: 14,
                 ),
                 onMapCreated: (GoogleMapController controller) {
-                  // Move the camera to the current location if available
                   if (locationController.selectedLocation != null) {
                     controller.animateCamera(
                       CameraUpdate.newLatLngZoom(
@@ -49,10 +47,12 @@ class SetLocationScreen extends StatelessWidget {
                   }
                 },
                 onCameraIdle: () {
-                  // Update the selected location and fetch the area name
                   if (locationController.selectedLocation != null) {
                     locationController.setSelectedLocation(locationController.selectedLocation!);
                   }
+                },
+                onCameraMove: (CameraPosition position) {
+                  locationController.setSelectedLocation(position.target);
                 },
               ),
               Center(

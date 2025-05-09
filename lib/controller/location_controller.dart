@@ -2,79 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../view/screens/registration_screens/login_screen.dart';
 
 class LocationController extends ChangeNotifier {
-  bool _isLocationGranted = false;
-
-  bool get isLocationGranted => _isLocationGranted;
-
-  Future<bool> isLocationServiceEnabled() async {
-    return await Geolocator.isLocationServiceEnabled();
-  }
-
-  Future<void> requestLocationPermission(BuildContext context) async {
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      _isLocationGranted = false;
-      notifyListeners();
-      _showPermissionDeniedDialog(context);
-    } else if (permission == LocationPermission.whileInUse ||
-        permission == LocationPermission.always) {
-      _isLocationGranted = true;
-      notifyListeners();
-    }
-
-    // If permission is granted, ensure location services are enabled
-    if (_isLocationGranted) {
-      bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!isLocationEnabled) {
-        await Geolocator.openLocationSettings();
-        _waitForLocationEnabled(context); // Wait for user to enable location
-      } else {
-        _navigateToLogin(
-            context); // Navigate immediately if location is enabled
-      }
-    }
-  }
-
-  void _waitForLocationEnabled(BuildContext context) async {
-    while (!(await Geolocator.isLocationServiceEnabled())) {
-      await Future.delayed(const Duration(seconds: 1)); // Check every second
-    }
-    _navigateToLogin(context);
-  }
-
-  void _showPermissionDeniedDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Location Permission Required"),
-        content: const Text(
-            "This app requires location permission to function properly. Please grant permission in settings."),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _navigateToLogin(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
-  }
-
+  bool isLocationGranted = false;
   LatLng? selectedLocation;
+  String locationName = "current location";
+  bool isLoading = false;
+  TextEditingController latitudeController = TextEditingController();
+  TextEditingController longitudeController = TextEditingController();
+
 
 
   void setSelectedLocation(LatLng location) {
@@ -85,16 +21,6 @@ class LocationController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
-  TextEditingController latitudeController = TextEditingController();
-  TextEditingController longitudeController = TextEditingController();
-
-
-
-  String locationName = "current location";
-  bool isLoading = false;
-
 
   Future<void> fetchCurrentLocation() async {
     isLoading = true;

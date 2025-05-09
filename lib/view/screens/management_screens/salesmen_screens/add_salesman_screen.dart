@@ -7,13 +7,13 @@ import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/users.dart';
-import 'package:test_sales/view/widgets/dialog_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
-import '../../../app_constants.dart';
-import '../../widgets/custom_button_widget.dart';
-import '../../widgets/management_widgets/salesman_widgets/management_input_widget.dart';
-import '../../widgets/management_widgets/salesman_widgets/type_input_widget.dart';
+import '../../../../app_constants.dart';
+import '../../../widgets/main_widgets/custom_button_widget.dart';
+import '../../../widgets/management_widgets/salesman_widgets/management_input_widget.dart';
+import '../../../widgets/management_widgets/salesman_widgets/type_input_widget.dart';
 
 class AddSalesmanScreen extends StatelessWidget {
   const AddSalesmanScreen({super.key});

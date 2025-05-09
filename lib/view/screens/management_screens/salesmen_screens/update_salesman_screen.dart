@@ -5,14 +5,14 @@ import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/users.dart';
-import 'package:test_sales/view/widgets/custom_button_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
-import 'package:test_sales/view/widgets/dialog_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 
-import '../../../model/region.dart';
+import '../../../../model/region.dart';
 
 class UpdateSalesmanScreen extends StatefulWidget {
   final Users user;

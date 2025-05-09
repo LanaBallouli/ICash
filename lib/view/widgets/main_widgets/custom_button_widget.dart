@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-import '../../app_constants.dart';
+import '../../../app_constants.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   String? title;

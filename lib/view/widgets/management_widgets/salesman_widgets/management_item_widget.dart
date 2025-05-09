@@ -6,10 +6,10 @@ import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/model/users.dart';
-import 'package:test_sales/view/screens/management_screens/salesmen_more_details_screen.dart';
+import 'package:test_sales/view/screens/management_screens/salesmen_screens/salesmen_more_details_screen.dart';
 import '../../../../app_constants.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../custom_button_widget.dart';
+import '../../main_widgets/custom_button_widget.dart';
 
 class ManagementItemWidget extends StatelessWidget {
   final Users users;

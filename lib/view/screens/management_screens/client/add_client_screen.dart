@@ -9,7 +9,7 @@ import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
 import 'package:test_sales/model/region.dart';
-import 'package:test_sales/view/widgets/dialog_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
@@ -18,7 +18,7 @@ import 'package:test_sales/view/widgets/management_widgets/client_widgets/locati
 import '../../../../app_constants.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
-import '../../../widgets/custom_button_widget.dart';
+import '../../../widgets/main_widgets/custom_button_widget.dart';
 import '../../../widgets/management_widgets/client_widgets/upload_photos.dart';
 
 class AddClientScreen extends StatelessWidget {
@@ -65,6 +65,7 @@ class AddClientScreen extends StatelessWidget {
                     location: location,
                     isAddition: true,
                   ),
+                  SizedBox(height: 10.h),
                   Center(
                     child: Text(
                       AppLocalizations.of(context)!.add_client_prompt,
@@ -263,7 +264,6 @@ class AddClientScreen extends StatelessWidget {
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
                 onPressed: () {
-                  // Debug: Log the input values before validation
                   print("Debug: Validating form with the following inputs:");
                   print(
                       "tradeName: ${clientsController.clientNameController
@@ -282,7 +282,6 @@ class AddClientScreen extends StatelessWidget {
                   print("Type: ${clientsController.clientSelectedType}");
                   print("Region: ${clientsController.clientSelectedRegion}");
 
-                  // Validate the form
                   clientsController.validateForm(
                       context: context,
                       tradeName: clientsController.clientNameController.text,
@@ -295,13 +294,11 @@ class AddClientScreen extends StatelessWidget {
                       region: clientsController.clientSelectedRegion,
                       type: clientsController.clientSelectedType);
 
-                  // Debug: Log whether the form is valid
                   print(
                       "Debug: Is form valid? ${clientsController
                           .isFormValid()}");
 
                   if (clientsController.isFormValid()) {
-                    // Debug: Log the parsed phone and target values
                     final phone = int.tryParse(
                         clientsController.clientPhoneController.text);
                     final buildingNum = double.tryParse(

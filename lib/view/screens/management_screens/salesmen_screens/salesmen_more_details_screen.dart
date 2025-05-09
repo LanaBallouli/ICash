@@ -5,15 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/users.dart';
-import 'package:test_sales/view/screens/management_screens/update_salesman_screen.dart';
-import 'package:test_sales/view/widgets/custom_button_widget.dart';
-import 'package:test_sales/view/widgets/dialog_widget.dart';
+import 'package:test_sales/view/screens/management_screens/salesmen_screens/update_salesman_screen.dart';
+import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
-import '../../../app_styles.dart';
-import '../../../controller/lang_controller.dart';
-import '../../../controller/management_controller.dart';
+import '../../../../app_styles.dart';
+import '../../../../controller/lang_controller.dart';
+import '../../../../controller/management_controller.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
   final Users users;

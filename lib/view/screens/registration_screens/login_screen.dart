@@ -8,7 +8,7 @@ import 'package:test_sales/controller/login_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
-import 'package:test_sales/view/widgets/custom_header.dart';
+import 'package:test_sales/view/widgets/main_widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';

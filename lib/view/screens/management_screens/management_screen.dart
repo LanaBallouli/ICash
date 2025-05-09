@@ -5,7 +5,7 @@ import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
-import 'package:test_sales/view/screens/management_screens/add_salesman_screen.dart';
+import 'package:test_sales/view/screens/management_screens/salesmen_screens/add_salesman_screen.dart';
 import 'package:test_sales/view/screens/management_screens/client/set_location_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
