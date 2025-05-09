@@ -111,7 +111,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                               right: 23,
                             ),
                             child: Text(
-                              AppLocalizations.of(context)!.find_location,
+                              AppLocalizations.of(context)!.current_location,
                               style: AppStyles.getFontStyle(
                                 langController,
                                 fontSize: 12.sp,

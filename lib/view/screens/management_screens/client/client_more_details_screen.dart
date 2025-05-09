@@ -40,6 +40,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               LocationWidget(
+                isAddition: false,
                 location: LatLng(client.address?.latitude ?? 31.985934703432616,
                     client.address?.longitude ?? 35.900362288558114),
               ),

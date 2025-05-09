@@ -10,8 +10,13 @@ import '../../../../l10n/app_localizations.dart';
 
 class LocationWidget extends StatefulWidget {
   final LatLng location;
+  final bool isAddition;
 
-  const LocationWidget({super.key, required this.location});
+  const LocationWidget({
+    super.key,
+    required this.location,
+    required this.isAddition,
+  });
 
   @override
   State<LocationWidget> createState() => _LocationWidgetState();
@@ -20,7 +25,7 @@ class LocationWidget extends StatefulWidget {
 class _LocationWidgetState extends State<LocationWidget> {
   Set<Marker> markers = {};
   String _areaName = "Unknown Area";
-  LatLng? _selectedLocation;
+  late LatLng _selectedLocation;
 
   @override
   void initState() {
@@ -29,23 +34,23 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   void _initializeLocation() {
-    final initialLocation =
-        widget.location.latitude != null && widget.location.longitude != null
-            ? LatLng(widget.location.latitude!, widget.location.longitude!)
-            : LatLng(31.985934703432616, 35.900362288558114);
+    // Initialize the selected location with the provided coordinates
+    _selectedLocation = LatLng(
+      widget.location.latitude,
+      widget.location.longitude,
+    );
 
     setState(() {
-      _selectedLocation = initialLocation;
       markers.add(
         Marker(
           markerId: MarkerId('initial_location'),
-          position: initialLocation,
+          position: _selectedLocation,
           infoWindow: InfoWindow(title: "Selected Location"),
         ),
       );
     });
 
-    _fetchAreaName(initialLocation.latitude, initialLocation.longitude);
+    _fetchAreaName(_selectedLocation.latitude, _selectedLocation.longitude);
   }
 
   @override
@@ -62,66 +67,53 @@ class _LocationWidgetState extends State<LocationWidget> {
             height: 200.h,
             width: double.infinity,
             child: GoogleMap(
-              myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: markers,
               initialCameraPosition: CameraPosition(
-                target: _selectedLocation!,
+                target: _selectedLocation,
                 zoom: 14,
               ),
               onMapCreated: (GoogleMapController controller) {},
-              onTap: (LatLng position) {
-                setState(() {
-                  _selectedLocation = position;
-                  markers.clear();
-                  markers.add(
-                    Marker(
-                      markerId: MarkerId('selected_location'),
-                      position: position,
-                      infoWindow: InfoWindow(title: "Selected Location"),
-                    ),
-                  );
-                });
-                _fetchAreaName(position.latitude, position.longitude);
-              },
+              onTap: null,
               onCameraIdle: () {
                 if (_selectedLocation != null) {
-                  _fetchAreaName(_selectedLocation!.latitude,
-                      _selectedLocation!.longitude);
+                  _fetchAreaName(_selectedLocation.latitude, _selectedLocation.longitude);
                 }
               },
             ),
           ),
           SizedBox(height: 16.h),
-          Container(
-            height: 90.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: AppConstants.buttonColor),
-              color: Colors.white,
-            ),
-            child: ListTile(
-              leading: Icon(Icons.location_pin, color: Colors.grey),
-              title: Text(AppLocalizations.of(context)!.address),
-              subtitle: Text(_areaName),
-              trailing: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  AppLocalizations.of(context)!.change,
-                  style: AppStyles.getFontStyle(
-                    langController,
-                    color: AppConstants.primaryColor2,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15.sp,
+          if (widget.isAddition) ...[
+            Container(
+              height: 90.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: AppConstants.buttonColor),
+                color: Colors.white,
+              ),
+              child: ListTile(
+                leading: Icon(Icons.location_pin, color: Colors.grey),
+                title: Text(AppLocalizations.of(context)!.address),
+                subtitle: Text(_areaName),
+                trailing: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.change,
+                    style: AppStyles.getFontStyle(
+                      langController,
+                      color: AppConstants.primaryColor2,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.sp,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 10.h),
+            SizedBox(height: 10.h),
+          ],
         ],
       ),
     );
@@ -137,7 +129,7 @@ class _LocationWidgetState extends State<LocationWidget> {
         final placemark = placemarks.first;
         setState(() {
           _areaName =
-              "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
+          "${placemark.street ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}";
         });
       } else {
         setState(() {

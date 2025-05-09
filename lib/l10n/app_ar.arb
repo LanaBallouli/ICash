@@ -190,7 +190,8 @@
   "commercial_registration_photo_required": "صورة السجل التجاري مطلوبة",
   "profession_license_photo_required": "صورة عن رخصة المهن مطلوبة",
   "upload_photos": "قم بتحميل الصور",
-  "delete": "حذف"
+  "delete": "حذف",
+  "current_location": "الموقع الحالي"
 
 
 

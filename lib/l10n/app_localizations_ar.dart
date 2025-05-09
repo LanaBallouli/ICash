@@ -589,4 +589,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get delete => 'حذف';
+
+  @override
+  String get current_location => 'الموقع الحالي';
 }

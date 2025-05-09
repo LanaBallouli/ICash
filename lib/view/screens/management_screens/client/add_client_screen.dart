@@ -63,7 +63,7 @@ class AddClientScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 10.h),
-                  LocationWidget(location: location),
+                  LocationWidget(location: location, isAddition: true,),
                   Center(
                     child: Text(
                       AppLocalizations.of(context)!.add_client_prompt,
@@ -300,6 +300,7 @@ class AddClientScreen extends StatelessWidget {
                             name: clientsController.clientSelectedRegion),
                         tradeName: clientsController.clientNameController.text,
                         type: clientsController.clientSelectedType,
+
                       ),
                     );
 
