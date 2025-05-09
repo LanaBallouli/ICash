@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../../../app_styles.dart';
-import '../../../../controller/lang_controller.dart';
+import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/lang_controller.dart';
 import '../../main_widgets/input_widget.dart';
 
-class AddressInputWidget extends StatelessWidget {
-  final String hintText;
-  final TextEditingController controller;
+class ManagementInputWidget extends StatelessWidget {
+  final String? hintText;
   final String title;
-  final TextInputType? keyboardType;
+  final TextEditingController controller;
   final dynamic Function(String)? onChanged;
   final String? errorText;
+  final TextInputType? keyboardType;
+  final Widget? suffixIcon;
+  final bool? obscureText;
+  final double? height;
+  final int? maxLines;
 
-  const AddressInputWidget(
+  const ManagementInputWidget(
       {super.key,
       required this.hintText,
+      this.errorText,
+      this.onChanged,
       required this.controller,
       required this.title,
       required this.keyboardType,
-      this.onChanged,
-      this.errorText});
+      this.suffixIcon,
+      this.obscureText,
+      this.height,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,14 +50,16 @@ class AddressInputWidget extends StatelessWidget {
             ),
           ),
           InputWidget(
-            borderColor: Color(0xFFEFF0F6),
+            height: height,
             textEditingController: controller,
-            obscureText: false,
-            maxLines: 3,
+            obscureText: obscureText ?? false,
             keyboardType: keyboardType,
+            suffixIcon: suffixIcon,
+            labelColor: Colors.grey,
             hintText: hintText,
             onChanged: onChanged,
             errorText: errorText,
+            maxLines: maxLines,
           ),
         ],
       ),

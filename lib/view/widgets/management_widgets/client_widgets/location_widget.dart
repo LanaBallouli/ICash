@@ -34,7 +34,6 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   void _initializeLocation() {
-    // Initialize the selected location with the provided coordinates
     _selectedLocation = LatLng(
       widget.location.latitude,
       widget.location.longitude,

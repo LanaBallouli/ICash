@@ -12,10 +12,7 @@ import 'package:test_sales/view/widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../widgets/management_widgets/salesman_widgets/email_field_widget.dart';
-import '../../widgets/management_widgets/salesman_widgets/name_input_widget.dart';
-import '../../widgets/management_widgets/salesman_widgets/password_field_widget.dart';
-import '../../widgets/management_widgets/salesman_widgets/phone_input_widget.dart';
+import '../../widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -54,18 +51,51 @@ class LoginScreen extends StatelessWidget {
     final List<Widget> formChildren = [
       _buildTitle(context, isLoginMode),
       _buildSubtitle(context, isLoginMode),
-      EmailFieldWidget(),
+      ManagementInputWidget(
+        hintText: "demo@demo.com",
+        controller: loginController.emailController,
+        title: AppLocalizations.of(context)!.email,
+        keyboardType: TextInputType.emailAddress,
+        onChanged: (value) => loginController.validateField(
+            context: context, field: 'email', value: value),
+        errorText: loginController.errors['email'],
+      ),
       if (!isLoginMode)
-        NameInputWidget(
-          nameController: loginController.nameController,
-          title: AppLocalizations.of(context)!.name,
+        ManagementInputWidget(
           hintText: AppLocalizations.of(context)!.enter_name,
+          controller: loginController.nameController,
+          title: AppLocalizations.of(context)!.salesman_name,
+          keyboardType: TextInputType.name,
+          onChanged: (value) => loginController.validateField(
+              context: context, field: 'name', value: value),
+          errorText: loginController.errors['name'],
         ),
       if (!isLoginMode)
-        PhoneInputWidget(
-          phoneController: loginController.phoneNumberController,
+        ManagementInputWidget(
+            hintText: AppLocalizations.of(context)!.phone_hint,
+            controller: loginController.phoneNumberController,
+            title: AppLocalizations.of(context)!.phone,
+            keyboardType: TextInputType.phone,
+            onChanged: (value) => loginController.validateField(
+                context: context, field: 'phone', value: value),
+            errorText: loginController.errors['phone']),
+      ManagementInputWidget(
+        hintText: AppLocalizations.of(context)!.password_hint,
+        controller: loginController.passwordController,
+        title: AppLocalizations.of(context)!.password,
+        keyboardType: TextInputType.visiblePassword,
+        onChanged: (value) => loginController.validateField(
+            context: context, field: 'password', value: value),
+        errorText: loginController.errors['password'],
+        obscureText: loginController.obscureText,
+        suffixIcon: IconButton(
+          onPressed: () =>
+              loginController.togglePasswordVisibility(),
+          icon: loginController.obscureText
+              ? const Icon(Icons.visibility)
+              : const Icon(Icons.visibility_off),
         ),
-      PasswordFieldWidget(),
+      ),
       if (!isLoginMode) _buildConfirmPasswordInput(context, loginController),
       if (isLoginMode) _rememberMeAndForgetPassword(context),
       _buildSubmitButton(context, isLoginMode, loginController),

@@ -7,13 +7,8 @@ import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/email_field_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/name_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/notes_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/password_field_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/phone_input_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/target_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
 import 'package:test_sales/view/widgets/dialog_widget.dart';
 
@@ -80,17 +75,49 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-              NameInputWidget(
+              ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.enter_name,
+                controller: managementController.nameController,
                 title: AppLocalizations.of(context)!.salesman_name,
-                nameController: managementController.nameController,
+                keyboardType: TextInputType.name,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'name', value: value),
+                errorText: managementController.errors['name'],
               ),
-              EmailFieldWidget(),
-              PasswordFieldWidget(
+              ManagementInputWidget(
+                hintText: "demo@demo.com",
+                controller: managementController.emailController,
+                title: AppLocalizations.of(context)!.email,
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'email', value: value),
+                errorText: managementController.errors['email'],
+              ),
+              ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.enter_salesman_password,
+                controller: managementController.passwordController,
+                title: AppLocalizations.of(context)!.password,
+                keyboardType: TextInputType.visiblePassword,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'password', value: value),
+                errorText: managementController.errors['password'],
+                obscureText: managementController.obscureText,
+                suffixIcon: IconButton(
+                  onPressed: () =>
+                      managementController.togglePasswordVisibility(),
+                  icon: managementController.obscureText
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off),
+                ),
               ),
-              PhoneInputWidget(
-                phoneController: managementController.phoneNumberController,
+              ManagementInputWidget(
+                hintText: AppLocalizations.of(context)!.enter_salesman_phone,
+                controller: managementController.phoneNumberController,
+                title: AppLocalizations.of(context)!.phone,
+                keyboardType: TextInputType.phone,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'phone', value: value),
+                errorText: managementController.errors['phone'],
               ),
               RegionInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_region,
@@ -103,7 +130,14 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 err: managementController.errors['region'],
                 selectedRegion: managementController.selectedRegion,
               ),
-              TargetInputWidget(),
+              ManagementInputWidget(
+                  hintText: AppLocalizations.of(context)!.select_target_prompt,
+                  controller: managementController.targetController,
+                  title: AppLocalizations.of(context)!.select_target,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => managementController.validateField(
+                      context: context, field: 'target', value: value),
+                  errorText: managementController.errors['target']),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
                 typeOptions: ["Cash", "Debt"],
@@ -112,9 +146,13 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              NotesInputWidget(
-                notesController: managementController.notesController,
-              ),
+              ManagementInputWidget(
+                  hintText: AppLocalizations.of(context)!.add_notes,
+                  controller: managementController.notesController,
+                  title: AppLocalizations.of(context)!.notes,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {},
+                  errorText: null),
               SizedBox(
                 height: 15.h,
               ),
