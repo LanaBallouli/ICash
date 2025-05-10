@@ -168,9 +168,15 @@ class AddClientScreen extends StatelessWidget {
                     hintText: AppLocalizations.of(context)!.choose_client_type,
                     typeOptions: [
                       AppLocalizations.of(context)!.cash,
-                      AppLocalizations.of(context)!.debt
+                      AppLocalizations.of(context)!.debt,
                     ],
-                    selectedType: clientsController.clientSelectedType,
+                    selectedType: validateSelectedType(
+                      clientsController.clientSelectedType,
+                      [
+                        AppLocalizations.of(context)!.cash,
+                        AppLocalizations.of(context)!.debt,
+                      ],
+                    ),
                     onChange: (value) {
                       clientsController.setClientSelectedType(value, context);
                     },
@@ -434,5 +440,11 @@ class AddClientScreen extends StatelessWidget {
         ))
       ],
     );
+  }
+  String? validateSelectedType(String? selectedType, List<String> typeOptions) {
+    if (selectedType == null || !typeOptions.contains(selectedType)) {
+      return typeOptions.first;
+    }
+    return selectedType;
   }
 }

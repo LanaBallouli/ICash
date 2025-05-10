@@ -31,12 +31,13 @@ class AddSalesmanScreen extends StatelessWidget {
         leading: Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  managementController.clearFields();
-                  managementController.clearErrors();
-                },
-                icon: Icon(Icons.arrow_back));
+              onPressed: () {
+                Navigator.pop(context);
+                managementController.clearFields();
+                managementController.clearErrors();
+              },
+              icon: Icon(Icons.arrow_back),
+            );
           },
         ),
       ),
@@ -93,15 +94,15 @@ class AddSalesmanScreen extends StatelessWidget {
                       : const Icon(Icons.visibility_off),
                 ),
               ),
-
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.enter_salesman_phone,
-                  controller: managementController.phoneNumberController,
-                  title: AppLocalizations.of(context)!.phone,
-                  keyboardType: TextInputType.phone,
-                  onChanged: (value) => managementController.validateField(
-                      context: context, field: 'phone', value: value),
-                  errorText: managementController.errors['phone']),
+                hintText: AppLocalizations.of(context)!.enter_salesman_phone,
+                controller: managementController.phoneNumberController,
+                title: AppLocalizations.of(context)!.phone,
+                keyboardType: TextInputType.phone,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'phone', value: value),
+                errorText: managementController.errors['phone'],
+              ),
               RegionInputWidget(
                 typeOptions: [
                   'Amman',
@@ -109,11 +110,9 @@ class AddSalesmanScreen extends StatelessWidget {
                 ],
                 selectedRegion: managementController.selectedRegion,
                 onChange: (value) =>
-                    managementController
-                        .setSelectedRegion(value, context),
+                    managementController.setSelectedRegion(value, context),
                 err: managementController.errors['region'],
-                hintText:
-                AppLocalizations.of(context)!.choose_region,
+                hintText: AppLocalizations.of(context)!.choose_region,
               ),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
@@ -121,32 +120,27 @@ class AddSalesmanScreen extends StatelessWidget {
                 typeOptions: ["Cash", "Debt"],
               ),
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.select_target_prompt,
-                  controller: managementController.targetController,
-                  title: AppLocalizations.of(context)!.select_target,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) => managementController.validateField(
-                      context: context, field: 'target', value: value),
-                  errorText: managementController.errors['target']),
-              SizedBox(
-                height: 15.h,
+                hintText: AppLocalizations.of(context)!.select_target_prompt,
+                controller: managementController.targetController,
+                title: AppLocalizations.of(context)!.select_target,
+                keyboardType: TextInputType.number,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'target', value: value),
+                errorText: managementController.errors['target'],
               ),
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.add_notes,
-                  controller: managementController.notesController,
-                  title: AppLocalizations.of(context)!.notes,
-                  keyboardType: TextInputType.text,
-                  onChanged: (value) {},
-                  errorText: null,
-              maxLines: 3,
-              height: 100.h,),
-              SizedBox(
-                height: 20.h,
+                hintText: AppLocalizations.of(context)!.add_notes,
+                controller: managementController.notesController,
+                title: AppLocalizations.of(context)!.notes,
+                keyboardType: TextInputType.text,
+                onChanged: (value) {},
+                errorText: null,
+                maxLines: 3,
+                height: 100.h,
               ),
+              SizedBox(height: 20.h),
               _buildButtonsRow(context),
-              SizedBox(
-                height: 20.h,
-              ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -172,7 +166,6 @@ class AddSalesmanScreen extends StatelessWidget {
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
                 onPressed: () {
-                  // Debug: Log the input values before validation
                   print("Debug: Validating form with the following inputs:");
                   print("Email: ${managementController.emailController.text}");
                   print(
@@ -185,7 +178,6 @@ class AddSalesmanScreen extends StatelessWidget {
                   print("Type: ${managementController.selectedType}");
                   print("Region: ${managementController.selectedRegion}");
 
-                  // Validate the form
                   managementController.validateForm(
                     context: context,
                     email: managementController.emailController.text,
@@ -197,12 +189,10 @@ class AddSalesmanScreen extends StatelessWidget {
                     region: managementController.selectedRegion,
                   );
 
-                  // Debug: Log whether the form is valid
                   print(
                       "Debug: Is form valid? ${managementController.isFormValid()}");
 
                   if (managementController.isFormValid()) {
-                    // Debug: Log the parsed phone and target values
                     final phone = int.tryParse(
                         managementController.phoneNumberController.text);
                     final target = double.tryParse(
@@ -211,7 +201,6 @@ class AddSalesmanScreen extends StatelessWidget {
                     print("Debug: Parsed phone number: $phone");
                     print("Debug: Parsed target achievement: $target");
 
-                    // Add the new user
                     managementController.addNewUser(
                       Users(
                           fullName: managementController.nameController.text,
@@ -230,10 +219,8 @@ class AddSalesmanScreen extends StatelessWidget {
                           role: "Sales Man"),
                     );
 
-                    // Debug: Log success message
                     print("Debug: New user added successfully.");
 
-                    // Navigate back and show success dialog
                     Navigator.pop(context);
                     showDialog(
                       context: context,
@@ -261,10 +248,8 @@ class AddSalesmanScreen extends StatelessWidget {
                       },
                     );
                   } else {
-                    // Debug: Log failure message
                     print("Debug: Form validation failed.");
 
-                    // Show error dialog
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -296,9 +281,7 @@ class AddSalesmanScreen extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(
-          width: 20.h,
-        ),
+        SizedBox(width: 20.h),
         Expanded(child: Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return CustomButtonWidget(
