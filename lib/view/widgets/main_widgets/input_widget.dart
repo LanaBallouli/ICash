@@ -25,6 +25,7 @@ class InputWidget extends StatelessWidget {
   final double? height;
   final int? maxLines;
   final Function()? onTap;
+  final FocusNode? focusNode;
 
   const InputWidget({
     super.key,
@@ -45,7 +46,8 @@ class InputWidget extends StatelessWidget {
     this.readOnly = false,
     this.height,
     this.maxLines,
-    this.onTap
+    this.onTap,
+    this.focusNode
   });
 
   @override
@@ -66,6 +68,7 @@ class InputWidget extends StatelessWidget {
           ),
           child: Center(
             child: TextField(
+              focusNode: focusNode,
               onTap: onTap,
               maxLines: maxLines ?? 1,
               textAlignVertical: TextAlignVertical.center,

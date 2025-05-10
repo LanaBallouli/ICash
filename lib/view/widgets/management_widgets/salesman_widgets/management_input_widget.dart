@@ -16,6 +16,7 @@ class ManagementInputWidget extends StatelessWidget {
   final bool? obscureText;
   final double? height;
   final int? maxLines;
+  final FocusNode? focusNode;
 
   const ManagementInputWidget(
       {super.key,
@@ -28,7 +29,8 @@ class ManagementInputWidget extends StatelessWidget {
       this.suffixIcon,
       this.obscureText,
       this.height,
-      this.maxLines});
+      this.maxLines,
+      this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class ManagementInputWidget extends StatelessWidget {
             ),
           ),
           InputWidget(
+            focusNode: focusNode,
             height: height,
             textEditingController: controller,
             obscureText: obscureText ?? false,

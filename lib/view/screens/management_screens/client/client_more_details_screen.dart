@@ -7,6 +7,7 @@ import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
+import 'package:test_sales/view/screens/management_screens/client/set_location_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
@@ -87,7 +88,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
       },
       {
         "label": AppLocalizations.of(context)!.phone,
-        "value": client.phone?.toString() ?? "1246789"
+        "value": client.phone ?? "1246789"
       },
       {
         "label": AppLocalizations.of(context)!.region,
@@ -343,15 +344,20 @@ class ClientMoreDetailsScreen extends StatelessWidget {
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => UpdateSalesmanScreen(
-                  //       user: client,
-                  //       index: index,
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SetLocationScreen(
+                        isEditMode: true,
+                        initialLocation: LatLng(
+                          client.address!.latitude!,
+                          client.address!.longitude!,
+                        ),
+                        client: client,
+                        index: index,
+                      ),
+                    ),
+                  );
                 },
               );
             },

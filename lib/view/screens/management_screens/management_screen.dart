@@ -20,7 +20,7 @@ class ManagementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
     final clientsController =
-        Provider.of<ClientsController>(context, listen: false);
+        Provider.of<ClientsController>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: MainAppbarWidget(

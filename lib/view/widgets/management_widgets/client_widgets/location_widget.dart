@@ -96,7 +96,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                 title: Text(AppLocalizations.of(context)!.address),
                 subtitle: Text(_areaName),
                 trailing: TextButton(
-                  onPressed: () {
+                  onPressed:() {
                     Navigator.pop(context);
                   },
                   child: Text(

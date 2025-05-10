@@ -29,10 +29,9 @@ class AddClientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-    final clientController =
-    Provider.of<ClientsController>(context);
+    final clientController = Provider.of<ClientsController>(context);
     final cameraController =
-    Provider.of<CameraController>(context, listen: false);
+        Provider.of<CameraController>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -79,65 +78,52 @@ class AddClientScreen extends StatelessWidget {
                   ),
                   ManagementInputWidget(
                     hintText:
-                    AppLocalizations.of(context)!.enter_client_trade_name,
+                        AppLocalizations.of(context)!.enter_client_trade_name,
                     controller: clientsController.clientNameController,
                     title: AppLocalizations.of(context)!.trade_name,
                     keyboardType: TextInputType.name,
-                    onChanged: (value) =>
-                        clientsController.validateField(
-                            context: context, field: 'tradeName', value: value),
+                    onChanged: (value) => clientsController.validateField(
+                        context: context, field: 'tradeName', value: value),
                     errorText: clientsController.errors['tradeName'],
                   ),
                   ManagementInputWidget(
                     hintText:
-                    AppLocalizations.of(context)!.enter_person_in_charge,
+                        AppLocalizations.of(context)!.enter_person_in_charge,
                     controller:
-                    clientsController.clientPersonInChargeController,
+                        clientsController.clientPersonInChargeController,
                     title: AppLocalizations.of(context)!.person_in_charge,
-                    onChanged: (value) =>
-                        clientsController.validateField(
-                            context: context,
-                            field: 'personInCharge',
-                            value: value),
+                    onChanged: (value) => clientsController.validateField(
+                        context: context,
+                        field: 'personInCharge',
+                        value: value),
                     errorText: clientsController.errors['personInCharge'],
                     keyboardType: TextInputType.name,
                   ),
                   ManagementInputWidget(
-                    hintText:
-                    AppLocalizations.of(context)!.enter_client_phone,
-                    controller:
-                    clientsController.clientPhoneController,
+                    hintText: AppLocalizations.of(context)!.enter_client_phone,
+                    controller: clientsController.clientPhoneController,
                     title: AppLocalizations.of(context)!.phone,
-                    onChanged: (value) =>
-                        clientsController.validateField(
-                            context: context, field: 'phone', value: value),
+                    onChanged: (value) => clientsController.validateField(
+                        context: context, field: 'phone', value: value),
                     errorText: clientsController.errors['phone'],
                     keyboardType: TextInputType.phone,
                   ),
                   ManagementInputWidget(
-                    hintText:
-                    AppLocalizations.of(context)!.enter_street,
-                    controller:
-                    clientsController.clientStreetController,
+                    hintText: AppLocalizations.of(context)!.enter_street,
+                    controller: clientsController.clientStreetController,
                     title: AppLocalizations.of(context)!.street,
                     keyboardType: TextInputType.text,
-                    onChanged: (value) =>
-                        clientsController.validateField(
-                            context: context, field: 'street', value: value),
+                    onChanged: (value) => clientsController.validateField(
+                        context: context, field: 'street', value: value),
                     errorText: clientsController.errors['street'],
                   ),
                   ManagementInputWidget(
-                    hintText:
-                    AppLocalizations.of(context)!.enter_building_num,
-                    controller:
-                    clientsController.clientBuildingNumController,
+                    hintText: AppLocalizations.of(context)!.enter_building_num,
+                    controller: clientsController.clientBuildingNumController,
                     title: AppLocalizations.of(context)!.building_num,
                     keyboardType: TextInputType.number,
-                    onChanged: (value) =>
-                        clientsController.validateField(
-                            context: context,
-                            field: 'buildingNum',
-                            value: value),
+                    onChanged: (value) => clientsController.validateField(
+                        context: context, field: 'buildingNum', value: value),
                     errorText: clientsController.errors['buildingNum'],
                   ),
                   RegionInputWidget(
@@ -146,24 +132,22 @@ class AddClientScreen extends StatelessWidget {
                       "Zarqaa",
                     ],
                     selectedRegion: clientsController.clientSelectedRegion,
-                    onChange: (value) =>
-                        clientsController
-                            .setClientSelectedRegion(value, context),
+                    onChange: (value) => clientsController
+                        .setClientSelectedRegion(value, context),
                     err: clientsController.errors['region'],
                     hintText:
-                    AppLocalizations.of(context)!.choose_client_region,
+                        AppLocalizations.of(context)!.choose_client_region,
                   ),
                   ManagementInputWidget(
                     hintText:
-                    AppLocalizations.of(context)!.enter_additional_info,
+                        AppLocalizations.of(context)!.enter_additional_info,
                     controller:
-                    clientsController.clientAdditionalInfoController,
+                        clientsController.clientAdditionalInfoController,
                     title: AppLocalizations.of(context)!.additional_info,
                     keyboardType: TextInputType.text,
                     errorText: null,
                     onChanged: (value) {},
                   ),
-
                   TypeInputWidget(
                     hintText: AppLocalizations.of(context)!.choose_client_type,
                     typeOptions: [
@@ -182,7 +166,6 @@ class AddClientScreen extends StatelessWidget {
                     },
                     err: clientsController.errors['type'],
                   ),
-
                   if (clientsController.clientSelectedType ==
                       AppLocalizations.of(context)!.debt) ...[
                     SizedBox(
@@ -202,11 +185,11 @@ class AddClientScreen extends StatelessWidget {
                     ),
                     UploadPhotos(
                       title:
-                      AppLocalizations.of(context)!.commercial_registration,
+                          AppLocalizations.of(context)!.commercial_registration,
                       photoType: "commercial_registration",
                     ),
                     if (clientsController
-                        .errors['commercial_registration_photos'] !=
+                            .errors['commercial_registration_photos'] !=
                         null)
                       Text(
                         clientsController
@@ -228,14 +211,14 @@ class AddClientScreen extends StatelessWidget {
                       ),
                   ],
                   ManagementInputWidget(
-                      hintText: AppLocalizations.of(context)!.add_notes,
-                      controller: clientsController.clientNotesController,
-                      title: AppLocalizations.of(context)!.notes,
-                      keyboardType: TextInputType.text,
-                      onChanged: (value) {},
-                      errorText: null,
-                      height: 100.h,
-                      maxLines: 3,
+                    hintText: AppLocalizations.of(context)!.add_notes,
+                    controller: clientsController.clientNotesController,
+                    title: AppLocalizations.of(context)!.notes,
+                    keyboardType: TextInputType.text,
+                    onChanged: (value) {},
+                    errorText: null,
+                    height: 100.h,
+                    maxLines: 3,
                   ),
                   SizedBox(height: 30.h),
                   _buildButtonsRow(context),
@@ -254,8 +237,7 @@ class AddClientScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Consumer3<ClientsController,
-              LocationController,
+          child: Consumer3<ClientsController, LocationController,
               CameraController>(
             builder: (context, clientsController, locationController,
                 cameraController, child) {
@@ -272,19 +254,15 @@ class AddClientScreen extends StatelessWidget {
                 onPressed: () {
                   print("Debug: Validating form with the following inputs:");
                   print(
-                      "tradeName: ${clientsController.clientNameController
-                          .text}");
+                      "tradeName: ${clientsController.clientNameController.text}");
                   print(
-                      "personInCharge: ${clientsController
-                          .clientPersonInChargeController.text}");
+                      "personInCharge: ${clientsController.clientPersonInChargeController.text}");
                   print(
                       "phone: ${clientsController.clientPhoneController.text}");
                   print(
-                      "street: ${clientsController.clientStreetController
-                          .text}");
+                      "street: ${clientsController.clientStreetController.text}");
                   print(
-                      "buildingNum: ${clientsController
-                          .clientBuildingNumController.text}");
+                      "buildingNum: ${clientsController.clientBuildingNumController.text}");
                   print("Type: ${clientsController.clientSelectedType}");
                   print("Region: ${clientsController.clientSelectedRegion}");
 
@@ -292,7 +270,7 @@ class AddClientScreen extends StatelessWidget {
                       context: context,
                       tradeName: clientsController.clientNameController.text,
                       personInCharge:
-                      clientsController.clientPersonInChargeController.text,
+                          clientsController.clientPersonInChargeController.text,
                       phone: clientsController.clientPhoneController.text,
                       street: clientsController.clientStreetController.text,
                       buildingNum: int.tryParse(
@@ -301,16 +279,12 @@ class AddClientScreen extends StatelessWidget {
                       type: clientsController.clientSelectedType);
 
                   print(
-                      "Debug: Is form valid? ${clientsController
-                          .isFormValid()}");
+                      "Debug: Is form valid? ${clientsController.isFormValid()}");
 
                   if (clientsController.isFormValid()) {
-                    final phone = int.tryParse(
-                        clientsController.clientPhoneController.text);
                     final buildingNum = double.tryParse(
                         clientsController.clientBuildingNumController.text);
 
-                    print("Debug: Parsed phone number: $phone");
                     print("Debug: Parsed building num: $buildingNum");
 
                     clientsController.addNewClient(
@@ -328,9 +302,7 @@ class AddClientScreen extends StatelessWidget {
                             .getPhotosByType("commercial_registration")
                             .firstOrNull,
                         nationalId:
-                        cameraController
-                            .getPhotosByType("id")
-                            .firstOrNull,
+                            cameraController.getPhotosByType("id").firstOrNull,
                         professionLicensePath: cameraController
                             .getPhotosByType("profession_license")
                             .firstOrNull,
@@ -338,8 +310,7 @@ class AddClientScreen extends StatelessWidget {
                             .clientPersonInChargeController.text,
                         createdAt: DateTime.now(),
                         notes: clientsController.clientNotesController.text,
-                        phone: int.tryParse(
-                            clientsController.clientPhoneController.text),
+                        phone: clientsController.clientPhoneController.text,
                         region: Region(
                             name: clientsController.clientSelectedRegion),
                         tradeName: clientsController.clientNameController.text,
@@ -391,7 +362,7 @@ class AddClientScreen extends StatelessWidget {
                           title: AppLocalizations.of(context)!
                               .something_went_wrong,
                           content:
-                          AppLocalizations.of(context)!.fill_all_fields,
+                              AppLocalizations.of(context)!.fill_all_fields,
                           imageUrl: "assets/images/cancel.png",
                           actions: [
                             CustomButtonWidget(
@@ -441,6 +412,7 @@ class AddClientScreen extends StatelessWidget {
       ],
     );
   }
+
   String? validateSelectedType(String? selectedType, List<String> typeOptions) {
     if (selectedType == null || !typeOptions.contains(selectedType)) {
       return typeOptions.first;

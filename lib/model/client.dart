@@ -19,7 +19,7 @@ class Client {
   String? professionLicensePath;
   String? nationalId;
   List<Visit>? visits;
-  int? phone;
+  String? phone;
   String? status;
   String? type;
   List<Invoice>? invoices;

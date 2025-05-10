@@ -22,6 +22,13 @@ class LocationController extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  void resetSelectedLocation() {
+    selectedLocation = null;
+    locationName = "current location";
+    notifyListeners();
+  }
+
   Future<void> fetchCurrentLocation() async {
     isLoading = true;
     notifyListeners();
