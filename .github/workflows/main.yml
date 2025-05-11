@@ -1,0 +1,40 @@
+name: Build iOS App
+
+on:
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Trigger on pull requests to the main branch
+
+jobs:
+  build-ios:
+    runs-on: macos-latest # Use a macOS runner for iOS builds
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.0' # Specify your Flutter version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Build the iOS app
+      - name: Build iOS IPA
+        run: |
+          cd ios
+          flutter build ipa --release
+
+      # Step 5: Archive the IPA file as a build artifact
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: iOS-build
+          path: build/ios/ipa/*.ipa
