@@ -330,6 +330,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get assigned_clients => 'Assigned Clients';
 
   @override
+  String get assigned_salesmen => 'Assigned Salesmen';
+
+  @override
   String get sales_reports => 'Sales Reports';
 
   @override
@@ -465,7 +468,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get update => 'Update';
 
   @override
-  String get salesman_updated => 'The salesman information has been updated.';
+  String get salesman_updated => 'The salesman\'s information has been updated.';
+
+  @override
+  String get client_updated => 'The client\'s information has been updated.';
 
   @override
   String get name => 'Name';

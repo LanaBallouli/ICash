@@ -45,14 +45,15 @@ class ClientMoreDetailsScreen extends StatelessWidget {
                 location: LatLng(client.address?.latitude ?? 31.985934703432616,
                     client.address?.longitude ?? 35.900362288558114),
               ),
-              // SizedBox(height: 15.h),
               _buildProfileSection(context, langController),
+              SizedBox(height: 10.h),
+              _buildAddressSection(context),
+              SizedBox(height: 10.h),
+              _buildAssignedClientsSection(context),
               SizedBox(height: 10.h),
               _buildPerformanceSection(context),
               SizedBox(height: 10.h),
               _buildRecentActivitySection(context),
-              SizedBox(height: 10.h),
-              _buildAssignedClientsSection(context),
               SizedBox(height: 10.h),
               _buildFeedbackSection(context),
               SizedBox(height: 20.h),
@@ -83,20 +84,16 @@ class ClientMoreDetailsScreen extends StatelessWidget {
 
     final profileDetails = [
       {
-        "label": AppLocalizations.of(context)!.user_name,
+        "label": AppLocalizations.of(context)!.trade_name,
         "value": client.tradeName ?? "name"
+      },
+      {
+        "label": AppLocalizations.of(context)!.person_in_charge,
+        "value": client.personInCharge ?? "name"
       },
       {
         "label": AppLocalizations.of(context)!.phone,
         "value": client.phone ?? "1246789"
-      },
-      {
-        "label": AppLocalizations.of(context)!.region,
-        "value": client.region?.name ?? "region"
-      },
-      {
-        "label": AppLocalizations.of(context)!.status,
-        "value": client.status ?? "active"
       },
       {
         "label": AppLocalizations.of(context)!.joining_date,
@@ -129,6 +126,66 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     }).toList();
   }
 
+  Widget _buildAddressSection(BuildContext context) {
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.address,
+      leadingIcon: Icons.location_on_outlined,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController:
+                TextEditingController(text: client.region?.name ?? "region"),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.region,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController:
+                TextEditingController(text: client.address?.street ?? "street"),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.street,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: client.address?.buildingNumber.toString() ??
+                    "building num"),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.building_num,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: client.address?.additionalDirections ??
+                    "Additional Directions"),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.additional_info,
+          ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+      ],
+    );
+  }
+
   Widget _buildPerformanceSection(BuildContext context) {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.performance,
@@ -138,27 +195,21 @@ class ClientMoreDetailsScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
-            textEditingController:
-                TextEditingController(text: client.type.toString()),
+            textEditingController: TextEditingController(),
             readOnly: true,
             label: AppLocalizations.of(context)!.total_sales,
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
-            textEditingController:
-                TextEditingController(text: "${client.phone ?? "deals"}"),
+            textEditingController: TextEditingController(),
             readOnly: true,
-            label: AppLocalizations.of(context)!.closed_deals,
+            label: AppLocalizations.of(context)!.monthly_sales,
           ),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
       ],
     );
   }
@@ -262,7 +313,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
 
   Widget _buildAssignedClientsSection(BuildContext context) {
     return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.assigned_clients,
+      title: AppLocalizations.of(context)!.assigned_salesmen,
       leadingIcon: Icons.groups_2_outlined,
       initExpanded: false,
       children: [
@@ -286,7 +337,7 @@ class ClientMoreDetailsScreen extends StatelessWidget {
                       children: [
                         InputWidget(
                           textEditingController: TextEditingController(
-                              text: users.fullName ?? "Unknown Client"),
+                              text: users.fullName ?? "Unknown Salesman"),
                           label: AppLocalizations.of(context)!.salesman_name,
                           suffixIcon: IconButton(
                               onPressed: () {},

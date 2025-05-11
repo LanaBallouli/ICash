@@ -737,6 +737,12 @@ abstract class AppLocalizations {
   /// **'Assigned Clients'**
   String get assigned_clients;
 
+  /// No description provided for @assigned_salesmen.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned Salesmen'**
+  String get assigned_salesmen;
+
   /// No description provided for @sales_reports.
   ///
   /// In en, this message translates to:
@@ -1010,8 +1016,14 @@ abstract class AppLocalizations {
   /// No description provided for @salesman_updated.
   ///
   /// In en, this message translates to:
-  /// **'The salesman information has been updated.'**
+  /// **'The salesman\'s information has been updated.'**
   String get salesman_updated;
+
+  /// No description provided for @client_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'The client\'s information has been updated.'**
+  String get client_updated;
 
   /// No description provided for @name.
   ///

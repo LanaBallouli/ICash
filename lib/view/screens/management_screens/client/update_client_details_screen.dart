@@ -7,7 +7,6 @@ import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
-import 'package:test_sales/view/screens/management_screens/client/set_location_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
@@ -334,6 +333,8 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                 );
                 return;
               }
+              final double latitude = widget.location!.latitude;
+              final double longitude = widget.location!.longitude;
 
               final updatedClient = Client(
                 id: widget.client.id,
@@ -350,8 +351,8 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                   additionalDirections:
                       clientsController.clientAdditionalInfoController.text,
                   buildingNumber: buildingNum,
-                  longitude: widget.client.address?.longitude,
-                  latitude: widget.client.address?.latitude,
+                  longitude: longitude,
+                  latitude: latitude,
                 ),
                 updatedAt: DateTime.now(),
               );
@@ -362,7 +363,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
               showDialog(
                 context: context,
                 builder: (context) => DialogWidget(
-                  title: AppLocalizations.of(context)!.salesman_updated,
+                  title: AppLocalizations.of(context)!.client_updated,
                   imageUrl: "assets/images/success.png",
                   actions: [
                     CustomButtonWidget(

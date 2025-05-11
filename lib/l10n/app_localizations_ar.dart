@@ -330,6 +330,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get assigned_clients => 'العملاء المعينون';
 
   @override
+  String get assigned_salesmen => 'المندوبين المعينون';
+
+  @override
   String get sales_reports => 'تقارير المبيعات';
 
   @override
@@ -465,7 +468,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get update => 'تعديل';
 
   @override
-  String get salesman_updated => 'تم تعديل معلومات المندوب';
+  String get salesman_updated => 'تم تعديل معلومات المندوب بنجاح';
+
+  @override
+  String get client_updated => 'تم تعديل معلومات العميل بنجاح';
 
   @override
   String get name => 'الاسم';
