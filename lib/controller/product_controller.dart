@@ -65,10 +65,6 @@ class ProductController extends ChangeNotifier {
         throw Exception('Error fetching products');
       }
 
-      products = List<Product>.from(
-        (response as List)
-            .map((clientJson) => Product.fromJson( clientJson)),
-      );
 
       notifyListeners();
     } catch (e) {

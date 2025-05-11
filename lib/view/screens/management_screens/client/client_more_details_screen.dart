@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,6 +15,7 @@ import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/client_widgets/location_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
+import '../../../../controller/camera_controller.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
 
@@ -54,6 +56,8 @@ class ClientMoreDetailsScreen extends StatelessWidget {
               _buildPerformanceSection(context),
               SizedBox(height: 10.h),
               _buildRecentActivitySection(context),
+              SizedBox(height: 10.h),
+              _buildDocumentsSection(context),
               SizedBox(height: 10.h),
               _buildFeedbackSection(context),
               SizedBox(height: 20.h),
@@ -210,6 +214,24 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.sales_history,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController: TextEditingController(),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.average_order_value,
+          ),
+        ),
+        SizedBox(height: 10.h),
       ],
     );
   }
@@ -282,31 +304,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.login_history,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.task_completion,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -374,6 +371,120 @@ class ClientMoreDetailsScreen extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget _buildDocumentsSection(BuildContext context) {
+    final cameraController = Provider.of<CameraController>(context);
+    List<String> idPhotos = cameraController.getPhotosByType('id');
+    List<String> commercialRegistrationPhotos =
+        cameraController.getPhotosByType('commercial_registration');
+    List<String> professionLicensePhotos =
+        cameraController.getPhotosByType('profession_license');
+
+    return MoreDetailsWidget(
+      title: AppLocalizations.of(context)!.documents_section,
+      leadingIcon: Icons.attach_file,
+      initExpanded: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            children: [
+              _buildDocumentInputField(
+                context: context,
+                label: AppLocalizations.of(context)!.client_id,
+                photos: idPhotos,
+                photoType: 'id',
+                cameraController: cameraController,
+                controllerText: client.nationalId,
+              ),
+              SizedBox(height: 10.h),
+              _buildDocumentInputField(
+                context: context,
+                label: AppLocalizations.of(context)!.commercial_registration,
+                photos: commercialRegistrationPhotos,
+                photoType: 'commercial_registration',
+                cameraController: cameraController,
+              ),
+              SizedBox(height: 10.h),
+              _buildDocumentInputField(
+                context: context,
+                label: AppLocalizations.of(context)!.profession_license,
+                photos: professionLicensePhotos,
+                photoType: 'profession_license',
+                cameraController: cameraController,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDocumentInputField({
+    required BuildContext context,
+    required String label,
+    required List<String> photos,
+    required String photoType,
+    required CameraController cameraController,
+    String? controllerText,
+  }) {
+    return InputWidget(
+      textEditingController: TextEditingController(text: controllerText),
+      suffixIcon: Icon(Icons.camera_alt_outlined),
+      readOnly: true,
+      label: label,
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              icon: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close),
+              ),
+              content: photos.isEmpty
+                  ? Text("AppLocalizations.of(context)!.no_documents_uploaded")
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: photos.map((base64String) {
+                        try {
+                          return Stack(
+                            children: [
+                              Image.memory(
+                                base64Decode(base64String),
+                                width: 80.w,
+                                height: 80.h,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    cameraController.removeImage(
+                                        base64String, photoType);
+                                  },
+                                  child: Icon(Icons.close,
+                                      color: Colors.red, size: 18.sp),
+                                ),
+                              ),
+                            ],
+                          );
+                        } catch (e) {
+                          return Text(
+                              "AppLocalizations.of(context)!.invalid_image");
+                        }
+                      }).toList(),
+                    ),
+            );
+          },
+        );
+      },
     );
   }
 

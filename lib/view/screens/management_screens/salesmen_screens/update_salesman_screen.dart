@@ -215,12 +215,11 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 return;
               }
 
-              final phone =
-                  int.tryParse(managementController.phoneNumberController.text);
+
               final target =
                   double.tryParse(managementController.targetController.text);
 
-              if (phone == null || target == null) {
+              if (target == null) {
                 showDialog(
                   context: context,
                   builder: (context) => DialogWidget(
@@ -249,7 +248,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 fullName: managementController.nameController.text,
                 email: managementController.emailController.text,
                 password: managementController.passwordController.text,
-                phone: phone,
+                phone: managementController.phoneNumberController.text,
                 region: Region(name: managementController.selectedRegion!),
                 targetAchievement: target,
                 type: managementController.typeController.text,

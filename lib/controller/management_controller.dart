@@ -17,7 +17,7 @@ class ManagementController extends ChangeNotifier {
       id: 1,
       fullName: "John Doe",
       email: "john.doe@example.com",
-      phone: 1234567890,
+      phone: "1234567890",
       role: "Salesman",
       type: "Cash",
       password: "@Lana123",
@@ -55,7 +55,7 @@ class ManagementController extends ChangeNotifier {
       id: 2,
       fullName: "Jane Smith",
       email: "jane.smith@example.com",
-      phone: 9876543210,
+      phone: "9876543210",
       role: "Salesman",
       status: "Active",
       totalSales: 75000.0,
@@ -92,7 +92,7 @@ class ManagementController extends ChangeNotifier {
       password: "@Lana123",
       fullName: "Alice Johnson",
       email: "alice.johnson@example.com",
-      phone: 5555555555,
+      phone: "5555555555",
       role: "Salesman",
       status: "Inactive",
       totalSales: 30000.0,
@@ -107,7 +107,7 @@ class ManagementController extends ChangeNotifier {
       invoices: [
         Invoice(
           products: [
-            Product(price: 500.0),
+            Product(price: 500.0, id: 1),
             Product(price: 600.0),
           ],
         ),

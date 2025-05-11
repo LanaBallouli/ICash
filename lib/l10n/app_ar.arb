@@ -193,7 +193,11 @@
   "profession_license_photo_required": "صورة عن رخصة المهن مطلوبة",
   "upload_photos": "قم بتحميل الصور",
   "delete": "حذف",
-  "current_location": "الموقع الحالي"
+  "current_location": "الموقع الحالي",
+  "sales_history": "سجل المبيعات",
+  "average_order_value": "متوسط قيمة الطلب",
+  "documents_section": "المستندات والمرفقات"
+
 
 
 

@@ -1276,6 +1276,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current location'**
   String get current_location;
+
+  /// No description provided for @sales_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales History'**
+  String get sales_history;
+
+  /// No description provided for @average_order_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Order Value'**
+  String get average_order_value;
+
+  /// No description provided for @documents_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents and Attachments'**
+  String get documents_section;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

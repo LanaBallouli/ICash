@@ -195,7 +195,11 @@
   "profession_license_photo_required": "Profession License photo required",
   "upload_photos": "Upload Photos",
   "delete": "Delete",
-  "current_location": "Current location"
+  "current_location": "Current location",
+  "sales_history": "Sales History",
+  "average_order_value": "Average Order Value",
+  "documents_section": "Documents and Attachments"
+
 
 
 

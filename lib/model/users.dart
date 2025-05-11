@@ -8,7 +8,7 @@ class Users {
   int id;
   String? fullName;
   String? email;
-  int? phone;
+  String? phone;
   String? password;
   String? role;
   String? status;
@@ -31,7 +31,7 @@ class Users {
      this.id= 2,
     this.fullName = "Unknown", // Default: "Unknown"
     this.email = "N/A", // Default: "N/A"
-    this.phone = 0, // Default: 0
+    this.phone = "0", // Default: 0
     this.password = "", // Default: Empty string
     this.role = "User", // Default: "User"
     this.status = "Active", // Default: "Active"

@@ -62,9 +62,6 @@ class Invoice {
       creationTime: json['creation_time'] != null ? DateTime.parse(json['creation_time']) : null,
       notes: json['notes'],
       userId: json['user'] != null ? Users.fromJson(json['user']) : null,
-      products: (json['products'] as List<dynamic>?)
-          ?.map((productJson) => Product.fromJson(productJson))
-          .toList(),
     );
   }
 
@@ -83,7 +80,6 @@ class Invoice {
       'creation_time': creationTime?.toIso8601String(),
       'notes': notes,
       'user': userId?.toJson(),
-      'products': products?.map((product) => product.toJson()).toList(),
     };
   }
 }

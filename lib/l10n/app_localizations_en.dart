@@ -598,4 +598,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get current_location => 'Current location';
+
+  @override
+  String get sales_history => 'Sales History';
+
+  @override
+  String get average_order_value => 'Average Order Value';
+
+  @override
+  String get documents_section => 'Documents and Attachments';
 }

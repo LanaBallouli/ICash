@@ -598,4 +598,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get current_location => 'الموقع الحالي';
+
+  @override
+  String get sales_history => 'سجل المبيعات';
+
+  @override
+  String get average_order_value => 'متوسط قيمة الطلب';
+
+  @override
+  String get documents_section => 'المستندات والمرفقات';
 }

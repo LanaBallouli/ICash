@@ -193,12 +193,9 @@ class AddSalesmanScreen extends StatelessWidget {
                       "Debug: Is form valid? ${managementController.isFormValid()}");
 
                   if (managementController.isFormValid()) {
-                    final phone = int.tryParse(
-                        managementController.phoneNumberController.text);
                     final target = double.tryParse(
                         managementController.targetController.text);
 
-                    print("Debug: Parsed phone number: $phone");
                     print("Debug: Parsed target achievement: $target");
 
                     managementController.addNewUser(
@@ -207,7 +204,7 @@ class AddSalesmanScreen extends StatelessWidget {
                           email: managementController.emailController.text,
                           password:
                               managementController.passwordController.text,
-                          phone: phone,
+                          phone: managementController.phoneNumberController.text,
                           region: Region(
                               name: managementController.selectedRegion, id: 1),
                           targetAchievement: target,
