@@ -150,6 +150,7 @@ class LoginController extends ChangeNotifier {
         : null;
     if (errors['phone'] != newError) {
       errors['phone'] = newError;
+
     }
   }
 
