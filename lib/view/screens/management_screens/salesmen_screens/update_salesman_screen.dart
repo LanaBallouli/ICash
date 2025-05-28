@@ -42,7 +42,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
     managementController.phoneNumberController.text =
         widget.user.phone.toString();
     managementController.targetController.text =
-        widget.user.targetAchievement?.toString() ?? "";
+        widget.user.monthlyTarget?.toString() ?? "";
     managementController.typeController.text = widget.user.type!;
     managementController.setSelectedRegion(widget.user.region!.name, context);
     managementController.setSelectedType(widget.user.type, context);
@@ -250,7 +250,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 password: managementController.passwordController.text,
                 phone: managementController.phoneNumberController.text,
                 region: Region(name: managementController.selectedRegion!),
-                targetAchievement: target,
+                monthlyTarget: target,
                 type: managementController.typeController.text,
                 notes: managementController.notesController.text,
                 closedDeals: widget.user.closedDeals,

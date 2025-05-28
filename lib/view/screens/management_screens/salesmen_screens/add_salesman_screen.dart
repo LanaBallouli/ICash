@@ -207,7 +207,7 @@ class AddSalesmanScreen extends StatelessWidget {
                           phone: managementController.phoneNumberController.text,
                           region: Region(
                               name: managementController.selectedRegion, id: 1),
-                          targetAchievement: target,
+                          monthlyTarget: target,
                           closedDeals: 0,
                           totalSales: 0,
                           notes: managementController.notesController.text,

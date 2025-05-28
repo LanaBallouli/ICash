@@ -607,4 +607,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get documents_section => 'المستندات والمرفقات';
+
+  @override
+  String get daily_target => 'الهدف اليومي';
+
+  @override
+  String get monthly_target_achievement => 'تحقيق الهدف الشهري';
 }

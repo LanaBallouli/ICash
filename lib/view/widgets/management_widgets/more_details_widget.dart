@@ -26,7 +26,6 @@ class MoreDetailsWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
       ),
       child: ExpansionTile(

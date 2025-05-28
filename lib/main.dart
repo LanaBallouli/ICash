@@ -31,7 +31,6 @@ Future<void> main() async {
   await langController.initSharedPreferences();
 
   runApp(
-
    ScreenUtilInit(
      designSize: Size(414, 896),
      builder: (context, child) {

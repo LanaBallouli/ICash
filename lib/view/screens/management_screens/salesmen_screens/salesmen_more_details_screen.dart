@@ -11,9 +11,9 @@ import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
-import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
+import '../../../../model/client.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
   final Users users;
@@ -42,7 +42,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               SizedBox(height: 15.h),
               _buildProfileSection(context, langController),
               SizedBox(height: 10.h),
-              _buildPerformanceSection(context),
+              _buildPerformanceSection(context, users),
               SizedBox(height: 10.h),
               _buildRecentActivitySection(context),
               SizedBox(height: 10.h),
@@ -109,15 +109,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         "label": AppLocalizations.of(context)!.phone,
         "value": users.phone?.toString() ?? "1246789"
       },
-      {"label": AppLocalizations.of(context)!.role, "value": users.role},
+      {
+        "label": AppLocalizations.of(context)!.type,
+        "value": users.type ?? "type"
+      },
       {
         "label": AppLocalizations.of(context)!.region,
         "value": users.region?.name ?? "region"
       },
-      {
-        "label": AppLocalizations.of(context)!.password,
-        "value": users.password ?? "password"
-      },
+
       {
         "label": AppLocalizations.of(context)!.status,
         "value": users.status ?? "active"
@@ -128,8 +128,12 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             formatDateWithTime(users.createdAt ?? DateTime.now()).toString()
       },
       {
-        "label": AppLocalizations.of(context)!.type,
-        "value": users.type ?? "type"
+        "label": AppLocalizations.of(context)!.monthly_target,
+        "value": users.monthlyTarget.toString() ?? "monthly Target"
+      },
+      {
+        "label": AppLocalizations.of(context)!.daily_target,
+        "value": users.dailyTarget.toString() ?? "daily Target"
       }
     ];
 
@@ -153,7 +157,8 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     }).toList();
   }
 
-  Widget _buildPerformanceSection(BuildContext context) {
+  Widget _buildPerformanceSection(BuildContext context, Users salesman) {
+    final topThreeClients = getTopThreeCustomers(salesman);
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.performance,
       leadingIcon: Icons.assessment_outlined,
@@ -183,15 +188,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: InputWidget(
-            textEditingController: TextEditingController(
-                text: "${users.targetAchievement ?? "achievement"}"),
-            readOnly: true,
-            label: AppLocalizations.of(context)!.targets,
-          ),
-        )
+
+        ...topThreeClients.map((entry) {
+          final client = entry['client'] as Client;
+          final totalSales = entry['totalSales'] as double;
+          return ListTile(
+            title: Text(client.tradeName?? ""),
+            trailing: Text("\$${totalSales.toStringAsFixed(2)}"),
+          );
+        }).toList(),
       ],
     );
   }
@@ -383,6 +388,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
                 onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: "${users.monthlyTarget ?? "monthly achievement"}"),
+            readOnly: true,
+            label: AppLocalizations.of(context)!.monthly_target_achievement,
+          ),
+        ),
         SizedBox(
           height: 10.h,
         ),
@@ -492,5 +506,40 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         );
       },
     );
+  }
+}
+List<Map<String, dynamic>> getTopThreeCustomers(Users salesman) {
+  Map<int, double> clientSalesMap = {};
+
+  for (var invoice in salesman.invoices ?? []) {
+    if (clientSalesMap.containsKey(invoice.clientId)) {
+      clientSalesMap[invoice.clientId] = clientSalesMap[invoice.clientId]! + invoice.totalAmount;
+    } else {
+      clientSalesMap[invoice.clientId] = invoice.totalAmount;
+    }
+  }
+
+  List<Map<String, dynamic>> clientsWithSales = [];
+  for (var clientId in clientSalesMap.keys) {
+    final client = salesman.clients?.firstWhere((c) => c.id == clientId, orElse: () => Client(tradeName: "Unknown", id: clientId));
+    clientsWithSales.add({
+      'client': client,
+      'totalSales': clientSalesMap[clientId],
+    });
+  }
+
+  clientsWithSales.sort((a, b) => b['totalSales'].compareTo(a['totalSales']));
+
+  return clientsWithSales.take(3).toList();
+}
+
+void displayTopThreeCustomers(Users salesman) {
+  final topThreeClients = getTopThreeCustomers(salesman);
+
+  print("Top Three Clients for ${salesman.fullName}:");
+  for (var entry in topThreeClients) {
+    final client = entry['client'] as Client;
+    final totalSales = entry['totalSales'] as double;
+    print("${client.tradeName} - Total Sales: \$${totalSales.toStringAsFixed(2)}");
   }
 }

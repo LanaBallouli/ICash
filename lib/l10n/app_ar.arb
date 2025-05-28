@@ -196,7 +196,9 @@
   "current_location": "الموقع الحالي",
   "sales_history": "سجل المبيعات",
   "average_order_value": "متوسط قيمة الطلب",
-  "documents_section": "المستندات والمرفقات"
+  "documents_section": "المستندات والمرفقات",
+  "daily_target": "الهدف اليومي",
+  "monthly_target_achievement": "تحقيق الهدف الشهري"
 
 
 

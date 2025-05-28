@@ -24,7 +24,7 @@ class ManagementController extends ChangeNotifier {
       status: "Active",
       totalSales: 50000.0,
       closedDeals: 15,
-      targetAchievement: 90.0,
+      monthlyTarget: 90.0,
       region: Region(name: "Amman"),
       visits: [
         Visit(visitDate: DateTime(2023, 10, 1)),
@@ -33,7 +33,7 @@ class ManagementController extends ChangeNotifier {
       invoices: [
         Invoice(
           products: [
-            Product(price: 100.0),
+            Product(price: 100.0, quantity: 3, ),
             Product(price: 200.0),
           ],
         ),
@@ -60,7 +60,7 @@ class ManagementController extends ChangeNotifier {
       status: "Active",
       totalSales: 75000.0,
       closedDeals: 20,
-      targetAchievement: 95.0,
+      monthlyTarget: 95.0,
       region: Region(name: "Amman"),
       // imageUrl: "assets/images/jane_smith.jpg",
       visits: [
@@ -97,7 +97,7 @@ class ManagementController extends ChangeNotifier {
       status: "Inactive",
       totalSales: 30000.0,
       closedDeals: 10,
-      targetAchievement: 80.0,
+      monthlyTarget: 80.0,
       region: Region(name: "Amman"),
       // imageUrl: "assets/images/alice_johnson.jpg",
       visits: [
@@ -394,6 +394,7 @@ class ManagementController extends ChangeNotifier {
       return [];
     }
   }
+
 
   void clearFields() {
     emailController.clear();

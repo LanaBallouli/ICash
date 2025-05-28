@@ -198,7 +198,11 @@
   "current_location": "Current location",
   "sales_history": "Sales History",
   "average_order_value": "Average Order Value",
-  "documents_section": "Documents and Attachments"
+  "documents_section": "Documents and Attachments",
+  "daily_target": "Daily Target",
+  "monthly_target_achievement": "Monthly Target Achievement"
+
+
 
 
 

@@ -1294,6 +1294,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Documents and Attachments'**
   String get documents_section;
+
+  /// No description provided for @daily_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Target'**
+  String get daily_target;
+
+  /// No description provided for @monthly_target_achievement.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Target Achievement'**
+  String get monthly_target_achievement;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

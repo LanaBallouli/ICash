@@ -607,4 +607,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documents_section => 'Documents and Attachments';
+
+  @override
+  String get daily_target => 'Daily Target';
+
+  @override
+  String get monthly_target_achievement => 'Monthly Target Achievement';
 }

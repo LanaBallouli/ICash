@@ -18,7 +18,8 @@ class Users {
   String? imageUrl;
   double? totalSales;
   int? closedDeals;
-  double? targetAchievement;
+  double? monthlyTarget;
+  double? dailyTarget;
   List<Invoice>? invoices;
   List<Visit>? visits;
   List<MonthlySales>? monthlySales;
@@ -29,25 +30,26 @@ class Users {
 
   Users({
      this.id= 2,
-    this.fullName = "Unknown", // Default: "Unknown"
-    this.email = "N/A", // Default: "N/A"
-    this.phone = "0", // Default: 0
-    this.password = "", // Default: Empty string
-    this.role = "User", // Default: "User"
-    this.status = "Active", // Default: "Active"
-    this.createdAt, // Default: Null (can be set to `DateTime.now()` if needed)
-    this.updatedAt, // Default: Null (can be set to `DateTime.now()` if needed)
-    this.region, // Default: Null
-    this.routeId = 0, // Default: 0
-    this.imageUrl = "assets/images/default_image.png", // Default: Placeholder image
-    this.totalSales = 0.0, // Default: 0.0
-    this.closedDeals = 0, // Default: 0
-    this.targetAchievement = 0.0, // Default: 0.0
-    this.invoices = const [], // Default: Empty list
-    this.visits = const [], // Default: Empty list
-    this.monthlySales = const [], // Default: Empty list
-    this.clients = const [], // Default: Empty list
-    this.notes = "", // Default: Empty string
+    this.fullName = "Unknown",
+    this.email = "N/A",
+    this.phone = "0",
+    this.password = "",
+    this.role = "User",
+    this.status = "Active",
+    this.createdAt,
+    this.updatedAt,
+    this.region,
+    this.routeId = 0,
+    this.imageUrl = "assets/images/default_image.png",
+    this.totalSales = 0.0,
+    this.closedDeals = 0,
+    this.monthlyTarget = 0.0,
+    this.dailyTarget,
+    this.invoices = const [],
+    this.visits = const [],
+    this.monthlySales = const [],
+    this.clients = const [],
+    this.notes = "",
     this.type = "",
   });
 
@@ -67,7 +69,7 @@ class Users {
       imageUrl: json['image_url'],
       totalSales: (json['total_sales'] as num?)?.toDouble(),
       closedDeals: json['closed_deals'],
-      targetAchievement: (json['target_achievement'] as num?)?.toDouble(),
+      monthlyTarget: (json['target'] as num?)?.toDouble(),
       invoices: (json['invoices'] as List<dynamic>?)
           ?.map((invoiceJson) => Invoice.fromJson(invoiceJson))
           .toList() ??
@@ -105,7 +107,7 @@ class Users {
       'image_url': imageUrl,
       'total_sales': totalSales,
       'closed_deals': closedDeals,
-      'target_achievement': targetAchievement,
+      'target': monthlyTarget,
       'invoices': invoices?.map((invoice) => invoice.toJson()).toList(),
       'visits': visits?.map((visit) => visit.toJson()).toList(),
       'monthly_sales': monthlySales?.map((monthlySale) => monthlySale.toJson()).toList(),
