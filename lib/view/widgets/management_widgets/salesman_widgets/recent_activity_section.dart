@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class RecentActivitySection extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
   const RecentActivitySection({super.key, required this.users});
 
   @override
@@ -44,12 +44,25 @@ class RecentActivitySection extends StatelessWidget {
       }
     }
 
+    String getNextVisitDate() {
+      if (users.visits != null && users.visits!.isNotEmpty) {
+        final nextVisit = users.visits!.reduce((current, next) =>
+        (next.nextVisitTime?.isAfter(current.nextVisitTime ?? DateTime.now()) ??
+            false)
+            ? next
+            : current);
+        return formatDateWithTime(nextVisit.nextVisitTime ?? DateTime.now());
+      } else {
+        return "No next visits available";
+      }
+    }
+
     final String latestInvoiceAmount = _getLatestInvoiceAmount();
     final String latestVisitDate = getLatestVisitDate();
+    final String nextVisitDate = getNextVisitDate();
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.recent_activity_log,
       leadingIcon: Icons.access_time,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -81,8 +94,8 @@ class RecentActivitySection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.login_history,
+            textEditingController: TextEditingController(text: nextVisitDate),
+            label: AppLocalizations.of(context)!.next_visit,
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () {},
@@ -91,18 +104,6 @@ class RecentActivitySection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.task_completion,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
       ],
     );
   }

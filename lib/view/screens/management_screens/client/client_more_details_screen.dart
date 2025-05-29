@@ -74,7 +74,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.profile,
       leadingIcon: Icons.person_outline_rounded,
-      initExpanded: false,
       children: _buildProfileInputs(context, langController),
     );
   }
@@ -134,7 +133,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.address,
       leadingIcon: Icons.location_on_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -194,7 +192,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.performance,
       leadingIcon: Icons.assessment_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -275,7 +272,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.recent_activity_log,
       leadingIcon: Icons.access_time,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -312,7 +308,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.assigned_salesmen,
       leadingIcon: Icons.groups_2_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -357,7 +352,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.feedback,
       leadingIcon: Icons.location_history_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -385,7 +379,6 @@ class ClientMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.documents_section,
       leadingIcon: Icons.attach_file,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),

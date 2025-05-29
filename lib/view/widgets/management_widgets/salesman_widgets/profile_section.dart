@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class ProfileSection extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
 
   const ProfileSection({super.key, required this.users});
 
@@ -65,7 +65,6 @@ class ProfileSection extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.profile,
       leadingIcon: Icons.person_outline_rounded,
-      initExpanded: false,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -438,7 +438,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get choose_region => 'Choose the sales man\'s region';
 
   @override
-  String get select_target => 'Target to be achieved';
+  String get monthly_select_target => 'Monthly Target';
+
+  @override
+  String get next_visit => 'Next Scheduled Visit';
+
+  @override
+  String get daily_select_target => 'Daily Target';
 
   @override
   String get select_target_prompt => 'Enter the sales man\'s target';
@@ -613,4 +619,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get monthly_target_achievement => 'Monthly Target Achievement';
+
+  @override
+  String get summary_of_top_customers => 'Summary of Top Customers';
+
+  @override
+  String get load_more => 'Load More ..';
+
+  @override
+  String get no_clients_found => 'No clients found';
 }

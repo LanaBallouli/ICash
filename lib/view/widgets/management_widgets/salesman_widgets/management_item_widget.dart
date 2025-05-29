@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
+import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_screens/salesmen_more_details_screen.dart';
 import '../../../../app_constants.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/custom_button_widget.dart';
 
 class ManagementItemWidget extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
   final int index;
 
   const ManagementItemWidget(
@@ -21,8 +22,8 @@ class ManagementItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-    return Consumer<ManagementController>(
-      builder: (context, managementController, child) {
+    return Consumer<SalesmanController>(
+      builder: (context, salesmanController, child) {
         return SizedBox(
           height: 300.h,
           width: 177.w,
@@ -165,9 +166,9 @@ class ManagementItemWidget extends StatelessWidget {
                   child: Center(
                     child: IconButton(
                       onPressed: () {
-                        managementController.toggleFavourite(context, users);
+                        salesmanController.toggleFavourite(context, users);
                       },
-                      icon: managementController.isFavourite(users)
+                      icon: salesmanController.isFavourite(users)
                           ? Icon(
                               Icons.favorite,
                               color: AppConstants.errorColor,

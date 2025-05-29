@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_screens/add_salesman_screen.dart';
 import 'package:test_sales/view/screens/management_screens/client/set_location_screen.dart';
@@ -26,11 +27,10 @@ class ManagementScreen extends StatelessWidget {
         appBar: MainAppbarWidget(
           title: AppLocalizations.of(context)!.management_screen,
         ),
-        body: Consumer<ManagementController>(
-          builder: (context, managementController, child) {
+        body: Consumer2<SalesmanController, ManagementController>(
+          builder: (context, salesmanController, managementController, child) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              managementController.getFilteredItems(
-                  context, AppLocalizations.of(context)!.sales_men);
+              salesmanController.salesMen;
             });
             return SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -59,7 +59,7 @@ class ManagementScreen extends StatelessWidget {
                       items: clientsController.clients
                     )
                   else
-                    CategoryGridViewWidget(items: managementController.salesMen),
+                    CategoryGridViewWidget(items: salesmanController.salesMen),
                 ],
               ),
             );

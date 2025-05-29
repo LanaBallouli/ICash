@@ -438,7 +438,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get choose_region => 'اختر منطقة مندوب المبيعات';
 
   @override
-  String get select_target => 'الهدف المراد تحقيقه';
+  String get monthly_select_target => 'الهدف الشهري للمندوب';
+
+  @override
+  String get next_visit => 'موعد الزيارة القادمة';
+
+  @override
+  String get daily_select_target => 'الهدف اليومي للمندوب';
 
   @override
   String get select_target_prompt => 'ادخل الهدف لمندوب المبيعات';
@@ -613,4 +619,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get monthly_target_achievement => 'تحقيق الهدف الشهري';
+
+  @override
+  String get summary_of_top_customers => 'ملخص لأفضل العملاء';
+
+  @override
+  String get load_more => 'تحميل المزيد ..';
+
+  @override
+  String get no_clients_found => 'لا يوجد عملاء';
 }

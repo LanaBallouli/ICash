@@ -8,16 +8,16 @@ import '../../../../controller/lang_controller.dart';
 
 class MoreDetailsWidget extends StatelessWidget {
   final String title;
-  final IconData leadingIcon;
-  final bool initExpanded;
+  final IconData? leadingIcon;
   final List<Widget> children;
+  final Color? backgroundColor;
 
   const MoreDetailsWidget(
       {super.key,
       required this.title,
-      required this.leadingIcon,
-      required this.initExpanded,
-      required this.children});
+      this.leadingIcon,
+      required this.children,
+      this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MoreDetailsWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: backgroundColor ?? Colors.white,
         border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
       ),
       child: ExpansionTile(
@@ -42,7 +42,7 @@ class MoreDetailsWidget extends StatelessWidget {
         ),
         leading: Icon(leadingIcon),
         backgroundColor: Colors.white,
-        initiallyExpanded: initExpanded,
+        initiallyExpanded: false,
         iconColor: Colors.black,
         childrenPadding: EdgeInsets.symmetric(vertical: 10),
         children: children,

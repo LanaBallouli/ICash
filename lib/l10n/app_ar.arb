@@ -141,7 +141,8 @@
   "enter_salesman_password": "أدخل كلمة مرور مندوب المبيعات",
   "enter_salesman_phone": "أدخل رقم هاتف المندوب",
   "choose_region": "اختر منطقة مندوب المبيعات",
-  "select_target": "الهدف المراد تحقيقه",
+  "monthly_select_target": "الهدف الشهري للمندوب",
+  "daily_select_target": "الهدف اليومي للمندوب",
   "select_target_prompt": "ادخل الهدف لمندوب المبيعات",
   "target_error": "يجب أن يكون الهدف أكبر من 0",
   "type": "النوع",
@@ -198,11 +199,9 @@
   "average_order_value": "متوسط قيمة الطلب",
   "documents_section": "المستندات والمرفقات",
   "daily_target": "الهدف اليومي",
-  "monthly_target_achievement": "تحقيق الهدف الشهري"
-
-
-
-
-
-
+  "monthly_target_achievement": "تحقيق الهدف الشهري",
+  "next_visit": "موعد الزيارة القادمة",
+  "summary_of_top_customers": "ملخص لأفضل العملاء",
+  "load_more": "تحميل المزيد ..",
+  "no_clients_found": "لا يوجد عملاء"
 }

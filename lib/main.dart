@@ -11,10 +11,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/product_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/controller/monthly_target_controller.dart';
 import 'package:test_sales/controller/user_provider.dart';
 import 'package:test_sales/view/screens/main_screen.dart';
+import 'package:test_sales/view/screens/splash_screen.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -44,6 +46,7 @@ Future<void> main() async {
            ChangeNotifierProvider(create: (_) => UserProvider()),
            ChangeNotifierProvider(create: (_) => ClientsController()),
            ChangeNotifierProvider(create: (_) => LocationController()),
+           ChangeNotifierProvider(create: (_) => SalesmanController()),
            ChangeNotifierProvider(create: (context) => InvoiceController(
              clientsController: context.read<ClientsController>(),
            ),),

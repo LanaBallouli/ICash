@@ -142,7 +142,9 @@
   "enter_salesman_password": "Enter the sales man's password",
   "enter_salesman_phone": "Enter the sales man's phone number",
   "choose_region": "Choose the sales man's region",
-  "select_target": "Target to be achieved",
+  "monthly_select_target": "Monthly Target",
+  "next_visit": "Next Scheduled Visit",
+  "daily_select_target": "Daily Target",
   "select_target_prompt": "Enter the sales man's target",
   "target_error": "Target must be greater than 0.",
   "type": "Type",
@@ -200,21 +202,8 @@
   "average_order_value": "Average Order Value",
   "documents_section": "Documents and Attachments",
   "daily_target": "Daily Target",
-  "monthly_target_achievement": "Monthly Target Achievement"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "monthly_target_achievement": "Monthly Target Achievement",
+  "summary_of_top_customers": "Summary of Top Customers",
+  "load_more": "Load More ..",
+  "no_clients_found": "No clients found"
 }

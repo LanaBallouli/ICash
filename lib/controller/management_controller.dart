@@ -5,134 +5,12 @@ import '../model/invoice.dart';
 import '../model/monthly_sales.dart';
 import '../model/product.dart';
 import '../model/region.dart';
-import '../model/users.dart';
+import '../model/salesman.dart';
 import '../model/visit.dart';
 
 class ManagementController extends ChangeNotifier {
   int selectedIndex = 0;
   String? selectedCategory;
-  final List<Users> fav = [];
-  List<Users> salesMen = [
-    Users(
-      id: 1,
-      fullName: "John Doe",
-      email: "john.doe@example.com",
-      phone: "1234567890",
-      role: "Salesman",
-      dailyTarget: 200,
-      type: "Cash",
-      password: "@Lana123",
-      status: "Active",
-      totalSales: 50000.0,
-      closedDeals: 15,
-      monthlyTarget: 90.0,
-      region: Region(name: "Amman"),
-      visits: [
-        Visit(visitDate: DateTime(2023, 10, 1)),
-        Visit(visitDate: DateTime(2023, 10, 15)),
-      ],
-      invoices: [
-        Invoice(
-          products: [
-            Product(
-              price: 100.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-      ],
-      monthlySales: [
-        MonthlySales(totalSales: 10000.0),
-        MonthlySales(totalSales: 15000.0),
-      ],
-      clients: [
-        Client(tradeName: "Client A"),
-        Client(tradeName: "Client B"),
-      ],
-      createdAt: DateTime(2023, 1, 1),
-      updatedAt: DateTime(2023, 10, 1),
-    ),
-    Users(
-      type: "Cash",
-      password: "@Lana123",
-      id: 2,
-      fullName: "Jane Smith",
-      email: "jane.smith@example.com",
-      phone: "9876543210",
-      role: "Salesman",
-      dailyTarget: 200,
-
-      status: "Active",
-      totalSales: 75000.0,
-      closedDeals: 20,
-      monthlyTarget: 95.0,
-      region: Region(name: "Amman"),
-      // imageUrl: "assets/images/jane_smith.jpg",
-      visits: [
-        Visit(visitDate: DateTime(2023, 9, 20)),
-        Visit(visitDate: DateTime(2023, 10, 5)),
-      ],
-      invoices: [
-        Invoice(
-          products: [
-            Product(price: 300.0),
-            Product(price: 400.0),
-          ],
-        ),
-      ],
-      monthlySales: [
-        MonthlySales(totalSales: 20000.0),
-        MonthlySales(totalSales: 25000.0),
-      ],
-      clients: [
-        Client(tradeName: "Client C"),
-        Client(tradeName: "Client D"),
-      ],
-      createdAt: DateTime(2023, 2, 1),
-      updatedAt: DateTime(2023, 10, 5),
-    ),
-    Users(
-      id: 3,
-      type: "Cash",
-      password: "@Lana123",
-      fullName: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      phone: "5555555555",
-      role: "Salesman",
-      dailyTarget: 200,
-
-      status: "Inactive",
-      totalSales: 30000.0,
-      closedDeals: 10,
-      monthlyTarget: 80.0,
-      region: Region(name: "Amman"),
-      // imageUrl: "assets/images/alice_johnson.jpg",
-      visits: [
-        Visit(visitDate: DateTime(2023, 8, 10)),
-        Visit(visitDate: DateTime(2023, 9, 1)),
-      ],
-      invoices: [
-        Invoice(
-          products: [
-            Product(price: 500.0, id: 1),
-            Product(price: 600.0),
-          ],
-        ),
-      ],
-      monthlySales: [
-        MonthlySales(totalSales: 12000.0),
-        MonthlySales(totalSales: 18000.0),
-      ],
-      clients: [
-        Client(tradeName: "Client E"),
-        Client(tradeName: "Client F"),
-      ],
-      createdAt: DateTime(2023, 3, 1),
-      updatedAt: DateTime(2023, 9, 10),
-    ),
-  ];
-  Users? selectedUser;
   bool obscureText = false;
   String? selectedRegion;
   String? selectedType;
@@ -154,7 +32,8 @@ class ManagementController extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
-  final TextEditingController targetController = TextEditingController();
+  final TextEditingController monthlyTargetController = TextEditingController();
+  final TextEditingController dailyTargetController = TextEditingController();
   final TextEditingController typeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
@@ -164,6 +43,7 @@ class ManagementController extends ChangeNotifier {
     'password': null,
     'name': null,
     'target': null,
+    'daily_target': null,
     'region': null,
     'type': null,
   };
@@ -235,6 +115,19 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
+  void _validateDailyTarget(String? target, BuildContext context) {
+    final newError = target == null ||
+            double.tryParse(target) == null ||
+            double.parse(target) <= 0
+        ? AppLocalizations.of(context)!.target_error
+        : null;
+
+    if (errors['daily_target'] != newError) {
+      errors['daily_target'] = newError;
+      notifyListeners();
+    }
+  }
+
   void _validateType(String? type, BuildContext context) {
     final newError = type == null || type.isEmpty
         ? AppLocalizations.of(context)!.type_error
@@ -263,7 +156,8 @@ class ManagementController extends ChangeNotifier {
       required String password,
       required String? phone,
       required String? name,
-      required String? target,
+      required String? monthlyTarget,
+      required String? dailyTarget,
       required String? type,
       required String? region}) {
     final oldErrors = Map<String, String?>.from(errors);
@@ -272,7 +166,8 @@ class ManagementController extends ChangeNotifier {
     _validatePassword(password, context);
     _validatePhone(phone, context);
     _validateName(name, context);
-    _validateTarget(target, context);
+    _validateTarget(monthlyTarget, context);
+    _validateDailyTarget(dailyTarget, context);
     _validateType(type, context);
     _validateRegion(region, context);
 
@@ -312,6 +207,9 @@ class ManagementController extends ChangeNotifier {
       case 'target':
         _validateTarget(value, context);
         break;
+      case 'daily_target':
+        _validateDailyTarget(value, context);
+        break;
       case 'type':
         _validateType(value, context);
         break;
@@ -337,19 +235,6 @@ class ManagementController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addNewUser(Users user) {
-    salesMen.add(user);
-    notifyListeners();
-  }
-
-  updateUser({
-    required Users user,
-    required int index,
-  }) {
-    salesMen[index] = user;
-    notifyListeners();
-  }
-
   void updateSelectedCategory(String category) {
     if (selectedCategory != category) {
       selectedCategory = category;
@@ -364,44 +249,7 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
-  void deleteUser(Users user) {
-    if (salesMen.contains(user)) {
-      salesMen.remove(user);
-      notifyListeners();
-    }
-  }
 
-  void toggleFavourite(BuildContext context, Users user) {
-    if (fav.contains(user)) {
-      fav.remove(user);
-    } else {
-      fav.add(user);
-    }
-    notifyListeners();
-  }
-
-  bool isFavourite(Users user) {
-    if (fav.contains(user)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  List<dynamic> getFilteredItems(
-      BuildContext context, String? selectedCategory) {
-    final localizations = AppLocalizations.of(context)!;
-
-    if (selectedCategory == localizations.sales_men) {
-      return salesMen;
-    } else if (selectedCategory == localizations.clients) {
-      return [];
-    } else if (selectedCategory == localizations.products) {
-      return [];
-    } else {
-      return [];
-    }
-  }
 
   void clearFields() {
     emailController.clear();
@@ -410,7 +258,8 @@ class ManagementController extends ChangeNotifier {
     phoneNumberController.clear();
     selectedRegion = null;
     selectedType = null;
-    targetController.clear();
+    monthlyTargetController.clear();
+    dailyTargetController.clear();
     notesController.clear();
   }
 }

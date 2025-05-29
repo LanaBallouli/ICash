@@ -953,11 +953,23 @@ abstract class AppLocalizations {
   /// **'Choose the sales man\'s region'**
   String get choose_region;
 
-  /// No description provided for @select_target.
+  /// No description provided for @monthly_select_target.
   ///
   /// In en, this message translates to:
-  /// **'Target to be achieved'**
-  String get select_target;
+  /// **'Monthly Target'**
+  String get monthly_select_target;
+
+  /// No description provided for @next_visit.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Scheduled Visit'**
+  String get next_visit;
+
+  /// No description provided for @daily_select_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Target'**
+  String get daily_select_target;
 
   /// No description provided for @select_target_prompt.
   ///
@@ -1306,6 +1318,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Monthly Target Achievement'**
   String get monthly_target_achievement;
+
+  /// No description provided for @summary_of_top_customers.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary of Top Customers'**
+  String get summary_of_top_customers;
+
+  /// No description provided for @load_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Load More ..'**
+  String get load_more;
+
+  /// No description provided for @no_clients_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients found'**
+  String get no_clients_found;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

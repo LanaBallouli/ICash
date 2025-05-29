@@ -1,7 +1,7 @@
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/invoice.dart';
 import 'package:test_sales/model/region.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/model/visit.dart';
 
 class Client {
@@ -23,7 +23,7 @@ class Client {
   String? status;
   String? type;
   List<Invoice>? invoices;
-  List<Users>? assignedSalesmen;
+  List<SalesMan>? assignedSalesmen;
   String? notes;
 
   Client({

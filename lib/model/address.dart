@@ -1,5 +1,3 @@
-import 'package:test_sales/model/region.dart';
-
 class Address {
   final String? street;
   final int? buildingNumber;

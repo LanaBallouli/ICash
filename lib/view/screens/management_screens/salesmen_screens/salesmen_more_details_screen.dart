@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_screens/update_salesman_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
@@ -19,7 +20,7 @@ import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
   final int index;
 
   const SalesmenMoreDetailsScreen(
@@ -49,7 +50,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               RecentActivitySection(users: users),
               SizedBox(height: 10.h),
-              AssignedClientsSection(users: users),
+              AssignedClientsSection(salesman: users),
               SizedBox(height: 10.h),
               SalesReportsSection(users: users),
               SizedBox(height: 10.h),
@@ -86,7 +87,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.feedback,
       leadingIcon: Icons.location_history_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -125,7 +125,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => UpdateSalesmanScreen(
-                        user: users,
+                        salesman: users,
                         index: index,
                       ),
                     ),
@@ -158,14 +158,14 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Consumer<ManagementController>(
-          builder: (context, managementController, child) {
+        return Consumer<SalesmanController>(
+          builder: (context, salesmanController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
               content: AppLocalizations.of(context)!.delete_user,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
-                managementController.deleteUser(users);
+                salesmanController.deleteUser(users);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

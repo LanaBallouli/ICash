@@ -1,6 +1,6 @@
 import 'package:test_sales/model/client.dart';
 import 'package:test_sales/model/product.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 
 class Invoice {
   int? id;
@@ -8,15 +8,15 @@ class Invoice {
   String? type;
   Client? clientId;
   DateTime? issueDate;
+  double get totalAmount => calculateTotalAmount();
   DateTime? dueDate;
-  double? totalAmount;
   double? tax;
   String? taxNumber;
   double? discount;
   String? status;
   DateTime? creationTime;
   String? notes;
-  Users? userId;
+  SalesMan? userId;
   List<Product>? products;
 
   Invoice({
@@ -61,7 +61,7 @@ class Invoice {
       status: json['status'],
       creationTime: json['creation_time'] != null ? DateTime.parse(json['creation_time']) : null,
       notes: json['notes'],
-      userId: json['user'] != null ? Users.fromJson(json['user']) : null,
+      userId: json['user'] != null ? SalesMan.fromJson(json['user']) : null,
     );
   }
 

@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../model/users.dart';
+import '../../../../model/salesman.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class SalesReportsSection extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
   const SalesReportsSection({super.key, required this.users});
 
   @override
   Widget build(BuildContext context) {
-    String getLatestMonthlySales(Users users) {
+    String getLatestMonthlySales(SalesMan users) {
       if (users.monthlySales != null && users.monthlySales!.isNotEmpty) {
         final latestMonthlySales = users.monthlySales!.reduce((current, next) =>
         (next.startDate?.isAfter(current.startDate ?? DateTime.now()) ??
@@ -28,7 +28,6 @@ class SalesReportsSection extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.sales_reports,
       leadingIcon: Icons.file_copy_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),

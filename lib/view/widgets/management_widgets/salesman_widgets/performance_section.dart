@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:test_sales/model/users.dart';
-
+import 'package:test_sales/model/salesman.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class PerformanceSection extends StatelessWidget {
-  final Users users;
+  final SalesMan users;
 
   const PerformanceSection({super.key, required this.users});
 
@@ -16,7 +15,6 @@ class PerformanceSection extends StatelessWidget {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.performance,
       leadingIcon: Icons.assessment_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -41,6 +39,21 @@ class PerformanceSection extends StatelessWidget {
         ),
         SizedBox(
           height: 10.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: MoreDetailsWidget(
+            title: AppLocalizations.of(context)!.summary_of_top_customers,
+            backgroundColor: Color(0xFFECF0F6),
+            children: [
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return InputWidget(
+                      textEditingController: TextEditingController());
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );

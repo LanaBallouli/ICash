@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:test_sales/model/users.dart';
-
 import '../../../../l10n/app_localizations.dart';
+import '../../../../model/salesman.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class AssignedClientsSection extends StatelessWidget {
-  final Users users;
-  const AssignedClientsSection({super.key, required this.users});
+  final SalesMan salesman;
+  const AssignedClientsSection({super.key, required this.salesman});
 
   @override
   Widget build(BuildContext context) {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.assigned_clients,
       leadingIcon: Icons.groups_2_outlined,
-      initExpanded: false,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: users.clients == null || users.clients!.isEmpty
+          child: salesman.clients == null || salesman.clients!.isEmpty
               ? Center(
             child: Text(
               AppLocalizations.of(context)!.no_assigned_clients,
@@ -29,9 +27,9 @@ class AssignedClientsSection extends StatelessWidget {
               : ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: users.clients?.length ?? 0,
+            itemCount: salesman.clients?.length ?? 0,
             itemBuilder: (context, index) {
-              final client = users.clients![index];
+              final client = salesman.clients![index];
               return Column(
                 children: [
                   InputWidget(

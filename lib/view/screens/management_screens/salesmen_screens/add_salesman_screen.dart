@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/region.dart';
-import 'package:test_sales/model/users.dart';
+import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
@@ -121,12 +122,21 @@ class AddSalesmanScreen extends StatelessWidget {
               ),
               ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.select_target_prompt,
-                controller: managementController.targetController,
-                title: AppLocalizations.of(context)!.select_target,
+                controller: managementController.monthlyTargetController,
+                title: AppLocalizations.of(context)!.monthly_select_target,
                 keyboardType: TextInputType.number,
                 onChanged: (value) => managementController.validateField(
                     context: context, field: 'target', value: value),
                 errorText: managementController.errors['target'],
+              ),
+              ManagementInputWidget(
+                hintText: AppLocalizations.of(context)!.select_target_prompt,
+                controller: managementController.dailyTargetController,
+                title: AppLocalizations.of(context)!.daily_select_target,
+                keyboardType: TextInputType.number,
+                onChanged: (value) => managementController.validateField(
+                    context: context, field: 'daily_target', value: value),
+                errorText: managementController.errors['daily_target'],
               ),
               ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.add_notes,
@@ -153,8 +163,9 @@ class AddSalesmanScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Consumer<ManagementController>(
-            builder: (context, managementController, child) {
+          child: Consumer2<ManagementController, SalesmanController>(
+            builder:
+                (context, managementController, salesmanController, child) {
               return CustomButtonWidget(
                 title: AppLocalizations.of(context)!.save,
                 colors: [
@@ -174,7 +185,9 @@ class AddSalesmanScreen extends StatelessWidget {
                   print(
                       "Phone: ${managementController.phoneNumberController.text}");
                   print(
-                      "Target: ${managementController.targetController.text}");
+                      "Target: ${managementController.monthlyTargetController.text}");
+                  print(
+                      "daily Target: ${managementController.dailyTargetController.text}");
                   print("Type: ${managementController.selectedType}");
                   print("Region: ${managementController.selectedRegion}");
 
@@ -184,7 +197,10 @@ class AddSalesmanScreen extends StatelessWidget {
                     password: managementController.passwordController.text,
                     name: managementController.nameController.text,
                     phone: managementController.phoneNumberController.text,
-                    target: managementController.targetController.text,
+                    monthlyTarget:
+                        managementController.monthlyTargetController.text,
+                    dailyTarget:
+                        managementController.dailyTargetController.text,
                     type: managementController.selectedType,
                     region: managementController.selectedRegion,
                   );
@@ -194,20 +210,24 @@ class AddSalesmanScreen extends StatelessWidget {
 
                   if (managementController.isFormValid()) {
                     final target = double.tryParse(
-                        managementController.targetController.text);
+                        managementController.monthlyTargetController.text);
+                    final dailyTarget = double.tryParse(
+                        managementController.dailyTargetController.text);
 
                     print("Debug: Parsed target achievement: $target");
 
-                    managementController.addNewUser(
-                      Users(
+                    salesmanController.addNewUser(
+                      SalesMan(
                           fullName: managementController.nameController.text,
                           email: managementController.emailController.text,
                           password:
                               managementController.passwordController.text,
-                          phone: managementController.phoneNumberController.text,
+                          phone:
+                              managementController.phoneNumberController.text,
                           region: Region(
                               name: managementController.selectedRegion, id: 1),
                           monthlyTarget: target,
+                          dailyTarget: dailyTarget,
                           closedDeals: 0,
                           totalSales: 0,
                           notes: managementController.notesController.text,

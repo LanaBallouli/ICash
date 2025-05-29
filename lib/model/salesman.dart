@@ -4,7 +4,7 @@ import 'package:test_sales/model/monthly_sales.dart';
 import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/visit.dart';
 
-class Users {
+class SalesMan {
   int id;
   String? fullName;
   String? email;
@@ -28,7 +28,7 @@ class Users {
   String? notes;
   String? type;
 
-  Users({
+  SalesMan({
      this.id= 2,
     this.fullName = "Unknown",
     this.email = "N/A",
@@ -54,8 +54,8 @@ class Users {
   });
 
   /// Factory constructor to create a `Users` object from JSON.
-  factory Users.fromJson(Map<String, dynamic> json) {
-    return Users(
+  factory SalesMan.fromJson(Map<String, dynamic> json) {
+    return SalesMan(
       id: json['id'],
       fullName: json['full_name'],
       email: json['email'],

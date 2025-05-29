@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/controller/management_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
-import 'package:test_sales/model/users.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
@@ -13,14 +13,15 @@ import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 
 import '../../../../model/region.dart';
+import '../../../../model/salesman.dart';
 
 class UpdateSalesmanScreen extends StatefulWidget {
-  final Users user;
+  final SalesMan salesman;
   final int index;
 
   const UpdateSalesmanScreen({
     super.key,
-    required this.user,
+    required this.salesman,
     required this.index,
   });
 
@@ -37,26 +38,30 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
     managementController =
         Provider.of<ManagementController>(context, listen: false);
 
-    managementController.nameController.text = widget.user.fullName ?? "";
-    managementController.emailController.text = widget.user.email ?? "";
+    managementController.nameController.text = widget.salesman.fullName ?? "";
+    managementController.emailController.text = widget.salesman.email ?? "";
     managementController.phoneNumberController.text =
-        widget.user.phone.toString();
-    managementController.targetController.text =
-        widget.user.monthlyTarget?.toString() ?? "";
-    managementController.typeController.text = widget.user.type!;
-    managementController.setSelectedRegion(widget.user.region!.name, context);
-    managementController.setSelectedType(widget.user.type, context);
-    managementController.passwordController.text = widget.user.password ?? "";
-    managementController.notesController.text = widget.user.notes ?? "";
+        widget.salesman.phone.toString();
+    managementController.monthlyTargetController.text =
+        widget.salesman.monthlyTarget?.toString() ?? "";
+    managementController.typeController.text = widget.salesman.type!;
+    managementController.setSelectedRegion(
+        widget.salesman.region!.name, context);
+    managementController.setSelectedType(widget.salesman.type, context);
+    managementController.passwordController.text =
+        widget.salesman.password ?? "";
+    managementController.notesController.text = widget.salesman.notes ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
+    final SalesmanController salesmanController = Provider.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
         title:
-            "${widget.user.fullName} - ${AppLocalizations.of(context)!.update}",
+            "${widget.salesman.fullName} - ${AppLocalizations.of(context)!.update}",
         leading: Consumer<ManagementController>(
           builder: (context, managementController, child) {
             return IconButton(
@@ -132,12 +137,20 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
               ),
               ManagementInputWidget(
                   hintText: AppLocalizations.of(context)!.select_target_prompt,
-                  controller: managementController.targetController,
-                  title: AppLocalizations.of(context)!.select_target,
+                  controller: managementController.monthlyTargetController,
+                  title: AppLocalizations.of(context)!.monthly_select_target,
                   keyboardType: TextInputType.number,
                   onChanged: (value) => managementController.validateField(
                       context: context, field: 'target', value: value),
                   errorText: managementController.errors['target']),
+              ManagementInputWidget(
+                  hintText: AppLocalizations.of(context)!.select_target_prompt,
+                  controller: managementController.dailyTargetController,
+                  title: AppLocalizations.of(context)!.daily_select_target,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => managementController.validateField(
+                      context: context, field: 'daily_target', value: value),
+                  errorText: managementController.errors['daily_target']),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
                 typeOptions: ["Cash", "Debt"],
@@ -156,7 +169,8 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              _buildButtonsRow(context, managementController),
+              _buildButtonsRow(
+                  context, managementController, salesmanController),
               SizedBox(height: 20.h),
             ],
           ),
@@ -166,7 +180,9 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
   }
 
   Widget _buildButtonsRow(
-      BuildContext context, ManagementController managementController) {
+      BuildContext context,
+      ManagementController managementController,
+      SalesmanController salesmanController) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -186,7 +202,9 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 email: managementController.emailController.text,
                 password: managementController.passwordController.text,
                 phone: managementController.phoneNumberController.text,
-                target: managementController.targetController.text,
+                monthlyTarget:
+                    managementController.monthlyTargetController.text,
+                dailyTarget: managementController.dailyTargetController.text,
                 type: managementController.typeController.text,
                 region: managementController.selectedRegion,
               );
@@ -215,9 +233,10 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 return;
               }
 
-
-              final target =
-                  double.tryParse(managementController.targetController.text);
+              final target = double.tryParse(
+                  managementController.monthlyTargetController.text);
+              final dailyTarget = double.tryParse(
+                  managementController.dailyTargetController.text);
 
               if (target == null) {
                 showDialog(
@@ -243,23 +262,24 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
               }
 
               // Create updated user object
-              final updatedUser = Users(
-                id: widget.user.id,
+              final updatedUser = SalesMan(
+                id: widget.salesman.id,
                 fullName: managementController.nameController.text,
                 email: managementController.emailController.text,
                 password: managementController.passwordController.text,
                 phone: managementController.phoneNumberController.text,
                 region: Region(name: managementController.selectedRegion!),
                 monthlyTarget: target,
+                dailyTarget: dailyTarget,
                 type: managementController.typeController.text,
                 notes: managementController.notesController.text,
-                closedDeals: widget.user.closedDeals,
-                totalSales: widget.user.totalSales,
-                createdAt: widget.user.createdAt,
+                closedDeals: widget.salesman.closedDeals,
+                totalSales: widget.salesman.totalSales,
+                createdAt: widget.salesman.createdAt,
                 updatedAt: DateTime.now(),
               );
 
-              managementController.updateUser(
+              salesmanController.updateUser(
                   user: updatedUser, index: widget.index);
 
               showDialog(
