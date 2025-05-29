@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
@@ -10,10 +9,14 @@ import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/main/more_details_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/assigned_clients_section.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/performance_section.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/profile_section.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/recent_activity_section.dart';
+import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/sales_reports_section.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
-import '../../../../model/client.dart';
 
 class SalesmenMoreDetailsScreen extends StatelessWidget {
   final Users users;
@@ -40,15 +43,15 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             children: [
               _buildProfileHeader(langController),
               SizedBox(height: 15.h),
-              _buildProfileSection(context, langController),
+              ProfileSection(users: users),
               SizedBox(height: 10.h),
-              _buildPerformanceSection(context, users),
+              PerformanceSection(users: users),
               SizedBox(height: 10.h),
-              _buildRecentActivitySection(context),
+              RecentActivitySection(users: users),
               SizedBox(height: 10.h),
-              _buildAssignedClientsSection(context),
+              AssignedClientsSection(users: users),
               SizedBox(height: 10.h),
-              _buildSalesReportsSection(context),
+              SalesReportsSection(users: users),
               SizedBox(height: 10.h),
               _buildFeedbackSection(context),
               SizedBox(height: 20.h),
@@ -76,341 +79,6 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           SizedBox(height: 10.h),
         ],
       ),
-    );
-  }
-
-  Widget _buildProfileSection(
-      BuildContext context, LangController langController) {
-    return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.profile,
-      leadingIcon: Icons.person_outline_rounded,
-      initExpanded: false,
-      children: _buildProfileInputs(context, langController),
-    );
-  }
-
-  List<Widget> _buildProfileInputs(
-      BuildContext context, LangController langController) {
-    String formatDateWithTime(DateTime dateTime) {
-      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
-      return formatter.format(dateTime);
-    }
-
-    final profileDetails = [
-      {
-        "label": AppLocalizations.of(context)!.user_name,
-        "value": users.fullName ?? "name"
-      },
-      {
-        "label": AppLocalizations.of(context)!.email,
-        "value": users.email ?? "email"
-      },
-      {
-        "label": AppLocalizations.of(context)!.phone,
-        "value": users.phone?.toString() ?? "1246789"
-      },
-      {
-        "label": AppLocalizations.of(context)!.type,
-        "value": users.type ?? "type"
-      },
-      {
-        "label": AppLocalizations.of(context)!.region,
-        "value": users.region?.name ?? "region"
-      },
-
-      {
-        "label": AppLocalizations.of(context)!.status,
-        "value": users.status ?? "active"
-      },
-      {
-        "label": AppLocalizations.of(context)!.joining_date,
-        "value":
-            formatDateWithTime(users.createdAt ?? DateTime.now()).toString()
-      },
-      {
-        "label": AppLocalizations.of(context)!.monthly_target,
-        "value": users.monthlyTarget.toString() ?? "monthly Target"
-      },
-      {
-        "label": AppLocalizations.of(context)!.daily_target,
-        "value": users.dailyTarget.toString() ?? "daily Target"
-      }
-    ];
-
-    return profileDetails.map((detail) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          children: [
-            InputWidget(
-              textEditingController:
-                  TextEditingController(text: detail["value"] ?? ""),
-              label: "${detail["label"]}",
-              readOnly: true,
-            ),
-            SizedBox(
-              height: 10.h,
-            )
-          ],
-        ),
-      );
-    }).toList();
-  }
-
-  Widget _buildPerformanceSection(BuildContext context, Users salesman) {
-    final topThreeClients = getTopThreeCustomers(salesman);
-    return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.performance,
-      leadingIcon: Icons.assessment_outlined,
-      initExpanded: false,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: InputWidget(
-            textEditingController:
-                TextEditingController(text: users.totalSales.toString()),
-            readOnly: true,
-            label: AppLocalizations.of(context)!.total_sales,
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: InputWidget(
-            textEditingController:
-                TextEditingController(text: "${users.closedDeals ?? "deals"}"),
-            readOnly: true,
-            label: AppLocalizations.of(context)!.closed_deals,
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-
-        ...topThreeClients.map((entry) {
-          final client = entry['client'] as Client;
-          final totalSales = entry['totalSales'] as double;
-          return ListTile(
-            title: Text(client.tradeName?? ""),
-            trailing: Text("\$${totalSales.toStringAsFixed(2)}"),
-          );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildRecentActivitySection(BuildContext context) {
-    String formatDateWithTime(DateTime dateTime) {
-      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
-      return formatter.format(dateTime);
-    }
-
-    String _getLatestInvoiceAmount() {
-      if (users.invoices != null && users.invoices!.isNotEmpty) {
-        final latestInvoice = users.invoices!.reduce((current, next) => (next
-                    .creationTime
-                    ?.isAfter(current.creationTime ?? DateTime.now()) ??
-                false)
-            ? next
-            : current);
-        return latestInvoice.calculateTotalAmount().toString();
-      } else {
-        return "No invoices available";
-      }
-    }
-
-    String getLatestVisitDate() {
-      if (users.visits != null && users.visits!.isNotEmpty) {
-        final latestVisit = users.visits!.reduce((current, next) =>
-            (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ??
-                    false)
-                ? next
-                : current);
-        return formatDateWithTime(latestVisit.visitDate ?? DateTime.now());
-      } else {
-        return "No visits available";
-      }
-    }
-
-    final String latestInvoiceAmount = _getLatestInvoiceAmount();
-    final String latestVisitDate = getLatestVisitDate();
-
-    return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.recent_activity_log,
-      leadingIcon: Icons.access_time,
-      initExpanded: false,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController:
-                TextEditingController(text: latestInvoiceAmount),
-            label: AppLocalizations.of(context)!.latest_invoice,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(text: latestVisitDate),
-            label: AppLocalizations.of(context)!.latest_visit,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.login_history,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.task_completion,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAssignedClientsSection(BuildContext context) {
-    return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.assigned_clients,
-      leadingIcon: Icons.groups_2_outlined,
-      initExpanded: false,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: users.clients == null || users.clients!.isEmpty
-              ? Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.no_assigned_clients,
-                    style: TextStyle(fontSize: 14.sp, color: Colors.black54),
-                  ),
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: users.clients?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final client = users.clients![index];
-                    return Column(
-                      children: [
-                        InputWidget(
-                          textEditingController: TextEditingController(
-                              text: client.tradeName ?? "Unknown Client"),
-                          label: AppLocalizations.of(context)!.client_name,
-                          suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.arrow_forward)),
-                          readOnly: true,
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        )
-                      ],
-                    );
-                  },
-                ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSalesReportsSection(BuildContext context) {
-    String getLatestMonthlySales(Users users) {
-      if (users.monthlySales != null && users.monthlySales!.isNotEmpty) {
-        final latestMonthlySales = users.monthlySales!.reduce((current, next) =>
-            (next.startDate?.isAfter(current.startDate ?? DateTime.now()) ??
-                    false)
-                ? next
-                : current);
-        return latestMonthlySales.totalSales.toString();
-      } else {
-        return "No monthly sales data available";
-      }
-    }
-
-    return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.sales_reports,
-      leadingIcon: Icons.file_copy_outlined,
-      initExpanded: false,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(
-              text: getLatestMonthlySales(users),
-            ),
-            label: AppLocalizations.of(context)!.monthly_sales,
-            readOnly: true,
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.arrow_forward_outlined),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.product_wise_sales,
-            readOnly: true,
-            suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: InputWidget(
-            textEditingController: TextEditingController(
-                text: "${users.monthlyTarget ?? "monthly achievement"}"),
-            readOnly: true,
-            label: AppLocalizations.of(context)!.monthly_target_achievement,
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: InputWidget(
-            textEditingController: TextEditingController(),
-            label: AppLocalizations.of(context)!.top_customers,
-            readOnly: true,
-            suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.arrow_forward_outlined)),
-          ),
-        ),
-      ],
     );
   }
 
@@ -506,40 +174,5 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         );
       },
     );
-  }
-}
-List<Map<String, dynamic>> getTopThreeCustomers(Users salesman) {
-  Map<int, double> clientSalesMap = {};
-
-  for (var invoice in salesman.invoices ?? []) {
-    if (clientSalesMap.containsKey(invoice.clientId)) {
-      clientSalesMap[invoice.clientId] = clientSalesMap[invoice.clientId]! + invoice.totalAmount;
-    } else {
-      clientSalesMap[invoice.clientId] = invoice.totalAmount;
-    }
-  }
-
-  List<Map<String, dynamic>> clientsWithSales = [];
-  for (var clientId in clientSalesMap.keys) {
-    final client = salesman.clients?.firstWhere((c) => c.id == clientId, orElse: () => Client(tradeName: "Unknown", id: clientId));
-    clientsWithSales.add({
-      'client': client,
-      'totalSales': clientSalesMap[clientId],
-    });
-  }
-
-  clientsWithSales.sort((a, b) => b['totalSales'].compareTo(a['totalSales']));
-
-  return clientsWithSales.take(3).toList();
-}
-
-void displayTopThreeCustomers(Users salesman) {
-  final topThreeClients = getTopThreeCustomers(salesman);
-
-  print("Top Three Clients for ${salesman.fullName}:");
-  for (var entry in topThreeClients) {
-    final client = entry['client'] as Client;
-    final totalSales = entry['totalSales'] as double;
-    print("${client.tradeName} - Total Sales: \$${totalSales.toStringAsFixed(2)}");
   }
 }

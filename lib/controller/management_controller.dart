@@ -19,6 +19,7 @@ class ManagementController extends ChangeNotifier {
       email: "john.doe@example.com",
       phone: "1234567890",
       role: "Salesman",
+      dailyTarget: 200,
       type: "Cash",
       password: "@Lana123",
       status: "Active",
@@ -33,7 +34,10 @@ class ManagementController extends ChangeNotifier {
       invoices: [
         Invoice(
           products: [
-            Product(price: 100.0, quantity: 3, ),
+            Product(
+              price: 100.0,
+              quantity: 3,
+            ),
             Product(price: 200.0),
           ],
         ),
@@ -57,6 +61,8 @@ class ManagementController extends ChangeNotifier {
       email: "jane.smith@example.com",
       phone: "9876543210",
       role: "Salesman",
+      dailyTarget: 200,
+
       status: "Active",
       totalSales: 75000.0,
       closedDeals: 20,
@@ -94,6 +100,8 @@ class ManagementController extends ChangeNotifier {
       email: "alice.johnson@example.com",
       phone: "5555555555",
       role: "Salesman",
+      dailyTarget: 200,
+
       status: "Inactive",
       totalSales: 30000.0,
       closedDeals: 10,
@@ -394,7 +402,6 @@ class ManagementController extends ChangeNotifier {
       return [];
     }
   }
-
 
   void clearFields() {
     emailController.clear();

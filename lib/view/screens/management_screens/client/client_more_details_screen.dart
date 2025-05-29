@@ -14,7 +14,7 @@ import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/client_widgets/location_widget.dart';
-import 'package:test_sales/view/widgets/management_widgets/more_details_widget.dart';
+import 'package:test_sales/view/widgets/management_widgets/main/more_details_widget.dart';
 import '../../../../controller/camera_controller.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';

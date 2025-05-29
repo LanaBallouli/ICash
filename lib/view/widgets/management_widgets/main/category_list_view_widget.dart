@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/view/widgets/management_widgets/client_widgets/clients_widget.dart';
 
-import '../../../controller/management_controller.dart';
+import '../../../../controller/management_controller.dart';
 
 class CategoryListViewWidget extends StatelessWidget {
   final List<dynamic> items;

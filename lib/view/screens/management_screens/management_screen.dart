@@ -9,9 +9,9 @@ import 'package:test_sales/view/screens/management_screens/salesmen_screens/add_
 import 'package:test_sales/view/screens/management_screens/client/set_location_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
-import '../../widgets/management_widgets/category_buttons_widget.dart';
-import '../../widgets/management_widgets/category_grid_view_widget.dart';
-import '../../widgets/management_widgets/category_list_view_widget.dart';
+import '../../widgets/management_widgets/main/category_buttons_widget.dart';
+import '../../widgets/management_widgets/main/category_grid_view_widget.dart';
+import '../../widgets/management_widgets/main/category_list_view_widget.dart';
 
 class ManagementScreen extends StatelessWidget {
   const ManagementScreen({super.key});

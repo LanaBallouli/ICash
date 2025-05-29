@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/management_controller.dart';
-import '../../../controller/lang_controller.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../../controller/lang_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class CategoryButtonsWidget extends StatelessWidget {
   const CategoryButtonsWidget({super.key});
