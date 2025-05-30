@@ -1,10 +1,10 @@
 class Visit {
-  int? id;
-  int? userId;
-  int? clientId;
-  DateTime? visitDate;
-  String? notes;
-  DateTime? nextVisitTime;
+  final int? id;
+  final DateTime? visitDate;
+  final String? notes;
+  final DateTime? nextVisitTime;
+  final int? userId;
+  final int? clientId;
 
   Visit({
     this.id,
@@ -15,27 +15,6 @@ class Visit {
     this.nextVisitTime,
   });
 
-  factory Visit.fromJson(Map<String, dynamic> json) {
-    return Visit(
-      id: json['id'],
-      userId: json['user_id'],
-      clientId: json['client_id'],
-      visitDate: json['visit_date'] != null ? DateTime.parse(json['visit_date']) : null,
-      notes: json['notes'],
-      nextVisitTime: json['next_visit_time'] != null ? DateTime.parse(json['next_visit_time']) : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'user_id': userId,
-      'client_id': clientId,
-      'visit_date': visitDate?.toIso8601String(),
-      'notes': notes,
-      'next_visit_time': nextVisitTime?.toIso8601String(),
-    };
-  }
 
   Visit copyWith({
     int? id,

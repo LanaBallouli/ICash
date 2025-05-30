@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/camera_controller.dart';
+import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
 import '../l10n/app_localizations.dart';
 import '../model/region.dart';
@@ -14,59 +15,26 @@ class ClientsController extends ChangeNotifier {
       tradeName: "ABC Trading Co.",
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      createdBy: "aaa",
+      createdBy: 2,
       region: Region(id: 1, name: "California"),
       balance: 5000,
       commercialRegistration: "CR123456",
       professionLicensePath: "path/to/license.pdf",
       nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
-    ),
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: "aaa",
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
-    ),
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: 'aaa',
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      visits: [
-        Visit(
-          id: 1,
-          visitDate: DateTime.now(),
-          notes: "Initial visit",
-        ),
-      ],
+      notes: "so many notes",
+      phone: "0799471732",
+      personInCharge: "ahmad baha",
+      assignedSalesmenIds: [1],
+      address: Address(
+        street: "street ",
+        buildingNumber: 22,
+        latitude: 33.5555,
+        longitude: 23.8888,
+        additionalDirections: "additional"
+      ),
+      type: "Cash",
+      invoicesIds: [1,2,3],
+      visitsIds: [1,2]
     ),
   ];
 

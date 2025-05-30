@@ -8,92 +8,41 @@ import '../model/region.dart';
 import '../model/salesman.dart';
 import '../model/visit.dart';
 
-class SalesmanController extends ChangeNotifier{
+class SalesmanController extends ChangeNotifier {
   final List<SalesMan> fav = [];
   List<SalesMan> salesMen = [
     SalesMan(
-      id: 1,
-      fullName: "John Doe",
-      email: "john.doe@example.com",
-      phone: "1234567890",
-      role: "Salesman",
-      dailyTarget: 200,
-      type: "Cash",
-      password: "@Lana123",
-      status: "Active",
-      totalSales: 50000.0,
-      closedDeals: 15,
-      monthlyTarget: 90.0,
-      region: Region(name: "Amman"),
-      visits: [
-        Visit(visitDate: DateTime(2023, 10, 1)),
-        Visit(visitDate: DateTime(2023, 10, 15)),
-      ],
-      clients: [
-        Client(id: 1, tradeName: "Client A"),
-        Client(id: 2, tradeName: "Client B"),
-        Client(id: 3, tradeName: "Client C"),
-        Client(id: 4, tradeName: "Client D"),
-      ],
-      invoices: [
-        Invoice(
-          clientId: Client(id: 1),
-          products: [
-            Product(
-              price: 100.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-        Invoice(
-          clientId: Client(id: 1),
-          products: [
-            Product(
-              price: 600.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-        Invoice(
-          clientId: Client(id: 1),
-          products: [
-            Product(
-              price: 900.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-        Invoice(
-          clientId: Client(id: 1),
-          products: [
-            Product(
-              price: 5500.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-        Invoice(
-          clientId: Client(id: 1),
-          products: [
-            Product(
-              price: 200.0,
-              quantity: 3,
-            ),
-            Product(price: 200.0),
-          ],
-        ),
-      ],
-      monthlySales: [
-        MonthlySales(totalSales: 10000.0),
-        MonthlySales(totalSales: 15000.0),
-      ],
-      createdAt: DateTime(2023, 1, 1),
-      updatedAt: DateTime(2023, 10, 1),
-    ),
+        id: 1,
+        fullName: "John Doe",
+        email: "john.doe@example.com",
+        phone: "1234567890",
+        role: "Salesman",
+        dailyTarget: 200,
+        type: "Cash",
+        password: "@Lana123",
+        status: "Active",
+        totalSales: 50000.0,
+        closedDeals: 15,
+        monthlyTarget: 90.0,
+        clientsId: [2],
+        visits: [
+          Visit(
+              visitDate: DateTime(2023, 10, 1),
+              nextVisitTime: DateTime(2024, 8, 2),
+              id: 1,
+              clientId: 2,
+              userId: 1,
+          ),
+          Visit(visitDate: DateTime(2023, 10, 15)),
+        ],
+        monthlySales: [
+          MonthlySales(totalSales: 10000.0),
+          MonthlySales(totalSales: 15000.0),
+        ],
+        createdAt: DateTime(2023, 1, 1),
+        updatedAt: DateTime(2023, 10, 1),
+        imageUrl: "assets/images/google-maps.png",
+        notes: "so many notes"),
   ];
 
   addNewUser(SalesMan user) {
@@ -132,7 +81,4 @@ class SalesmanController extends ChangeNotifier{
       return false;
     }
   }
-
-
-
 }

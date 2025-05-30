@@ -1,4 +1,3 @@
-import 'package:test_sales/model/client.dart';
 import 'package:test_sales/model/product.dart';
 import 'package:test_sales/model/salesman.dart';
 
@@ -6,7 +5,7 @@ class Invoice {
   int? id;
   String? invoiceNumber;
   String? type;
-  Client? clientId;
+  int? clientId;
   DateTime? issueDate;
   double get totalAmount => calculateTotalAmount();
   DateTime? dueDate;
@@ -46,40 +45,4 @@ class Invoice {
     return totalAfterDiscount > 0 ? totalAfterDiscount : 0.0;
   }
 
-  /// Factory constructor to create an `Invoice` object from JSON.
-  factory Invoice.fromJson(Map<String, dynamic> json) {
-    return Invoice(
-      id: json['id'],
-      invoiceNumber: json['invoice_number'],
-      type: json['type'],
-      clientId: json['client'] != null ? Client.fromJson(json['client']) : null,
-      issueDate: json['issue_date'] != null ? DateTime.parse(json['issue_date']) : null,
-      dueDate: json['due_date'] != null ? DateTime.parse(json['due_date']) : null,
-      tax: (json['tax'] as num?)?.toDouble(),
-      taxNumber: json['tax_number'],
-      discount: (json['discount'] as num?)?.toDouble(),
-      status: json['status'],
-      creationTime: json['creation_time'] != null ? DateTime.parse(json['creation_time']) : null,
-      notes: json['notes'],
-      userId: json['user'] != null ? SalesMan.fromJson(json['user']) : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'invoice_number': invoiceNumber,
-      'type': type,
-      'client': clientId?.toJson(),
-      'issue_date': issueDate?.toIso8601String(),
-      'due_date': dueDate?.toIso8601String(),
-      'tax': tax,
-      'tax_number': taxNumber,
-      'discount': discount,
-      'status': status,
-      'creation_time': creationTime?.toIso8601String(),
-      'notes': notes,
-      'user': userId?.toJson(),
-    };
-  }
 }
