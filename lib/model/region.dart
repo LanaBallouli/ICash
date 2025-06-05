@@ -1,11 +1,16 @@
 class Region {
-  int? id;
-  String? name;
+  final int id;
+  final String name;
 
-  Region({
-    this.id,
-    this.name,
-  });
+  Region({required this.id, required this.name});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Region && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 
   factory Region.fromJson(Map<String, dynamic> json) {
     return Region(
@@ -15,9 +20,6 @@ class Region {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
+    return {'id': id, 'name': name};
   }
 }

@@ -1,75 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:test_sales/model/salesman.dart';
+import '../../../../controller/invoice_controller.dart';
+import '../../../../controller/visit_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class RecentActivitySection extends StatelessWidget {
-  final SalesMan users;
-  const RecentActivitySection({super.key, required this.users});
+  final SalesMan salesman;
+
+  const RecentActivitySection({super.key, required this.salesman});
 
   @override
   Widget build(BuildContext context) {
-    String formatDateWithTime(DateTime dateTime) {
-      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
-      return formatter.format(dateTime);
+    final invoicesController = Provider.of<InvoicesController>(context);
+    final visitsController = Provider.of<VisitsController>(context);
+
+    if (invoicesController.isLoading && invoicesController.invoices.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (salesman.id != null) {
+          invoicesController.fetchInvoicesBySalesman(salesman.id!);
+        }
+      });
     }
 
-    String _getLatestInvoiceAmount() {
-      if (users.invoices != null && users.invoices!.isNotEmpty) {
-        final latestInvoice = users.invoices!.reduce((current, next) => (next
-            .creationTime
-            ?.isAfter(current.creationTime ?? DateTime.now()) ??
-            false)
-            ? next
-            : current);
-        return latestInvoice.calculateTotalAmount().toString();
-      } else {
-        return "No invoices available";
+    if (visitsController.isLoading && visitsController.visits.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (salesman.id != null) {
+          visitsController.fetchVisitsBySalesman(salesman.id!);
+        }
+      });
+    }
+
+    return _buildContent(context, invoicesController, visitsController);
+  }
+
+  Widget _buildContent(
+      BuildContext context,
+      InvoicesController invoicesCtrl,
+      VisitsController visitsCtrl,
+      ) {
+    final local = AppLocalizations.of(context)!;
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
+    String formatDateWithTime(DateTime? dateTime) {
+      final formatter = DateFormat('yyyy-MM-dd | HH:mm');
+      return dateTime != null ? formatter.format(dateTime) : "N/A";
+    }
+
+    String getLatestInvoiceAmount() {
+      if (invoicesCtrl.invoices.isNotEmpty) {
+        final latest = invoicesCtrl.invoices.reduce((a, b) =>
+        a.creationTime.isAfter(b.creationTime) ? a : b);
+        return "${latest.total.toStringAsFixed(2)} JD";
       }
+      return "local.no_invoices_available";
     }
 
     String getLatestVisitDate() {
-      if (users.visits != null && users.visits!.isNotEmpty) {
-        final latestVisit = users.visits!.reduce((current, next) =>
-        (next.visitDate?.isAfter(current.visitDate ?? DateTime.now()) ??
-            false)
-            ? next
-            : current);
-        return formatDateWithTime(latestVisit.visitDate ?? DateTime.now());
-      } else {
-        return "No visits available";
+      if (visitsCtrl.visits.isNotEmpty) {
+        final latest = visitsCtrl.visits.reduce((a, b) =>
+        a.visitDate.isAfter(b.visitDate) ? a : b);
+        return formatDateWithTime(latest.visitDate);
       }
+      return "local.no_visits_yet";
     }
 
     String getNextVisitDate() {
-      if (users.visits != null && users.visits!.isNotEmpty) {
-        final nextVisit = users.visits!.reduce((current, next) =>
-        (next.nextVisitTime?.isAfter(current.nextVisitTime ?? DateTime.now()) ??
-            false)
-            ? next
-            : current);
-        return formatDateWithTime(nextVisit.nextVisitTime ?? DateTime.now());
-      } else {
-        return "No next visits available";
+      final upcoming = visitsCtrl.visits
+          .where((v) => v.nextVisitTime?.isAfter(DateTime.now()) ?? false)
+          .toList();
+
+      if (upcoming.isNotEmpty) {
+        final next = upcoming.reduce((a, b) =>
+        (a.nextVisitTime ?? DateTime.now()).isBefore(b.nextVisitTime ?? DateTime.now())
+            ? a
+            : b);
+        return formatDateWithTime(next.nextVisitTime);
       }
+      return "local.no_next_visits_scheduled";
     }
 
-    final String latestInvoiceAmount = _getLatestInvoiceAmount();
-    final String latestVisitDate = getLatestVisitDate();
-    final String nextVisitDate = getNextVisitDate();
+    final latestInvoiceAmount = getLatestInvoiceAmount();
+    final latestVisitDate = getLatestVisitDate();
+    final nextVisitDate = getNextVisitDate();
+
     return MoreDetailsWidget(
-      title: AppLocalizations.of(context)!.recent_activity_log,
+      title: local.recent_activity_log,
       leadingIcon: Icons.access_time,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController:
-            TextEditingController(text: latestInvoiceAmount),
-            label: AppLocalizations.of(context)!.latest_invoice,
+            textEditingController: TextEditingController(text: latestInvoiceAmount),
+            label: local.latest_invoice,
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () {},
@@ -82,7 +109,7 @@ class RecentActivitySection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(text: latestVisitDate),
-            label: AppLocalizations.of(context)!.latest_visit,
+            label: local.latest_visit,
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () {},
@@ -95,7 +122,7 @@ class RecentActivitySection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(text: nextVisitDate),
-            label: AppLocalizations.of(context)!.next_visit,
+            label: local.next_visit,
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () {},

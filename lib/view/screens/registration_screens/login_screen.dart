@@ -6,11 +6,9 @@ import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/login_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
-import 'package:test_sales/view/screens/registration_screens/forget_pass_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_header.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 
@@ -21,26 +19,24 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const CustomHeader(),
-          Expanded(
-            child: Selector<LoginController, bool>(
-              selector: (context, loginController) =>
-                  loginController.isLoginMode,
-              builder: (context, isLoginMode, _) {
-                return SingleChildScrollView(
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                  child: _buildLoginForm(context, isLoginMode),
-                );
-              },
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CustomHeader(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 13),
+              child: Selector<LoginController, bool>(
+                selector: (context, loginController) => loginController.isLoginMode,
+                builder: (context, isLoginMode, _) {
+                  return _buildLoginForm(context, isLoginMode);
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -211,7 +207,6 @@ class LoginScreen extends StatelessWidget {
           Flexible(
             child: _buildRememberMeButton(context, loginController),
           ),
-          _buildForgotPasswordButton(context),
         ],
       ),
     );
@@ -254,28 +249,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildForgotPasswordButton(BuildContext context) {
-    final langController = Provider.of<LangController>(context, listen: false);
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ForgetPassScreen(),
-          ),
-        );
-      },
-      child: Text(
-        AppLocalizations.of(context)!.forgot_password,
-        style: AppStyles.getFontStyle(
-          langController,
-          color: AppConstants.primaryColor,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
 
   Widget _buildSubmitButton(
       BuildContext context, bool isLoginMode, LoginController loginController) {

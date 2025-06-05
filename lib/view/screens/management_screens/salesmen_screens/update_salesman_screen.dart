@@ -7,11 +7,10 @@ import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
-
 import '../../../../model/region.dart';
 import '../../../../model/salesman.dart';
 
@@ -38,19 +37,24 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
     managementController =
         Provider.of<ManagementController>(context, listen: false);
 
-    managementController.nameController.text = widget.salesman.fullName ?? "";
-    managementController.emailController.text = widget.salesman.email ?? "";
-    managementController.phoneNumberController.text =
-        widget.salesman.phone.toString();
+    managementController.nameController.text = widget.salesman.fullName;
+    managementController.emailController.text = widget.salesman.email;
+    managementController.phoneNumberController.text = widget.salesman.phone;
     managementController.monthlyTargetController.text =
-        widget.salesman.monthlyTarget?.toString() ?? "";
-    managementController.typeController.text = widget.salesman.type!;
-    managementController.setSelectedRegion(
-        widget.salesman.region!.name, context);
+        widget.salesman.monthlyTarget.toString();
+    managementController.dailyTargetController.text =
+        widget.salesman.dailyTarget.toString();
+    managementController.notesController.text = widget.salesman.notes;
+    managementController.passwordController.text = widget.salesman.password;
+
+    final allRegions = AppConstants.getRegions(context);
+    final selectedRegion = allRegions.firstWhere(
+          (r) => r.id == widget.salesman.regionId,
+      orElse: () => allRegions.first,
+    );
+
+    managementController.setSelectedRegion(selectedRegion, context);
     managementController.setSelectedType(widget.salesman.type, context);
-    managementController.passwordController.text =
-        widget.salesman.password ?? "";
-    managementController.notesController.text = widget.salesman.notes ?? "";
   }
 
   @override
@@ -62,15 +66,11 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
       appBar: MainAppbarWidget(
         title:
             "${widget.salesman.fullName} - ${AppLocalizations.of(context)!.update}",
-        leading: Consumer<ManagementController>(
-          builder: (context, managementController, child) {
-            return IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back),
-            );
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
           },
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Padding(
@@ -86,7 +86,10 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 title: AppLocalizations.of(context)!.salesman_name,
                 keyboardType: TextInputType.name,
                 onChanged: (value) => managementController.validateField(
-                    context: context, field: 'name', value: value),
+                  context: context,
+                  field: 'name',
+                  value: value,
+                ),
                 errorText: managementController.errors['name'],
               ),
               ManagementInputWidget(
@@ -95,7 +98,10 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 title: AppLocalizations.of(context)!.email,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => managementController.validateField(
-                    context: context, field: 'email', value: value),
+                  context: context,
+                  field: 'email',
+                  value: value,
+                ),
                 errorText: managementController.errors['email'],
               ),
               ManagementInputWidget(
@@ -104,7 +110,10 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 title: AppLocalizations.of(context)!.password,
                 keyboardType: TextInputType.visiblePassword,
                 onChanged: (value) => managementController.validateField(
-                    context: context, field: 'password', value: value),
+                  context: context,
+                  field: 'password',
+                  value: value,
+                ),
                 errorText: managementController.errors['password'],
                 obscureText: managementController.obscureText,
                 suffixIcon: IconButton(
@@ -121,54 +130,59 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 title: AppLocalizations.of(context)!.phone,
                 keyboardType: TextInputType.phone,
                 onChanged: (value) => managementController.validateField(
-                    context: context, field: 'phone', value: value),
+                  context: context,
+                  field: 'phone',
+                  value: value,
+                ),
                 errorText: managementController.errors['phone'],
               ),
               RegionInputWidget(
-                hintText: AppLocalizations.of(context)!.choose_region,
-                typeOptions: [
-                  "Amman",
-                  "Zarqaa",
-                ],
-                onChange: (value) => managementController.validateField(
-                    context: context, field: 'region', value: value),
-                err: managementController.errors['region'],
                 selectedRegion: managementController.selectedRegion,
+                hintText: AppLocalizations.of(context)!.choose_region,
+                regions: AppConstants.getRegions(context),
+                onChange: (value) =>
+                    managementController.setSelectedRegion(value, context),
+                err: managementController.errors['region'],
               ),
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.select_target_prompt,
-                  controller: managementController.monthlyTargetController,
-                  title: AppLocalizations.of(context)!.monthly_select_target,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) => managementController.validateField(
-                      context: context, field: 'target', value: value),
-                  errorText: managementController.errors['target']),
+                hintText: AppLocalizations.of(context)!.select_target_prompt,
+                controller: managementController.monthlyTargetController,
+                title: AppLocalizations.of(context)!.monthly_select_target,
+                keyboardType: TextInputType.number,
+                onChanged: (value) => managementController.validateField(
+                  context: context,
+                  field: 'target',
+                  value: value,
+                ),
+                errorText: managementController.errors['target'],
+              ),
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.select_target_prompt,
-                  controller: managementController.dailyTargetController,
-                  title: AppLocalizations.of(context)!.daily_select_target,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) => managementController.validateField(
-                      context: context, field: 'daily_target', value: value),
-                  errorText: managementController.errors['daily_target']),
+                hintText: AppLocalizations.of(context)!.select_target_prompt,
+                controller: managementController.dailyTargetController,
+                title: AppLocalizations.of(context)!.daily_select_target,
+                keyboardType: TextInputType.number,
+                onChanged: (value) => managementController.validateField(
+                  context: context,
+                  field: 'daily_target',
+                  value: value,
+                ),
+                errorText: managementController.errors['daily_target'],
+              ),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
-                typeOptions: ["Cash", "Debt"],
+                typeOptions: AppConstants.getTypes(context),
                 selectedType: managementController.selectedType,
               ),
-              SizedBox(
-                height: 15.h,
-              ),
+              SizedBox(height: 15.h),
               ManagementInputWidget(
-                  hintText: AppLocalizations.of(context)!.add_notes,
-                  controller: managementController.notesController,
-                  title: AppLocalizations.of(context)!.notes,
-                  keyboardType: TextInputType.text,
-                  onChanged: (value) {},
-                  errorText: null),
-              SizedBox(
-                height: 15.h,
+                hintText: AppLocalizations.of(context)!.add_notes,
+                controller: managementController.notesController,
+                title: AppLocalizations.of(context)!.notes,
+                keyboardType: TextInputType.text,
+                onChanged: (value) {},
+                errorText: null,
               ),
+              SizedBox(height: 15.h),
               _buildButtonsRow(
                   context, managementController, salesmanController),
               SizedBox(height: 20.h),
@@ -180,9 +194,10 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
   }
 
   Widget _buildButtonsRow(
-      BuildContext context,
-      ManagementController managementController,
-      SalesmanController salesmanController) {
+    BuildContext context,
+    ManagementController managementController,
+    SalesmanController salesmanController,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -205,12 +220,11 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 monthlyTarget:
                     managementController.monthlyTargetController.text,
                 dailyTarget: managementController.dailyTargetController.text,
-                type: managementController.typeController.text,
+                type: managementController.selectedType,
                 region: managementController.selectedRegion,
               );
 
               if (!managementController.isFormValid()) {
-                // Show error dialog if form is invalid
                 showDialog(
                   context: context,
                   builder: (context) => DialogWidget(
@@ -226,24 +240,25 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                           AppConstants.primaryColor2,
                           AppConstants.primaryColor2
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );
                 return;
               }
 
+              // Parse numeric fields
               final target = double.tryParse(
                   managementController.monthlyTargetController.text);
               final dailyTarget = double.tryParse(
                   managementController.dailyTargetController.text);
 
-              if (target == null) {
+              if (target == null || dailyTarget == null) {
                 showDialog(
                   context: context,
                   builder: (context) => DialogWidget(
                     title: AppLocalizations.of(context)!.something_went_wrong,
-                    content: AppLocalizations.of(context)!.fill_all_fields,
+                    content: AppLocalizations.of(context)!.target_error,
                     imageUrl: "assets/images/cancel.png",
                     actions: [
                       CustomButtonWidget(
@@ -254,33 +269,34 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                           AppConstants.primaryColor2,
                           AppConstants.primaryColor2
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );
                 return;
               }
 
-              // Create updated user object
               final updatedUser = SalesMan(
                 id: widget.salesman.id,
                 fullName: managementController.nameController.text,
                 email: managementController.emailController.text,
                 password: managementController.passwordController.text,
                 phone: managementController.phoneNumberController.text,
-                region: Region(name: managementController.selectedRegion!),
-                monthlyTarget: target,
-                dailyTarget: dailyTarget,
-                type: managementController.typeController.text,
-                notes: managementController.notesController.text,
-                closedDeals: widget.salesman.closedDeals,
-                totalSales: widget.salesman.totalSales,
+                regionId: managementController.selectedRegion?.id ?? 1,
+                monthlyTarget: target ?? 0.0,
+                dailyTarget: dailyTarget ?? 0.0,
+                type: managementController.selectedType ?? "Cash",
+                role: widget.salesman.role,
+                status: widget.salesman.status,
                 createdAt: widget.salesman.createdAt,
                 updatedAt: DateTime.now(),
+                imageUrl: widget.salesman.imageUrl,
+                totalSales: widget.salesman.totalSales,
+                closedDeals: widget.salesman.closedDeals,
+                notes: managementController.notesController.text,
               );
 
-              salesmanController.updateUser(
-                  user: updatedUser, index: widget.index);
+              salesmanController.updateSalesman(updatedUser, widget.index);
 
               showDialog(
                 context: context,
@@ -291,9 +307,8 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                     CustomButtonWidget(
                       title: AppLocalizations.of(context)!.ok,
                       onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.pop(context); // Close dialog
+                        Navigator.pop(context); // Close screen
                         managementController.clearFields();
                         managementController.clearErrors();
                       },
@@ -302,7 +317,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                         AppConstants.primaryColor2,
                         AppConstants.primaryColor2
                       ],
-                    )
+                    ),
                   ],
                 ),
               );

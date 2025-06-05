@@ -628,4 +628,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no_clients_found => 'لا يوجد عملاء';
+
+  @override
+  String get northAmman => 'شمال عمان';
+
+  @override
+  String get southAmman => 'جنوب عمان';
+
+  @override
+  String get eastAmman1 => 'شرق عمان 1';
+
+  @override
+  String get eastAmman2 => 'شرق عمان 2';
+
+  @override
+  String get westAmman1 => 'غرب عمان 1';
+
+  @override
+  String get westAmman2 => 'غرب عمان 2';
+
+  @override
+  String get zarqaAndRusseifa => 'الزرقاء والرصيفة';
 }

@@ -205,5 +205,12 @@
   "monthly_target_achievement": "Monthly Target Achievement",
   "summary_of_top_customers": "Summary of Top Customers",
   "load_more": "Load More ..",
-  "no_clients_found": "No clients found"
+  "no_clients_found": "No clients found",
+  "northAmman": "North Amman",
+  "southAmman": "South Amman",
+  "eastAmman1": "East Amman 1",
+  "eastAmman2": "East Amman 2",
+  "westAmman1": "West Amman 1",
+  "westAmman2": "West Amman 2",
+  "zarqaAndRusseifa": "Zarqa and Russeifa"
 }

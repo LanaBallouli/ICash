@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:test_sales/repository/address_repository.dart';
 import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/location_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
-import 'package:test_sales/model/region.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
@@ -127,16 +127,12 @@ class AddClientScreen extends StatelessWidget {
                     errorText: clientsController.errors['buildingNum'],
                   ),
                   RegionInputWidget(
-                    typeOptions: [
-                      'Amman',
-                      "Zarqaa",
-                    ],
                     selectedRegion: clientsController.clientSelectedRegion,
-                    onChange: (value) => clientsController
-                        .setClientSelectedRegion(value, context),
+                    hintText: AppLocalizations.of(context)!.choose_region,
+                    regions: AppConstants.getRegions(context),
+                    onChange: (value) =>
+                        clientsController.setClientSelectedRegion(value, context),
                     err: clientsController.errors['region'],
-                    hintText:
-                        AppLocalizations.of(context)!.choose_client_region,
                   ),
                   ManagementInputWidget(
                     hintText:
@@ -251,7 +247,7 @@ class AddClientScreen extends StatelessWidget {
                 titleColor: Colors.white,
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                onPressed: () {
+                onPressed: () async {
                   print("Debug: Validating form with the following inputs:");
                   print(
                       "tradeName: ${clientsController.clientNameController.text}");
@@ -287,36 +283,33 @@ class AddClientScreen extends StatelessWidget {
 
                     print("Debug: Parsed building num: $buildingNum");
 
-                    clientsController.addNewClient(
-                      Client(
-                        address: Address(
-                          additionalDirections: clientsController
-                              .clientAdditionalInfoController.text,
-                          buildingNumber: int.tryParse(clientsController
-                              .clientBuildingNumController.text),
-                          street: clientsController.clientStreetController.text,
-                          latitude: location.latitude,
-                          longitude: location.longitude,
-                        ),
-                        commercialRegistration: cameraController
-                            .getPhotosByType("commercial_registration")
-                            .firstOrNull,
-                        nationalId:
-                            cameraController.getPhotosByType("id").firstOrNull,
-                        professionLicensePath: cameraController
-                            .getPhotosByType("profession_license")
-                            .firstOrNull,
-                        personInCharge: clientsController
-                            .clientPersonInChargeController.text,
-                        createdAt: DateTime.now(),
-                        notes: clientsController.clientNotesController.text,
-                        phone: clientsController.clientPhoneController.text,
-                        region: Region(
-                            name: clientsController.clientSelectedRegion),
-                        tradeName: clientsController.clientNameController.text,
-                        type: clientsController.clientSelectedType,
-                      ),
+                    final address = Address(
+                      street: clientsController.clientStreetController.text,
+                      buildingNumber: int.tryParse(clientsController.clientBuildingNumController.text)?? 0,
+                      additionalDirections: clientsController.clientAdditionalInfoController.text,
+                      latitude: location.latitude,
+                      longitude: location.longitude,
                     );
+                    final addressRepository = Provider.of<AddressRepository>(context, listen: false);
+                    final savedAddress = await addressRepository.save(address);
+
+                    clientsController.addNewClient(Client(
+                      tradeName: clientsController.clientNameController.text,
+                      personInCharge: clientsController.clientPersonInChargeController.text,
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now(),
+                      addressId: savedAddress.id!,
+                      regionId: clientsController.clientSelectedRegion?.id ?? 1,
+                      balance: 0,
+                      commercialRegistration: cameraController.getPhotosByType("commercial_registration").firstOrNull ?? "",
+                      professionLicensePath: cameraController.getPhotosByType("profession_license").firstOrNull ?? "",
+                      nationalId: cameraController.getPhotosByType("id").firstOrNull ?? "",
+                      phone: clientsController.clientPhoneController.text,
+                      status: "Active",
+                      type: clientsController.clientSelectedType ?? "Cash",
+                      notes: clientsController.clientNotesController.text,
+                      invoiceIds: [],
+                    ));
 
                     print("Debug: New client added successfully.");
 

@@ -26,7 +26,7 @@ class _CashInvoiceScreenState extends State<CashInvoiceScreen> {
     clientsController = Provider.of<ClientsController>(context, listen: false);
     productController = Provider.of<ProductController>(context, listen: false);
     // clientsController.fetchCashClients();
-    productController.fetchProducts();
+    productController.fetchProducts(context);
   }
 
   @override

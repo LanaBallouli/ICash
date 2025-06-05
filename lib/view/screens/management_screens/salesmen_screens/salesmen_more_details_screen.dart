@@ -44,11 +44,11 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
             children: [
               _buildProfileHeader(langController),
               SizedBox(height: 15.h),
-              ProfileSection(users: users),
+              ProfileSection(salesman: users),
               SizedBox(height: 10.h),
-              PerformanceSection(users: users),
+              PerformanceSection(salesman: users),
               SizedBox(height: 10.h),
-              RecentActivitySection(users: users),
+              RecentActivitySection(salesman: users),
               SizedBox(height: 10.h),
               AssignedClientsSection(salesman: users),
               SizedBox(height: 10.h),
@@ -165,7 +165,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               content: AppLocalizations.of(context)!.delete_user,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
-                salesmanController.deleteUser(users);
+                salesmanController.deleteSalesman(users);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

@@ -9,7 +9,7 @@ import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../controller/lang_controller.dart';
-import '../../../controller/user_provider.dart';
+import '../../../controller/user_controller.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/home_widgets/circle.dart';
 import '../../widgets/home_widgets/button_widget.dart';
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Consumer<UserProvider>(
+                  Consumer<UserController>(
                     builder: (context, userProvider, child) {
                       return Text(
                         "${AppLocalizations.of(context)!.hi} ${userProvider.userName ?? ''}!",

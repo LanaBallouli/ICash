@@ -12,12 +12,12 @@ class ManagementController extends ChangeNotifier {
   int selectedIndex = 0;
   String? selectedCategory;
   bool obscureText = false;
-  String? selectedRegion;
+  Region? selectedRegion;
   String? selectedType;
 
-  void setSelectedRegion(String? value, BuildContext context) {
+  void setSelectedRegion(Region? value, BuildContext context) {
     selectedRegion = value;
-    validateField(field: 'region', value: value, context: context);
+    validateField(field: 'region', value: value?.name, context: context);
     notifyListeners();
   }
 
@@ -139,8 +139,8 @@ class ManagementController extends ChangeNotifier {
     }
   }
 
-  void _validateRegion(String? region, BuildContext context) {
-    final newError = region == null || region.isEmpty
+  void _validateRegion(Region? region, BuildContext context) {
+    final newError = region == null
         ? AppLocalizations.of(context)!.region_error
         : null;
 
@@ -159,7 +159,7 @@ class ManagementController extends ChangeNotifier {
       required String? monthlyTarget,
       required String? dailyTarget,
       required String? type,
-      required String? region}) {
+      required Region? region}) {
     final oldErrors = Map<String, String?>.from(errors);
 
     _validateEmail(email, context);
@@ -187,7 +187,7 @@ class ManagementController extends ChangeNotifier {
   void validateField({
     required BuildContext context,
     required String field,
-    required String? value,
+    required dynamic value,
   }) {
     final oldError = errors[field];
 

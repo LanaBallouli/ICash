@@ -8,9 +8,9 @@ import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class ProfileSection extends StatelessWidget {
-  final SalesMan users;
+  final SalesMan salesman;
 
-  const ProfileSection({super.key, required this.users});
+  const ProfileSection({super.key, required this.salesman});
 
   @override
   Widget build(BuildContext context) {
@@ -23,42 +23,42 @@ class ProfileSection extends StatelessWidget {
     final profileDetails = [
       {
         "label": AppLocalizations.of(context)!.user_name,
-        "value": users.fullName ?? "N/A",
+        "value": salesman.fullName ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.email,
-        "value": users.email ?? "N/A",
+        "value": salesman.email ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.phone,
-        "value": users.phone?.toString() ?? "N/A",
+        "value": salesman.phone?.toString() ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.type,
-        "value": users.type ?? "N/A",
+        "value": salesman.type ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.region,
-        "value": users.region?.name ?? "N/A",
+        "value": salesman.regionId.toString() ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.status,
-        "value": users.status ?? "N/A",
+        "value": salesman.status ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.joining_date,
-        "value": formatDateWithTime(users.createdAt),
+        "value": formatDateWithTime(salesman.createdAt),
       },
       {
         "label": AppLocalizations.of(context)!.monthly_target,
-        "value": users.monthlyTarget != null
-            ? users.monthlyTarget.toString()
+        "value": salesman.monthlyTarget != null
+            ? salesman.monthlyTarget.toString()
             : "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.daily_target,
         "value":
-            users.dailyTarget != null ? users.dailyTarget.toString() : "N/A",
+            salesman.dailyTarget != null ? salesman.dailyTarget.toString() : "N/A",
       },
     ];
 

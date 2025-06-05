@@ -628,4 +628,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_clients_found => 'No clients found';
+
+  @override
+  String get northAmman => 'North Amman';
+
+  @override
+  String get southAmman => 'South Amman';
+
+  @override
+  String get eastAmman1 => 'East Amman 1';
+
+  @override
+  String get eastAmman2 => 'East Amman 2';
+
+  @override
+  String get westAmman1 => 'West Amman 1';
+
+  @override
+  String get westAmman2 => 'West Amman 2';
+
+  @override
+  String get zarqaAndRusseifa => 'Zarqa and Russeifa';
 }

@@ -1,112 +1,94 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/app_constants.dart';
-import 'package:test_sales/app_styles.dart';
-import '../../../../controller/lang_controller.dart';
+
 import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../model/region.dart';
 
 class RegionInputWidget extends StatelessWidget {
-  final String? selectedRegion;
+  final Region? selectedRegion;
   final String hintText;
-  final List<String> typeOptions;
-  final Function(String?)? onChange;
-  final String? Function(String?)? errorText;
+  final List<Region> regions;
+  final Function(Region?)? onChange;
   final String? err;
 
-  RegionInputWidget(
-      {super.key,
-      this.selectedRegion,
-      required this.hintText,
-      required this.typeOptions,
-      this.onChange,
-      this.errorText,
-      this.err});
+  const RegionInputWidget({
+    super.key,
+    this.selectedRegion,
+    required this.hintText,
+    required this.regions,
+    this.onChange,
+    this.err,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final langController = Provider.of<LangController>(context, listen: false);
-
     return Padding(
-      padding: EdgeInsets.only(top: 15.h),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             AppLocalizations.of(context)!.region,
-            style: AppStyles.getFontStyle(
-              langController,
-              color: Color(0xFF6C7278),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
           Consumer<ManagementController>(
             builder: (context, managementController, _) {
               final error = managementController.errors['region'];
               return Container(
-                height: 60.h,
+                height: 60,
                 decoration: BoxDecoration(
-                  color: AppConstants.buttonColor,
-                  borderRadius: BorderRadius.circular(12.r),
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.sp),
-                    child: DropdownButtonFormField<String>(
-                      hint: Text(
-                        hintText,
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 14.sp,
-                          color: Color(0xFFBBBFC5),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: DropdownButtonFormField<Region>(
+                      hint: Text(hintText),
                       decoration: InputDecoration(
                         border:
                             UnderlineInputBorder(borderSide: BorderSide.none),
                       ),
                       value: selectedRegion,
-                      items: typeOptions
-                          .map(
-                            (type) => DropdownMenuItem(
-                              value: type,
-                              child: Text(
-                                type,
-                                style: AppStyles.getFontStyle(langController,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          )
-                          .toList(),
+                      items: regions.map((region) {
+                        return DropdownMenuItem<Region>(
+                          value: region,
+                          child: Text(region.name),
+                        );
+                      }).toList(),
                       onChanged: onChange ??
                           (value) {
                             managementController.setSelectedRegion(
                                 value, context);
                           },
-                      validator: errorText ??
-                          (value) {
-                            if (error != null) {
-                              return error;
-                            }
-                            return null;
-                          },
+                      validator: (value) {
+                        if (error != null) return error;
+                        return null;
+                      },
                       dropdownColor: Colors.white,
+                      isExpanded: true,
                     ),
                   ),
                 ),
               );
             },
           ),
-          if (err != null)
-            Text(
-              err ?? "",
-              style: TextStyle(color: Colors.red, fontSize: 12.sp),
-            )
+          Consumer<ManagementController>(
+            builder: (context, managementController, child) {
+              if (err != null ||
+                  managementController.errors['region'] != null) {
+                return Text(
+                  err ?? managementController.errors['region']!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                );
+              }
+              else {
+                return SizedBox.shrink();
+              }
+            },
+          )
         ],
       ),
     );

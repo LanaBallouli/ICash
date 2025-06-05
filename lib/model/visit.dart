@@ -1,45 +1,39 @@
 class Visit {
-  final int? id;
-  final DateTime? visitDate;
-  final String? notes;
+  final int id;
+  final DateTime visitDate;
+  final String notes;
   final DateTime? nextVisitTime;
-  final int? userId;
-  final int? clientId;
+  final int userId; // Foreign key referencing SalesMan
+  final int clientId; // Foreign key referencing Client
 
   Visit({
-    this.id,
-    this.userId,
-    this.clientId,
-    this.visitDate,
-    this.notes,
+    required this.id,
+    required this.visitDate,
+    this.notes = "",
     this.nextVisitTime,
+    required this.userId,
+    required this.clientId,
   });
 
-
-  Visit copyWith({
-    int? id,
-    int? userId,
-    int? clientId,
-    DateTime? visitDate,
-    String? notes,
-    DateTime? nextVisitTime,
-  }) {
+  factory Visit.fromJson(Map<String, dynamic> json) {
     return Visit(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      clientId: clientId ?? this.clientId,
-      visitDate: visitDate ?? this.visitDate,
-      notes: notes ?? this.notes,
-      nextVisitTime: nextVisitTime ?? this.nextVisitTime,
+      id: json['id'],
+      visitDate: DateTime.parse(json['visit_date']),
+      notes: json['notes'] ?? "",
+      nextVisitTime: json['next_visit_time'] != null ? DateTime.parse(json['next_visit_time']) : null,
+      userId: json['user_id'],
+      clientId: json['client_id'],
     );
   }
 
-  void validate() {
-    if (visitDate == null) {
-      throw ArgumentError("Visit date cannot be null.");
-    }
-    if (nextVisitTime != null && nextVisitTime!.isBefore(visitDate!)) {
-      throw ArgumentError("Next visit time cannot be before the visit date.");
-    }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'visit_date': visitDate.toIso8601String(),
+      'notes': notes,
+      'next_visit_time': nextVisitTime?.toIso8601String(),
+      'user_id': userId,
+      'client_id': clientId,
+    };
   }
 }

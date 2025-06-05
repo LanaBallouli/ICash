@@ -6,9 +6,9 @@ import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
 class PerformanceSection extends StatelessWidget {
-  final SalesMan users;
+  final SalesMan salesman;
 
-  const PerformanceSection({super.key, required this.users});
+  const PerformanceSection({super.key, required this.salesman});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PerformanceSection extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
             textEditingController:
-                TextEditingController(text: users.totalSales.toString()),
+                TextEditingController(text: salesman.totalSales.toString()),
             readOnly: true,
             label: AppLocalizations.of(context)!.total_sales,
           ),
@@ -32,7 +32,7 @@ class PerformanceSection extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: InputWidget(
             textEditingController:
-                TextEditingController(text: "${users.closedDeals ?? "deals"}"),
+                TextEditingController(text: "${salesman.closedDeals ?? "deals"}"),
             readOnly: true,
             label: AppLocalizations.of(context)!.closed_deals,
           ),

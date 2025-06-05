@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UserProvider with ChangeNotifier {
+class UserController with ChangeNotifier {
   final supabase = Supabase.instance.client;
   String? _userName;
   int? userId;

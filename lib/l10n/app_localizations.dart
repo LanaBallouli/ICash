@@ -1336,6 +1336,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No clients found'**
   String get no_clients_found;
+
+  /// No description provided for @northAmman.
+  ///
+  /// In en, this message translates to:
+  /// **'North Amman'**
+  String get northAmman;
+
+  /// No description provided for @southAmman.
+  ///
+  /// In en, this message translates to:
+  /// **'South Amman'**
+  String get southAmman;
+
+  /// No description provided for @eastAmman1.
+  ///
+  /// In en, this message translates to:
+  /// **'East Amman 1'**
+  String get eastAmman1;
+
+  /// No description provided for @eastAmman2.
+  ///
+  /// In en, this message translates to:
+  /// **'East Amman 2'**
+  String get eastAmman2;
+
+  /// No description provided for @westAmman1.
+  ///
+  /// In en, this message translates to:
+  /// **'West Amman 1'**
+  String get westAmman1;
+
+  /// No description provided for @westAmman2.
+  ///
+  /// In en, this message translates to:
+  /// **'West Amman 2'**
+  String get westAmman2;
+
+  /// No description provided for @zarqaAndRusseifa.
+  ///
+  /// In en, this message translates to:
+  /// **'Zarqa and Russeifa'**
+  String get zarqaAndRusseifa;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

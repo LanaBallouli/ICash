@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../model/product.dart';
@@ -16,7 +17,6 @@ class ProductController extends ChangeNotifier {
     if (selectedProduct == null) return null;
     return products.firstWhere(
           (product) => product.id.toString() == selectedProduct,
-      orElse: () => Product(id: null, name: null, price: null),
     );
   }
 
@@ -30,8 +30,11 @@ class ProductController extends ChangeNotifier {
 
   void calculateSubTotal() {
     final selectedProduct = selectedProductDetails;
-    final unitPrice = selectedProduct?.price ?? 0;
-    subTotal = (unitPrice * itemAmount) as double?;
+    if (selectedProduct == null) {
+      subTotal = 0;
+    } else {
+      subTotal = selectedProduct.price * itemAmount;
+    }
     notifyListeners();
   }
 
@@ -56,29 +59,71 @@ class ProductController extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchProducts() async {
+  Future<void> fetchProducts(BuildContext context) async {
     try {
       isLoading = true;
-      final response = await supabase.from('products').select('id, name');
+      final response = await supabase.from('products').select('*');
 
       if (response.isEmpty || !(response is List)) {
         throw Exception('Error fetching products');
       }
 
+      products = (response as List)
+          .map((item) => Product(
+        id: item['id'],
+        name: item['name'],
+        description: item['description'],
+        price: item['price']?.toDouble(),
+        brand: item['brand'],
+        quantity: item['quantity'],
+        isAvailable: item['is_available'],
+        imageUrl: item['image_url'],
+        discount: item['discount']?.toDouble(),
+        taxRate: item['tax_rate']?.toDouble(),
+        createdAt: DateTime.parse(item['created_at']),
+        updatedAt: DateTime.parse(item['updated_at']),
+      ))
+          .toList();
 
       notifyListeners();
     } catch (e) {
-      print('Failed to fetch products: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch products: $e')),
+      );
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
+  void addItemsToInvoice({required Product product}) {
+    final existingProduct = invoiceProducts.firstWhere(
+          (p) => p.id == product.id,
+    );
 
+    if (existingProduct == null) {
+      invoiceProducts.add(product);
+    } else {
+      print('Product already exists in the invoice.');
+    }
 
-  addItemsToInvoice({required Product product}) {
-    invoiceProducts.add(product);
+    notifyListeners();
+  }
+
+  void removeItemFromInvoice(Product product) {
+    invoiceProducts.removeWhere((p) => p.id == product.id);
+    notifyListeners();
+  }
+
+  void updateInvoiceItemQuantity(Product product, int newQuantity) {
+    final existingProduct = invoiceProducts.firstWhere(
+          (p) => p.id == product.id,
+    );
+
+    if (existingProduct != null) {
+      print('Updated quantity for product ${product.name}');
+    }
+
     notifyListeners();
   }
 }

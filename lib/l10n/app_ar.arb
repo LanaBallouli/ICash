@@ -203,5 +203,12 @@
   "next_visit": "موعد الزيارة القادمة",
   "summary_of_top_customers": "ملخص لأفضل العملاء",
   "load_more": "تحميل المزيد ..",
-  "no_clients_found": "لا يوجد عملاء"
+  "no_clients_found": "لا يوجد عملاء",
+  "northAmman": "شمال عمان",
+  "southAmman": "جنوب عمان",
+  "eastAmman1": "شرق عمان 1",
+  "eastAmman2": "شرق عمان 2",
+  "westAmman1": "غرب عمان 1",
+  "westAmman2": "غرب عمان 2",
+  "zarqaAndRusseifa": "الزرقاء والرصيفة"
 }

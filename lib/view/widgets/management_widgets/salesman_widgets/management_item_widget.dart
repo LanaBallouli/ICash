@@ -13,11 +13,11 @@ import '../../../../l10n/app_localizations.dart';
 import '../../main_widgets/custom_button_widget.dart';
 
 class ManagementItemWidget extends StatelessWidget {
-  final SalesMan users;
+  final SalesMan salesman;
   final int index;
 
   const ManagementItemWidget(
-      {super.key, required this.users, required this.index});
+      {super.key, required this.salesman, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ManagementItemWidget extends StatelessWidget {
                       Center(
                         child: Text(
                           textAlign: TextAlign.center,
-                          users.fullName ?? "name",
+                          salesman.fullName ?? "name",
                           style: GoogleFonts.sora(
                             color: Color(0xFF24262F),
                             fontSize: 14.sp,
@@ -70,7 +70,7 @@ class ManagementItemWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              users.region?.name ?? "region",
+                              salesman.regionId.toString() ?? "region",
                               style: AppStyles.getFontStyle(
                                 langController,
                                 fontSize: 10.sp,
@@ -97,7 +97,7 @@ class ManagementItemWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              users.closedDeals.toString() ?? "0",
+                              salesman.closedDeals.toString() ?? "0",
                               style: AppStyles.getFontStyle(
                                 langController,
                                 fontSize: 10.sp,
@@ -124,7 +124,7 @@ class ManagementItemWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              users.totalSales.toString() ?? "totalSales",
+                              salesman.totalSales.toString() ?? "totalSales",
                               style: AppStyles.getFontStyle(
                                 langController,
                                 fontSize: 10.sp,
@@ -148,11 +148,10 @@ class ManagementItemWidget extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: Color(0xFFE7E7E7),
                     foregroundImage: AssetImage(
-                        users.imageUrl ?? "assets/images/default_image.png"),
+                        salesman.imageUrl ?? "assets/images/default_image.png"),
                   ),
                 ),
               ),
-
               Positioned(
                 right: 0,
                 top: 20,
@@ -166,9 +165,9 @@ class ManagementItemWidget extends StatelessWidget {
                   child: Center(
                     child: IconButton(
                       onPressed: () {
-                        salesmanController.toggleFavourite(context, users);
+                        salesmanController.toggleFavourite(salesman);
                       },
-                      icon: salesmanController.isFavourite(users)
+                      icon: salesmanController.isFavourite(salesman)
                           ? Icon(
                               Icons.favorite,
                               color: AppConstants.errorColor,
@@ -202,7 +201,7 @@ class ManagementItemWidget extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => SalesmenMoreDetailsScreen(
-                          users: users,
+                          users: salesman,
                           index: index,
                         ),
                       ),

@@ -6,7 +6,6 @@ import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
-import 'package:test_sales/model/region.dart';
 import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
@@ -105,20 +104,17 @@ class AddSalesmanScreen extends StatelessWidget {
                 errorText: managementController.errors['phone'],
               ),
               RegionInputWidget(
-                typeOptions: [
-                  'Amman',
-                  "Zarqaa",
-                ],
                 selectedRegion: managementController.selectedRegion,
+                hintText: AppLocalizations.of(context)!.choose_region,
+                regions: AppConstants.getRegions(context),
                 onChange: (value) =>
                     managementController.setSelectedRegion(value, context),
                 err: managementController.errors['region'],
-                hintText: AppLocalizations.of(context)!.choose_region,
               ),
               TypeInputWidget(
                 hintText: AppLocalizations.of(context)!.choose_salesman_type,
                 selectedType: managementController.selectedType,
-                typeOptions: ["Cash", "Debt"],
+                typeOptions: AppConstants.getTypes(context),
               ),
               ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.select_target_prompt,
@@ -214,27 +210,25 @@ class AddSalesmanScreen extends StatelessWidget {
                     final dailyTarget = double.tryParse(
                         managementController.dailyTargetController.text);
 
-                    print("Debug: Parsed target achievement: $target");
 
-                    salesmanController.addNewUser(
-                      SalesMan(
-                          fullName: managementController.nameController.text,
-                          email: managementController.emailController.text,
-                          password:
-                              managementController.passwordController.text,
-                          phone:
-                              managementController.phoneNumberController.text,
-                          region: Region(
-                              name: managementController.selectedRegion, id: 1),
-                          monthlyTarget: target,
-                          dailyTarget: dailyTarget,
-                          closedDeals: 0,
-                          totalSales: 0,
-                          notes: managementController.notesController.text,
-                          createdAt: DateTime.now(),
-                          type: managementController.selectedType,
-                          role: "Sales Man"),
-                    );
+                    salesmanController.addNewSalesman(SalesMan(
+                      fullName: managementController.nameController.text,
+                      email: managementController.emailController.text,
+                      phone: managementController.phoneNumberController.text,
+                      password: managementController.passwordController.text,
+                      role: "Salesman",
+                      status: "Active",
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now(),
+                      imageUrl: "assets/images/default_image.png",
+                      totalSales: 0.0,
+                      closedDeals: 0,
+                      monthlyTarget: target!,
+                      dailyTarget: dailyTarget!,
+                      regionId: managementController.selectedRegion?.id ?? 1,
+                      notes: managementController.notesController.text,
+                      type: managementController.selectedType!,
+                    ));
 
                     print("Debug: New user added successfully.");
 

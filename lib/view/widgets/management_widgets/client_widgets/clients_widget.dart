@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
@@ -24,6 +25,8 @@ class ClientsWidget extends StatelessWidget {
     }
 
     final langController = Provider.of<LangController>(context, listen: false);
+    final region = Provider.of<ClientsController>(context, listen: false)
+        .getRegionName(client.regionId, context);
 
     return Row(
       children: [
@@ -68,18 +71,10 @@ class ClientsWidget extends StatelessWidget {
                       _buildDetailRow(
                         context,
                         AppLocalizations.of(context)!.region,
-                        client.region?.name ?? "N/A",
+                        region ?? "N/A",
                         langController,
                       ),
-                      _buildDetailRow(
-                        context,
-                        AppLocalizations.of(context)!.latest_visit,
-                        client.visits != null && client.visits!.isNotEmpty
-                            ? formatDateWithTime(
-                                client.visits!.last.visitDate ?? DateTime.now())
-                            : "N/A",
-                        langController,
-                      ),
+
                     ],
                   ),
                 ),
@@ -161,9 +156,9 @@ class ClientsWidget extends StatelessWidget {
   }
 
   BorderRadius _getBorderRadiusBasedOnLanguage(
-      BuildContext context,
-      bool isButton,
-      ) {
+    BuildContext context,
+    bool isButton,
+  ) {
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final rtlBorderRadius = BorderRadius.only(
       topRight: Radius.circular(12.r),

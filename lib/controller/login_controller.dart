@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:test_sales/controller/user_provider.dart';
+import 'package:test_sales/controller/user_controller.dart';
 import '../l10n/app_localizations.dart';
 import '../view/screens/registration_screens/email_verification_screen.dart';
 import '../view/screens/main_screen.dart';
@@ -250,7 +250,7 @@ class LoginController extends ChangeNotifier {
         }
 
         if (!context.mounted) return;
-        Provider.of<UserProvider>(context, listen: false).fetchUserName();
+        Provider.of<UserController>(context, listen: false).fetchUserName();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),

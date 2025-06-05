@@ -1,84 +1,115 @@
 import 'package:flutter/cupertino.dart';
-
-import '../model/client.dart';
-import '../model/invoice.dart';
-import '../model/monthly_sales.dart';
-import '../model/product.dart';
-import '../model/region.dart';
 import '../model/salesman.dart';
-import '../model/visit.dart';
+import '../repository/salesman_repository.dart';
 
 class SalesmanController extends ChangeNotifier {
+  final SalesmanRepository repository;
   final List<SalesMan> fav = [];
-  List<SalesMan> salesMen = [
-    SalesMan(
-        id: 1,
-        fullName: "John Doe",
-        email: "john.doe@example.com",
-        phone: "1234567890",
-        role: "Salesman",
-        dailyTarget: 200,
-        type: "Cash",
-        password: "@Lana123",
-        status: "Active",
-        totalSales: 50000.0,
-        closedDeals: 15,
-        monthlyTarget: 90.0,
-        clientsId: [2],
-        visits: [
-          Visit(
-              visitDate: DateTime(2023, 10, 1),
-              nextVisitTime: DateTime(2024, 8, 2),
-              id: 1,
-              clientId: 2,
-              userId: 1,
-          ),
-          Visit(visitDate: DateTime(2023, 10, 15)),
-        ],
-        monthlySales: [
-          MonthlySales(totalSales: 10000.0),
-          MonthlySales(totalSales: 15000.0),
-        ],
-        createdAt: DateTime(2023, 1, 1),
-        updatedAt: DateTime(2023, 10, 1),
-        imageUrl: "assets/images/google-maps.png",
-        notes: "so many notes"),
-  ];
+  List<SalesMan> salesMen = [];
+  bool isLoading = false;
+  List<SalesMan> assignedSalesmen = [];
 
-  addNewUser(SalesMan user) {
-    salesMen.add(user);
-    notifyListeners();
-  }
+  SalesmanController(this.repository);
 
-  updateUser({
-    required SalesMan user,
-    required int index,
-  }) {
-    salesMen[index] = user;
-    notifyListeners();
-  }
 
-  deleteUser(SalesMan user) {
-    if (salesMen.contains(user)) {
-      salesMen.remove(user);
+  Future<void> fetchSalesmen() async {
+    _setLoading(true);
+    try {
+      salesMen = await repository.getAllSalesmen();
       notifyListeners();
+    } catch (e) {
+      _handleError(e, "fetching salesmen");
+    } finally {
+      _setLoading(false);
     }
   }
 
-  toggleFavourite(BuildContext context, SalesMan user) {
-    if (fav.contains(user)) {
-      fav.remove(user);
+  Future<void> fetchSalesmenByRegion(int regionId) async {
+    _setLoading(true);
+    try {
+      salesMen = await repository.getSalesmenByRegion(regionId);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "fetching salesmen by region");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> addNewSalesman(SalesMan salesman) async {
+    _setLoading(true);
+    try {
+      final added = await repository.createSalesman(salesman);
+      salesMen.add(added);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "adding new salesman");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> updateSalesman(SalesMan salesman, int index) async {
+    _setLoading(true);
+    try {
+      final updated = await repository.updateSalesman(salesman);
+      salesMen[index] = updated;
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "updating salesman");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> deleteSalesman(SalesMan salesman) async {
+    _setLoading(true);
+    try {
+      await repository.deleteSalesman(salesman.id!);
+      salesMen.removeWhere((s) => s.id == salesman.id);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "deleting salesman");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<List<SalesMan>> getAssignedSalesmen(int clientId) async {
+    _setLoading(true);
+
+    try {
+      final salesmen = await repository.getSalesmenByClientId(clientId);
+      assignedSalesmen = salesmen;
+      notifyListeners();
+      return salesmen;
+    } catch (e) {
+      _handleError(e, "loading salesmen for client");
+      return [];
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  void toggleFavourite(SalesMan salesman) {
+    if (fav.contains(salesman)) {
+      fav.remove(salesman);
     } else {
-      fav.add(user);
+      fav.add(salesman);
     }
     notifyListeners();
   }
 
-  bool isFavourite(SalesMan user) {
-    if (fav.contains(user)) {
-      return true;
-    } else {
-      return false;
-    }
+  bool isFavourite(SalesMan salesman) => fav.contains(salesman);
+
+  // --- Private Helpers ---
+
+  void _setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  void _handleError(dynamic error, String operation) {
+    print("Error $operation: $error");
   }
 }

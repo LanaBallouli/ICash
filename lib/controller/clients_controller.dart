@@ -1,69 +1,117 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/camera_controller.dart';
-import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
+import '../app_constants.dart';
 import '../l10n/app_localizations.dart';
 import '../model/region.dart';
-import '../model/visit.dart';
+import '../repository/client_repository.dart';
+import 'package:collection/collection.dart';
 
 class ClientsController extends ChangeNotifier {
-  List<Client> clients = [
-    Client(
-      id: 1,
-      clientNumber: "C12345",
-      tradeName: "ABC Trading Co.",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      createdBy: 2,
-      region: Region(id: 1, name: "California"),
-      balance: 5000,
-      commercialRegistration: "CR123456",
-      professionLicensePath: "path/to/license.pdf",
-      nationalId: "NID123456789",
-      notes: "so many notes",
-      phone: "0799471732",
-      personInCharge: "ahmad baha",
-      assignedSalesmenIds: [1],
-      address: Address(
-        street: "street ",
-        buildingNumber: 22,
-        latitude: 33.5555,
-        longitude: 23.8888,
-        additionalDirections: "additional"
-      ),
-      type: "Cash",
-      invoicesIds: [1,2,3],
-      visitsIds: [1,2]
-    ),
-  ];
+  final ClientRepository repository;
+  List<Client> clients = [];
+  bool isLoading = false;
 
 
   final TextEditingController clientNameController = TextEditingController();
-  final TextEditingController clientPersonInChargeController =
-  TextEditingController();
+  final TextEditingController clientPersonInChargeController = TextEditingController();
   final TextEditingController clientPhoneController = TextEditingController();
   final TextEditingController clientNotesController = TextEditingController();
   final TextEditingController clientStreetController = TextEditingController();
-  final TextEditingController clientBuildingNumController =
-  TextEditingController();
-  final TextEditingController clientAdditionalInfoController =
-  TextEditingController();
+  final TextEditingController clientBuildingNumController = TextEditingController();
+  final TextEditingController clientAdditionalInfoController = TextEditingController();
+
   String? clientSelectedType;
-  String? clientSelectedRegion;
+  Region? clientSelectedRegion;
+
+  ClientsController(this.repository);
 
 
+  Future<void> fetchClients() async {
+    _setLoading(true);
+    try {
+      clients = await repository.getAllClients();
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "fetching clients");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> fetchClientsBySalesman(int salesmanId) async {
+    _setLoading(true);
+    try {
+      clients = await repository.getClientsBySalesman(salesmanId);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "fetching clients for salesman");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> addNewClient(Client client) async {
+    _setLoading(true);
+    try {
+      final added = await repository.createClient(client);
+      clients.add(added);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "adding client");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> updateClient({required Client client, required int index}) async {
+    _setLoading(true);
+    try {
+      final updatedClient = await repository.updateClient(client);
+      clients[index] = updatedClient;
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "updating client");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<void> deleteClient(int id) async {
+    _setLoading(true);
+    try {
+      await repository.deleteClient(id);
+      clients.removeWhere((client) => client.id == id);
+      notifyListeners();
+    } catch (e) {
+      _handleError(e, "deleting client");
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  void _setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+
+  String getRegionName(int regionId, BuildContext context) {
+    final regions = AppConstants.getRegions(context);
+    final region = regions.firstWhereOrNull((r) => r.id == regionId);
+    return region?.name ?? "Unknown";
+  }
 
   static final _phoneRegExp = RegExp(r'^(079|077|078)[0-9]{7}$');
-
 
   void clearErrors() {
     errors.updateAll((key, value) => null);
     notifyListeners();
   }
 
-
-  void setClientSelectedRegion(String? value, BuildContext context) {
+  void setClientSelectedRegion(Region? value, BuildContext context) {
     clientSelectedRegion = value;
     validateField(field: 'region', value: value, context: context);
     notifyListeners();
@@ -81,6 +129,7 @@ class ClientsController extends ChangeNotifier {
         : null;
     if (errors['phone'] != newError) {
       errors['phone'] = newError;
+      notifyListeners();
     }
   }
 
@@ -121,8 +170,8 @@ class ClientsController extends ChangeNotifier {
     }
   }
 
-  void _validateRegion(String? region, BuildContext context) {
-    final newError = region == null || region.isEmpty
+  void _validateRegion(Region? region, BuildContext context) {
+    final newError = region == null
         ? AppLocalizations.of(context)!.region_error
         : null;
 
@@ -154,18 +203,18 @@ class ClientsController extends ChangeNotifier {
     }
   }
 
-
+  // --- Errors Map ---
   final Map<String, String?> errors = {
     'tradeName': null,
-    'personInCharge':null,
+    'personInCharge': null,
     'phone': null,
-    'street':null,
-    'buildingNum':null,
+    'street': null,
+    'buildingNum': null,
     'region': null,
     'type': null,
-    'id_photos':null,
+    'id_photos': null,
     'commercial_registration_photos': null,
-    'profession_license_photos':null
+    'profession_license_photos': null
   };
 
   void validateForm({
@@ -175,12 +224,11 @@ class ClientsController extends ChangeNotifier {
     required String phone,
     required String street,
     required int? buildingNum,
-    required String? region,
+    required Region? region,
     required String? type,
   }) {
     final oldErrors = Map<String, String?>.from(errors);
 
-    // Validate other fields
     _validateTradeName(tradeName, context);
     _validatePersonInChargeName(personInCharge, context);
     _validatePhone(phone, context);
@@ -189,7 +237,8 @@ class ClientsController extends ChangeNotifier {
     _validateStreet(street, context);
     _validateBuildingNum(buildingNum?.toString(), context);
 
-    final cameraController =Provider.of<CameraController>(context,listen: false);
+    final cameraController =
+    Provider.of<CameraController>(context, listen: false);
 
     if (type == AppLocalizations.of(context)!.debt) {
       final hasIdPhotos = cameraController.getPhotosByType("id").isNotEmpty;
@@ -207,14 +256,17 @@ class ClientsController extends ChangeNotifier {
       }
       if (!hasCommercialRegistrationPhotos) {
         errors['commercial_registration_photos'] =
-            AppLocalizations.of(context)!.commercial_registration_photo_required;
+            AppLocalizations.of(context)!
+                .commercial_registration_photo_required;
       }
       if (!hasProfessionLicensePhotos) {
         errors['profession_license_photos'] =
             AppLocalizations.of(context)!.profession_license_photo_required;
       }
 
-      if (hasIdPhotos && hasCommercialRegistrationPhotos && hasProfessionLicensePhotos) {
+      if (hasIdPhotos &&
+          hasCommercialRegistrationPhotos &&
+          hasProfessionLicensePhotos) {
         errors.remove('id_photos');
         errors.remove('commercial_registration_photos');
         errors.remove('profession_license_photos');
@@ -241,7 +293,7 @@ class ClientsController extends ChangeNotifier {
   void validateField({
     required BuildContext context,
     required String field,
-    required String? value,
+    required dynamic value,
   }) {
     final oldError = errors[field];
 
@@ -267,8 +319,6 @@ class ClientsController extends ChangeNotifier {
       case 'region':
         _validateRegion(value, context);
         break;
-      case 'images':
-
       default:
         errors[field] = null;
     }
@@ -282,28 +332,6 @@ class ClientsController extends ChangeNotifier {
     return !errors.values.any((error) => error != null);
   }
 
-  void addNewClient(Client client) {
-    clients.add(client);
-    notifyListeners();
-  }
-
-  updateClient({
-    required Client client,
-    required int index,
-  }) {
-    clients[index] = client;
-    notifyListeners();
-  }
-
-
-  void deleteUser(Client client) {
-    if (clients.contains(client)) {
-      clients.remove(client);
-      notifyListeners();
-    }
-  }
-
-
   void clearClientFields() {
     clientNameController.clear();
     clientPersonInChargeController.clear();
@@ -316,4 +344,7 @@ class ClientsController extends ChangeNotifier {
     clientAdditionalInfoController.clear();
   }
 
+  void _handleError(dynamic error, String operation) {
+    print("Error $operation: $error");
+  }
 }
