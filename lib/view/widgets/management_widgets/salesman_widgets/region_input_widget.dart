@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:test_sales/controller/lang_controller.dart';
 
+import '../../../../app_styles.dart';
 import '../../../../controller/management_controller.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../model/region.dart';
@@ -24,6 +27,7 @@ class RegionInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final langController = Provider.of<LangController>(context,listen: false);
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: Column(
@@ -31,22 +35,31 @@ class RegionInputWidget extends StatelessWidget {
         children: [
           Text(
             AppLocalizations.of(context)!.region,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: AppStyles.getFontStyle(
+              langController,
+              color: Color(0xFF6C7278),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           Consumer<ManagementController>(
             builder: (context, managementController, _) {
               final error = managementController.errors['region'];
               return Container(
-                height: 60,
+                height: 60.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
+                  color: Color(0xFFECF0F6),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: DropdownButtonFormField<Region>(
-                      hint: Text(hintText),
+                      hint: Text(hintText, style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Color(0xFFBBBFC5),
+                        fontWeight: FontWeight.w500,
+                      ),),
                       decoration: InputDecoration(
                         border:
                             UnderlineInputBorder(borderSide: BorderSide.none),

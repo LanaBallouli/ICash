@@ -185,7 +185,7 @@ class AddSalesmanScreen extends StatelessWidget {
                   print(
                       "daily Target: ${managementController.dailyTargetController.text}");
                   print("Type: ${managementController.selectedType}");
-                  print("Region: ${managementController.selectedRegion}");
+                  print("Region: ${managementController.selectedRegion?.id}");
 
                   managementController.validateForm(
                     context: context,

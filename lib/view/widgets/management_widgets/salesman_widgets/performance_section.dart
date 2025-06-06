@@ -40,21 +40,21 @@ class PerformanceSection extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: MoreDetailsWidget(
-            title: AppLocalizations.of(context)!.summary_of_top_customers,
-            backgroundColor: Color(0xFFECF0F6),
-            children: [
-              ListView.builder(
-                itemBuilder: (context, index) {
-                  return InputWidget(
-                      textEditingController: TextEditingController());
-                },
-              ),
-            ],
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 10),
+        //   child: MoreDetailsWidget(
+        //     title: AppLocalizations.of(context)!.summary_of_top_customers,
+        //     backgroundColor: Color(0xFFECF0F6),
+        //     children: [
+        //       ListView.builder(
+        //         itemBuilder: (context, index) {
+        //           return InputWidget(
+        //               textEditingController: TextEditingController());
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

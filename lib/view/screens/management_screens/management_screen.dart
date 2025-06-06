@@ -20,79 +20,87 @@ class ManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-    final clientsController =
-        Provider.of<ClientsController>(context);
+    final clientsController = Provider.of<ClientsController>(context);
+    final salesmanController = Provider.of<SalesmanController>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (salesmanController.salesMen.isEmpty && !salesmanController.isLoading) {
+        salesmanController.fetchSalesmen();
+      }
+    });
+
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: MainAppbarWidget(
-          title: AppLocalizations.of(context)!.management_screen,
-        ),
-        body: Consumer2<SalesmanController, ManagementController>(
-          builder: (context, salesmanController, managementController, child) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              salesmanController.salesMen;
-            });
-            return SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CategoryButtonsWidget(),
-                  SizedBox(height: 18.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: InputWidget(
-                      textEditingController: searchController,
-                      obscureText: false,
-                      backgroundColor: AppConstants.buttonColor,
-                      label: AppLocalizations.of(context)!.search,
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.filter_list),
-                      ),
+      backgroundColor: Colors.white,
+      appBar: MainAppbarWidget(
+        title: AppLocalizations.of(context)!.management_screen,
+      ),
+      body: Consumer2<SalesmanController, ManagementController>(
+        builder: (context, salesmanCtrl, managementCtrl, child) {
+          return SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CategoryButtonsWidget(),
+                SizedBox(height: 18.h),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: InputWidget(
+                    textEditingController: searchController,
+                    obscureText: false,
+                    backgroundColor: AppConstants.buttonColor,
+                    label: AppLocalizations.of(context)!.search,
+                    suffixIcon: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.filter_list),
                     ),
                   ),
-                  if (managementController.selectedCategory ==
-                      AppLocalizations.of(context)!.clients)
-                    CategoryListViewWidget(
-                      items: clientsController.clients
-                    )
-                  else
-                    CategoryGridViewWidget(items: salesmanController.salesMen),
-                ],
-              ),
-            );
-          },
+                ),
+                if (managementCtrl.selectedCategory ==
+                    AppLocalizations.of(context)!.clients)
+                  CategoryListViewWidget(items: clientsController.clients)
+                else
+                  CategoryGridViewWidget(items: salesmanController.salesMen),
+              ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: "1",
+        shape: OvalBorder(),
+        backgroundColor: AppConstants.primaryColor2,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 25.sp,
         ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: "1",
-          shape: OvalBorder(),
-          backgroundColor: AppConstants.primaryColor2,
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 25.sp,
-          ),
-          onPressed: () {
-            final managementController =
-                Provider.of<ManagementController>(context, listen: false);
+        onPressed: () {
+          final managementController =
+          Provider.of<ManagementController>(context, listen: false);
 
-            if (managementController.selectedCategory ==
-                AppLocalizations.of(context)!.sales_men) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddSalesmanScreen()),
-              );
-            } else if (managementController.selectedCategory ==
-                AppLocalizations.of(context)!.clients) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SetLocationScreen()),
-              );
-            }
-          },
-        ),
-        resizeToAvoidBottomInset: false);
+          if (managementController.selectedCategory ==
+              AppLocalizations.of(context)!.sales_men) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddSalesmanScreen()),
+            );
+          } else if (managementController.selectedCategory ==
+              AppLocalizations.of(context)!.clients) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SetLocationScreen()),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddSalesmanScreen()),
+            );
+          }
+        },
+      ),
+      resizeToAvoidBottomInset: false,
+    );
   }
 }

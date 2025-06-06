@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/repository/address_repository.dart';
+import 'package:test_sales/controller/address_controller.dart';
 import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/location_controller.dart';
@@ -290,8 +290,8 @@ class AddClientScreen extends StatelessWidget {
                       latitude: location.latitude,
                       longitude: location.longitude,
                     );
-                    final addressRepository = Provider.of<AddressRepository>(context, listen: false);
-                    final savedAddress = await addressRepository.save(address);
+                    final addressController = Provider.of<AddressController>(context, listen: false);
+                    final savedAddress = await addressController.saveAddress(address);
 
                     clientsController.addNewClient(Client(
                       tradeName: clientsController.clientNameController.text,

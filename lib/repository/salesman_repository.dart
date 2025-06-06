@@ -53,11 +53,17 @@ class SalesmanRepository {
   }
 
   Future<SalesMan> createSalesman(SalesMan salesman) async {
-    return await _api.postData<SalesMan>(
-      table: 'salesmen',
-      body: salesman.toJson(),
-      fromJsonT: (json) => SalesMan.fromJson(json),
-    );
+    try {
+      final response = await _api.postData(
+        table: 'salesmen',
+        body: salesman.toJson(),
+        fromJsonT: (json) => SalesMan.fromJson(json),
+      );
+      return response;
+    } catch (e) {
+      print("Error creating salesman: $e");
+      rethrow;
+    }
   }
 
   Future<SalesMan> updateSalesman(SalesMan salesman) async {

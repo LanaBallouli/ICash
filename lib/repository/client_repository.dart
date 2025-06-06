@@ -37,14 +37,12 @@ class ClientRepository {
 
     if (clientIds.isEmpty) return [];
 
-    final clients = await _api.filterData<Client>(
+    return await _api.filterData<Client>(
       table: 'clients',
       column: 'id',
       value: 'in.(${clientIds.join(",")})',
       fromJsonT: (json) => Client.fromJson(json),
     );
-
-    return clients;
   }
 
   /// Add new client

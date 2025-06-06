@@ -11,7 +11,6 @@ import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
-import '../../../../model/region.dart';
 import '../../../../model/salesman.dart';
 
 class UpdateSalesmanScreen extends StatefulWidget {
@@ -34,9 +33,25 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
   @override
   void initState() {
     super.initState();
-    managementController =
-        Provider.of<ManagementController>(context, listen: false);
+    managementController = Provider.of<ManagementController>(context, listen: false);
+  }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Now it's safe to use context
+    final allRegions = AppConstants.getRegions(context);
+    final selectedRegion = allRegions.firstWhere(
+          (r) => r.id == widget.salesman.regionId,
+      orElse: () => allRegions.first,
+    );
+
+    // Set region and type safely here
+    managementController.setSelectedRegion(selectedRegion, context);
+    managementController.setSelectedType(widget.salesman.type, context);
+
+    // Set initial values in text controllers
     managementController.nameController.text = widget.salesman.fullName;
     managementController.emailController.text = widget.salesman.email;
     managementController.phoneNumberController.text = widget.salesman.phone;
@@ -46,15 +61,6 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
         widget.salesman.dailyTarget.toString();
     managementController.notesController.text = widget.salesman.notes;
     managementController.passwordController.text = widget.salesman.password;
-
-    final allRegions = AppConstants.getRegions(context);
-    final selectedRegion = allRegions.firstWhere(
-          (r) => r.id == widget.salesman.regionId,
-      orElse: () => allRegions.first,
-    );
-
-    managementController.setSelectedRegion(selectedRegion, context);
-    managementController.setSelectedType(widget.salesman.type, context);
   }
 
   @override
@@ -144,6 +150,11 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                     managementController.setSelectedRegion(value, context),
                 err: managementController.errors['region'],
               ),
+              TypeInputWidget(
+                hintText: AppLocalizations.of(context)!.choose_salesman_type,
+                typeOptions: AppConstants.getTypes(context),
+                selectedType: managementController.selectedType,
+              ),
               ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.select_target_prompt,
                 controller: managementController.monthlyTargetController,
@@ -168,12 +179,6 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 ),
                 errorText: managementController.errors['daily_target'],
               ),
-              TypeInputWidget(
-                hintText: AppLocalizations.of(context)!.choose_salesman_type,
-                typeOptions: AppConstants.getTypes(context),
-                selectedType: managementController.selectedType,
-              ),
-              SizedBox(height: 15.h),
               ManagementInputWidget(
                 hintText: AppLocalizations.of(context)!.add_notes,
                 controller: managementController.notesController,

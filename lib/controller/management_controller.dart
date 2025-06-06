@@ -17,7 +17,7 @@ class ManagementController extends ChangeNotifier {
 
   void setSelectedRegion(Region? value, BuildContext context) {
     selectedRegion = value;
-    validateField(field: 'region', value: value?.name, context: context);
+    validateField(field: 'region', value: value, context: context);
     notifyListeners();
   }
 

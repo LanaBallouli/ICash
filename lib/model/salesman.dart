@@ -61,7 +61,7 @@ class SalesMan {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'full_name': fullName,
       'email': email,
       'phone': phone,

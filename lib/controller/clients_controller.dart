@@ -13,6 +13,7 @@ class ClientsController extends ChangeNotifier {
   final ClientRepository repository;
   List<Client> clients = [];
   bool isLoading = false;
+  String errorMessage = "";
 
 
   final TextEditingController clientNameController = TextEditingController();
@@ -47,10 +48,16 @@ class ClientsController extends ChangeNotifier {
       clients = await repository.getClientsBySalesman(salesmanId);
       notifyListeners();
     } catch (e) {
-      _handleError(e, "fetching clients for salesman");
+      _setError("Failed to load clients for this salesman");
+      print("Error fetching clients by salesman: $e");
     } finally {
       _setLoading(false);
     }
+  }
+
+  void _setError(String message) {
+    errorMessage = message;
+    notifyListeners();
   }
 
   Future<void> addNewClient(Client client) async {
