@@ -46,7 +46,7 @@ class Address {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'street': street,
       'building_number': buildingNumber,
       'additional_directions': additionalDirections,

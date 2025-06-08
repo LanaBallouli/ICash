@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
-import '../model/client.dart';
-import '../model/invoice.dart';
-import '../model/monthly_sales.dart';
-import '../model/product.dart';
 import '../model/region.dart';
-import '../model/salesman.dart';
-import '../model/visit.dart';
 
 class ManagementController extends ChangeNotifier {
   int selectedIndex = 0;

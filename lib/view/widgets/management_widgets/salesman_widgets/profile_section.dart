@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:test_sales/model/salesman.dart';
-
 import '../../../../l10n/app_localizations.dart';
+import '../../../../model/region.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
+import '../../../../app_constants.dart';
 
 class ProfileSection extends StatelessWidget {
   final SalesMan salesman;
@@ -20,6 +21,15 @@ class ProfileSection extends StatelessWidget {
       return formatter.format(dateTime);
     }
 
+    String getRegionName(int regionId) {
+      final regions = AppConstants.getRegions(context);
+      final region = regions.firstWhere(
+            (r) => r.id == regionId,
+        orElse: () => Region(id: -1, name: "AppLocalizations.of(context)!.unknown_region"),
+      );
+      return region.name;
+    }
+
     final profileDetails = [
       {
         "label": AppLocalizations.of(context)!.user_name,
@@ -31,7 +41,7 @@ class ProfileSection extends StatelessWidget {
       },
       {
         "label": AppLocalizations.of(context)!.phone,
-        "value": salesman.phone?.toString() ?? "N/A",
+        "value": salesman.phone ?? "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.type,
@@ -39,7 +49,9 @@ class ProfileSection extends StatelessWidget {
       },
       {
         "label": AppLocalizations.of(context)!.region,
-        "value": salesman.regionId.toString() ?? "N/A",
+        "value": salesman.regionId != null
+            ? getRegionName(salesman.regionId)
+            : "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.status,
@@ -52,13 +64,14 @@ class ProfileSection extends StatelessWidget {
       {
         "label": AppLocalizations.of(context)!.monthly_target,
         "value": salesman.monthlyTarget != null
-            ? salesman.monthlyTarget.toString()
+            ? "${salesman.monthlyTarget.toString()} JD"
             : "N/A",
       },
       {
         "label": AppLocalizations.of(context)!.daily_target,
-        "value":
-            salesman.dailyTarget != null ? salesman.dailyTarget.toString() : "N/A",
+        "value": salesman.dailyTarget != null
+            ? "${salesman.dailyTarget.toString()} JD"
+            : "N/A",
       },
     ];
 
@@ -76,7 +89,7 @@ class ProfileSection extends StatelessWidget {
                 children: [
                   InputWidget(
                     textEditingController:
-                        TextEditingController(text: detail["value"]),
+                    TextEditingController(text: detail["value"]),
                     label: "${detail["label"]}",
                     readOnly: true,
                   ),

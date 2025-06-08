@@ -14,7 +14,6 @@ class Client {
   final String status;
   final String type;
   final String notes;
-  final List<int> invoiceIds; // List of foreign keys referencing Invoice
 
   Client({
     this.id,
@@ -32,7 +31,6 @@ class Client {
     this.status = "Active",
     this.type = "Cash",
     this.notes = "",
-    this.invoiceIds = const [],
   });
 
   factory Client.fromJson(Map<String, dynamic> json) {
@@ -52,13 +50,12 @@ class Client {
       status: json['status'] ?? "Active",
       type: json['type'] ?? "Cash",
       notes: json['notes'] ?? "",
-      invoiceIds: List<int>.from(json['invoice_ids'] ?? []),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'trade_name': tradeName,
       'person_in_charge': personInCharge,
       'created_at': createdAt.toIso8601String(),
@@ -73,7 +70,6 @@ class Client {
       'status': status,
       'type': type,
       'notes': notes,
-      'invoice_ids': invoiceIds,
     };
   }
 
@@ -113,7 +109,6 @@ class Client {
       status: status ?? this.status,
       type: type ?? this.type,
       notes: notes ?? this.notes,
-      invoiceIds: invoiceIds ?? this.invoiceIds,
     );
   }
 }

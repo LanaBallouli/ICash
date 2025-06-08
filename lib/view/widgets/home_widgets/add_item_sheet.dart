@@ -104,7 +104,7 @@ class AddItemSheet extends StatelessWidget {
                 builder: (context, productController, child) {
                   final selectedProduct =
                       productController.selectedProductDetails;
-                  final unitPrice = selectedProduct?.price?.toString() ?? "N/A";
+                  final unitPrice = selectedProduct?.price.toString() ?? "N/A";
                   return _buildStaticField(
                     title: AppLocalizations.of(context)!.unit_price,
                     value: unitPrice,

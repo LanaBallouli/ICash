@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -64,7 +63,7 @@ class ProductController extends ChangeNotifier {
       isLoading = true;
       final response = await supabase.from('products').select('*');
 
-      if (response.isEmpty || !(response is List)) {
+      if (response.isEmpty) {
         throw Exception('Error fetching products');
       }
 
@@ -101,12 +100,8 @@ class ProductController extends ChangeNotifier {
           (p) => p.id == product.id,
     );
 
-    if (existingProduct == null) {
-      invoiceProducts.add(product);
-    } else {
-      print('Product already exists in the invoice.');
-    }
-
+    print('Product already exists in the invoice.');
+  
     notifyListeners();
   }
 
@@ -120,10 +115,8 @@ class ProductController extends ChangeNotifier {
           (p) => p.id == product.id,
     );
 
-    if (existingProduct != null) {
-      print('Updated quantity for product ${product.name}');
-    }
-
+    print('Updated quantity for product ${product.name}');
+  
     notifyListeners();
   }
 }

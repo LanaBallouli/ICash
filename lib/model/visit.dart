@@ -1,5 +1,5 @@
 class Visit {
-  final int id;
+  final int? id;
   final DateTime visitDate;
   final String notes;
   final DateTime? nextVisitTime;
@@ -7,7 +7,7 @@ class Visit {
   final int clientId; // Foreign key referencing Client
 
   Visit({
-    required this.id,
+    this.id,
     required this.visitDate,
     this.notes = "",
     this.nextVisitTime,
@@ -20,7 +20,9 @@ class Visit {
       id: json['id'],
       visitDate: DateTime.parse(json['visit_date']),
       notes: json['notes'] ?? "",
-      nextVisitTime: json['next_visit_time'] != null ? DateTime.parse(json['next_visit_time']) : null,
+      nextVisitTime: json['next_visit_time'] != null
+          ? DateTime.parse(json['next_visit_time'])
+          : null,
       userId: json['user_id'],
       clientId: json['client_id'],
     );
@@ -28,7 +30,7 @@ class Visit {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'visit_date': visitDate.toIso8601String(),
       'notes': notes,
       'next_visit_time': nextVisitTime?.toIso8601String(),

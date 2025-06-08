@@ -308,7 +308,6 @@ class AddClientScreen extends StatelessWidget {
                       status: "Active",
                       type: clientsController.clientSelectedType ?? "Cash",
                       notes: clientsController.clientNotesController.text,
-                      invoiceIds: [],
                     ));
 
                     print("Debug: New client added successfully.");

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:test_sales/controller/lang_controller.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({super.key});

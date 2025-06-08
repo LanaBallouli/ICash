@@ -23,19 +23,32 @@ class ManagementScreen extends StatelessWidget {
     final clientsController = Provider.of<ClientsController>(context);
     final salesmanController = Provider.of<SalesmanController>(context, listen: false);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (salesmanController.salesMen.isEmpty && !salesmanController.isLoading) {
-        salesmanController.fetchSalesmen();
-      }
-    });
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
         title: AppLocalizations.of(context)!.management_screen,
       ),
-      body: Consumer2<SalesmanController, ManagementController>(
-        builder: (context, salesmanCtrl, managementCtrl, child) {
+      body: Consumer2<SalesmanController, ClientsController>(
+        builder: (context, salesmanCtrl, clientsCtrl, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final managementController =
+            Provider.of<ManagementController>(context, listen: false);
+
+            if (managementController.selectedCategory ==
+                AppLocalizations.of(context)!.clients) {
+              if (!clientsCtrl.isLoading && !clientsCtrl.hasLoadedOnce) {
+                clientsController.fetchAllClients();
+              }
+            } else {
+              if (!salesmanCtrl.isLoading && !salesmanCtrl.hasLoadedOnce) {
+                salesmanController.fetchSalesmen();
+              }
+            }
+          });
+
+          final managementController =
+          Provider.of<ManagementController>(context);
+
           return SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
@@ -53,15 +66,16 @@ class ManagementScreen extends StatelessWidget {
                     label: AppLocalizations.of(context)!.search,
                     suffixIcon: IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.filter_list),
+                      icon: Icon(Icons.filter_list),
                     ),
                   ),
                 ),
-                if (managementCtrl.selectedCategory ==
+                SizedBox(height: 20.h),
+                if (managementController.selectedCategory ==
                     AppLocalizations.of(context)!.clients)
-                  CategoryListViewWidget(items: clientsController.clients)
+                  _buildClientContent(context, clientsController)
                 else
-                  CategoryGridViewWidget(items: salesmanController.salesMen),
+                  _buildSalesmanContent(context, salesmanController),
               ],
             ),
           );
@@ -92,15 +106,66 @@ class ManagementScreen extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => SetLocationScreen()),
             );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddSalesmanScreen()),
-            );
           }
         },
       ),
       resizeToAvoidBottomInset: false,
     );
+  }
+
+  Widget _buildClientContent(BuildContext context, ClientsController controller) {
+    final local = AppLocalizations.of(context)!;
+
+    if (controller.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (controller.errorMessage.isNotEmpty) {
+      return Center(
+        child: Text(
+          controller.errorMessage,
+          style: TextStyle(color: Colors.red, fontSize: 14.sp),
+        ),
+      );
+    }
+
+    if (controller.clients.isEmpty) {
+      return Center(
+        child: Text(
+          "local.no_clients_yet",
+          style: TextStyle(fontSize: 16.sp, color: Colors.black54),
+        ),
+      );
+    }
+
+    return CategoryListViewWidget(items: controller.clients);
+  }
+
+  Widget _buildSalesmanContent(BuildContext context, SalesmanController controller) {
+    final local = AppLocalizations.of(context)!;
+
+    if (controller.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (controller.errorMessage.isNotEmpty) {
+      return Center(
+        child: Text(
+          controller.errorMessage,
+          style: TextStyle(color: Colors.red, fontSize: 14.sp),
+        ),
+      );
+    }
+
+    if (controller.salesMen.isEmpty) {
+      return Center(
+        child: Text(
+          "local.no_salesmen_yet",
+          style: TextStyle(fontSize: 16.sp, color: Colors.black54),
+        ),
+      );
+    }
+
+    return CategoryGridViewWidget(items: controller.salesMen);
   }
 }

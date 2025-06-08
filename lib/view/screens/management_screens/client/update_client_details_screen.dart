@@ -356,7 +356,6 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                   status: widget.client.status,
                   type: clientsController.clientSelectedType ?? "Cash",
                   notes: clientsController.clientNotesController.text,
-                  invoiceIds: widget.client.invoiceIds,
                 );
 
                 await clientsController.updateClient(client: updatedClient,index:  widget.index);

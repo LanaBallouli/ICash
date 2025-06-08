@@ -37,7 +37,7 @@ class InvoiceItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'invoice_id': invoiceId,
       'product_id': productId,
       'quantity': quantity,

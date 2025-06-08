@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:test_sales/controller/management_controller.dart';
 import '../../../../app_constants.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';

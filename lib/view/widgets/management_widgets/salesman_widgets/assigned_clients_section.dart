@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/controller/clients_controller.dart';
-import '../../../../app_constants.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../model/salesman.dart';
-import '../../main_widgets/custom_button_widget.dart';
 import '../../main_widgets/input_widget.dart';
 import '../main/more_details_widget.dart';
 
@@ -18,13 +16,11 @@ class AssignedClientsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final clientsController = Provider.of<ClientsController>(context);
 
-    // Trigger fetch only if:
-    // - No data yet (empty list)
-    // - Not already loading
-    // - Salesman has valid id
-    if (clientsController.clients.isEmpty &&
+    final shouldFetch = salesman.id != null &&
         !clientsController.isLoading &&
-        salesman.id != null) {
+        clientsController.lastFetchedSalesmanId != salesman.id;
+
+    if (shouldFetch) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         clientsController.fetchClientsBySalesman(salesman.id!);
       });
@@ -50,32 +46,9 @@ class AssignedClientsSection extends StatelessWidget {
     }
 
     if (controller.errorMessage.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Icon(Icons.error_outline, color: Colors.red, size: 30.r),
-            Text(
-              controller.errorMessage,
-              style: TextStyle(color: Colors.red, fontSize: 14.sp),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 10.h),
-            CustomButtonWidget(
-              title: "local.retry",
-              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
-              titleColor: Colors.white,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-              onPressed: () {
-                final salesmanId = ModalRoute.of(context)?.settings.arguments as int?;
-                if (salesmanId != null) {
-                  controller.fetchClientsBySalesman(salesmanId);
-                }
-              },
-            ),
-          ],
-        ),
+      return Text(
+        controller.errorMessage,
+        style: TextStyle(color: Colors.red),
       );
     }
 
@@ -98,9 +71,7 @@ class AssignedClientsSection extends StatelessWidget {
               TextEditingController(text: client.tradeName ?? "N/A"),
               label: AppLocalizations.of(context)!.client_name,
               suffixIcon: IconButton(
-                onPressed: () {
-                  // Navigate to client details screen if needed
-                },
+                onPressed: () {},
                 icon: Icon(Icons.arrow_forward),
               ),
               readOnly: true,
@@ -110,5 +81,4 @@ class AssignedClientsSection extends StatelessWidget {
         );
       },
     );
-  }
-}
+  }}

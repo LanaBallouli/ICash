@@ -6,7 +6,6 @@ import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
-import '../../../../controller/management_controller.dart';
 import '../../main_widgets/input_widget.dart';
 
 class UploadPhotos extends StatelessWidget {

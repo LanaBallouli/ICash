@@ -212,5 +212,15 @@
   "eastAmman2": "East Amman 2",
   "westAmman1": "West Amman 1",
   "westAmman2": "West Amman 2",
-  "zarqaAndRusseifa": "Zarqa and Russeifa"
+  "zarqaAndRusseifa": "Zarqa and Russeifa",
+  "retry": "Retry",
+  "loading": "Loading",
+  "no_invoices_available": "No invoices available",
+  "no_visits_yet": "No visits yet",
+  "no_next_visits_scheduled": "No next visits scheduled"
+
+
+
+
+
 }

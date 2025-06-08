@@ -165,7 +165,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
               content: AppLocalizations.of(context)!.delete_user,
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
-                salesmanController.deleteSalesman(users);
+                salesmanController.deleteSalesman(users.id!);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

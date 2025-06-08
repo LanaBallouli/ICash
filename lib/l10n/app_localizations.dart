@@ -1378,6 +1378,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Zarqa and Russeifa'**
   String get zarqaAndRusseifa;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loading;
+
+  /// No description provided for @no_invoices_available.
+  ///
+  /// In en, this message translates to:
+  /// **'No invoices available'**
+  String get no_invoices_available;
+
+  /// No description provided for @no_visits_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No visits yet'**
+  String get no_visits_yet;
+
+  /// No description provided for @no_next_visits_scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'No next visits scheduled'**
+  String get no_next_visits_scheduled;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

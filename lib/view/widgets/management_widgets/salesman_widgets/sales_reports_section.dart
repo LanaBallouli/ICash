@@ -17,10 +17,10 @@ class SalesReportsSection extends StatelessWidget {
     final invoicesController = Provider.of<InvoicesController>(context);
     final local = AppLocalizations.of(context)!;
 
-    // Load salesman's invoices when screen loads
+    // Load salesman's invoices once
     if (!invoicesController.isLoading && invoicesController.invoices.isEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (users.id != null) {
+        if (users.id != null && !invoicesController.hasLoadedForSalesman(users.id!)) {
           invoicesController.fetchInvoicesBySalesman(users.id!);
         }
       });
@@ -34,7 +34,7 @@ class SalesReportsSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(text: _getMonthlyTargetAchievement(users)),
+            textEditingController: TextEditingController(text: _getMonthlyTargetAchievement(users, context)),
             label: local.monthly_target_achievement,
             readOnly: true,
           ),
@@ -45,7 +45,9 @@ class SalesReportsSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
-            textEditingController: TextEditingController(text: _getTotalMonthlySales(invoicesController, context)),
+            textEditingController: TextEditingController(
+                text: _getTotalMonthlySales(invoicesController, context)
+            ),
             label: local.monthly_sales,
             readOnly: true,
             suffixIcon: IconButton(
@@ -89,9 +91,9 @@ class SalesReportsSection extends StatelessWidget {
   }
 
   /// Helper to get percentage of target achieved
-  String _getMonthlyTargetAchievement(SalesMan user) {
+  String _getMonthlyTargetAchievement(SalesMan user, BuildContext context) {
     if (user.monthlyTarget == 0.0 || user.totalSales == 0.0) {
-      return "N/A";
+      return "AppLocalizations.of(context)!.n_a";
     }
     final percent = ((user.totalSales / user.monthlyTarget) * 100).toStringAsFixed(2);
     return "$percent%";
@@ -99,8 +101,10 @@ class SalesReportsSection extends StatelessWidget {
 
   /// Helper to calculate only this month's sales
   String _getTotalMonthlySales(InvoicesController invoicesCtrl, BuildContext context) {
+    final local = AppLocalizations.of(context)!;
+
     if (invoicesCtrl.isLoading) {
-      return "AppLocalizations.of(context)!.loading";
+      return local.loading;
     }
 
     final now = DateTime.now();

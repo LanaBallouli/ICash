@@ -57,7 +57,7 @@ class RecentActivitySection extends StatelessWidget {
         a.creationTime.isAfter(b.creationTime) ? a : b);
         return "${latest.total.toStringAsFixed(2)} JD";
       }
-      return "local.no_invoices_available";
+      return local.no_invoices_available;
     }
 
     String getLatestVisitDate() {
@@ -66,7 +66,7 @@ class RecentActivitySection extends StatelessWidget {
         a.visitDate.isAfter(b.visitDate) ? a : b);
         return formatDateWithTime(latest.visitDate);
       }
-      return "local.no_visits_yet";
+      return local.no_visits_yet;
     }
 
     String getNextVisitDate() {
@@ -81,7 +81,7 @@ class RecentActivitySection extends StatelessWidget {
             : b);
         return formatDateWithTime(next.nextVisitTime);
       }
-      return "local.no_next_visits_scheduled";
+      return local.no_next_visits_scheduled;
     }
 
     final latestInvoiceAmount = getLatestInvoiceAmount();

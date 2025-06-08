@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
@@ -12,7 +11,7 @@ class ButtonWidget extends StatelessWidget {
   Function() onPressed;
 
   ButtonWidget(
-      {required this.buttonName,
+      {super.key, required this.buttonName,
         required this.buttonColor,
         required this.textColor,
         required this.onPressed});

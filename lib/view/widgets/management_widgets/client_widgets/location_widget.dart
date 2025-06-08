@@ -75,10 +75,8 @@ class _LocationWidgetState extends State<LocationWidget> {
               onMapCreated: (GoogleMapController controller) {},
               onTap: null,
               onCameraIdle: () {
-                if (_selectedLocation != null) {
-                  _fetchAreaName(_selectedLocation.latitude, _selectedLocation.longitude);
-                }
-              },
+                _fetchAreaName(_selectedLocation.latitude, _selectedLocation.longitude);
+                            },
             ),
           ),
           SizedBox(height: 16.h),

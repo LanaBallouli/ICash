@@ -52,7 +52,7 @@ class Invoice {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'invoice_number': invoiceNumber,
       'type': type,
       'client_id': clientId,

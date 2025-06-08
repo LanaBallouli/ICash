@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
-import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/model/salesman.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_screens/salesmen_more_details_screen.dart';

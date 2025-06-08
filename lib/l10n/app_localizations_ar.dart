@@ -649,4 +649,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get zarqaAndRusseifa => 'الزرقاء والرصيفة';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get loading => 'تحميل';
+
+  @override
+  String get no_invoices_available => 'لا فواتير متاحة';
+
+  @override
+  String get no_visits_yet => 'لا زيارات حتى الآن';
+
+  @override
+  String get no_next_visits_scheduled => 'لا توجد زيارات التالية مجدولة';
 }

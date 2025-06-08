@@ -27,7 +27,7 @@ class MonthlySales {
   /// Converts the `MonthlySales` object to JSON.
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'user_id': userId,
       'total_sales': totalSales,
       'start_date': startDate?.toIso8601String(),

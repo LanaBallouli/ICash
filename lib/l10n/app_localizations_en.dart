@@ -649,4 +649,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get zarqaAndRusseifa => 'Zarqa and Russeifa';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get loading => 'Loading';
+
+  @override
+  String get no_invoices_available => 'No invoices available';
+
+  @override
+  String get no_visits_yet => 'No visits yet';
+
+  @override
+  String get no_next_visits_scheduled => 'No next visits scheduled';
 }

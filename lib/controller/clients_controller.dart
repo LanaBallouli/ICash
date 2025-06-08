@@ -14,8 +14,10 @@ class ClientsController extends ChangeNotifier {
   List<Client> clients = [];
   bool isLoading = false;
   String errorMessage = "";
+  int? lastFetchedSalesmanId;
+  bool hasLoadedOnce = false;
 
-
+  // Controllers for form input
   final TextEditingController clientNameController = TextEditingController();
   final TextEditingController clientPersonInChargeController = TextEditingController();
   final TextEditingController clientPhoneController = TextEditingController();
@@ -29,34 +31,38 @@ class ClientsController extends ChangeNotifier {
 
   ClientsController(this.repository);
 
+  Future<void> fetchAllClients() async {
+    if (isLoading || hasLoadedOnce) return;
 
-  Future<void> fetchClients() async {
     _setLoading(true);
     try {
       clients = await repository.getAllClients();
-      notifyListeners();
+      hasLoadedOnce = true;
     } catch (e) {
-      _handleError(e, "fetching clients");
+      _setError("Failed to load clients");
+      print("Error fetching clients: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   Future<void> fetchClientsBySalesman(int salesmanId) async {
+    if (lastFetchedSalesmanId == salesmanId && clients.isNotEmpty) {
+      return;
+    }
+
     _setLoading(true);
     try {
       clients = await repository.getClientsBySalesman(salesmanId);
-      notifyListeners();
+      lastFetchedSalesmanId = salesmanId;
+      hasLoadedOnce = true;
     } catch (e) {
       _setError("Failed to load clients for this salesman");
       print("Error fetching clients by salesman: $e");
     } finally {
       _setLoading(false);
     }
-  }
-
-  void _setError(String message) {
-    errorMessage = message;
     notifyListeners();
   }
 
@@ -67,23 +73,26 @@ class ClientsController extends ChangeNotifier {
       clients.add(added);
       notifyListeners();
     } catch (e) {
-      _handleError(e, "adding client");
+      _setError("Failed to add new client");
+      print("Error adding client: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   Future<void> updateClient({required Client client, required int index}) async {
     _setLoading(true);
     try {
-      final updatedClient = await repository.updateClient(client);
-      clients[index] = updatedClient;
-      notifyListeners();
+      final updated = await repository.updateClient(client);
+      clients[index] = updated;
     } catch (e) {
-      _handleError(e, "updating client");
+      _setError("Failed to update client");
+      print("Error updating client: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   Future<void> deleteClient(int id) async {
@@ -91,12 +100,13 @@ class ClientsController extends ChangeNotifier {
     try {
       await repository.deleteClient(id);
       clients.removeWhere((client) => client.id == id);
-      notifyListeners();
     } catch (e) {
-      _handleError(e, "deleting client");
+      _setError("Failed to delete client");
+      print("Error deleting client: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   void _setLoading(bool value) {
@@ -351,7 +361,9 @@ class ClientsController extends ChangeNotifier {
     clientAdditionalInfoController.clear();
   }
 
-  void _handleError(dynamic error, String operation) {
-    print("Error $operation: $error");
+  void _setError(String message) {
+    errorMessage = message;
+    notifyListeners();
   }
+
 }

@@ -7,6 +7,7 @@ class InvoicesController extends ChangeNotifier {
   List<Invoice> invoices = [];
   bool isLoading = false;
   String? errorMessage;
+  int? lastFetchedSalesmanId;
 
   InvoicesController(this.repository);
 
@@ -43,15 +44,25 @@ class InvoicesController extends ChangeNotifier {
   }
 
   Future<void> fetchInvoicesBySalesman(int salesmanId) async {
+    if (lastFetchedSalesmanId == salesmanId && invoices.isNotEmpty) {
+      return;
+    }
+
     _setLoading(true);
     try {
       invoices = await repository.getInvoicesBySalesmanId(salesmanId);
+      lastFetchedSalesmanId = salesmanId;
     } catch (e) {
-      _setError("fetching invoices by salesman");
+      _setError("Failed to load invoices");
+      print("Error fetching invoices by salesman: $e");
     } finally {
       _setLoading(false);
     }
     notifyListeners();
+  }
+
+  bool hasLoadedForSalesman(int salesmanId) {
+    return lastFetchedSalesmanId == salesmanId;
   }
 
 

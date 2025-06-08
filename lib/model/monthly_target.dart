@@ -26,13 +26,13 @@ class MonthlyTarget {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['target_amount'] = this.targetAmount;
-    data['progress'] = this.progress;
-    data['created_by'] = this.createdBy;
-    data['created_at'] = this.createdAt;
-    data['start_date'] = this.startDate;
-    data['end_date'] = this.endDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['target_amount'] = targetAmount;
+    data['progress'] = progress;
+    data['created_by'] = createdBy;
+    data['created_at'] = createdAt;
+    data['start_date'] = startDate;
+    data['end_date'] = endDate;
     return data;
   }
 }

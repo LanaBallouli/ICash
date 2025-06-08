@@ -8,32 +8,45 @@ class SalesmanController extends ChangeNotifier {
   List<SalesMan> salesMen = [];
   bool isLoading = false;
   List<SalesMan> assignedSalesmen = [];
+  String errorMessage = "";
+  bool hasLoadedOnce = false;
+  int? lastFetchedRegionId;
+
 
   SalesmanController(this.repository);
 
 
   Future<void> fetchSalesmen() async {
+    if (isLoading || hasLoadedOnce) return;
+
     _setLoading(true);
     try {
       salesMen = await repository.getAllSalesmen();
-      notifyListeners();
+      hasLoadedOnce = true;
     } catch (e) {
-      _handleError(e, "fetching salesmen");
+      _setError("Failed to load salesmen");
+      print("Error fetching salesmen: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   Future<void> fetchSalesmenByRegion(int regionId) async {
+    if (isLoading && lastFetchedRegionId == regionId) return;
+
     _setLoading(true);
     try {
       salesMen = await repository.getSalesmenByRegion(regionId);
-      notifyListeners();
+      lastFetchedRegionId = regionId;
+      hasLoadedOnce = true;
     } catch (e) {
-      _handleError(e, "fetching salesmen by region");
+      _setError("Failed to load salesmen for this region");
+      print("Error fetching salesmen by region: $e");
     } finally {
       _setLoading(false);
     }
+    notifyListeners();
   }
 
   Future<void> addNewSalesman(SalesMan salesman) async {
@@ -43,7 +56,8 @@ class SalesmanController extends ChangeNotifier {
       salesMen.add(added);
       notifyListeners();
     } catch (e) {
-      _handleError(e, "adding new salesman");
+      _setError("Failed to add new salesman");
+      print("Error adding salesman: $e");
     } finally {
       _setLoading(false);
     }
@@ -56,38 +70,36 @@ class SalesmanController extends ChangeNotifier {
       salesMen[index] = updated;
       notifyListeners();
     } catch (e) {
-      _handleError(e, "updating salesman");
+      _setError("Failed to update salesman");
+      print("Error updating salesman: $e");
     } finally {
       _setLoading(false);
     }
   }
 
-  Future<void> deleteSalesman(SalesMan salesman) async {
+  Future<void> deleteSalesman(int id) async {
     _setLoading(true);
     try {
-      await repository.deleteSalesman(salesman.id!);
-      salesMen.removeWhere((s) => s.id == salesman.id);
+      await repository.deleteSalesman(id);
+      salesMen.removeWhere((salesman) => salesman.id == id);
       notifyListeners();
     } catch (e) {
-      _handleError(e, "deleting salesman");
+      _setError("Failed to delete salesman");
+      print("Error deleting salesman: $e");
     } finally {
       _setLoading(false);
     }
   }
 
   Future<List<SalesMan>> getAssignedSalesmen(int clientId) async {
-    _setLoading(true);
-
     try {
       final salesmen = await repository.getSalesmenByClientId(clientId);
-      assignedSalesmen = salesmen;
       notifyListeners();
       return salesmen;
     } catch (e) {
-      _handleError(e, "loading salesmen for client");
+      _setError("Failed to load assigned salesmen");
+      print("Error fetching assigned salesmen: $e");
       return [];
-    } finally {
-      _setLoading(false);
     }
   }
 
@@ -109,7 +121,8 @@ class SalesmanController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _handleError(dynamic error, String operation) {
-    print("Error $operation: $error");
+  void _setError(String message) {
+    errorMessage = message;
+    notifyListeners();
   }
 }

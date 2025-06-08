@@ -74,7 +74,12 @@ class ClientsWidget extends StatelessWidget {
                         region ?? "N/A",
                         langController,
                       ),
-
+                      // _buildDetailRow(
+                      //   context,
+                      //   AppLocalizations.of(context)!.region,
+                      //   client ?? "N/A",
+                      //   langController,
+                      // ),
                     ],
                   ),
                 ),
@@ -125,7 +130,7 @@ class ClientsWidget extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.h),
-        child: Container(
+        child: SizedBox(
           width: 200.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

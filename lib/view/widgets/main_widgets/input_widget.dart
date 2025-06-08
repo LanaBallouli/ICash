@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 
-import '../../../app_constants.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -26,6 +25,7 @@ class InputWidget extends StatelessWidget {
   final int? maxLines;
   final Function()? onTap;
   final FocusNode? focusNode;
+  final double? borderRaduis;
 
   const InputWidget({
     super.key,
@@ -47,7 +47,8 @@ class InputWidget extends StatelessWidget {
     this.height,
     this.maxLines,
     this.onTap,
-    this.focusNode
+    this.focusNode,
+    this.borderRaduis
   });
 
   @override
@@ -59,7 +60,7 @@ class InputWidget extends StatelessWidget {
         Container(
           height: height ?? 60.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(borderRaduis ?? 12.r),
             color: backgroundColor,
             border: Border.all(
               color: borderColor,

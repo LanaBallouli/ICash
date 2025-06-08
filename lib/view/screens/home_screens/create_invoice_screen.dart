@@ -6,8 +6,6 @@ import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/product_controller.dart';
 import 'package:test_sales/view/widgets/home_widgets/add_item_sheet.dart';
-import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
-import 'package:test_sales/view/widgets/home_widgets/invoice_drop_down.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/home_widgets/invoice_row_widget.dart';
 
