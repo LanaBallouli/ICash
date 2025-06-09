@@ -28,9 +28,6 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
       final products = Provider.of<ProductController>(context, listen: false);
       clientsController = clients;
       productController = products;
-      // clientsController.fetchCashClients();
-      // clientsController.fetchDebtClients();
-      productController.fetchProducts(context);
     });
   }
 
@@ -265,9 +262,6 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
         Provider.of<LangController>(context, listen: false);
     return Consumer<ProductController>(
       builder: (context, productController, child) {
-        if (productController.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
         return InvoiceRowWidget(
             widget: SizedBox(
               width: 220.w,

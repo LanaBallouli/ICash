@@ -664,4 +664,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no_next_visits_scheduled => 'لا توجد زيارات التالية مجدولة';
+
+  @override
+  String get price => 'السعر';
 }

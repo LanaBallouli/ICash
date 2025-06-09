@@ -217,7 +217,9 @@
   "loading": "Loading",
   "no_invoices_available": "No invoices available",
   "no_visits_yet": "No visits yet",
-  "no_next_visits_scheduled": "No next visits scheduled"
+  "no_next_visits_scheduled": "No next visits scheduled",
+  "price": "Price"
+
 
 
 

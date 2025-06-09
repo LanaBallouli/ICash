@@ -664,4 +664,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_next_visits_scheduled => 'No next visits scheduled';
+
+  @override
+  String get price => 'Price';
 }

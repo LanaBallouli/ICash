@@ -68,4 +68,5 @@ class Invoice {
       'total': total,
     };
   }
+
 }

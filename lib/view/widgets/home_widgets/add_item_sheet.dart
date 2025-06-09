@@ -67,86 +67,86 @@ class AddItemSheet extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              Consumer<ProductController>(
-                builder: (context, productController, child) {
-                  return InvoiceDropdown(
-                    dropdownColor: Color(0xFFECF0F6),
-                    color: Colors.white,
-                    title: AppLocalizations.of(context)!.item,
-                    items: productController.products.isEmpty
-                        ? [
-                            DropdownMenuItem<String>(
-                              value: null,
-                              child: Text(
-                                AppLocalizations.of(context)!.no_products,
-                              ),
-                            ),
-                          ]
-                        : productController.products.map((product) {
-                            return DropdownMenuItem<String>(
-                              value: product.id.toString(),
-                              child: Text(product.name ?? 'Unknown'),
-                            );
-                          }).toList(),
-                    hintText: productController.selectedProduct ??
-                        AppLocalizations.of(context)!.select_product,
-                    value: productController.selectedProduct,
-                    onChanged: (String? value) {
-                      productController.setSelectedProduct(value);
-                    },
-                  );
-                },
-              ),
+              // Consumer<ProductController>(
+              //   builder: (context, productController, child) {
+              //     return InvoiceDropdown(
+              //       dropdownColor: Color(0xFFECF0F6),
+              //       color: Colors.white,
+              //       title: AppLocalizations.of(context)!.item,
+              //       items: productController.products.isEmpty
+              //           ? [
+              //               DropdownMenuItem<String>(
+              //                 value: null,
+              //                 child: Text(
+              //                   AppLocalizations.of(context)!.no_products,
+              //                 ),
+              //               ),
+              //             ]
+              //           : productController.products.map((product) {
+              //               return DropdownMenuItem<String>(
+              //                 value: product.id.toString(),
+              //                 child: Text(product.name ?? 'Unknown'),
+              //               );
+              //             }).toList(),
+              //       hintText: productController.selectedProduct ??
+              //           AppLocalizations.of(context)!.select_product,
+              //       value: productController.selectedProduct,
+              //       onChanged: (String? value) {
+              //         productController.setSelectedProduct(value);
+              //       },
+              //     );
+              //   },
+              // ),
+              // SizedBox(
+              //   height: 15.h,
+              // ),
+              // Consumer<ProductController>(
+              //   builder: (context, productController, child) {
+              //     final selectedProduct =
+              //         productController.selectedProductDetails;
+              //     final unitPrice = selectedProduct?.price.toString() ?? "N/A";
+              //     return _buildStaticField(
+              //       title: AppLocalizations.of(context)!.unit_price,
+              //       value: unitPrice,
+              //     );
+              //   },
+              // ),
               SizedBox(
                 height: 15.h,
               ),
-              Consumer<ProductController>(
-                builder: (context, productController, child) {
-                  final selectedProduct =
-                      productController.selectedProductDetails;
-                  final unitPrice = selectedProduct?.price.toString() ?? "N/A";
-                  return _buildStaticField(
-                    title: AppLocalizations.of(context)!.unit_price,
-                    value: unitPrice,
-                  );
-                },
-              ),
+              // Consumer<ProductController>(
+              //   builder: (context, productController, child) {
+              //     return InvoiceRowWidget(
+              //       color: Colors.white,
+              //       widget: Container(
+              //         decoration: BoxDecoration(
+              //           color: Color(0xFFECF0F6),
+              //           borderRadius: BorderRadius.circular(40),
+              //         ),
+              //         width: 220.w,
+              //         child: IncrementalButton(
+              //           value: productController.itemAmount,
+              //           onIncrement: () =>
+              //               productController.incrementItemAmount(),
+              //           onDecrement: () =>
+              //               productController.decrementItemAmount(),
+              //         ),
+              //       ),
+              //       title: AppLocalizations.of(context)!.amount,
+              //     );
+              //   },
+              // ),
               SizedBox(
                 height: 15.h,
               ),
-              Consumer<ProductController>(
-                builder: (context, productController, child) {
-                  return InvoiceRowWidget(
-                    color: Colors.white,
-                    widget: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFECF0F6),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      width: 220.w,
-                      child: IncrementalButton(
-                        value: productController.itemAmount,
-                        onIncrement: () =>
-                            productController.incrementItemAmount(),
-                        onDecrement: () =>
-                            productController.decrementItemAmount(),
-                      ),
-                    ),
-                    title: AppLocalizations.of(context)!.amount,
-                  );
-                },
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Consumer<ProductController>(
-                builder: (context, productController, child) {
-                  return _buildStaticField(
-                    title: AppLocalizations.of(context)!.subtotal,
-                    value: productController.subTotal.toString(),
-                  );
-                },
-              )
+              // Consumer<ProductController>(
+              //   builder: (context, productController, child) {
+              //     return _buildStaticField(
+              //       title: AppLocalizations.of(context)!.subtotal,
+              //       // value: productController.subTotal.toString(),
+              //     );
+              //   },
+              // )
             ],
           ),
         ),

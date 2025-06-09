@@ -8,6 +8,7 @@ class AddressController extends ChangeNotifier {
   List<Address> addresses = [];
   bool isLoading = false;
   String? errorMessage;
+  Address? address;
 
   AddressController(this.repository);
 
@@ -29,7 +30,8 @@ class AddressController extends ChangeNotifier {
   Future<Address?> fetchAddressById(int id) async {
     _setLoading(true);
     try {
-      final address = await repository.getById(id);
+      final Address fetched = await repository.getById(id);
+      address = fetched;
       _clearError();
       return address;
     } catch (e) {

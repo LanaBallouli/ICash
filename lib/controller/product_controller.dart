@@ -1,122 +1,111 @@
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../model/product.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:test_sales/repository/product_repository.dart';
+import 'package:test_sales/model/product.dart';
 
 class ProductController extends ChangeNotifier {
-  String? selectedProduct;
+  final ProductRepository repository;
   List<Product> products = [];
-  List<Product> invoiceProducts = [];
-  final supabase = Supabase.instance.client;
   bool isLoading = false;
-  double? subTotal = 0;
-  int itemAmount = 0;
+  String errorMessage = "";
+  int? lastFetchedCategoryId;
+  bool hasLoadedOnce = false;
 
-  Product? get selectedProductDetails {
-    if (selectedProduct == null) return null;
-    return products.firstWhere(
-          (product) => product.id.toString() == selectedProduct,
-    );
-  }
+  ProductController(this.repository);
 
-  void setSelectedProduct(String? productId) {
-    selectedProduct = productId;
-    itemAmount = 0; // Reset item amount
-    subTotal = 0; // Reset subtotal
-    calculateSubTotal(); // Recalculate subtotal (will be 0 initially)
-    notifyListeners();
-  }
+  Future<void> fetchAllProducts() async {
+    if (isLoading || hasLoadedOnce) return;
 
-  void calculateSubTotal() {
-    final selectedProduct = selectedProductDetails;
-    if (selectedProduct == null) {
-      subTotal = 0;
-    } else {
-      subTotal = selectedProduct.price * itemAmount;
-    }
-    notifyListeners();
-  }
-
-  void incrementItemAmount() {
-    itemAmount++;
-    calculateSubTotal();
-    notifyListeners();
-  }
-
-  void decrementItemAmount() {
-    if (itemAmount > 0) {
-      itemAmount--;
-      calculateSubTotal();
-      notifyListeners();
-    }
-  }
-
-  void setItemAmount(int amount) {
-    if (amount >= 0) {
-      itemAmount = amount;
-      notifyListeners();
-    }
-  }
-
-  Future<void> fetchProducts(BuildContext context) async {
+    _setLoading(true);
     try {
-      isLoading = true;
-      final response = await supabase.from('products').select('*');
-
-      if (response.isEmpty) {
-        throw Exception('Error fetching products');
-      }
-
-      products = (response as List)
-          .map((item) => Product(
-        id: item['id'],
-        name: item['name'],
-        description: item['description'],
-        price: item['price']?.toDouble(),
-        brand: item['brand'],
-        quantity: item['quantity'],
-        isAvailable: item['is_available'],
-        imageUrl: item['image_url'],
-        discount: item['discount']?.toDouble(),
-        taxRate: item['tax_rate']?.toDouble(),
-        createdAt: DateTime.parse(item['created_at']),
-        updatedAt: DateTime.parse(item['updated_at']),
-      ))
-          .toList();
-
-      notifyListeners();
+      products = await repository.getAllProducts();
+      hasLoadedOnce = true;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to fetch products: $e')),
-      );
+      _setError("Failed to load products");
+      print("Error fetching products: $e");
     } finally {
-      isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
-  }
-
-  void addItemsToInvoice({required Product product}) {
-    final existingProduct = invoiceProducts.firstWhere(
-          (p) => p.id == product.id,
-    );
-
-    print('Product already exists in the invoice.');
-  
     notifyListeners();
   }
 
-  void removeItemFromInvoice(Product product) {
-    invoiceProducts.removeWhere((p) => p.id == product.id);
+  Future<void> fetchProductById(int id) async {
+    _setLoading(true);
+    try {
+      final product = await repository.getProductById(id);
+      final index = products.indexWhere((p) => p.id == id);
+      if (index != -1) {
+        products[index] = product;
+      } else {
+        products.add(product);
+      }
+    } catch (e) {
+      _setError("Failed to load product details");
+      print("Error fetching product by ID: $e");
+    } finally {
+      _setLoading(false);
+    }
     notifyListeners();
   }
 
-  void updateInvoiceItemQuantity(Product product, int newQuantity) {
-    final existingProduct = invoiceProducts.firstWhere(
-          (p) => p.id == product.id,
-    );
+  Future<void> addNewProduct(Product product) async {
+    _setLoading(true);
+    try {
+      final added = await repository.createProduct(product);
+      products.add(added);
+    } catch (e) {
+      _setError("Failed to add product");
+      print("Error adding product: $e");
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
 
-    print('Updated quantity for product ${product.name}');
-  
+  Future<void> updateProduct(Product product) async {
+    _setLoading(true);
+    try {
+      final updated = await repository.updateProduct(product);
+      final index = products.indexWhere((p) => p.id == product.id);
+      if (index != -1) {
+        products[index] = updated;
+      }
+    } catch (e) {
+      _setError("Failed to update product");
+      print("Error updating product: $e");
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
+
+  Future<void> deleteProduct(int id) async {
+    _setLoading(true);
+    try {
+      await repository.deleteProduct(id);
+      products.removeWhere((p) => p.id == id);
+    } catch (e) {
+      _setError("Failed to delete product");
+      print("Error deleting product: $e");
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
+
+  // --- Helpers ---
+
+  void _setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  void _setError(String message) {
+    errorMessage = message;
+    notifyListeners();
+  }
+
+  void clearErrors() {
+    errorMessage = "";
     notifyListeners();
   }
 }

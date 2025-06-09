@@ -215,5 +215,6 @@
   "loading": "تحميل",
   "no_invoices_available": "لا فواتير متاحة",
   "no_visits_yet": "لا زيارات حتى الآن",
-  "no_next_visits_scheduled": "لا توجد زيارات التالية مجدولة"
+  "no_next_visits_scheduled": "لا توجد زيارات التالية مجدولة",
+  "price": "السعر"
 }

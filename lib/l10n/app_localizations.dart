@@ -1408,6 +1408,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No next visits scheduled'**
   String get no_next_visits_scheduled;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
