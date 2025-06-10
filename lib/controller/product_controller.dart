@@ -106,6 +106,39 @@ class ProductController extends ChangeNotifier {
 
   void clearErrors() {
     errorMessage = "";
+    nameController.clear();
+    descriptionController.clear();
+    priceController.clear();
+    brandController.clear();
+    quantityController.clear();
+    discountController.clear();
+    taxRateController.clear();
+    isAvailable = true;
     notifyListeners();
   }
+
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController brandController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController discountController = TextEditingController();
+  final TextEditingController taxRateController = TextEditingController();
+
+  bool isAvailable = true;
+
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    descriptionController.dispose();
+    priceController.dispose();
+    brandController.dispose();
+    quantityController.dispose();
+    discountController.dispose();
+    taxRateController.dispose();
+    super.dispose();
+  }
+
 }

@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import '../app_constants.dart';
 import '../model/salesman.dart';
 import '../repository/salesman_repository.dart';
 
@@ -102,6 +104,13 @@ class SalesmanController extends ChangeNotifier {
       return [];
     }
   }
+
+  String getRegionName(int regionId, BuildContext context) {
+    final regions = AppConstants.getRegions(context);
+    final region = regions.firstWhereOrNull((r) => r.id == regionId);
+    return region?.name ?? "Unknown";
+  }
+
 
   void toggleFavourite(SalesMan salesman) {
     if (fav.contains(salesman)) {

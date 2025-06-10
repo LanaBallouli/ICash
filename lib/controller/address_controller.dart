@@ -28,7 +28,6 @@ class AddressController extends ChangeNotifier {
 
   // --- Fetch Single Address by ID ---
   Future<Address?> fetchAddressById(int id) async {
-    _setLoading(true);
     try {
       final Address fetched = await repository.getById(id);
       address = fetched;
@@ -37,8 +36,6 @@ class AddressController extends ChangeNotifier {
     } catch (e) {
       _setError("Failed to load address with ID $id");
       return null;
-    } finally {
-      _setLoading(false);
     }
   }
 

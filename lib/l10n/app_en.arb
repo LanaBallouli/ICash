@@ -218,7 +218,33 @@
   "no_invoices_available": "No invoices available",
   "no_visits_yet": "No visits yet",
   "no_next_visits_scheduled": "No next visits scheduled",
-  "price": "Price"
+  "price": "Price",
+  "add_product": "Add New Product",
+  "product_name": "Product name",
+  "enter_product_name": "Enter product name",
+  "description": "Description",
+  "enter_description": "Enter product's description",
+  "enter_price": "Enter product's price",
+  "brand": "Brand",
+  "enter_brand": "Enter brand's name",
+  "quantity": "Quantity",
+  "enter_quantity": "Enter avalilable quantity of the product",
+  "tax_rate": "Tax rate",
+  "enter_tax_rate": "Enter tax rate",
+  "is_available": "Is the product available?",
+  "add_product_prompt": "Please fill in all the fields to add a new product"
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

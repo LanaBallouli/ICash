@@ -82,15 +82,12 @@ class ClientsController extends ChangeNotifier {
   }
 
   Future<void> updateClient({required Client client, required int index}) async {
-    _setLoading(true);
     try {
       final updated = await repository.updateClient(client);
       clients[index] = updated;
     } catch (e) {
       _setError("Failed to update client");
       print("Error updating client: $e");
-    } finally {
-      _setLoading(false);
     }
     notifyListeners();
   }

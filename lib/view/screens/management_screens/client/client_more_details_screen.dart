@@ -8,6 +8,7 @@ import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/model/client.dart';
+import 'package:test_sales/view/screens/management_screens/client/update_client_details_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
@@ -29,12 +30,13 @@ class ClientMoreDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<ClientMoreDetailsScreen> createState() => _ClientMoreDetailsScreenState();
+  State<ClientMoreDetailsScreen> createState() =>
+      _ClientMoreDetailsScreenState();
 }
 
 class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
-  late ClientsController clientsController;
   late AddressController addressController;
+  late ClientsController clientsController;
   late SalesmanController salesmenController;
   late InvoicesController invoicesController;
   late VisitsController visitsController;
@@ -45,43 +47,51 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (!_hasLoaded) {
-      // ✅ Safe to assign now
-      addressController = Provider.of<AddressController>(context, listen: false);
-      clientsController = Provider.of<ClientsController>(context, listen: false);
-      salesmenController = Provider.of<SalesmanController>(context, listen: false);
-      invoicesController = Provider.of<InvoicesController>(context, listen: false);
-      visitsController = Provider.of<VisitsController>(context, listen: false);
+    if (_hasLoaded) return;
 
+    // Get controllers once
+    addressController = Provider.of<AddressController>(context, listen: false);
+    clientsController = Provider.of<ClientsController>(context, listen: false);
+    salesmenController =
+        Provider.of<SalesmanController>(context, listen: false);
+    invoicesController =
+        Provider.of<InvoicesController>(context, listen: false);
+    visitsController = Provider.of<VisitsController>(context, listen: false);
+
+    _hasLoaded = true; // Prevent re-init
+
+    // Defer data loading until after build completes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData(context);
-      _hasLoaded = true; // ✅ Mark as loaded
-    }
+    });
   }
 
   Future<void> _loadData(BuildContext context) async {
     final client = widget.client;
 
-    if (client.addressId != null) {
-      await addressController.fetchAddressById(client.addressId!);
-      final address = addressController.getAddressFromList(client.addressId!);
+    try {
+      if (client.addressId != null) {
+        final address =
+            await addressController.fetchAddressById(client.addressId!);
 
-      if (address != null) {
-        clientsController.clientStreetController.text = address.street;
-        clientsController.clientBuildingNumController.text =
-            address.buildingNumber.toString();
-        clientsController.clientAdditionalInfoController.text =
-            address.additionalDirections ?? "";
+        if (address != null) {
+          clientsController.clientStreetController.text = address.street;
+          clientsController.clientBuildingNumController.text =
+              address.buildingNumber.toString();
+          clientsController.clientAdditionalInfoController.text =
+              address.additionalDirections ?? "";
+        }
       }
-    }
 
-    if (client.id != null) {
-      salesmenController.getAssignedSalesmen(client.id!);
-      invoicesController.fetchInvoicesByClient(client.id!);
-      visitsController.fetchVisitsByClient(client.id!);
+      if (client.id != null) {
+        salesmenController.getAssignedSalesmen(client.id!);
+        invoicesController.fetchInvoicesByClient(client.id!);
+        visitsController.fetchVisitsByClient(client.id!);
+      }
+    } catch (e) {
+      print("Error loading data: $e");
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,39 +100,38 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
-        title: "${widget.client.tradeName} - ${local.details}",
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: Navigator.of(context).pop,
+          title: "${widget.client.tradeName} - ${local.details}"),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Consumer2<SalesmanController, ClientsController>(
+          builder: (context, salesmenCtrl, clientCtrl, _) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildProfileSection(context, widget.client),
+                  SizedBox(height: 15.h),
+                  _buildAddressSection(context, addressController),
+                  SizedBox(height: 15.h),
+                  _buildPerformanceSection(context, invoicesController),
+                  SizedBox(height: 15.h),
+                  _buildRecentActivitySection(context, visitsController),
+                  SizedBox(height: 15.h),
+                  _buildAssignedSalesmenSection(context, salesmenController),
+                  SizedBox(height: 15.h),
+                  _buildFeedbackSection(context, clientCtrl),
+                  SizedBox(height: 20.h),
+                  if (widget.client.type == "Debt") ...[
+                    _buildDocumentsSection(context),
+                    SizedBox(height: 20.h),
+                  ],
+                  _buildButtonsRow(context),
+                  SizedBox(height: 15.h),
+                ],
+              ),
+            );
+          },
         ),
-      ),
-      body: Consumer2<
-          SalesmanController,
-          ClientsController>(
-        builder: (context, salesmenCtrl, clientCtrl, _) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildProfileSection(context, widget.client),
-                SizedBox(height: 15.h),
-                _buildAddressSection(context, addressController),
-                SizedBox(height: 15.h),
-                _buildPerformanceSection(context, invoicesController),
-                SizedBox(height: 15.h),
-                _buildRecentActivitySection(context, visitsController),
-                SizedBox(height: 15.h),
-                _buildAssignedSalesmenSection(context, salesmenCtrl),
-                SizedBox(height: 15.h),
-                _buildFeedbackSection(context, clientCtrl),
-                SizedBox(height: 20.h),
-                _buildDocumentsSection(context),
-                SizedBox(height: 20.h),
-                _buildButtonsRow(context),
-              ],
-            ),
-          );
-        },
       ),
     );
   }
@@ -151,7 +160,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
       },
       {
         "label": local.type,
-        "value": client.type ?? local.cash,
+        "value": client.type,
       },
       {
         "label": local.joining_date,
@@ -170,7 +179,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
             children: [
               InputWidget(
                 textEditingController:
-                TextEditingController(text: detail["value"]),
+                    TextEditingController(text: detail["value"]),
                 label: detail["label"],
                 readOnly: true,
               ),
@@ -191,10 +200,12 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
       leadingIcon: Icons.location_on_outlined,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(
-              text: addressCtrl.getAddressFromList(widget.client.addressId)?.street ??
+              text: addressCtrl
+                      .getAddressFromList(widget.client.addressId)
+                      ?.street ??
                   local.loading,
             ),
             label: local.street,
@@ -203,13 +214,13 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
         ),
         SizedBox(height: 10.h),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             textEditingController: TextEditingController(
               text: addressCtrl
-                  .getAddressFromList(widget.client.addressId)
-                  ?.buildingNumber
-                  .toString() ??
+                      .getAddressFromList(widget.client.addressId)
+                      ?.buildingNumber
+                      .toString() ??
                   local.loading,
             ),
             label: local.building_num,
@@ -218,13 +229,13 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
         ),
         SizedBox(height: 10.h),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: InputWidget(
             height: 100.h,
             textEditingController: TextEditingController(
               text: addressCtrl
-                  .getAddressFromList(widget.client.addressId)
-                  ?.additionalDirections ??
+                      .getAddressFromList(widget.client.addressId)
+                      ?.additionalDirections ??
                   "",
             ),
             label: local.additional_info,
@@ -232,6 +243,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
             maxLines: 3,
           ),
         ),
+        SizedBox(height: 10.h),
       ],
     );
   }
@@ -253,7 +265,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: InputWidget(
             textEditingController:
-            TextEditingController(text: "$totalSales JD"),
+                TextEditingController(text: "$totalSales JD"),
             label: local.total_sales,
             readOnly: true,
           ),
@@ -269,15 +281,6 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
             readOnly: true,
           ),
         ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: InputWidget(
-            textEditingController: TextEditingController(text: "N/A"),
-            label: local.monthly_target_achievement,
-            readOnly: true,
-          ),
-        ),
       ],
     );
   }
@@ -288,8 +291,8 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
 
     String latestVisitDate = "local.n_a";
     if (visitCtrl.visits.isNotEmpty) {
-      final latest = visitCtrl.visits.reduce((a, b) =>
-      a.visitDate.isAfter(b.visitDate) ? a : b);
+      final latest = visitCtrl.visits
+          .reduce((a, b) => a.visitDate.isAfter(b.visitDate) ? a : b);
       latestVisitDate = DateFormat('yyyy-MM-dd').format(latest.visitDate);
     }
 
@@ -300,8 +303,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: InputWidget(
-            textEditingController:
-            TextEditingController(text: latestVisitDate),
+            textEditingController: TextEditingController(text: latestVisitDate),
             label: local.latest_visit,
             readOnly: true,
             suffixIcon: IconButton(
@@ -343,7 +345,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: InputWidget(
                 textEditingController:
-                TextEditingController(text: salesman.fullName),
+                    TextEditingController(text: salesman.fullName),
                 label: local.salesman_name,
                 readOnly: true,
                 suffixIcon: IconButton(
@@ -352,25 +354,27 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
                 ),
               ),
             );
-          }).toList()
+          })
       ],
     );
   }
 
-  Widget _buildFeedbackSection(
-      BuildContext context, ClientsController ctrl) {
+  Widget _buildFeedbackSection(BuildContext context, ClientsController ctrl) {
     return MoreDetailsWidget(
       title: AppLocalizations.of(context)!.feedback,
       leadingIcon: Icons.message_outlined,
       children: [
-        InputWidget(
-          height: 100.h,
-          textEditingController: TextEditingController(
-            text: widget.client.notes ?? "",
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            height: 100.h,
+            textEditingController: TextEditingController(
+              text: widget.client.notes ?? "",
+            ),
+            label: AppLocalizations.of(context)!.notes,
+            readOnly: true,
+            maxLines: 3,
           ),
-          label: AppLocalizations.of(context)!.notes,
-          readOnly: true,
-          maxLines: 3,
         ),
       ],
     );
@@ -385,51 +389,57 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
       title: local.documents_section,
       leadingIcon: Icons.attach_file,
       children: [
-        InputWidget(
-          textEditingController: TextEditingController(
-            text: cameraController
-                .getPhotosByType('id')
-                .isNotEmpty
-                ? "local.photos_attached"
-                :" local.no_photos_yet,"
-          ),
-          label: "local.national_id",
-          readOnly: true,
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_forward_outlined),
-          ),
-        ),
-        SizedBox(height: 10.h),
-        InputWidget(
-          textEditingController: TextEditingController(
-            text: cameraController
-                .getPhotosByType('commercial_registration')
-                .isNotEmpty
-                ? "local.photos_attached"
-                : "local.no_photos_yet",
-          ),
-          label: local.commercial_registration,
-          readOnly: true,
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_forward_outlined),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+                text: cameraController.getPhotosByType('id').isNotEmpty
+                    ? "local.photos_attached"
+                    : " local.no_photos_yet,"),
+            label: "local.national_id",
+            readOnly: true,
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
         ),
         SizedBox(height: 10.h),
-        InputWidget(
-          textEditingController: TextEditingController(
-            text: cameraController
-                .getPhotosByType('profession_license')
-                .isNotEmpty
-                ? "local.photos_attached"
-                :" local.no_photos_yet",
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+              text: cameraController
+                      .getPhotosByType('commercial_registration')
+                      .isNotEmpty
+                  ? "local.photos_attached"
+                  : "local.no_photos_yet",
+            ),
+            label: local.commercial_registration,
+            readOnly: true,
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
-          label: local.profession_license,
-          readOnly: true,
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_forward_outlined),
+        ),
+        SizedBox(height: 10.h),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: InputWidget(
+            textEditingController: TextEditingController(
+              text: cameraController
+                      .getPhotosByType('profession_license')
+                      .isNotEmpty
+                  ? "local.photos_attached"
+                  : " local.no_photos_yet",
+            ),
+            label: local.profession_license,
+            readOnly: true,
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.arrow_forward_outlined),
+            ),
           ),
         ),
       ],
@@ -451,10 +461,14 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
             onPressed: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/update-client',
-                arguments: {'client': widget.client, 'index': widget.index},
+                MaterialPageRoute(
+                  builder: (context) => UpdateClientDetailsScreen(
+                    client: widget.client,
+                    index: widget.index,
+                  ),
+                ),
               );
             },
           ),
@@ -482,7 +496,10 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
                     TextButton(
                       onPressed: () async {
                         try {
-                          await clientsController.deleteClient(widget.client.id!);
+                          await clientsController
+                              .deleteClient(widget.client.id!);
+                          await addressController
+                              .deleteAddress(widget.client.addressId);
                           Navigator.pop(context);
                           Navigator.pop(context);
                         } catch (e) {

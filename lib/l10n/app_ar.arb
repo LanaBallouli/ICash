@@ -216,5 +216,19 @@
   "no_invoices_available": "لا فواتير متاحة",
   "no_visits_yet": "لا زيارات حتى الآن",
   "no_next_visits_scheduled": "لا توجد زيارات التالية مجدولة",
-  "price": "السعر"
+  "price": "السعر",
+  "add_product": "إضافة منتج جديد",
+  "product_name": "اسم المتتج",
+  "enter_product_name": "ادخل اسم المنتج",
+  "description": "الوصف",
+  "enter_description": "ادخل الوصف للمنتج",
+  "enter_price": "ادخل سعر المنتج",
+  "brand": "العلامة التجارية",
+  "enter_brand": "ادخل اسم العلامة التجارية",
+  "quantity": "الكمية",
+  "enter_quantity": "ادخل الكمية المتوفرة من المنتج",
+  "tax_rate": "معدل الضريبة",
+  "enter_tax_rate": "ادخل معدل الضريبة",
+  "is_available": "هل المنتج متوفر؟",
+  "add_product_prompt": "يرجى ملء جميع الحقول لإضافة منتج جديد."
 }

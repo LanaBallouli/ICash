@@ -4,10 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/address_controller.dart';
 import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
+import 'package:test_sales/repository/address_repository.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
@@ -18,7 +20,10 @@ import 'package:test_sales/view/widgets/management_widgets/client_widgets/locati
 import 'package:test_sales/view/widgets/management_widgets/client_widgets/upload_photos.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../repository/address_repository.dart';
+
+extension ListExtensions on List {
+  dynamic get firstOrNull => isEmpty ? null : first;
+}
 
 class UpdateClientDetailsScreen extends StatefulWidget {
   final Client client;
@@ -33,49 +38,83 @@ class UpdateClientDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<UpdateClientDetailsScreen> createState() => _UpdateClientDetailsScreenState();
+  State<UpdateClientDetailsScreen> createState() =>
+      _UpdateClientDetailsScreenState();
 }
 
 class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
   late ClientsController clientsController;
-  late CameraController cameraController;
-  late Address currentAddress;
-  late LatLng currentLocation;
+  late AddressController addressController;
+
+  bool _hasLoaded = false;
+  Address? currentAddress;
+  LatLng? currentLocation;
 
   @override
-  Future<void> initState() async {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-    clientsController = Provider.of<ClientsController>(context, listen: false);
-    cameraController = Provider.of<CameraController>(context, listen: false);
+    if (!_hasLoaded) {
+      clientsController =
+          Provider.of<ClientsController>(context, listen: false);
+      addressController =
+          Provider.of<AddressController>(context, listen: false);
 
-    clientsController.clientNameController.text = widget.client.tradeName;
-    clientsController.clientPersonInChargeController.text = widget.client.personInCharge;
-    clientsController.clientPhoneController.text = widget.client.phone;
-    clientsController.clientNotesController.text = widget.client.notes;
-    clientsController.setClientSelectedType(widget.client.type, context);
+      // Initialize client form fields
+      clientsController.clientNameController.text =
+          widget.client.tradeName ?? "";
+      clientsController.clientPersonInChargeController.text =
+          widget.client.personInCharge ?? "";
+      clientsController.clientPhoneController.text = widget.client.phone ?? "";
 
-    final addressRepo = Provider.of<AddressRepository>(context,listen: false);
-    currentAddress = await addressRepo.getById(widget.client.addressId);
-    clientsController.clientStreetController.text = currentAddress.street;
-    clientsController.clientBuildingNumController.text = currentAddress.buildingNumber.toString();
-    clientsController.clientAdditionalInfoController.text = currentAddress.additionalDirections ?? "";
+      // Defer address loading until after build
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        loadAddressData(context);
+      });
 
-    currentLocation = widget.location ??
-        LatLng(
-          currentAddress.latitude,
-          currentAddress.longitude,
-        );
+      _hasLoaded = true;
+    }
+  }
+
+  Future<void> loadAddressData(BuildContext context) async {
+    if (widget.client.addressId == null) {
+      currentLocation =
+          widget.location ?? LatLng(31.985934703432616, 35.900362288558114);
+      return;
+    }
+
+    try {
+      final Address? address =
+          await addressController.fetchAddressById(widget.client.addressId!);
+
+      if (address != null) {
+        currentAddress = address;
+        currentLocation = LatLng(address.latitude, address.longitude);
+
+        clientsController.clientStreetController.text = address.street;
+        clientsController.clientBuildingNumController.text =
+            address.buildingNumber.toString();
+        clientsController.clientAdditionalInfoController.text =
+            address.additionalDirections ?? "";
+      } else {
+        currentLocation =
+            widget.location ?? LatLng(31.985934703432616, 35.900362288558114);
+      }
+    } catch (e) {
+      print("Error fetching address: $e");
+      currentLocation =
+          widget.location ?? LatLng(31.985934703432616, 35.900362288558114);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainAppbarWidget(
-        title: "${widget.client.tradeName} - ${AppLocalizations.of(context)!.update}",
+        title:
+            "${widget.client.tradeName} - ${AppLocalizations.of(context)!.update}",
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -93,7 +132,9 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10.h),
-                  LocationWidget(location: currentLocation, isAddition: true),
+                  LocationWidget(
+                      location: currentLocation ?? LatLng(00, 00),
+                      isAddition: true),
                   SizedBox(height: 10.h),
                   Center(
                     child: Text(
@@ -109,7 +150,8 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
 
                   // Trade Name
                   ManagementInputWidget(
-                    hintText: AppLocalizations.of(context)!.enter_client_trade_name,
+                    hintText:
+                        AppLocalizations.of(context)!.enter_client_trade_name,
                     controller: clientsController.clientNameController,
                     title: AppLocalizations.of(context)!.trade_name,
                     keyboardType: TextInputType.name,
@@ -120,11 +162,15 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
 
                   // Person in Charge
                   ManagementInputWidget(
-                    hintText: AppLocalizations.of(context)!.enter_person_in_charge,
-                    controller: clientsController.clientPersonInChargeController,
+                    hintText:
+                        AppLocalizations.of(context)!.enter_person_in_charge,
+                    controller:
+                        clientsController.clientPersonInChargeController,
                     title: AppLocalizations.of(context)!.person_in_charge,
                     onChanged: (value) => clientsController.validateField(
-                        context: context, field: 'personInCharge', value: value),
+                        context: context,
+                        field: 'personInCharge',
+                        value: value),
                     errorText: clientsController.errors['personInCharge'],
                     keyboardType: TextInputType.name,
                   ),
@@ -167,15 +213,17 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                     selectedRegion: clientsController.clientSelectedRegion,
                     hintText: AppLocalizations.of(context)!.choose_region,
                     regions: AppConstants.getRegions(context),
-                    onChange: (value) =>
-                        clientsController.setClientSelectedRegion(value, context),
+                    onChange: (value) => clientsController
+                        .setClientSelectedRegion(value, context),
                     err: clientsController.errors['region'],
                   ),
 
                   // Additional Info
                   ManagementInputWidget(
-                    hintText: AppLocalizations.of(context)!.enter_additional_info,
-                    controller: clientsController.clientAdditionalInfoController,
+                    hintText:
+                        AppLocalizations.of(context)!.enter_additional_info,
+                    controller:
+                        clientsController.clientAdditionalInfoController,
                     title: AppLocalizations.of(context)!.additional_info,
                     keyboardType: TextInputType.text,
                     errorText: null,
@@ -196,46 +244,45 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                     err: clientsController.errors['type'],
                   ),
 
-                  // Conditional Uploads (for Debt clients)
+                  // Conditional Uploads for Debt Clients
                   if (clientsController.clientSelectedType ==
-                      AppLocalizations.of(context)!.debt)
-                    ...[
-                      SizedBox(height: 15.h),
-                      UploadPhotos(
-                        title: AppLocalizations.of(context)!.client_id,
-                        photoType: "id",
+                      AppLocalizations.of(context)!.debt) ...[
+                    SizedBox(height: 15.h),
+                    UploadPhotos(
+                      title: AppLocalizations.of(context)!.client_id,
+                      photoType: "id",
+                    ),
+                    if (clientsController.errors['id_photos'] != null)
+                      Text(
+                        clientsController.errors['id_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
-                      if (clientsController.errors['id_photos'] != null)
-                        Text(
-                          clientsController.errors['id_photos']!,
-                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                        ),
-
-                      SizedBox(height: 15.h),
-                      UploadPhotos(
-                        title: AppLocalizations.of(context)!.commercial_registration,
-                        photoType: "commercial_registration",
+                    SizedBox(height: 15.h),
+                    UploadPhotos(
+                      title:
+                          AppLocalizations.of(context)!.commercial_registration,
+                      photoType: "commercial_registration",
+                    ),
+                    if (clientsController
+                            .errors['commercial_registration_photos'] !=
+                        null)
+                      Text(
+                        clientsController
+                            .errors['commercial_registration_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
-                      if (clientsController.errors['commercial_registration_photos'] !=
-                          null)
-                        Text(
-                          clientsController
-                              .errors['commercial_registration_photos']!,
-                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                        ),
-
-                      SizedBox(height: 15.h),
-                      UploadPhotos(
-                        title: AppLocalizations.of(context)!.profession_license,
-                        photoType: "profession_license",
+                    SizedBox(height: 15.h),
+                    UploadPhotos(
+                      title: AppLocalizations.of(context)!.profession_license,
+                      photoType: "profession_license",
+                    ),
+                    if (clientsController.errors['profession_license_photos'] !=
+                        null)
+                      Text(
+                        clientsController.errors['profession_license_photos']!,
+                        style: TextStyle(color: Colors.red, fontSize: 12.sp),
                       ),
-                      if (clientsController.errors['profession_license_photos'] !=
-                          null)
-                        Text(
-                          clientsController.errors['profession_license_photos']!,
-                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                        ),
-                    ],
+                  ],
 
                   // Notes
                   ManagementInputWidget(
@@ -252,7 +299,9 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                   SizedBox(height: 30.h),
 
                   // Save and Cancel Buttons
-                  _buildButtonsRow(context, clientsController, cameraController),
+                  _buildButtonsRow(
+                      context, clientsController, cameraController),
+
                   SizedBox(height: 30.h),
                 ],
               ),
@@ -264,10 +313,10 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
   }
 
   Widget _buildButtonsRow(
-      BuildContext context,
-      ClientsController clientsController,
-      CameraController cameraController,
-      ) {
+    BuildContext context,
+    ClientsController clientsController,
+    CameraController cameraController,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -280,20 +329,20 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
             onPressed: () async {
+              // Validate form
               clientsController.validateForm(
                 context: context,
                 tradeName: clientsController.clientNameController.text,
-                personInCharge:
-                clientsController.clientPersonInChargeController.text,
+                personInCharge: clientsController.clientPersonInChargeController.text,
                 phone: clientsController.clientPhoneController.text,
                 street: clientsController.clientStreetController.text,
-                buildingNum: int.tryParse(
-                    clientsController.clientBuildingNumController.text),
+                buildingNum: int.tryParse(clientsController.clientBuildingNumController.text),
                 region: clientsController.clientSelectedRegion,
                 type: clientsController.clientSelectedType,
               );
 
               if (!clientsController.isFormValid()) {
+                // Show error dialog
                 showDialog(
                   context: context,
                   builder: (_) => DialogWidget(
@@ -313,99 +362,88 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                 return;
               }
 
-              final addressRepo =
-              Provider.of<AddressRepository>(context, listen: false);
+              // Build and save address
+              double latitude = currentAddress?.latitude ?? 31.985934703432616;
+              double longitude = currentAddress?.longitude ?? 35.900362288558114;
 
-              // Create updated Address object
-              final updatedAddress = currentAddress.copyWith(
+              if (widget.location != null) {
+                latitude = widget.location!.latitude;
+                longitude = widget.location!.longitude;
+              }
+
+              final updatedAddress = Address(
+                id: currentAddress?.id,
                 street: clientsController.clientStreetController.text,
                 buildingNumber: int.tryParse(clientsController.clientBuildingNumController.text) ?? 0,
                 additionalDirections: clientsController.clientAdditionalInfoController.text,
-                latitude: currentLocation.latitude,
-                longitude: currentLocation.longitude,
+                latitude: latitude,
+                longitude: longitude,
               );
 
-              try {
-                // Save updated address
-                final savedAddress = await addressRepo.update(updatedAddress);
+              final savedAddress = await addressController.updateAddress(updatedAddress);
 
-                // Prepare new client data
-                final updatedClient = Client(
-                  id: widget.client.id,
-                  tradeName: clientsController.clientNameController.text,
-                  personInCharge:
-                  clientsController.clientPersonInChargeController.text,
-                  phone: clientsController.clientPhoneController.text,
-                  createdAt: widget.client.createdAt,
-                  updatedAt: DateTime.now(),
-                  addressId: savedAddress.id!,
-                  regionId: clientsController.clientSelectedRegion?.id ?? 1,
-                  balance: widget.client.balance,
-                  commercialRegistration: cameraController
-                      .getPhotosByType("commercial_registration")
-                      .firstOrNull ??
-                      "",
-                  professionLicensePath: cameraController
-                      .getPhotosByType("profession_license")
-                      .firstOrNull ??
-                      "",
-                  nationalId: cameraController
-                      .getPhotosByType("id")
-                      .firstOrNull ??
-                      "",
-                  status: widget.client.status,
-                  type: clientsController.clientSelectedType ?? "Cash",
-                  notes: clientsController.clientNotesController.text,
-                );
-
-                await clientsController.updateClient(client: updatedClient,index:  widget.index);
-
-                showDialog(
-                  context: context,
-                  builder: (_) => DialogWidget(
-                    title: AppLocalizations.of(context)!.client_updated,
-                    imageUrl: "assets/images/success.png",
-                    actions: [
-                      CustomButtonWidget(
-                        title: AppLocalizations.of(context)!.ok,
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          clientsController.clearClientFields();
-                          clientsController.clearErrors();
-                          cameraController.clearImages('id');
-                          cameraController.clearImages('commercial_registration');
-                          cameraController.clearImages('profession_license');
-                        },
-                        borderRadius: 12.r,
-                        colors: [
-                          AppConstants.primaryColor2,
-                          AppConstants.primaryColor2
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              } catch (e) {
-                // Handle errors gracefully
-                print("Error updating client: $e");
+              if (savedAddress == null) {
+                // Show address save error
                 showDialog(
                   context: context,
                   builder: (_) => DialogWidget(
                     title: AppLocalizations.of(context)!.error,
-                    content: "AppLocalizations.of(context)!.update_failed",
+                    content: AppLocalizations.of(context)!.something_went_wrong,
                     imageUrl: "assets/images/cancel.png",
                     actions: [
                       CustomButtonWidget(
                         title: AppLocalizations.of(context)!.ok,
                         onPressed: Navigator.of(context).pop,
-                        borderRadius: 12.r,
                         colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
                       )
                     ],
                   ),
                 );
+                return;
               }
+
+              // Build updated client
+              final updatedClient = widget.client.copyWith(
+                tradeName: clientsController.clientNameController.text,
+                personInCharge: clientsController.clientPersonInChargeController.text,
+                phone: clientsController.clientPhoneController.text,
+                notes: clientsController.clientNotesController.text,
+                regionId: clientsController.clientSelectedRegion?.id ?? widget.client.regionId,
+                type: clientsController.clientSelectedType ?? widget.client.type,
+                nationalId: cameraController.getPhotosByType("id").firstOrNull ?? "",
+                commercialRegistration: cameraController.getPhotosByType("commercial_registration").firstOrNull ?? "",
+                professionLicensePath: cameraController.getPhotosByType("profession_license").firstOrNull ?? "",
+                addressId: savedAddress.id,
+                updatedAt: DateTime.now(),
+              );
+
+              // Update client
+              await clientsController.updateClient(client: updatedClient, index: widget.index);
+
+              // Show success dialog
+              showDialog(
+                context: context,
+                builder: (_) => DialogWidget(
+                  title: AppLocalizations.of(context)!.client_updated,
+                  imageUrl: "assets/images/success.png",
+                  actions: [
+                    CustomButtonWidget(
+                      title: AppLocalizations.of(context)!.ok,
+                      onPressed: () {
+                        Navigator.pop(context); // Close dialog
+                        Navigator.pop(context); // Go back
+                        clientsController.clearClientFields();
+                        clientsController.clearErrors();
+                        cameraController.clearImages('id');
+                        cameraController.clearImages('commercial_registration');
+                        cameraController.clearImages('profession_license');
+                      },
+                      borderRadius: 12.r,
+                      colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                    )
+                  ],
+                ),
+              );
             },
           ),
         ),

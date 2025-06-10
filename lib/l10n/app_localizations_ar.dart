@@ -667,4 +667,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get price => 'السعر';
+
+  @override
+  String get add_product => 'إضافة منتج جديد';
+
+  @override
+  String get product_name => 'اسم المتتج';
+
+  @override
+  String get enter_product_name => 'ادخل اسم المنتج';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get enter_description => 'ادخل الوصف للمنتج';
+
+  @override
+  String get enter_price => 'ادخل سعر المنتج';
+
+  @override
+  String get brand => 'العلامة التجارية';
+
+  @override
+  String get enter_brand => 'ادخل اسم العلامة التجارية';
+
+  @override
+  String get quantity => 'الكمية';
+
+  @override
+  String get enter_quantity => 'ادخل الكمية المتوفرة من المنتج';
+
+  @override
+  String get tax_rate => 'معدل الضريبة';
+
+  @override
+  String get enter_tax_rate => 'ادخل معدل الضريبة';
+
+  @override
+  String get is_available => 'هل المنتج متوفر؟';
+
+  @override
+  String get add_product_prompt => 'يرجى ملء جميع الحقول لإضافة منتج جديد.';
 }

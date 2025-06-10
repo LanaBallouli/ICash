@@ -667,4 +667,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get price => 'Price';
+
+  @override
+  String get add_product => 'Add New Product';
+
+  @override
+  String get product_name => 'Product name';
+
+  @override
+  String get enter_product_name => 'Enter product name';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get enter_description => 'Enter product\'s description';
+
+  @override
+  String get enter_price => 'Enter product\'s price';
+
+  @override
+  String get brand => 'Brand';
+
+  @override
+  String get enter_brand => 'Enter brand\'s name';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get enter_quantity => 'Enter avalilable quantity of the product';
+
+  @override
+  String get tax_rate => 'Tax rate';
+
+  @override
+  String get enter_tax_rate => 'Enter tax rate';
+
+  @override
+  String get is_available => 'Is the product available?';
+
+  @override
+  String get add_product_prompt => 'Please fill in all the fields to add a new product';
 }

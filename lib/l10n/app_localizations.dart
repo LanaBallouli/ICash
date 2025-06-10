@@ -1414,6 +1414,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Price'**
   String get price;
+
+  /// No description provided for @add_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Product'**
+  String get add_product;
+
+  /// No description provided for @product_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name'**
+  String get product_name;
+
+  /// No description provided for @enter_product_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter product name'**
+  String get enter_product_name;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @enter_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter product\'s description'**
+  String get enter_description;
+
+  /// No description provided for @enter_price.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter product\'s price'**
+  String get enter_price;
+
+  /// No description provided for @brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get brand;
+
+  /// No description provided for @enter_brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter brand\'s name'**
+  String get enter_brand;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// No description provided for @enter_quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter avalilable quantity of the product'**
+  String get enter_quantity;
+
+  /// No description provided for @tax_rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate'**
+  String get tax_rate;
+
+  /// No description provided for @enter_tax_rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter tax rate'**
+  String get enter_tax_rate;
+
+  /// No description provided for @is_available.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the product available?'**
+  String get is_available;
+
+  /// No description provided for @add_product_prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all the fields to add a new product'**
+  String get add_product_prompt;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

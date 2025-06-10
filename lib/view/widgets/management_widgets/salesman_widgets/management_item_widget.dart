@@ -28,71 +28,44 @@ class ManagementItemWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
 
+
     return SizedBox(
-        height: 300.h,
-        width: 177.w,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
+      height: 300.h,
+      width: 177.w,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
           Container(
-          height: 240.h,
-          width: 174.w,
-          decoration: BoxDecoration(
-            border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
-            borderRadius: BorderRadius.circular(25.r),
-            color: Colors.white,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 70.h),
-                Center(
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    _getTitle(context), // ✅ Get title based on type
-                    style: GoogleFonts.sora(
-                      color: const Color(0xFF24262F),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+            height: 240.h,
+            width: 174.w,
+            decoration: BoxDecoration(
+              border: Border.all(color: AppConstants.buttonColor, width: 1.5.w),
+              borderRadius: BorderRadius.circular(25.r),
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 70.h),
+                  Center(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      _getTitle(context),
+                      style: GoogleFonts.sora(
+                        color: const Color(0xFF24262F),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 16.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _getRegionLabel(context),
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 10.sp,
-                          color: const Color(0xFF969AB0),
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        _getRegionValue(context),
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 10.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12.h),
-                if (_showClosedDeals())
+                  SizedBox(height: 16.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${AppLocalizations.of(context)!.closed_deals}:",
+                          _getRegionLabel(context),
                           style: AppStyles.getFontStyle(
                             langController,
                             fontSize: 10.sp,
@@ -101,7 +74,7 @@ class ManagementItemWidget<T> extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          _getClosedDeals(context),
+                          _getRegionValue(context),
                           style: AppStyles.getFontStyle(
                             langController,
                             fontSize: 10.sp,
@@ -112,117 +85,148 @@ class ManagementItemWidget<T> extends StatelessWidget {
                       ],
                     ),
                   ),
-                SizedBox(height: _showClosedDeals() ? 12.h : 0),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _getTotalSalesLabel(context),
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 10.sp,
-                          color: const Color(0xFF969AB0),
-                          fontWeight: FontWeight.w400,
-                        ),
+                  SizedBox(height: 12.h),
+                  if (_showClosedDeals())
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${AppLocalizations.of(context)!.closed_deals}:",
+                            style: AppStyles.getFontStyle(
+                              langController,
+                              fontSize: 10.sp,
+                              color: const Color(0xFF969AB0),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Text(
+                            _getClosedDeals(context),
+                            style: AppStyles.getFontStyle(
+                              langController,
+                              fontSize: 10.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        _getTotalSales(context),
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 10.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                    ),
+                  SizedBox(height: _showClosedDeals() ? 12.h : 0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _getTotalSalesLabel(context),
+                          style: AppStyles.getFontStyle(
+                            langController,
+                            fontSize: 10.sp,
+                            color: const Color(0xFF969AB0),
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          _getTotalSales(context),
+                          style: AppStyles.getFontStyle(
+                            langController,
+                            fontSize: 10.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30.h),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            child: SizedBox(
+              height: 89.h,
+              width: 89.w,
+              child: CircleAvatar(
+                backgroundColor: const Color(0xFFE7E7E7),
+                foregroundImage: AssetImage(_getImagePath(context)),
+              ),
+            ),
+          ),
+          if (!_isProduct())
+            Positioned(
+              right: 0,
+              top: 20,
+              child: Container(
+                height: 36.h,
+                width: 36.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14.r),
+                  color: AppConstants.buttonColor,
+                ),
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      if (!_isProduct()) {
+                        final salesman = item as SalesMan;
+                        final controller = Provider.of<SalesmanController>(
+                            context,
+                            listen: false);
+                        controller.toggleFavourite(salesman);
+                      }
+                    },
+                    icon: _isProduct()
+                        ? const Icon(Icons.add_shopping_cart)
+                        : Provider.of<SalesmanController>(context)
+                                .isFavourite(item as SalesMan)
+                            ? Icon(
+                                Icons.favorite,
+                                color: AppConstants.errorColor,
+                                size: 17.w,
+                              )
+                            : Icon(
+                                Icons.favorite_border,
+                                color: const Color(0xFF222628),
+                                size: 17.w,
+                              ),
                   ),
                 ),
-                SizedBox(height: 30.h),
-              ],
+              ),
+            ),
+          Positioned(
+            bottom: 25,
+            left: 20,
+            right: 20,
+            child: CustomButtonWidget(
+              width: 110.w,
+              height: 45.h,
+              title: AppLocalizations.of(context)!.more_details,
+              titleColor: Colors.white,
+              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+              borderRadius: 25.r,
+              onPressed: () {
+                if (_isProduct()) {
+                  Navigator.pushNamed(context, '/product-details',
+                      arguments: item);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesmenMoreDetailsScreen(
+                        users: item as SalesMan,
+                        index: index,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
-        ),
-        Positioned(
-          top: 0,
-          child: SizedBox(
-            height: 89.h,
-            width: 89.w,
-            child: CircleAvatar(
-              backgroundColor: const Color(0xFFE7E7E7),
-              foregroundImage: AssetImage(_getImagePath(context)),
-            ),
-          ),
-        ),
-        if (!_isProduct())
-    Positioned(
-    right: 0,
-    top: 20,
-    child: Container(
-    height: 36.h,
-    width: 36.w,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(14.r),
-    color: AppConstants.buttonColor,
-    ),
-    child: Center(
-    child: IconButton(
-    onPressed: () {
-    if (!_isProduct()) {
-    final salesman = item as SalesMan;
-    final controller =
-    Provider.of<SalesmanController>(context, listen: false);
-    controller.toggleFavourite(salesman);
-    }
-    },
-    icon: _isProduct()
-    ? const Icon(Icons.add_shopping_cart)
-        : Provider.of<SalesmanController>(context).isFavourite(item as SalesMan)
-    ? Icon(
-    Icons.favorite,
-    color: AppConstants.errorColor,
-    size: 17.w,
-    )
-        : Icon(
-    Icons.favorite_border,
-    color: const Color(0xFF222628),
-    size: 17.w,
-    ),
-    ),
-    ),
-    ),),
-    Positioned(
-    bottom: 25,
-    left: 20,
-    right: 20,
-    child: CustomButtonWidget(
-    width: 110.w,
-    height: 45.h,
-    title: AppLocalizations.of(context)!.more_details,
-    titleColor: Colors.white,
-    colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
-    borderRadius: 25.r,
-    onPressed: () {
-    if (_isProduct()) {
-    // Navigate to product details screen
-    Navigator.pushNamed(context, '/product-details', arguments: item);
-    } else {
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => SalesmenMoreDetailsScreen(
-    users: item as SalesMan,
-    index: index,
-    ),
-    ),
-    );
-    }
-    },
-    ),
-    ),
-    ],
-    ),
+        ],
+      ),
     );
   }
 
@@ -243,19 +247,22 @@ class ManagementItemWidget<T> extends StatelessWidget {
   }
 
   String _getRegionValue(BuildContext context) {
-    if (_isProduct()) return "N/A"; // 🛠 You can add region later
+
+    if (_isProduct()) return "N/A";
     final salesman = item as SalesMan;
-    return salesman.regionId.toString();
+    final region = Provider.of<SalesmanController>(context, listen: false)
+        .getRegionName(salesman.regionId, context);
+    return region;
   }
 
   String _getClosedDeals(BuildContext context) {
-    if (_isProduct()) return "N/A"; // 🔁 Optional: show stock or orders
+    if (_isProduct()) return "N/A";
     final salesman = item as SalesMan;
     return salesman.closedDeals.toString();
   }
 
   bool _showClosedDeals() {
-    return !_isProduct(); // Hide for products
+    return !_isProduct();
   }
 
   String _getTotalSalesLabel(BuildContext context) {

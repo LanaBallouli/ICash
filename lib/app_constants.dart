@@ -1,4 +1,5 @@
 
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'l10n/app_localizations.dart';
@@ -21,6 +22,11 @@ class AppConstants {
       Region(id: 6, name: AppLocalizations.of(context)!.westAmman2),
       Region(id: 7, name: AppLocalizations.of(context)!.zarqaAndRusseifa),
     ];
+  }
+
+  static Region? getRegionById(BuildContext context, int id) {
+    final allRegions = getRegions(context);
+    return allRegions.firstWhereOrNull((region) => region.id == id);
   }
 
   static List<String> getTypes(BuildContext context) {
