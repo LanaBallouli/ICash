@@ -23,7 +23,7 @@ class SalesMan {
     required this.email,
     required this.phone,
     required this.password,
-    this.role = "User",
+    this.role = "Salesman",
     this.status = "Active",
     required this.createdAt,
     required this.updatedAt,

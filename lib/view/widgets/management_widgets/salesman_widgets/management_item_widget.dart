@@ -6,6 +6,7 @@ import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/model/product.dart';
 import 'package:test_sales/model/salesman.dart';
+import 'package:test_sales/view/screens/management_screens/product/product_more_details_screen.dart';
 import 'package:test_sales/view/screens/management_screens/salesmen_screens/salesmen_more_details_screen.dart';
 import '../../../../app_constants.dart';
 import '../../../../controller/salesman_controller.dart';
@@ -27,7 +28,6 @@ class ManagementItemWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
-
 
     return SizedBox(
       height: 300.h,
@@ -209,8 +209,13 @@ class ManagementItemWidget<T> extends StatelessWidget {
               borderRadius: 25.r,
               onPressed: () {
                 if (_isProduct()) {
-                  Navigator.pushNamed(context, '/product-details',
-                      arguments: item);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductMoreDetailsScreen(
+                          product: item as Product,
+                        ),
+                      ));
                 } else {
                   Navigator.push(
                     context,
@@ -247,7 +252,6 @@ class ManagementItemWidget<T> extends StatelessWidget {
   }
 
   String _getRegionValue(BuildContext context) {
-
     if (_isProduct()) return "N/A";
     final salesman = item as SalesMan;
     final region = Provider.of<SalesmanController>(context, listen: false)

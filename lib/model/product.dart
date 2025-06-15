@@ -9,6 +9,8 @@ class Product {
   final String imageUrl;
   final double discount;
   final double taxRate;
+  final double totalSales;
+  final int unitsSold;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -20,9 +22,11 @@ class Product {
     this.brand = "",
     required this.quantity,
     this.isAvailable = true,
-    this.imageUrl = "assets/images/default_product.png",
+    this.imageUrl = "assets/images/product_default_image.png",
     this.discount = 0.0,
     this.taxRate = 0.0,
+    this.totalSales = 0.0,
+    this.unitsSold = 0,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -36,9 +40,11 @@ class Product {
       brand: json['brand'] ?? "",
       quantity: json['quantity'] ?? 0,
       isAvailable: json['is_available'] ?? true,
-      imageUrl: json['image_url'] ?? "assets/images/default_product.png",
+      imageUrl: json['image_url'] ?? "assets/images/product_default_image.png",
       discount: json['discount']?.toDouble() ?? 0.0,
       taxRate: json['tax_rate']?.toDouble() ?? 0.0,
+      totalSales: json['total_sales']?.toDouble() ?? 0.0,
+      unitsSold: json['units_sold'] ?? 0,
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
@@ -56,6 +62,8 @@ class Product {
       'image_url': imageUrl,
       'discount': discount,
       'tax_rate': taxRate,
+      'total_sales': totalSales,
+      'units_sold': unitsSold,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };

@@ -393,10 +393,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get delete_user => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟';
 
   @override
-  String get delete_client => 'Are you sure you want to delete this client?';
+  String get delete_client => 'هل أنت متأكد أنك تريد حذف هذا العميل؟';
 
   @override
-  String get confirm_deletion => 'تأكيد الحذف';
+  String get confirm_deletion => 'تأكيد الإزالة';
 
   @override
   String get add_salesman => 'إضافة مندوب جديد';
@@ -585,7 +585,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get choose_client_region => 'اختر منطقة العميل';
 
   @override
-  String get no_photos_error => 'Please take the required photos';
+  String get no_photos_error => 'يرجى التقاط الصور المطلوبة';
 
   @override
   String get id_photo_required => 'صورة الهوية مطلوبة';
@@ -709,4 +709,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get add_product_prompt => 'يرجى ملء جميع الحقول لإضافة منتج جديد.';
+
+  @override
+  String get field_cant_be_empty => 'لا يمكن أن يكون هذا الحقل فارغًا';
+
+  @override
+  String get must_be_greater_than_zero => 'يجب أن تكون القيمة أكبر من الصفر';
+
+  @override
+  String get must_be_valid_percentage => 'يجب أن تكون نسبة صحيحة';
+
+  @override
+  String get discount_cannot_exceed_100 => 'لا يمكن أن يتجاوز الخصم 100%';
+
+  @override
+  String get tax_rate_cannot_exceed_100 => 'لا يمكن أن تتجاوز نسبة الضريبة 100%';
+
+  @override
+  String get product_added_successfully => 'تمت إضافة المنتج بنجاح';
+
+  @override
+  String get product_updated => 'تم تحديث المنتج';
+
+  @override
+  String get product_updated_successfully => 'تم تحديث المنتج بنجاح';
+
+  @override
+  String get no_products_yet => 'لا توجد منتجات بعد';
+
+  @override
+  String get update_product => 'تحديث المنتج';
+
+  @override
+  String get no_clients_yet => 'لا يوجد عملاء حتى الآن';
+
+  @override
+  String get no_salesmen_yet => 'لا يوجد بائعون حتى الآن';
+
+  @override
+  String get product_added => 'تمت إضافة المنتج';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get created_at => 'تاريخ الإنشاء';
+
+  @override
+  String get updated_at => 'تاريخ التعديل';
+
+  @override
+  String get units_sold => 'الكمية المباعة';
+
+  @override
+  String get delete_salesman => 'إزالة المندوب';
+
+  @override
+  String get remove_product => 'إزالة المنتج';
+
+  @override
+  String get user_not_found => 'المستخدم غير موجود';
+
+  @override
+  String get user_not_found_in_db => 'المستخدم غير موجود في قاعدة البيانات';
 }

@@ -21,6 +21,7 @@ import 'package:test_sales/repository/client_repository.dart';
 import 'package:test_sales/repository/invoice_repository.dart';
 import 'package:test_sales/repository/product_repository.dart';
 import 'package:test_sales/repository/salesman_repository.dart';
+import 'package:test_sales/repository/user_supabase_repository.dart';
 import 'package:test_sales/repository/visit_repository.dart';
 import 'package:test_sales/supabase_api.dart';
 import 'package:test_sales/view/screens/splash_screen.dart';
@@ -48,6 +49,7 @@ Future<void> main() async {
   final invoiceRepository = InvoiceRepository(supabaseApi);
   final visitRepository = VisitRepository(supabaseApi);
   final productRepository = ProductRepository(supabaseApi);
+  final userSupabaseRepository = UserSupabaseRepository();
 
   final langController = LangController();
   await langController.initSharedPreferences();
@@ -62,7 +64,7 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (_) => ManagementController()),
             ChangeNotifierProvider(create: (_) => CameraController()),
             ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
-            ChangeNotifierProvider(create: (_) => UserController()),
+            ChangeNotifierProvider(create: (_) => UserController(userSupabaseRepository)),
             ChangeNotifierProvider(create: (_) => LocationController()),
             ChangeNotifierProvider(create: (_) => LangController()),
             ChangeNotifierProvider(create: (_) => ClientsController(clientRepository)),

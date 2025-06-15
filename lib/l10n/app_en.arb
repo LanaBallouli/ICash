@@ -232,23 +232,26 @@
   "tax_rate": "Tax rate",
   "enter_tax_rate": "Enter tax rate",
   "is_available": "Is the product available?",
-  "add_product_prompt": "Please fill in all the fields to add a new product"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "add_product_prompt": "Please fill in all the fields to add a new product",
+  "field_cant_be_empty": "This field can't be empty",
+  "must_be_greater_than_zero": "Must be greater than zero",
+  "must_be_valid_percentage": "Must be a valid percentage",
+  "discount_cannot_exceed_100": "Discount cannot exceed 100%",
+  "tax_rate_cannot_exceed_100": "Tax rate cannot exceed 100%",
+  "product_added_successfully": "Product added successfully",
+  "product_updated": "Product Updated",
+  "product_updated_successfully": "Product updated successfully",
+  "no_products_yet": "No products yet",
+  "update_product": "Update Product",
+  "no_clients_yet": "No clients yet",
+  "no_salesmen_yet": "No salesmen yet",
+  "product_added": "Product added",
+  "no": "No",
+  "created_at": "Created at",
+  "updated_at": "Updated at",
+  "units_sold": "Units sold",
+  "delete_salesman": "Delete User",
+  "remove_product": "Remove product",
+  "user_not_found": "User not found",
+  "user_not_found_in_db": "User not found in database"
 }

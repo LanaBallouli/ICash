@@ -10,13 +10,15 @@ class MoreDetailsWidget extends StatelessWidget {
   final IconData? leadingIcon;
   final List<Widget> children;
   final Color? backgroundColor;
+  final bool? expand;
 
   const MoreDetailsWidget(
       {super.key,
       required this.title,
       this.leadingIcon,
       required this.children,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.expand});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class MoreDetailsWidget extends StatelessWidget {
         ),
         leading: Icon(leadingIcon),
         backgroundColor: Colors.white,
-        initiallyExpanded: false,
+        initiallyExpanded: expand ?? false,
         iconColor: Colors.black,
         childrenPadding: EdgeInsets.symmetric(vertical: 10),
         children: children,

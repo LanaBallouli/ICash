@@ -1498,6 +1498,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please fill in all the fields to add a new product'**
   String get add_product_prompt;
+
+  /// No description provided for @field_cant_be_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'This field can\'t be empty'**
+  String get field_cant_be_empty;
+
+  /// No description provided for @must_be_greater_than_zero.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be greater than zero'**
+  String get must_be_greater_than_zero;
+
+  /// No description provided for @must_be_valid_percentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be a valid percentage'**
+  String get must_be_valid_percentage;
+
+  /// No description provided for @discount_cannot_exceed_100.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount cannot exceed 100%'**
+  String get discount_cannot_exceed_100;
+
+  /// No description provided for @tax_rate_cannot_exceed_100.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate cannot exceed 100%'**
+  String get tax_rate_cannot_exceed_100;
+
+  /// No description provided for @product_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Product added successfully'**
+  String get product_added_successfully;
+
+  /// No description provided for @product_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Updated'**
+  String get product_updated;
+
+  /// No description provided for @product_updated_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Product updated successfully'**
+  String get product_updated_successfully;
+
+  /// No description provided for @no_products_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get no_products_yet;
+
+  /// No description provided for @update_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Product'**
+  String get update_product;
+
+  /// No description provided for @no_clients_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients yet'**
+  String get no_clients_yet;
+
+  /// No description provided for @no_salesmen_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No salesmen yet'**
+  String get no_salesmen_yet;
+
+  /// No description provided for @product_added.
+  ///
+  /// In en, this message translates to:
+  /// **'Product added'**
+  String get product_added;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @created_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Created at'**
+  String get created_at;
+
+  /// No description provided for @updated_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated at'**
+  String get updated_at;
+
+  /// No description provided for @units_sold.
+  ///
+  /// In en, this message translates to:
+  /// **'Units sold'**
+  String get units_sold;
+
+  /// No description provided for @delete_salesman.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete User'**
+  String get delete_salesman;
+
+  /// No description provided for @remove_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove product'**
+  String get remove_product;
+
+  /// No description provided for @user_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get user_not_found;
+
+  /// No description provided for @user_not_found_in_db.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found in database'**
+  String get user_not_found_in_db;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

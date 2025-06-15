@@ -27,7 +27,8 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MainAppbarWidget(title: AppLocalizations.of(context)!.main_screen),
+      appBar:
+          MainAppbarWidget(title: AppLocalizations.of(context)!.main_screen),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                   Consumer<UserController>(
                     builder: (context, userProvider, child) {
                       return Text(
-                        "${AppLocalizations.of(context)!.hi} ${userProvider.userName ?? ''}!",
+                        "${AppLocalizations.of(context)!.hi} ${userProvider.currentUser?.fullName ?? ''}!",
                         style: AppStyles.getFontStyle(
                           langController,
                           fontSize: 24,

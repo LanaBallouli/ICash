@@ -140,7 +140,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
         ),
         Expanded(
           child: CustomButtonWidget(
-            title: "Delete User",
+            title:AppLocalizations.of(context)!.delete_salesman,
             colors: [Color(0xFF910000), Color(0xFF910000)],
             borderRadius: 12.r,
             titleColor: Colors.white,

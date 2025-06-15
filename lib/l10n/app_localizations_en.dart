@@ -709,4 +709,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add_product_prompt => 'Please fill in all the fields to add a new product';
+
+  @override
+  String get field_cant_be_empty => 'This field can\'t be empty';
+
+  @override
+  String get must_be_greater_than_zero => 'Must be greater than zero';
+
+  @override
+  String get must_be_valid_percentage => 'Must be a valid percentage';
+
+  @override
+  String get discount_cannot_exceed_100 => 'Discount cannot exceed 100%';
+
+  @override
+  String get tax_rate_cannot_exceed_100 => 'Tax rate cannot exceed 100%';
+
+  @override
+  String get product_added_successfully => 'Product added successfully';
+
+  @override
+  String get product_updated => 'Product Updated';
+
+  @override
+  String get product_updated_successfully => 'Product updated successfully';
+
+  @override
+  String get no_products_yet => 'No products yet';
+
+  @override
+  String get update_product => 'Update Product';
+
+  @override
+  String get no_clients_yet => 'No clients yet';
+
+  @override
+  String get no_salesmen_yet => 'No salesmen yet';
+
+  @override
+  String get product_added => 'Product added';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get created_at => 'Created at';
+
+  @override
+  String get updated_at => 'Updated at';
+
+  @override
+  String get units_sold => 'Units sold';
+
+  @override
+  String get delete_salesman => 'Delete User';
+
+  @override
+  String get remove_product => 'Remove product';
+
+  @override
+  String get user_not_found => 'User not found';
+
+  @override
+  String get user_not_found_in_db => 'User not found in database';
 }

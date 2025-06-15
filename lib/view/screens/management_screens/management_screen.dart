@@ -149,7 +149,7 @@ class ManagementScreen extends StatelessWidget {
     if (controller.clients.isEmpty) {
       return Center(
         child: Text(
-          "local.no_clients_yet",
+          local.no_clients_yet,
           style: TextStyle(fontSize: 16.sp, color: Colors.black54),
         ),
       );
@@ -178,7 +178,7 @@ class ManagementScreen extends StatelessWidget {
     if (controller.salesMen.isEmpty) {
       return Center(
         child: Text(
-          "local.no_salesmen_yet",
+          local.no_salesmen_yet,
           style: TextStyle(fontSize: 16.sp, color: Colors.black54),
         ),
       );
@@ -207,7 +207,7 @@ class ManagementScreen extends StatelessWidget {
     if (controller.products.isEmpty) {
       return Center(
         child: Text(
-          "local.no_products_yet",
+          local.no_products_yet,
           style: TextStyle(fontSize: 16.sp, color: Colors.black54),
         ),
       );

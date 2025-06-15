@@ -1,49 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UserController with ChangeNotifier {
-  final supabase = Supabase.instance.client;
-  String? _userName;
-  int? userId;
+import '../l10n/app_localizations.dart';
+import '../model/salesman.dart';
+import '../repository/user_supabase_repository.dart';
 
-  String? get userName => _userName;
+class UserController extends ChangeNotifier {
+  final UserSupabaseRepository repository;
 
-  Future<void> fetchUserName() async {
+  SalesMan? currentUser;
+
+  UserController(this.repository);
+
+  Future<void> fetchCurrentUser(BuildContext context) async {
+    final local = AppLocalizations.of(context)!;
+
     try {
-      final email = supabase.auth.currentUser?.email;
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
 
-      if (email != null) {
-        final response = await supabase
-            .from('users')
-            .select('full_name')
-            .eq('email', email)
-            .single();
-
-        _userName = response['full_name'];
-        notifyListeners();
+      if (supabaseUser == null) {
+        throw Exception(local.user_not_found);
       }
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
-  }
 
+      final userFromDb = await repository.getUserById(supabaseUser.id);
 
-  Future<void> fetchUserId() async {
-    try {
-      final email = supabase.auth.currentUser?.email;
-
-      if (email != null) {
-        final response = await supabase
-            .from('users')
-            .select('id')
-            .eq('email', email)
-            .single();
-
-        userId = response['id'];
-        notifyListeners();
+      if (userFromDb == null) {
+        throw Exception(local.user_not_found_in_db);
       }
+
+      currentUser = userFromDb;
+      notifyListeners();
     } catch (e) {
-      print('Error fetching user data: $e');
+      print("Error fetching current user: $e");
     }
   }
 }

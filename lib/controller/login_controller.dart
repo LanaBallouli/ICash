@@ -250,7 +250,7 @@ class LoginController extends ChangeNotifier {
         }
 
         if (!context.mounted) return;
-        Provider.of<UserController>(context, listen: false).fetchUserName();
+        Provider.of<UserController>(context, listen: false).fetchCurrentUser(context);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),
