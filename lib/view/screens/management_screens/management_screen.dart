@@ -52,7 +52,7 @@ class ManagementScreen extends StatelessWidget {
           return Column(
             children: [
               CategoryButtonsWidget(),
-              SizedBox(height: 8.h),
+              SizedBox(height: 20.h),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: InputWidget(
@@ -66,7 +66,7 @@ class ManagementScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.h),
+              // SizedBox(height: 10.h),
               Expanded(
                 child: Builder(
                   builder: (context) {

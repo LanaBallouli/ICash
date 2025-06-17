@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/view/screens/home_screens/cash_invoice_screen.dart';
 import 'package:test_sales/view/screens/home_screens/debt_invoice_screen.dart';
-import 'package:test_sales/view/screens/home_screens/monthly_target_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../controller/lang_controller.dart';
+import '../../../controller/sales_controller.dart';
 import '../../../controller/user_controller.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/home_widgets/circle.dart';
 import '../../widgets/home_widgets/button_widget.dart';
-import '../../widgets/home_widgets/progress_card.dart';
+import '../../widgets/home_widgets/daily_sales_widget.dart';
+import '../../widgets/home_widgets/monthly_sales_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -78,67 +80,55 @@ class HomeScreen extends StatelessWidget {
                       mainAxisSpacing: 8,
                       childAspectRatio: 0.95,
                       children: [
-                        ProgressCard(
-                          title: AppLocalizations.of(context)!.daily_sales,
-                          date: 'May 30, 2022',
-                          cardColor: const Color(0xFF10376A),
-                          progressColor: Colors.black,
-                          textColor: Colors.white,
-                          langController: langController,
-                          icon: Icons.incomplete_circle_rounded,
-                        ),
-                        ProgressCard(
-                          title: AppLocalizations.of(context)!.monthly_target,
-                          date: 'May 30, 2022',
-                          textColor: Colors.black,
-                          progressColor: Color(0xFF0B2B4A),
-                          langController: langController,
-                          icon: Icons.safety_check,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MonthlyTargetScreen(),
-                              ),
+                        Consumer<SalesController>(
+                          builder: (context, salesCtrl, _) {
+                            return FutureBuilder<double>(
+                              future: salesCtrl.getDailySales(context),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Text(AppLocalizations.of(context)!
+                                      .error_loading_data);
+                                }
+
+                                final dailySales = snapshot.data ?? 0.0;
+
+                                return DailySalesWidget(
+                                  title:
+                                      AppLocalizations.of(context)!.daily_sales,
+                                  date: DateFormat('yyyy-MM-dd')
+                                      .format(DateTime.now()),
+                                  cardColor: const Color(0xFF10376A),
+                                  textColor: Colors.white,
+                                  progressColor: Colors.red,
+                                  langController: langController,
+                                  progress: dailySales,
+                                );
+                              },
                             );
                           },
                         ),
-                        CardWidget(
-                          title: AppLocalizations.of(context)!.active_rep,
-                          date: 'May 30, 2022',
-                          langController: langController,
-                          textColor: Colors.black,
-                          icon: Icons.ac_unit,
-                          widget: Column(
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.num_active_rep,
-                                style: AppStyles.getFontStyle(
-                                  langController,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                "${numActiveRep.toString()} / 50",
-                                style: AppStyles.getFontStyle(
-                                  langController,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
+                        Consumer<SalesController>(
+                          builder: (context, salesCtrl, child) {
+                            double currentSales = salesCtrl.monthlySales;
+                            double monthlyTarget = salesCtrl.monthlyTarget;
+
+                            return MonthlySalesWidget(
+                              currentSales: currentSales,
+                              monthlyTarget: monthlyTarget,
+                            );
+                          },
                         ),
                         CardWidget(
                           title: AppLocalizations.of(context)!.debts,
                           date: 'May 30, 2022',
                           langController: langController,
                           textColor: Colors.black,
-                          icon: Icons.access_alarm,
                           widget: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

@@ -5,7 +5,6 @@ import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/product_controller.dart';
-import 'package:test_sales/view/widgets/home_widgets/add_item_sheet.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/home_widgets/invoice_row_widget.dart';
 
@@ -273,15 +272,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
                     backgroundColor:
                         WidgetStateProperty.all<Color>(Colors.white),
                   ),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        return AddItemSheet();
-                      },
-                    );
-                  },
+                  onPressed: () {},
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(

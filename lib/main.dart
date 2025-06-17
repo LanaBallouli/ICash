@@ -12,6 +12,7 @@ import 'package:test_sales/controller/location_controller.dart';
 import 'package:test_sales/controller/login_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/product_controller.dart';
+import 'package:test_sales/controller/sales_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/controller/secure_storage_controller.dart';
 import 'package:test_sales/controller/user_controller.dart';
@@ -20,6 +21,7 @@ import 'package:test_sales/repository/address_repository.dart';
 import 'package:test_sales/repository/client_repository.dart';
 import 'package:test_sales/repository/invoice_repository.dart';
 import 'package:test_sales/repository/product_repository.dart';
+import 'package:test_sales/repository/sales_repository.dart';
 import 'package:test_sales/repository/salesman_repository.dart';
 import 'package:test_sales/repository/user_supabase_repository.dart';
 import 'package:test_sales/repository/visit_repository.dart';
@@ -34,7 +36,7 @@ Future<void> main() async {
     await Supabase.initialize(
       url: 'https://hjvobotsjdmmoscfgqtx.supabase.co',
       anonKey:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhqdm9ib3RzamRtbW9zY2ZncXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NzYwMTgsImV4cCI6MjA1MzA1MjAxOH0.OdO2l43Uqd8tqBRN4LUoz8fVmgLgYy6nu-W0RW7lYHA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhqdm9ib3RzamRtbW9zY2ZncXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NzYwMTgsImV4cCI6MjA1MzA1MjAxOH0.OdO2l43Uqd8tqBRN4LUoz8fVmgLgYy6nu-W0RW7lYHA',
     );
   } catch (e) {
     print("Supabase init failed: $e");
@@ -50,6 +52,7 @@ Future<void> main() async {
   final visitRepository = VisitRepository(supabaseApi);
   final productRepository = ProductRepository(supabaseApi);
   final userSupabaseRepository = UserSupabaseRepository();
+  final salesRepository = SalesRepository();
 
   final langController = LangController();
   await langController.initSharedPreferences();
@@ -64,15 +67,24 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (_) => ManagementController()),
             ChangeNotifierProvider(create: (_) => CameraController()),
             ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
-            ChangeNotifierProvider(create: (_) => UserController(userSupabaseRepository)),
+            ChangeNotifierProvider(
+                create: (_) => UserController(userSupabaseRepository)),
             ChangeNotifierProvider(create: (_) => LocationController()),
+            ChangeNotifierProvider(
+                create: (_) => SalesController(salesRepository)),
             ChangeNotifierProvider(create: (_) => LangController()),
-            ChangeNotifierProvider(create: (_) => ClientsController(clientRepository)),
-            ChangeNotifierProvider(create: (_) => SalesmanController(salesmanRepository)),
-            ChangeNotifierProvider(create: (_) => ProductController(productRepository)),
-            ChangeNotifierProvider(create: (_) => VisitsController(visitRepository)),
-            ChangeNotifierProvider(create: (_) => InvoicesController(invoiceRepository)),
-            ChangeNotifierProvider(create: (_) => AddressController(addressRepository)),
+            ChangeNotifierProvider(
+                create: (_) => ClientsController(clientRepository)),
+            ChangeNotifierProvider(
+                create: (_) => SalesmanController(salesmanRepository)),
+            ChangeNotifierProvider(
+                create: (_) => ProductController(productRepository)),
+            ChangeNotifierProvider(
+                create: (_) => VisitsController(visitRepository)),
+            ChangeNotifierProvider(
+                create: (_) => InvoicesController(invoiceRepository)),
+            ChangeNotifierProvider(
+                create: (_) => AddressController(addressRepository)),
           ],
           child: MyApp(),
         );
