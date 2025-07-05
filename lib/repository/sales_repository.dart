@@ -12,7 +12,7 @@ class SalesRepository {
     final response = await _client
         .from('invoices')
         .select('total')
-        .eq('date', today);
+        .eq('issue_date', today);
 
     final List<dynamic> salesList = response;
 

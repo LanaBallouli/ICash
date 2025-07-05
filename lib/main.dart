@@ -67,24 +67,16 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (_) => ManagementController()),
             ChangeNotifierProvider(create: (_) => CameraController()),
             ChangeNotifierProvider(create: (_) => SecureStorageProvider()),
-            ChangeNotifierProvider(
-                create: (_) => UserController(userSupabaseRepository)),
+            ChangeNotifierProvider(create: (_) => UserController(userSupabaseRepository)),
             ChangeNotifierProvider(create: (_) => LocationController()),
-            ChangeNotifierProvider(
-                create: (_) => SalesController(salesRepository)),
+            ChangeNotifierProvider(create: (_) => SalesController(salesRepository)),
             ChangeNotifierProvider(create: (_) => LangController()),
-            ChangeNotifierProvider(
-                create: (_) => ClientsController(clientRepository)),
-            ChangeNotifierProvider(
-                create: (_) => SalesmanController(salesmanRepository)),
-            ChangeNotifierProvider(
-                create: (_) => ProductController(productRepository)),
-            ChangeNotifierProvider(
-                create: (_) => VisitsController(visitRepository)),
-            ChangeNotifierProvider(
-                create: (_) => InvoicesController(invoiceRepository)),
-            ChangeNotifierProvider(
-                create: (_) => AddressController(addressRepository)),
+            ChangeNotifierProvider(create: (_) => ClientsController(clientRepository)),
+            ChangeNotifierProvider(create: (_) => SalesmanController(salesmanRepository)),
+            ChangeNotifierProvider(create: (_) => ProductController(productRepository)),
+            ChangeNotifierProvider(create: (_) => VisitsController(visitRepository)),
+            ChangeNotifierProvider(create: (_) => InvoicesController(invoiceRepository)),
+            ChangeNotifierProvider(create: (_) => AddressController(addressRepository)),
           ],
           child: MyApp(),
         );

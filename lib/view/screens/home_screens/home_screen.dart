@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/invoice_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/view/screens/home_screens/cash_invoice_screen.dart';
 import 'package:test_sales/view/screens/home_screens/debt_invoice_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
+import 'package:test_sales/view/widgets/home_widgets/debt_calculator_widget.dart';
+import 'package:test_sales/view/widgets/home_widgets/top_salesman_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../controller/lang_controller.dart';
@@ -22,10 +28,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchTextEditingController = TextEditingController();
-    int numActiveRep = 22;
-    int numDebts = 44;
     final langController = Provider.of<LangController>(context);
+    final invoiceController = Provider.of<InvoicesController>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -52,14 +56,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  Divider(color: Color(0xFFe2e2e2)),
                   const SizedBox(height: 10),
-                  InputWidget(
-                    textEditingController: searchTextEditingController,
-                    obscureText: false,
-                    prefixIcon: const Icon(Icons.search),
-                    label: AppLocalizations.of(context)!.search,
-                  ),
-                  const SizedBox(height: 20),
                   Text(
                     AppLocalizations.of(context)!.dashboard,
                     style: AppStyles.getFontStyle(
@@ -80,39 +78,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisSpacing: 8,
                       childAspectRatio: 0.95,
                       children: [
-                        Consumer<SalesController>(
-                          builder: (context, salesCtrl, _) {
-                            return FutureBuilder<double>(
-                              future: salesCtrl.getDailySales(context),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                }
-
-                                if (snapshot.hasError) {
-                                  return Text(AppLocalizations.of(context)!
-                                      .error_loading_data);
-                                }
-
-                                final dailySales = snapshot.data ?? 0.0;
-
-                                return DailySalesWidget(
-                                  title:
-                                      AppLocalizations.of(context)!.daily_sales,
-                                  date: DateFormat('yyyy-MM-dd')
-                                      .format(DateTime.now()),
-                                  cardColor: const Color(0xFF10376A),
-                                  textColor: Colors.white,
-                                  progressColor: Colors.red,
-                                  langController: langController,
-                                  progress: dailySales,
-                                );
-                              },
-                            );
-                          },
-                        ),
+                        DailySalesWidget(),
                         Consumer<SalesController>(
                           builder: (context, salesCtrl, child) {
                             double currentSales = salesCtrl.monthlySales;
@@ -124,37 +90,13 @@ class HomeScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        CardWidget(
-                          title: AppLocalizations.of(context)!.debts,
-                          date: 'May 30, 2022',
-                          langController: langController,
-                          textColor: Colors.black,
-                          widget: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.total_debts,
-                                style: AppStyles.getFontStyle(
-                                  langController,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                "${numDebts.toString()} د.أ.",
-                                style: AppStyles.getFontStyle(
-                                  langController,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.red,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        DebtCardWidget(invoices: invoiceController.invoices),
+                        Consumer<SalesmanController>(
+                          builder: (context, salesmanController, child) {
+                            return TopSalesmanWidget(
+                                salesmen: salesmanController.salesMen);
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -197,113 +139,35 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(
                         height: 15,
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Circle(
-                                name: AppLocalizations.of(context)!
-                                    .create_invoice,
-                                icon: "assets/images/bills.png",
-                                size: 50,
-                                onPress: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          AlertDialog(
-                                            backgroundColor: Colors.white,
-                                            alignment: Alignment.topCenter,
-                                            title: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Choose invoice type",
-                                                style: AppStyles.getFontStyle(
-                                                  langController,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16.sp,
-                                                ),
-                                              ),
-                                            ),
-                                            actions: [
-                                              ButtonWidget(
-                                                buttonName: "Cash",
-                                                buttonColor: Colors.white,
-                                                textColor: Colors.black,
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CashInvoiceScreen(),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                              SizedBox(
-                                                height: 16.h,
-                                              ),
-                                              ButtonWidget(
-                                                buttonName: "Debt",
-                                                buttonColor: Colors.white,
-                                                textColor: Colors.black,
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DebtInvoiceScreen(),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Circle(
-                                name: AppLocalizations.of(context)!
-                                    .account_statement,
-                                icon: "assets/images/accept.png",
-                                size: 50,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Circle(
-                                name:
-                                    AppLocalizations.of(context)!.accept_debts,
-                                icon: "assets/images/accept.png",
-                                size: 50,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Circle(
-                                name: AppLocalizations.of(context)!.set_path,
-                                icon: "assets/images/google-maps.png",
-                                size: 50,
-                              ),
-                            ),
-                          ],
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomButtonWidget(
+                            title: AppLocalizations.of(context)!.create_invoice,
+                            icon: Icons.receipt_long_outlined,
+                            color: AppConstants.buttonColor,
+                            titleColor: Colors.black,
+                          ),
+                          SizedBox(height: 16.h),
+                          CustomButtonWidget(
+                            title:
+                                AppLocalizations.of(context)!.account_statement,
+                            icon: Icons.account_balance_wallet_outlined,
+                          ),
+                          SizedBox(height: 16.h),
+                          CustomButtonWidget(
+                            title: AppLocalizations.of(context)!.assign_tasks,
+                            icon: Icons.assignment_turned_in_outlined,
+                            color: AppConstants.buttonColor,
+                            titleColor: Colors.black,
+                          ),
+                          SizedBox(height: 16.h),
+                          CustomButtonWidget(
+                            title: AppLocalizations.of(context)!.accept_debts,
+                            icon: Icons.pending_actions,
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 20,
@@ -314,52 +178,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "المهام",
-                    style: AppStyles.getFontStyle(
-                      langController,
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ButtonWidget(
-                    buttonName: "buttonName",
-                    buttonColor: Colors.black12,
-                    textColor: Colors.black,
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonWidget(
-                    buttonName: "buttonName",
-                    buttonColor: Colors.black12,
-                    textColor: Colors.black,
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonWidget(
-                    buttonName: "buttonName",
-                    buttonColor: Colors.black12,
-                    textColor: Colors.black,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
+              height: 20.h,
+            )
           ],
         ),
       ),

@@ -772,4 +772,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get user_not_found_in_db => 'المستخدم غير موجود في قاعدة البيانات';
+
+  @override
+  String get total_debt => 'إجمالي الذمم';
+
+  @override
+  String get jd => 'د.أ.';
+
+  @override
+  String get top_performer => 'أفضل مندوب مبيعات';
+
+  @override
+  String get assign_tasks => 'تعيين المهام';
+
+  @override
+  String get invoice => 'الفاتورة';
+
+  @override
+  String get no_unpaid_invoices => 'لا توجد فواتير غير مدفوعة';
 }

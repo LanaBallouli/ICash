@@ -207,10 +207,7 @@ class ProductMoreDetailsScreen extends StatelessWidget {
             builder: (context, managementController, child) {
               return CustomButtonWidget(
                 title: AppLocalizations.of(context)!.update,
-                colors: [
-                  AppConstants.primaryColor2,
-                  AppConstants.primaryColor2
-                ],
+                color: AppConstants.primaryColor2,
                 borderRadius: 12.r,
                 titleColor: Colors.white,
                 fontSize: 15.sp,
@@ -226,7 +223,7 @@ class ProductMoreDetailsScreen extends StatelessWidget {
         Expanded(
           child: CustomButtonWidget(
             title: AppLocalizations.of(context)!.remove_product,
-            colors: [Color(0xFF910000), Color(0xFF910000)],
+            color: Color(0xFF910000),
             borderRadius: 12.r,
             titleColor: Colors.white,
             fontSize: 15.sp,

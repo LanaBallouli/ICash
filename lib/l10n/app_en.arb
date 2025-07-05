@@ -253,5 +253,13 @@
   "delete_salesman": "Delete User",
   "remove_product": "Remove product",
   "user_not_found": "User not found",
-  "user_not_found_in_db": "User not found in database"
+  "user_not_found_in_db": "User not found in database",
+  "total_debt": "Total Debt",
+  "jd":"JD",
+  "top_performer": "Top Performer",
+  "assign_tasks": "Assign Tasks",
+  "invoice": "Invoice",
+  "no_unpaid_invoices": "No unpaid invoices"
+
+
 }

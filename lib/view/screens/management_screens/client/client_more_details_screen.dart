@@ -455,7 +455,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
         Expanded(
           child: CustomButtonWidget(
             title: local.update,
-            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+            color:AppConstants.primaryColor2,
             borderRadius: 12.r,
             titleColor: Colors.white,
             fontSize: 15.sp,
@@ -477,7 +477,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
         Expanded(
           child: CustomButtonWidget(
             title: local.delete,
-            colors: [Colors.red, Colors.redAccent],
+            color: Colors.red,
             titleColor: Colors.white,
             fontSize: 15.sp,
             borderRadius: 12.r,

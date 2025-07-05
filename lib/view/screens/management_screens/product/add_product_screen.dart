@@ -69,7 +69,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             CustomButtonWidget(
               title: local.ok,
               onPressed: Navigator.of(context).pop,
-              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+              color: AppConstants.primaryColor2,
               borderRadius: 12.r,
             ),
           ],
@@ -209,10 +209,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Expanded(
                     child: CustomButtonWidget(
                       title: local.save,
-                      colors: [
-                        AppConstants.primaryColor2,
-                        AppConstants.primaryColor2
-                      ],
+                      color: AppConstants.primaryColor2,
                       borderRadius: 12.r,
                       titleColor: Colors.white,
                       fontSize: 16.sp,
@@ -224,10 +221,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Expanded(
                     child: CustomButtonWidget(
                       title: local.cancel,
-                      colors: [
-                        AppConstants.buttonColor,
-                        AppConstants.buttonColor
-                      ],
+                      color: AppConstants.buttonColor,
                       borderRadius: 12.r,
                       titleColor: Colors.grey,
                       fontSize: 15.sp,

@@ -205,7 +205,7 @@ class ManagementItemWidget<T> extends StatelessWidget {
               height: 45.h,
               title: AppLocalizations.of(context)!.more_details,
               titleColor: Colors.white,
-              colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+              color: AppConstants.primaryColor2,
               borderRadius: 25.r,
               onPressed: () {
                 if (_isProduct()) {

@@ -94,10 +94,7 @@ class ClientsWidget extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       title: AppLocalizations.of(context)!.more_details,
                       titleColor: Colors.white,
-                      colors: [
-                        AppConstants.primaryColor2,
-                        AppConstants.primaryColor2
-                      ],
+                      color:AppConstants.primaryColor2,
                       borderRadius: 12.r,
                       onPressed: () {
                         Navigator.push(

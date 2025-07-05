@@ -253,5 +253,11 @@
   "delete_salesman": "إزالة المندوب",
   "remove_product": "إزالة المنتج",
   "user_not_found": "المستخدم غير موجود",
-  "user_not_found_in_db": "المستخدم غير موجود في قاعدة البيانات"
+  "user_not_found_in_db": "المستخدم غير موجود في قاعدة البيانات",
+  "total_debt": "إجمالي الذمم",
+  "jd": "د.أ.",
+  "top_performer": "أفضل مندوب مبيعات",
+  "assign_tasks": "تعيين المهام",
+  "invoice": "الفاتورة",
+  "no_unpaid_invoices": "لا توجد فواتير غير مدفوعة"
 }

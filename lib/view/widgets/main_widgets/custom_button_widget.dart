@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
+
 import '../../../app_constants.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   String? title;
   VoidCallback? onPressed;
-  List<Color>? colors;
+  Color? color;
+  Color? fontColor;
   Color? titleColor;
   double? borderRadius;
   TextStyle? style;
@@ -16,47 +18,60 @@ class CustomButtonWidget extends StatelessWidget {
   double? width;
   double? fontSize;
   FontWeight? fontWeight;
+  IconData? icon;
 
   CustomButtonWidget(
       {super.key,
       required this.title,
       this.style,
       this.onPressed,
-      this.colors,
+      this.color,
       this.titleColor,
       this.borderRadius,
       this.width,
       this.height,
       this.fontSize,
-      this.fontWeight});
+      this.fontWeight,
+      this.icon,
+      this.fontColor});
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context, listen: false);
     return Container(
-      height: height ?? 48.h,
-      width: width ?? 307.w,
+      height: height ?? 56.h,
+      width: width ?? double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius ?? 69),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: colors ?? [AppConstants.primaryColor2, Color(0xFF0F481F)],
-        ),
-      ),
+          borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
+          color: color ?? AppConstants.primaryColor2,
+          border: Border.all(color: Color(0xFFe2e2e2))),
       child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          title!,
-          style: style ??
-              AppStyles.getFontStyle(
-                langController,
-                fontSize: fontSize ?? 14.sp,
-                color: titleColor ?? Colors.white,
-                fontWeight: fontWeight ?? FontWeight.w600,
+          onPressed: onPressed ?? () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                Icon(
+                  icon,
+                  color: titleColor ?? Colors.white,
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+              ],
+              Text(
+                title!,
+                style: style ??
+                    AppStyles.getFontStyle(
+                      langController,
+                      fontSize: fontSize ?? 16.sp,
+                      color: titleColor ?? Colors.white,
+                      fontWeight: fontWeight ?? FontWeight.w600,
+                    ),
               ),
-        ),
-      ),
+            ],
+          )),
     );
   }
 }

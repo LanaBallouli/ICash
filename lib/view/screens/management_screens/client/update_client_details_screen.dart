@@ -323,7 +323,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
         Expanded(
           child: CustomButtonWidget(
             title: AppLocalizations.of(context)!.save,
-            colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+            color:AppConstants.primaryColor2,
             borderRadius: 12.r,
             titleColor: Colors.white,
             fontSize: 15.sp,
@@ -354,7 +354,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                         title: AppLocalizations.of(context)!.ok,
                         onPressed: Navigator.of(context).pop,
                         borderRadius: 12.r,
-                        colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                        color:AppConstants.primaryColor2,
                       )
                     ],
                   ),
@@ -394,7 +394,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                       CustomButtonWidget(
                         title: AppLocalizations.of(context)!.ok,
                         onPressed: Navigator.of(context).pop,
-                        colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                        color:AppConstants.primaryColor2,
                       )
                     ],
                   ),
@@ -439,7 +439,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                         cameraController.clearImages('profession_license');
                       },
                       borderRadius: 12.r,
-                      colors: [AppConstants.primaryColor2, AppConstants.primaryColor2],
+                      color:AppConstants.primaryColor2,
                     )
                   ],
                 ),
@@ -451,7 +451,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
         Expanded(
           child: CustomButtonWidget(
             title: AppLocalizations.of(context)!.cancel,
-            colors: [AppConstants.buttonColor, AppConstants.buttonColor],
+            color:AppConstants.primaryColor2,
             borderRadius: 12.r,
             titleColor: Colors.grey,
             fontSize: 15.sp,

@@ -772,4 +772,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get user_not_found_in_db => 'User not found in database';
+
+  @override
+  String get total_debt => 'Total Debt';
+
+  @override
+  String get jd => 'JD';
+
+  @override
+  String get top_performer => 'Top Performer';
+
+  @override
+  String get assign_tasks => 'Assign Tasks';
+
+  @override
+  String get invoice => 'Invoice';
+
+  @override
+  String get no_unpaid_invoices => 'No unpaid invoices';
 }

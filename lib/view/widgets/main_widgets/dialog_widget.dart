@@ -60,7 +60,7 @@ class DialogWidget extends StatelessWidget {
           [
             CustomButtonWidget(
                 title: AppLocalizations.of(context)!.yes,
-                colors: [AppConstants.errorColor, AppConstants.errorColor],
+                color:AppConstants.errorColor,
                 height: 60.h,
                 borderRadius: 12.r,
                 titleColor: Colors.white,
@@ -71,7 +71,7 @@ class DialogWidget extends StatelessWidget {
             ),
             CustomButtonWidget(
               title: AppLocalizations.of(context)!.cancel,
-              colors: [AppConstants.buttonColor, AppConstants.buttonColor],
+              color:AppConstants.buttonColor,
               height: 60.h,
               borderRadius: 12.r,
               titleColor: Colors.grey,

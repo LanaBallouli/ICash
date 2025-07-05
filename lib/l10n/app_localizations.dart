@@ -1624,6 +1624,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User not found in database'**
   String get user_not_found_in_db;
+
+  /// No description provided for @total_debt.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Debt'**
+  String get total_debt;
+
+  /// No description provided for @jd.
+  ///
+  /// In en, this message translates to:
+  /// **'JD'**
+  String get jd;
+
+  /// No description provided for @top_performer.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Performer'**
+  String get top_performer;
+
+  /// No description provided for @assign_tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Tasks'**
+  String get assign_tasks;
+
+  /// No description provided for @invoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice'**
+  String get invoice;
+
+  /// No description provided for @no_unpaid_invoices.
+  ///
+  /// In en, this message translates to:
+  /// **'No unpaid invoices'**
+  String get no_unpaid_invoices;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -21,7 +21,6 @@ class CardWidget extends StatelessWidget {
     required this.widget,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -33,6 +32,7 @@ class CardWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

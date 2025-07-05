@@ -164,10 +164,7 @@ class AddSalesmanScreen extends StatelessWidget {
                 (context, managementController, salesmanController, child) {
               return CustomButtonWidget(
                 title: AppLocalizations.of(context)!.save,
-                colors: [
-                  AppConstants.primaryColor2,
-                  AppConstants.primaryColor2
-                ],
+                color:  AppConstants.primaryColor2,
                 borderRadius: 12.r,
                 titleColor: Colors.white,
                 fontSize: 15.sp,
@@ -249,10 +246,7 @@ class AddSalesmanScreen extends StatelessWidget {
                                 managementController.clearErrors();
                               },
                               borderRadius: 12.r,
-                              colors: [
-                                AppConstants.primaryColor2,
-                                AppConstants.primaryColor2
-                              ],
+                              color: AppConstants.primaryColor2
                             ),
                           ],
                         );
@@ -277,10 +271,7 @@ class AddSalesmanScreen extends StatelessWidget {
                                 Navigator.pop(context);
                               },
                               borderRadius: 12.r,
-                              colors: [
-                                AppConstants.primaryColor2,
-                                AppConstants.primaryColor2
-                              ],
+                              color:  AppConstants.primaryColor2
                             ),
                           ],
                         );
@@ -297,7 +288,7 @@ class AddSalesmanScreen extends StatelessWidget {
           builder: (context, managementController, child) {
             return CustomButtonWidget(
               title: AppLocalizations.of(context)!.cancel,
-              colors: [AppConstants.buttonColor, AppConstants.buttonColor],
+              color: AppConstants.primaryColor2,
               borderRadius: 12.r,
               titleColor: Colors.grey,
               fontSize: 15.sp,

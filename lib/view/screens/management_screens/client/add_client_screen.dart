@@ -239,10 +239,7 @@ class AddClientScreen extends StatelessWidget {
                 cameraController, child) {
               return CustomButtonWidget(
                 title: AppLocalizations.of(context)!.save,
-                colors: [
-                  AppConstants.primaryColor2,
-                  AppConstants.primaryColor2
-                ],
+                color:AppConstants.primaryColor2,
                 borderRadius: 12.r,
                 titleColor: Colors.white,
                 fontSize: 15.sp,
@@ -335,10 +332,7 @@ class AddClientScreen extends StatelessWidget {
                                     .clearImages('profession_license');
                               },
                               borderRadius: 12.r,
-                              colors: [
-                                AppConstants.primaryColor2,
-                                AppConstants.primaryColor2
-                              ],
+                              color:AppConstants.primaryColor2,
                             ),
                           ],
                         );
@@ -363,10 +357,7 @@ class AddClientScreen extends StatelessWidget {
                                 Navigator.pop(context);
                               },
                               borderRadius: 12.r,
-                              colors: [
-                                AppConstants.primaryColor2,
-                                AppConstants.primaryColor2
-                              ],
+                              color:AppConstants.primaryColor2,
                             ),
                           ],
                         );
@@ -385,7 +376,7 @@ class AddClientScreen extends StatelessWidget {
           builder: (context, clientsController, cameraController, child) {
             return CustomButtonWidget(
               title: AppLocalizations.of(context)!.cancel,
-              colors: [AppConstants.buttonColor, AppConstants.buttonColor],
+              color:AppConstants.primaryColor2,
               borderRadius: 12.r,
               titleColor: Colors.grey,
               fontSize: 15.sp,
