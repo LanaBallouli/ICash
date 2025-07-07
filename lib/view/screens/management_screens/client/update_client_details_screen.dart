@@ -9,7 +9,6 @@ import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/controller/clients_controller.dart';
 import 'package:test_sales/model/address.dart';
 import 'package:test_sales/model/client.dart';
-import 'package:test_sales/repository/address_repository.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
@@ -77,15 +76,9 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
   }
 
   Future<void> loadAddressData(BuildContext context) async {
-    if (widget.client.addressId == null) {
-      currentLocation =
-          widget.location ?? LatLng(31.985934703432616, 35.900362288558114);
-      return;
-    }
-
     try {
       final Address? address =
-          await addressController.fetchAddressById(widget.client.addressId!);
+          await addressController.fetchAddressById(widget.client.addressId);
 
       if (address != null) {
         currentAddress = address;
@@ -381,26 +374,6 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
               );
 
               final savedAddress = await addressController.updateAddress(updatedAddress);
-
-              if (savedAddress == null) {
-                // Show address save error
-                showDialog(
-                  context: context,
-                  builder: (_) => DialogWidget(
-                    title: AppLocalizations.of(context)!.error,
-                    content: AppLocalizations.of(context)!.something_went_wrong,
-                    imageUrl: "assets/images/cancel.png",
-                    actions: [
-                      CustomButtonWidget(
-                        title: AppLocalizations.of(context)!.ok,
-                        onPressed: Navigator.of(context).pop,
-                        color:AppConstants.primaryColor2,
-                      )
-                    ],
-                  ),
-                );
-                return;
-              }
 
               // Build updated client
               final updatedClient = widget.client.copyWith(

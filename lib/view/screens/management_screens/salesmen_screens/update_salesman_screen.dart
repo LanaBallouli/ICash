@@ -293,6 +293,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                 totalSales: widget.salesman.totalSales,
                 closedDeals: widget.salesman.closedDeals,
                 notes: managementController.notesController.text,
+                // supabaseUid: widget.salesman.supabaseUid
               );
 
               salesmanController.updateSalesman(updatedUser, widget.index);

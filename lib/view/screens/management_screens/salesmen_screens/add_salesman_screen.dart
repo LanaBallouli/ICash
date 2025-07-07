@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
@@ -207,6 +208,7 @@ class AddSalesmanScreen extends StatelessWidget {
                     final dailyTarget = double.tryParse(
                         managementController.dailyTargetController.text);
 
+                    final currentUser = Supabase.instance.client.auth.currentUser;
 
                     salesmanController.addNewSalesman(SalesMan(
                       fullName: managementController.nameController.text,
@@ -225,6 +227,7 @@ class AddSalesmanScreen extends StatelessWidget {
                       regionId: managementController.selectedRegion?.id ?? 1,
                       notes: managementController.notesController.text,
                       type: managementController.selectedType!,
+                      // supabaseUid: currentUser?.id ?? "",
                     ));
 
                     print("Debug: New user added successfully.");

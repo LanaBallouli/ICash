@@ -790,4 +790,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_unpaid_invoices => 'No unpaid invoices';
+
+  @override
+  String get user => 'User';
+
+  @override
+  String get amman => 'Amman';
+
+  @override
+  String get zarqa => 'Zarqa';
+
+  @override
+  String get irbid => 'Irbid';
+
+  @override
+  String get aqaba => 'Aqaba';
+
+  @override
+  String get salt => 'Salt';
+
+  @override
+  String get madaba => 'Madaba';
+
+  @override
+  String get karak => 'Karak';
+
+  @override
+  String get jerash => 'Jerash';
+
+  @override
+  String get ajloun => 'Ajloun';
+
+  @override
+  String get settings_screen => 'Settings Screen';
+
+  @override
+  String get general_settings => 'General Settings';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get manage_profile => 'Manage Profile';
+
+  @override
+  String get sales_settings => 'Sales Settings';
+
+  @override
+  String get daily_sales_target => 'Daily Sales Target';
+
+  @override
+  String get monthly_sales_target => 'Monthly Sales Target';
 }

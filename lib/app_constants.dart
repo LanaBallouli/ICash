@@ -14,13 +14,15 @@ class AppConstants {
 
   static List<Region> getRegions(BuildContext context) {
     return [
-      Region(id: 1, name: AppLocalizations.of(context)!.northAmman),
-      Region(id: 2, name: AppLocalizations.of(context)!.southAmman),
-      Region(id: 3, name: AppLocalizations.of(context)!.eastAmman1),
-      Region(id: 4, name: AppLocalizations.of(context)!.eastAmman2),
-      Region(id: 5, name: AppLocalizations.of(context)!.westAmman1),
-      Region(id: 6, name: AppLocalizations.of(context)!.westAmman2),
-      Region(id: 7, name: AppLocalizations.of(context)!.zarqaAndRusseifa),
+      Region(id: 1, name: AppLocalizations.of(context)!.amman),
+      Region(id: 2, name: AppLocalizations.of(context)!.zarqa),
+      Region(id: 3, name: AppLocalizations.of(context)!.irbid),
+      Region(id: 4, name: AppLocalizations.of(context)!.aqaba),
+      Region(id: 5, name: AppLocalizations.of(context)!.salt),
+      Region(id: 6, name: AppLocalizations.of(context)!.madaba),
+      Region(id: 7, name: AppLocalizations.of(context)!.karak),
+      Region(id: 8, name: AppLocalizations.of(context)!.jerash),
+      Region(id: 9, name: AppLocalizations.of(context)!.ajloun),
     ];
   }
 

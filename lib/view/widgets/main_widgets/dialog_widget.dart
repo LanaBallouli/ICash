@@ -23,7 +23,7 @@ class DialogWidget extends StatelessWidget {
     this.content,
     this.backgroundColor,
     this.actions,
-    required this.imageUrl,
+    this.imageUrl,
   });
 
   @override
@@ -50,11 +50,6 @@ class DialogWidget extends StatelessWidget {
           color: Colors.black45,
           fontWeight: FontWeight.w400,
         ),
-      ),
-      icon: Image.asset(
-        imageUrl!,
-        height: 100.h,
-        width: 100.w,
       ),
       actions: actions ??
           [

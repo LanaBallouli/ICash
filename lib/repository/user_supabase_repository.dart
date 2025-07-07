@@ -4,15 +4,14 @@ import '../model/salesman.dart';
 class UserSupabaseRepository {
   final SupabaseClient _client = Supabase.instance.client;
 
-  Future<SalesMan?> getUserById(String userId) async {
+  Future<SalesMan?> getUserById(String supabaseUserId) async {
     final response = await _client
         .from('salesmen')
         .select()
-        .eq('user_id', userId)
+        .eq('supabase_uid', supabaseUserId)
         .single();
 
     if (response == null || response.isEmpty) return null;
 
     return SalesMan.fromJson(response as Map<String, dynamic>);
-  }
-}
+  }}

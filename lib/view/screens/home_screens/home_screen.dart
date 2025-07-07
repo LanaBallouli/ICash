@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/invoice_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
-import 'package:test_sales/view/screens/home_screens/cash_invoice_screen.dart';
-import 'package:test_sales/view/screens/home_screens/debt_invoice_screen.dart';
-import 'package:test_sales/view/widgets/home_widgets/card_widget.dart';
 import 'package:test_sales/view/widgets/home_widgets/debt_calculator_widget.dart';
 import 'package:test_sales/view/widgets/home_widgets/top_salesman_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
-import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../controller/lang_controller.dart';
 import '../../../controller/sales_controller.dart';
 import '../../../controller/user_controller.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../widgets/home_widgets/circle.dart';
-import '../../widgets/home_widgets/button_widget.dart';
 import '../../widgets/home_widgets/daily_sales_widget.dart';
 import '../../widgets/home_widgets/monthly_sales_widget.dart';
 
@@ -30,156 +23,133 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context);
     final invoiceController = Provider.of<InvoicesController>(context);
+    final salesCtrl = Provider.of<SalesController>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar:
           MainAppbarWidget(title: AppLocalizations.of(context)!.main_screen),
       body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Consumer<UserController>(
+              builder: (context, userProvider, _) {
+                final fullName = userProvider.currentUser?.fullName ??
+                    AppLocalizations.of(context)!.user;
+
+                return Text(
+                  "${AppLocalizations.of(context)!.hi} $fullName!",
+                  style: AppStyles.getFontStyle(
+                    langController,
+                    fontSize: 24.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+              },
+            ),
+            Divider(color: Color(0xFFe2e2e2), height: 30.h),
+            Text(
+              AppLocalizations.of(context)!.dashboard,
+              style: AppStyles.getFontStyle(
+                langController,
+                fontSize: 15.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: 10.h),
+            SizedBox(
+              width: double.infinity,
+              child: GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.w,
+                mainAxisSpacing: 8.h,
+                childAspectRatio: 0.95,
                 children: [
-                  Consumer<UserController>(
-                    builder: (context, userProvider, child) {
-                      return Text(
-                        "${AppLocalizations.of(context)!.hi} ${userProvider.currentUser?.fullName ?? ''}!",
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 24,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  DailySalesWidget(),
+                  MonthlySalesWidget(
+                    currentSales: salesCtrl.monthlySales,
+                    monthlyTarget: salesCtrl.monthlyTarget,
+                  ),
+                  DebtCardWidget(invoices: invoiceController.invoices),
+                  Consumer<SalesmanController>(
+                    builder: (context, salesmanController, _) {
+                      return TopSalesmanWidget(
+                        salesmen: salesmanController.salesMen,
                       );
                     },
-                  ),
-                  Divider(color: Color(0xFFe2e2e2)),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocalizations.of(context)!.dashboard,
-                    style: AppStyles.getFontStyle(
-                      langController,
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 0.95,
-                      children: [
-                        DailySalesWidget(),
-                        Consumer<SalesController>(
-                          builder: (context, salesCtrl, child) {
-                            double currentSales = salesCtrl.monthlySales;
-                            double monthlyTarget = salesCtrl.monthlyTarget;
-
-                            return MonthlySalesWidget(
-                              currentSales: currentSales,
-                              monthlyTarget: monthlyTarget,
-                            );
-                          },
-                        ),
-                        DebtCardWidget(invoices: invoiceController.invoices),
-                        Consumer<SalesmanController>(
-                          builder: (context, salesmanController, child) {
-                            return TopSalesmanWidget(
-                                salesmen: salesmanController.salesMen);
-                          },
-                        )
-                      ],
-                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
+            SizedBox(height: 20.h),
+            Text(
+              AppLocalizations.of(context)!.quick_access,
+              style: AppStyles.getFontStyle(
+                langController,
+                fontSize: 15.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color(0xFFFAFAFA),
-                  border: Border.all(width: 0.5, color: Colors.black12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF363535).withOpacity(0.16),
-                      blurRadius: 6,
-                      offset: const Offset(4, 0),
+            SizedBox(height: 16.h),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+                color: const Color(0xFFFAFAFA),
+                border: Border.all(width: 0.5, color: Colors.black12),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF363535).withOpacity(0.16),
+                    blurRadius: 6.r,
+                    offset: Offset(4, 0),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomButtonWidget(
+                      title: AppLocalizations.of(context)!.create_invoice,
+                      icon: Icons.receipt_long_outlined,
+                      color: AppConstants.buttonColor,
+                      titleColor: Colors.black,
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/invoice-create'),
+                    ),
+                    SizedBox(height: 16.h),
+                    CustomButtonWidget(
+                      title: AppLocalizations.of(context)!.account_statement,
+                      icon: Icons.account_balance_wallet_outlined,
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/statements'),
+                    ),
+                    SizedBox(height: 16.h),
+                    CustomButtonWidget(
+                      title: AppLocalizations.of(context)!.assign_tasks,
+                      icon: Icons.assignment_turned_in_outlined,
+                      color: AppConstants.buttonColor,
+                      titleColor: Colors.black,
+                      onPressed: () => Navigator.pushNamed(context, '/tasks'),
+                    ),
+                    SizedBox(height: 16.h),
+                    CustomButtonWidget(
+                      title: AppLocalizations.of(context)!.accept_debts,
+                      icon: Icons.pending_actions,
+                      onPressed: () {},
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.quick_access,
-                        style: AppStyles.getFontStyle(
-                          langController,
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomButtonWidget(
-                            title: AppLocalizations.of(context)!.create_invoice,
-                            icon: Icons.receipt_long_outlined,
-                            color: AppConstants.buttonColor,
-                            titleColor: Colors.black,
-                          ),
-                          SizedBox(height: 16.h),
-                          CustomButtonWidget(
-                            title:
-                                AppLocalizations.of(context)!.account_statement,
-                            icon: Icons.account_balance_wallet_outlined,
-                          ),
-                          SizedBox(height: 16.h),
-                          CustomButtonWidget(
-                            title: AppLocalizations.of(context)!.assign_tasks,
-                            icon: Icons.assignment_turned_in_outlined,
-                            color: AppConstants.buttonColor,
-                            titleColor: Colors.black,
-                          ),
-                          SizedBox(height: 16.h),
-                          CustomButtonWidget(
-                            title: AppLocalizations.of(context)!.accept_debts,
-                            icon: Icons.pending_actions,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
-            SizedBox(
-              height: 20.h,
-            )
+            SizedBox(height: 20.h),
           ],
         ),
       ),

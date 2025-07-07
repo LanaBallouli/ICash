@@ -152,7 +152,7 @@ class ManagementItemWidget<T> extends StatelessWidget {
               width: 89.w,
               child: CircleAvatar(
                 backgroundColor: const Color(0xFFE7E7E7),
-                foregroundImage: AssetImage(_getImagePath(context)),
+                foregroundImage: AssetImage("assets/images/default_image.png"),
               ),
             ),
           ),

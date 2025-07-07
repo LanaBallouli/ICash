@@ -1660,6 +1660,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No unpaid invoices'**
   String get no_unpaid_invoices;
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
+  /// No description provided for @amman.
+  ///
+  /// In en, this message translates to:
+  /// **'Amman'**
+  String get amman;
+
+  /// No description provided for @zarqa.
+  ///
+  /// In en, this message translates to:
+  /// **'Zarqa'**
+  String get zarqa;
+
+  /// No description provided for @irbid.
+  ///
+  /// In en, this message translates to:
+  /// **'Irbid'**
+  String get irbid;
+
+  /// No description provided for @aqaba.
+  ///
+  /// In en, this message translates to:
+  /// **'Aqaba'**
+  String get aqaba;
+
+  /// No description provided for @salt.
+  ///
+  /// In en, this message translates to:
+  /// **'Salt'**
+  String get salt;
+
+  /// No description provided for @madaba.
+  ///
+  /// In en, this message translates to:
+  /// **'Madaba'**
+  String get madaba;
+
+  /// No description provided for @karak.
+  ///
+  /// In en, this message translates to:
+  /// **'Karak'**
+  String get karak;
+
+  /// No description provided for @jerash.
+  ///
+  /// In en, this message translates to:
+  /// **'Jerash'**
+  String get jerash;
+
+  /// No description provided for @ajloun.
+  ///
+  /// In en, this message translates to:
+  /// **'Ajloun'**
+  String get ajloun;
+
+  /// No description provided for @settings_screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings Screen'**
+  String get settings_screen;
+
+  /// No description provided for @general_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'General Settings'**
+  String get general_settings;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @manage_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Profile'**
+  String get manage_profile;
+
+  /// No description provided for @sales_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales Settings'**
+  String get sales_settings;
+
+  /// No description provided for @daily_sales_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Sales Target'**
+  String get daily_sales_target;
+
+  /// No description provided for @monthly_sales_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Sales Target'**
+  String get monthly_sales_target;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

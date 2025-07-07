@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../app_styles.dart';
-import '../../../../controller/lang_controller.dart';
+import '../../../controller/lang_controller.dart';
 import '../../../app_constants.dart';
 import '../../../l10n/app_localizations.dart';
 import 'card_widget.dart';

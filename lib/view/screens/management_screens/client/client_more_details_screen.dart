@@ -70,19 +70,17 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
     final client = widget.client;
 
     try {
-      if (client.addressId != null) {
-        final address =
-            await addressController.fetchAddressById(client.addressId!);
+      final address =
+          await addressController.fetchAddressById(client.addressId);
 
-        if (address != null) {
-          clientsController.clientStreetController.text = address.street;
-          clientsController.clientBuildingNumController.text =
-              address.buildingNumber.toString();
-          clientsController.clientAdditionalInfoController.text =
-              address.additionalDirections ?? "";
-        }
+      if (address != null) {
+        clientsController.clientStreetController.text = address.street;
+        clientsController.clientBuildingNumController.text =
+            address.buildingNumber.toString();
+        clientsController.clientAdditionalInfoController.text =
+            address.additionalDirections ?? "";
       }
-
+    
       if (client.id != null) {
         salesmenController.getAssignedSalesmen(client.id!);
         invoicesController.fetchInvoicesByClient(client.id!);

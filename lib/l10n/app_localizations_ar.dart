@@ -354,7 +354,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get joining_date => 'تاريخ الانضمام';
 
   @override
-  String get total_sales => 'إجمالي المبيعات';
+  String get total_sales => 'المبيعات';
 
   @override
   String get closed_deals => 'الصفقات المغلقة';
@@ -780,7 +780,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get jd => 'د.أ.';
 
   @override
-  String get top_performer => 'أفضل مندوب مبيعات';
+  String get top_performer => 'أفضل مندوب';
 
   @override
   String get assign_tasks => 'تعيين المهام';
@@ -790,4 +790,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no_unpaid_invoices => 'لا توجد فواتير غير مدفوعة';
+
+  @override
+  String get user => 'مستخدم';
+
+  @override
+  String get amman => 'عمان';
+
+  @override
+  String get zarqa => 'الزرقاء';
+
+  @override
+  String get irbid => 'اربد';
+
+  @override
+  String get aqaba => 'العقبة';
+
+  @override
+  String get salt => 'السلط';
+
+  @override
+  String get madaba => 'مادبا';
+
+  @override
+  String get karak => 'الكرك';
+
+  @override
+  String get jerash => 'جرش';
+
+  @override
+  String get ajloun => 'عجلون';
+
+  @override
+  String get settings_screen => 'الإعدادات';
+
+  @override
+  String get general_settings => 'الإعدادات العامة';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get manage_profile => 'إدارة الملف الشخصي';
+
+  @override
+  String get sales_settings => 'إعدادات المبيعات';
+
+  @override
+  String get daily_sales_target => 'هدف المبيعات اليومي';
+
+  @override
+  String get monthly_sales_target => 'هدف المبيعات الشهري';
 }

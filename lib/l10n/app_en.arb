@@ -255,11 +255,27 @@
   "user_not_found": "User not found",
   "user_not_found_in_db": "User not found in database",
   "total_debt": "Total Debt",
-  "jd":"JD",
+  "jd": "JD",
   "top_performer": "Top Performer",
   "assign_tasks": "Assign Tasks",
   "invoice": "Invoice",
-  "no_unpaid_invoices": "No unpaid invoices"
-
-
+  "no_unpaid_invoices": "No unpaid invoices",
+  "user": "User",
+  "amman": "Amman",
+  "zarqa": "Zarqa",
+  "irbid": "Irbid",
+  "aqaba": "Aqaba",
+  "salt": "Salt",
+  "madaba": "Madaba",
+  "karak": "Karak",
+  "jerash": "Jerash",
+  "ajloun": "Ajloun",
+  "settings_screen": "Settings Screen",
+  "general_settings": "General Settings",
+  "language": "Language",
+  "account": "Account",
+  "manage_profile": "Manage Profile",
+  "sales_settings": "Sales Settings",
+  "daily_sales_target": "Daily Sales Target",
+  "monthly_sales_target": "Monthly Sales Target"
 }
