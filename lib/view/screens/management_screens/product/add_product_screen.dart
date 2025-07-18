@@ -58,12 +58,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
           imageUrl: "assets/images/default_image.png",
         ),
       );
-
+      final langController = Provider.of<LangController>(context, listen: false);
       await showDialog(
         context: context,
         builder: (_) => DialogWidget(
           title: local.product_added,
-          content: local.product_added_successfully,
+          content: Text(
+            local.product_added_successfully,
+            textAlign: TextAlign.center,
+            style: AppStyles.getFontStyle(
+              langController,
+              fontSize: 12,
+              color: Colors.black45,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           imageUrl: "assets/images/success.png",
           actions: [
             CustomButtonWidget(

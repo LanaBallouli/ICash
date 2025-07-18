@@ -8,6 +8,7 @@ import 'package:test_sales/controller/product_controller.dart';
 import 'package:test_sales/model/product.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import '../../../../app_constants.dart';
+import '../../../../app_styles.dart';
 import '../../../../controller/camera_controller.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
@@ -237,6 +238,7 @@ class ProductMoreDetailsScreen extends StatelessWidget {
   }
 
   _deleteCurrentUser(BuildContext context) {
+    final langController = Provider.of<LangController>(context, listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -244,7 +246,16 @@ class ProductMoreDetailsScreen extends StatelessWidget {
           builder: (context, productController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content: AppLocalizations.of(context)!.remove_product,
+              content: Text(
+                AppLocalizations.of(context)!.remove_product,
+                textAlign: TextAlign.center,
+                style: AppStyles.getFontStyle(
+                  langController,
+                  fontSize: 12,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
                 productController.deleteProduct(product.id!);

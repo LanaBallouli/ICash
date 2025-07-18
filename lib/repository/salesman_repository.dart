@@ -6,11 +6,35 @@ class SalesmanRepository {
 
   SalesmanRepository(this._api);
 
+  /// ✅ Get salesman by Supabase Auth UID
+  Future<SalesMan?> getSalesmanBySupabaseUid(String supabaseUid) async {
+    final response = await _api.filterData<Map<String, dynamic>>(
+      table: 'salesmen',
+      column: 'supabase_uid',
+      value: supabaseUid,
+      fromJsonT: (json) => json,
+    );
+
+    if (response.isEmpty) return null;
+
+    return SalesMan.fromJson(response.first);
+  }
+
   Future<List<SalesMan>> getAllSalesmen() async {
     return await _api.getDataList<SalesMan>(
       table: 'salesmen',
       fromJsonT: (json) => SalesMan.fromJson(json),
     );
+  }
+
+  Future<SalesMan?> getUserBySupabaseUid(String supabaseUid) async {
+    final response = await _api.filterData<SalesMan>(
+      table: 'salesmen',
+      column: 'supabase_uid',
+      value: supabaseUid,
+      fromJsonT: (json) => SalesMan.fromJson(json),
+    );
+    return response.firstOrNull;
   }
 
   Future<SalesMan> getSalesmanById(int id) async {

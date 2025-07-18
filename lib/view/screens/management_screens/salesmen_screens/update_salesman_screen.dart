@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
+import 'package:test_sales/controller/lang_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
@@ -11,6 +12,7 @@ import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/management_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/region_input_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/type_input_widget.dart';
+import '../../../../app_styles.dart';
 import '../../../../model/salesman.dart';
 
 class UpdateSalesmanScreen extends StatefulWidget {
@@ -33,7 +35,8 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
   @override
   void initState() {
     super.initState();
-    managementController = Provider.of<ManagementController>(context, listen: false);
+    managementController =
+        Provider.of<ManagementController>(context, listen: false);
   }
 
   @override
@@ -43,7 +46,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
     // Now it's safe to use context
     final allRegions = AppConstants.getRegions(context);
     final selectedRegion = allRegions.firstWhere(
-          (r) => r.id == widget.salesman.regionId,
+      (r) => r.id == widget.salesman.regionId,
       orElse: () => allRegions.first,
     );
 
@@ -203,13 +206,14 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
     ManagementController managementController,
     SalesmanController salesmanController,
   ) {
+    final langController = Provider.of<LangController>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: CustomButtonWidget(
             title: AppLocalizations.of(context)!.save,
-            color:AppConstants.primaryColor2,
+            color: AppConstants.primaryColor2,
             borderRadius: 12.r,
             titleColor: Colors.white,
             fontSize: 15.sp,
@@ -234,14 +238,23 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                   context: context,
                   builder: (context) => DialogWidget(
                     title: AppLocalizations.of(context)!.something_went_wrong,
-                    content: AppLocalizations.of(context)!.fill_all_fields,
+                    content: Text(
+                      AppLocalizations.of(context)!.fill_all_fields,
+                      textAlign: TextAlign.center,
+                      style: AppStyles.getFontStyle(
+                        langController,
+                        fontSize: 12,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     imageUrl: "assets/images/cancel.png",
                     actions: [
                       CustomButtonWidget(
                         title: AppLocalizations.of(context)!.ok,
                         onPressed: Navigator.of(context).pop,
                         borderRadius: 12.r,
-                        color:AppConstants.primaryColor2,
+                        color: AppConstants.primaryColor2,
                       ),
                     ],
                   ),
@@ -260,14 +273,23 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                   context: context,
                   builder: (context) => DialogWidget(
                     title: AppLocalizations.of(context)!.something_went_wrong,
-                    content: AppLocalizations.of(context)!.target_error,
+                    content: Text(
+                      AppLocalizations.of(context)!.target_error,
+                      textAlign: TextAlign.center,
+                      style: AppStyles.getFontStyle(
+                        langController,
+                        fontSize: 12,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     imageUrl: "assets/images/cancel.png",
                     actions: [
                       CustomButtonWidget(
                         title: AppLocalizations.of(context)!.ok,
                         onPressed: Navigator.of(context).pop,
                         borderRadius: 12.r,
-                        color:AppConstants.primaryColor2,
+                        color: AppConstants.primaryColor2,
                       ),
                     ],
                   ),
@@ -313,7 +335,7 @@ class _UpdateSalesmanScreenState extends State<UpdateSalesmanScreen> {
                         managementController.clearErrors();
                       },
                       borderRadius: 12.r,
-                      color:AppConstants.primaryColor2,
+                      color: AppConstants.primaryColor2,
                     ),
                   ],
                 ),

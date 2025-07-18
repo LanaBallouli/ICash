@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class SalesMan {
   final int? id;
   final String fullName;
@@ -16,6 +18,7 @@ class SalesMan {
   final int regionId;
   final String notes;
   final String type;
+  final String? supabaseUid;
 
   SalesMan({
     this.id,
@@ -23,7 +26,7 @@ class SalesMan {
     required this.email,
     required this.phone,
     required this.password,
-    this.role = "Salesman",
+    this.role = "User",
     this.status = "Active",
     required this.createdAt,
     required this.updatedAt,
@@ -35,28 +38,52 @@ class SalesMan {
     required this.regionId,
     this.notes = "",
     this.type = "",
+    this.supabaseUid,
   });
 
   factory SalesMan.fromJson(Map<String, dynamic> json) {
     return SalesMan(
       id: json['id'],
-      fullName: json['full_name'],
-      email: json['email'],
-      phone: json['phone'],
-      password: json['password'],
+      fullName: json['full_name'] ?? "",
+      email: json['email'] ?? "",
+      phone: json['phone'] ?? "",
+      password: json['password'] ?? "",
       role: json['role'] ?? "User",
       status: json['status'] ?? "Active",
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: safeParseDate(json['created_at']),
+      updatedAt: safeParseDate(json['updated_at']),
       imageUrl: json['image_url'] ?? "assets/images/default_image.png",
       totalSales: json['total_sales']?.toDouble() ?? 0.0,
       closedDeals: json['closed_deals'] ?? 0,
       monthlyTarget: json['monthly_target']?.toDouble() ?? 0.0,
       dailyTarget: json['daily_target']?.toDouble() ?? 0.0,
-      regionId: json['region_id'],
+      regionId: json['region_id'] ?? 1,
       notes: json['notes'] ?? "",
       type: json['type'] ?? "",
+      supabaseUid: json['supabase_uid'],
     );
+  }
+
+  static DateTime safeParseDate(dynamic date) {
+    if (date == null) return DateTime.now();
+
+    if (date is String) {
+      try {
+        if (date.contains('T')) {
+          return DateTime.parse(date); // ISO format
+        } else {
+          return DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
+        }
+      } catch (e) {
+        return DateTime.now();
+      }
+    }
+
+    if (date is int) {
+      return DateTime.fromMillisecondsSinceEpoch(date * 1000);
+    }
+
+    return DateTime.now();
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +105,7 @@ class SalesMan {
       'region_id': regionId,
       'notes': notes,
       'type': type,
+      'supabase_uid': supabaseUid ?? "", // Store Supabase UID for future reference
     };
   }
 }

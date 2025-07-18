@@ -26,6 +26,7 @@ import 'package:test_sales/repository/salesman_repository.dart';
 import 'package:test_sales/repository/user_supabase_repository.dart';
 import 'package:test_sales/repository/visit_repository.dart';
 import 'package:test_sales/supabase_api.dart';
+import 'package:test_sales/view/screens/reports_screen.dart';
 import 'package:test_sales/view/screens/splash_screen.dart';
 import 'l10n/app_localizations.dart';
 

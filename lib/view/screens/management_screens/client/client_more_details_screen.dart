@@ -15,8 +15,10 @@ import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 import 'package:test_sales/view/widgets/management_widgets/main/more_details_widget.dart';
 
+import '../../../../app_styles.dart';
 import '../../../../controller/camera_controller.dart';
 import '../../../../controller/invoice_controller.dart';
+import '../../../../controller/lang_controller.dart';
 import '../../../../controller/visit_controller.dart';
 
 class ClientMoreDetailsScreen extends StatefulWidget {
@@ -74,7 +76,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
           await addressController.fetchAddressById(client.addressId);
 
       if (address != null) {
-        clientsController.clientStreetController.text = address.street;
+        clientsController.clientStreetController.text = address.street ?? "";
         clientsController.clientBuildingNumController.text =
             address.buildingNumber.toString();
         clientsController.clientAdditionalInfoController.text =
@@ -446,6 +448,7 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
 
   Widget _buildButtonsRow(BuildContext context) {
     final local = AppLocalizations.of(context)!;
+    final langController = Provider.of<LangController>(context, listen: false);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -484,7 +487,16 @@ class _ClientMoreDetailsScreenState extends State<ClientMoreDetailsScreen> {
                 context: context,
                 builder: (context) => DialogWidget(
                   title: local.confirm_deletion,
-                  content: local.delete_client,
+                  content: Text(
+                    local.delete_client,
+                    textAlign: TextAlign.center,
+                    style: AppStyles.getFontStyle(
+                      langController,
+                      fontSize: 12,
+                      color: Colors.black45,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   imageUrl: "assets/images/cancel.png",
                   actions: [
                     TextButton(

@@ -39,6 +39,25 @@ class SupabaseApi {
     return fromJsonT(response);
   }
 
+  Future<List<T>> bulkInsertData<T>({
+    required String table,
+    required dynamic bodyList,
+    required T Function(dynamic) fromJsonT,
+  }) async {
+    try {
+      final response = await _client.from(table).insert(bodyList);
+
+      if (response.error != null) {
+        throw Exception(response.error!.message);
+      }
+
+      return response.data.map((json) => fromJsonT(json)).toList();
+    } catch (e) {
+      print("Error during bulk insert: $e");
+      rethrow;
+    }
+  }
+
   /// Generic method to insert a new item into a table
   Future<T> postData<T>({
     required String table,

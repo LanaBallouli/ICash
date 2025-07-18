@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_constants.dart';
+import '../l10n/app_localizations.dart';
 import '../model/salesman.dart';
 import '../repository/salesman_repository.dart';
 
@@ -13,9 +15,32 @@ class SalesmanController extends ChangeNotifier {
   String errorMessage = "";
   bool hasLoadedOnce = false;
   int? lastFetchedRegionId;
-
+  SalesMan? currentSalesman;
 
   SalesmanController(this.repository);
+
+  Future<SalesMan?> getSalesmanBySupabaseUid(String supabaseUid) async {
+    return await repository.getSalesmanBySupabaseUid(supabaseUid);
+  }
+
+  Future<void> fetchCurrentSalesman(BuildContext context) async {
+    final local = AppLocalizations.of(context)!;
+
+    try {
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      if (supabaseUser == null) {
+        throw Exception(local.user_not_found);
+      }
+
+      currentSalesman = await repository.getUserBySupabaseUid(supabaseUser.id);
+      notifyListeners();
+    } catch (e) {
+      errorMessage = e.toString();
+      notifyListeners();
+    }
+  }
+
+
 
 
   Future<void> fetchSalesmen() async {

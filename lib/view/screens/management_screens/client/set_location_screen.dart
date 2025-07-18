@@ -13,6 +13,7 @@ import 'add_client_screen.dart';
 
 class SetLocationScreen extends StatefulWidget {
   final bool isEditMode;
+  final bool isInvoiceMode;
   final LatLng? initialLocation;
   final void Function()? onPressed;
   final Client? client;
@@ -21,6 +22,7 @@ class SetLocationScreen extends StatefulWidget {
   const SetLocationScreen(
       {super.key,
       this.isEditMode = false,
+      this.isInvoiceMode = false,
       this.initialLocation,
       this.onPressed,
       this.client,
@@ -191,7 +193,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
   }
 
   void _navigateToNextScreen() {
-    final locationController = Provider.of<LocationController>(context, listen: false);
+    final locationController =
+        Provider.of<LocationController>(context, listen: false);
     if (widget.isEditMode) {
       Navigator.push(
         context,

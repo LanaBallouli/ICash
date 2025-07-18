@@ -5,6 +5,7 @@ import 'package:test_sales/controller/camera_controller.dart';
 import 'package:test_sales/model/client.dart';
 import '../app_constants.dart';
 import '../l10n/app_localizations.dart';
+import '../model/invoice_item.dart';
 import '../model/region.dart';
 import '../repository/client_repository.dart';
 import 'package:collection/collection.dart';
@@ -17,7 +18,7 @@ class ClientsController extends ChangeNotifier {
   int? lastFetchedSalesmanId;
   bool hasLoadedOnce = false;
 
-  // Controllers for form input
+
   final TextEditingController clientNameController = TextEditingController();
   final TextEditingController clientPersonInChargeController = TextEditingController();
   final TextEditingController clientPhoneController = TextEditingController();
@@ -30,6 +31,11 @@ class ClientsController extends ChangeNotifier {
   Region? clientSelectedRegion;
 
   ClientsController(this.repository);
+
+  Client? getClientById(int id) {
+    return clients.firstWhereOrNull((client) => client.id == id);
+  }
+
 
   Future<void> fetchAllClients() async {
     if (isLoading || hasLoadedOnce) return;
@@ -79,6 +85,13 @@ class ClientsController extends ChangeNotifier {
       _setLoading(false);
     }
     notifyListeners();
+  }
+
+  Future<Client> addNewClient2(Client client) async {
+    final createdClient = await repository.createClient(client);
+    clients.add(createdClient);
+    notifyListeners();
+    return createdClient;
   }
 
   Future<void> updateClient({required Client client, required int index}) async {

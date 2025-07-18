@@ -16,6 +16,7 @@ import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/perf
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/profile_section.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/recent_activity_section.dart';
 import 'package:test_sales/view/widgets/management_widgets/salesman_widgets/sales_reports_section.dart';
+import '../../../../app_styles.dart';
 import '../../../../controller/lang_controller.dart';
 import '../../../../controller/management_controller.dart';
 
@@ -152,6 +153,7 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
   }
 
   void _deleteCurrentUser(BuildContext context) {
+    final langController = Provider.of<LangController>(context, listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -159,7 +161,16 @@ class SalesmenMoreDetailsScreen extends StatelessWidget {
           builder: (context, salesmanController, child) {
             return DialogWidget(
               title: AppLocalizations.of(context)!.confirm_deletion,
-              content: AppLocalizations.of(context)!.delete_user,
+              content:Text(
+                AppLocalizations.of(context)!.delete_user,
+                textAlign: TextAlign.center,
+                style: AppStyles.getFontStyle(
+                  langController,
+                  fontSize: 12,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               imageUrl: "assets/images/cancel.png",
               onPressed: () {
                 salesmanController.deleteSalesman(users.id!);

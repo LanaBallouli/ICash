@@ -1,7 +1,11 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
+import 'package:test_sales/controller/clients_controller.dart';
+import 'package:test_sales/controller/product_controller.dart';
+import 'package:test_sales/controller/salesman_controller.dart';
 import 'package:test_sales/view/screens/home_screens/home_screen.dart';
 import 'package:test_sales/view/screens/management_screens/management_screen.dart';
 import 'package:test_sales/view/screens/map_screen.dart';
@@ -16,6 +20,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late SalesmanController salesmanController;
+  late ClientsController clientsController;
+  late ProductController productController;
   int activeIndex = 0;
 
   final List<Widget> pages = [
@@ -25,6 +32,18 @@ class _MainScreenState extends State<MainScreen> {
     const SettingsScreen(),
     const MapScreen(),
   ];
+
+  @override
+  void initState() {
+    salesmanController = Provider.of<SalesmanController>(context,listen: false);
+    clientsController = Provider.of<ClientsController>(context,listen: false);
+    productController = Provider.of<ProductController>(context,listen: false);
+
+    salesmanController.fetchSalesmen();
+    clientsController.fetchAllClients();
+    productController.fetchAllProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

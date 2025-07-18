@@ -84,7 +84,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
         currentAddress = address;
         currentLocation = LatLng(address.latitude, address.longitude);
 
-        clientsController.clientStreetController.text = address.street;
+        clientsController.clientStreetController.text = address.street ?? "";
         clientsController.clientBuildingNumController.text =
             address.buildingNumber.toString();
         clientsController.clientAdditionalInfoController.text =
@@ -333,6 +333,7 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                 region: clientsController.clientSelectedRegion,
                 type: clientsController.clientSelectedType,
               );
+              final langController = Provider.of<LangController>(context, listen: false);
 
               if (!clientsController.isFormValid()) {
                 // Show error dialog
@@ -340,7 +341,16 @@ class _UpdateClientDetailsScreenState extends State<UpdateClientDetailsScreen> {
                   context: context,
                   builder: (_) => DialogWidget(
                     title: AppLocalizations.of(context)!.something_went_wrong,
-                    content: AppLocalizations.of(context)!.fill_all_fields,
+                    content: Text(
+                      AppLocalizations.of(context)!.fill_all_fields,
+                      textAlign: TextAlign.center,
+                      style: AppStyles.getFontStyle(
+                        langController,
+                        fontSize: 12,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     imageUrl: "assets/images/cancel.png",
                     actions: [
                       CustomButtonWidget(

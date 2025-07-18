@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
 import 'package:test_sales/controller/invoice_controller.dart';
+import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/controller/salesman_controller.dart';
+import 'package:test_sales/view/screens/home_screens/create_invoice_screen.dart';
 import 'package:test_sales/view/widgets/home_widgets/debt_calculator_widget.dart';
 import 'package:test_sales/view/widgets/home_widgets/top_salesman_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
@@ -16,14 +18,32 @@ import '../../../l10n/app_localizations.dart';
 import '../../widgets/home_widgets/daily_sales_widget.dart';
 import '../../widgets/home_widgets/monthly_sales_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late SalesController salesCtrl;
+  late InvoicesController invoicesCtrl;
+
+  @override
+  void initState() {
+    salesCtrl = Provider.of<SalesController>(context, listen: false);
+    invoicesCtrl = Provider.of<InvoicesController>(context, listen: false);
+    salesCtrl.fetchMonthlySales(context);
+    salesCtrl.getDailySales(context);
+    invoicesCtrl.fetchDebtInvoices();
+    invoicesCtrl.getTotalDebtAmount();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final langController = Provider.of<LangController>(context);
     final invoiceController = Provider.of<InvoicesController>(context);
-    final salesCtrl = Provider.of<SalesController>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,9 +92,16 @@ class HomeScreen extends StatelessWidget {
                 childAspectRatio: 0.95,
                 children: [
                   DailySalesWidget(),
-                  MonthlySalesWidget(
-                    currentSales: salesCtrl.monthlySales,
-                    monthlyTarget: salesCtrl.monthlyTarget,
+                  Consumer2<SalesController, ManagementController>(
+                    builder: (context, salesCtrl, managementCtrl, _) {
+                      final monthlyTarget = managementCtrl.monthlyTarget;
+                      final currentSales = salesCtrl.monthlySales;
+
+                      return MonthlySalesWidget(
+                        currentSales: currentSales,
+                        monthlyTarget: monthlyTarget,
+                      );
+                    },
                   ),
                   DebtCardWidget(invoices: invoiceController.invoices),
                   Consumer<SalesmanController>(
@@ -121,29 +148,20 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.receipt_long_outlined,
                       color: AppConstants.buttonColor,
                       titleColor: Colors.black,
-                      onPressed: () =>
-                          Navigator.pushNamed(context, '/invoice-create'),
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomButtonWidget(
-                      title: AppLocalizations.of(context)!.account_statement,
-                      icon: Icons.account_balance_wallet_outlined,
-                      onPressed: () =>
-                          Navigator.pushNamed(context, '/statements'),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateInvoiceScreen(),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 16.h),
                     CustomButtonWidget(
                       title: AppLocalizations.of(context)!.assign_tasks,
                       icon: Icons.assignment_turned_in_outlined,
-                      color: AppConstants.buttonColor,
-                      titleColor: Colors.black,
+                      color: AppConstants.primaryColor2,
+                      titleColor: Colors.white,
                       onPressed: () => Navigator.pushNamed(context, '/tasks'),
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomButtonWidget(
-                      title: AppLocalizations.of(context)!.accept_debts,
-                      icon: Icons.pending_actions,
-                      onPressed: () {},
                     ),
                   ],
                 ),

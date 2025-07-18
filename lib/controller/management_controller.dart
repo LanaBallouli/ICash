@@ -8,6 +8,19 @@ class ManagementController extends ChangeNotifier {
   bool obscureText = false;
   Region? selectedRegion;
   String? selectedType;
+  double dailyTarget = 1000.0;
+  double monthlyTarget = 10000.0;
+
+
+  void setDailyTarget(double value) {
+    dailyTarget = value;
+    notifyListeners();
+  }
+
+  void setMonthlyTarget(double value) {
+    monthlyTarget = value;
+    notifyListeners();
+  }
 
   void setSelectedRegion(Region? value, BuildContext context) {
     selectedRegion = value;

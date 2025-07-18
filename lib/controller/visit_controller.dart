@@ -9,6 +9,7 @@ class VisitsController extends ChangeNotifier {
 
   VisitsController(this.repository);
 
+
   Future<void> fetchAllVisits() async {
     _setLoading(true);
     try {

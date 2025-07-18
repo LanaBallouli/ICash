@@ -1,15 +1,15 @@
 class Address {
   final int? id;
-  final String street;
-  final int buildingNumber;
+  final String? street;
+  final int? buildingNumber;
   final String? additionalDirections;
   final double latitude;
   final double longitude;
 
   Address({
     this.id,
-    required this.street,
-    required this.buildingNumber,
+    this.street,
+    this.buildingNumber,
     this.additionalDirections,
     required this.latitude,
     required this.longitude,

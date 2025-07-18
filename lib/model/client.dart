@@ -1,16 +1,16 @@
 class Client {
   final int? id;
   final String tradeName;
-  final String personInCharge;
+  final String? personInCharge;
   final DateTime createdAt;
   final DateTime updatedAt;
   final int addressId; // Foreign key referencing Address
-  final int regionId; // Foreign key referencing Region
+  final int? regionId; // Foreign key referencing Region
   final int balance;
   final String commercialRegistration;
   final String professionLicensePath;
   final String nationalId;
-  final String phone;
+  final String? phone;
   final String status;
   final String type;
   final String notes;
@@ -18,16 +18,16 @@ class Client {
   Client({
     this.id,
     required this.tradeName,
-    required this.personInCharge,
+    this.personInCharge,
     required this.createdAt,
     required this.updatedAt,
     required this.addressId,
-    required this.regionId,
+    this.regionId,
     this.balance = 0,
     this.commercialRegistration = "",
     this.professionLicensePath = "",
     this.nationalId = "",
-    required this.phone,
+    this.phone,
     this.status = "Active",
     this.type = "Cash",
     this.notes = "",

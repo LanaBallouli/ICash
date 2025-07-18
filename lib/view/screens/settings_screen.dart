@@ -3,9 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
+import 'package:test_sales/view/screens/registration_screens/login_screen.dart';
 import 'package:test_sales/view/widgets/main_widgets/custom_button_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/dialog_widget.dart';
+import 'package:test_sales/view/widgets/main_widgets/input_widget.dart';
 import 'package:test_sales/view/widgets/main_widgets/main_appbar_widget.dart';
 
 import '../../controller/lang_controller.dart';
@@ -83,20 +86,6 @@ class SettingsScreen extends StatelessWidget {
               height: 24.h,
             ),
             _buildTitleRow(
-                langController, Icons.person_2_outlined, local.account),
-            SizedBox(
-              height: 12.h,
-            ),
-            _buildButton(
-              langController: langController,
-              icon: Icons.email_outlined,
-              title: local.manage_profile,
-              onPressed: () {},
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            _buildTitleRow(
                 langController, Icons.analytics_outlined, local.sales_settings),
             SizedBox(
               height: 12.h,
@@ -105,7 +94,57 @@ class SettingsScreen extends StatelessWidget {
               langController: langController,
               icon: Icons.analytics_outlined,
               title: local.daily_sales_target,
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Consumer<ManagementController>(
+                      builder: (context, managementController, child) {
+                        final dailyTargetCtrl = TextEditingController(
+                          text: managementController.dailyTarget.toString(),
+                        );
+                        return DialogWidget(
+                          title: local.set_daily_target,
+                          actions: [
+                            InputWidget(
+                              textEditingController: dailyTargetCtrl,
+                              label: local.daily_target,
+                              hintText: local.enter_daily_target,
+                              keyboardType: TextInputType.number,
+                            ),
+                            SizedBox(height: 16.h),
+                            CustomButtonWidget(
+                              title: local.save,
+                              onPressed: () {
+                                final String value = dailyTargetCtrl.text;
+                                final double? parsedValue =
+                                    double.tryParse(value);
+
+                                if (parsedValue == null || parsedValue <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "local.invalid_daily_target",
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                managementController
+                                    .setDailyTarget(parsedValue);
+
+                                Navigator.pop(context);
+                                print(
+                                    "New Daily Target: ${managementController.dailyTarget} --------------------------------");
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
+              },
             ),
             SizedBox(
               height: 6.h,
@@ -114,11 +153,91 @@ class SettingsScreen extends StatelessWidget {
               langController: langController,
               icon: Icons.calendar_month,
               title: local.monthly_sales_target,
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Consumer<ManagementController>(
+                      builder: (context, managementController, child) {
+                        final monthlyTargetCtrl = TextEditingController(
+                          text: managementController.monthlyTarget.toString(),
+                        );
+                        return DialogWidget(
+                          title: local.set_monthly_target,
+                          actions: [
+                            InputWidget(
+                              textEditingController: monthlyTargetCtrl,
+                              label: local.monthly_target,
+                              hintText: local.enter_monthly_target,
+                              keyboardType: TextInputType.number,
+                            ),
+                            SizedBox(height: 16.h),
+                            CustomButtonWidget(
+                              title: local.save,
+                              onPressed: () {
+                                final String value = monthlyTargetCtrl.text;
+                                final double? parsedValue =
+                                    double.tryParse(value);
+
+                                if (parsedValue == null || parsedValue <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "local.invalid_monthly_target",
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                managementController
+                                    .setMonthlyTarget(parsedValue);
+
+                                Navigator.pop(context);
+                                print(
+                                    "New monthly Target: ${managementController.monthlyTarget} --------------------------------");
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
+              },
             ),
             Spacer(),
-            CustomButtonWidget(title: "Log Out", color: AppConstants.errorColor, ),
-            SizedBox(height: 28.h,)
+            CustomButtonWidget(
+              title: local.logout,
+              color: AppConstants.errorColor,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return DialogWidget(
+                      title: local.logout,
+                      content: Text(local.are_you_sure_you_want_to_logout),
+                      actions: [
+                        CustomButtonWidget(
+                          title: local.yes,
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                              (_) => false,
+                            );
+                          },
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            SizedBox(
+              height: 28.h,
+            )
           ],
         ),
       ),

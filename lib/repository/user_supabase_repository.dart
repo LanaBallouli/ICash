@@ -11,7 +11,7 @@ class UserSupabaseRepository {
         .eq('supabase_uid', supabaseUserId)
         .single();
 
-    if (response == null || response.isEmpty) return null;
+    if (response.isEmpty) return null;
 
-    return SalesMan.fromJson(response as Map<String, dynamic>);
+    return SalesMan.fromJson(response);
   }}

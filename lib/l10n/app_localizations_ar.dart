@@ -105,7 +105,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get active_rep => 'المندوبين النشطين';
 
   @override
-  String get num_active_rep => 'عدد المندوبين النشطين:';
+  String get num_active_rep => 'عدد المندوبين النشطين';
 
   @override
   String get total_rep => '';
@@ -117,28 +117,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dashboard => 'لوحة التحكم';
 
   @override
-  String get debts_num => 'عدد الفواتير غير المسددة:';
+  String get debts_num => 'عدد الفواتير غير المسددة';
 
   @override
-  String get total_debts => 'إجمالي الذمم المعلقة:';
+  String get total_debts => 'إجمالي الذمم المعلقة';
 
   @override
-  String get quick_access => 'الوصول المروريع';
+  String get quick_access => 'الوصول السريع';
 
   @override
   String get create_invoice => 'إنشاء فاتورة';
 
   @override
-  String get create_invoice_prompt => 'قم بتعبئة الحقول لإنشاء فاتورة:';
+  String get create_invoice_prompt => 'قم بتعبئة الحقول لإنشاء فاتورة';
 
   @override
-  String get invoice_type => 'نوع الفاتورة:';
+  String get invoice_type => 'نوع الفاتورة';
 
   @override
-  String get invoice_num => 'رقم الفاتورة:';
+  String get invoice_num => 'رقم الفاتورة';
 
   @override
-  String get select_invoice_type => 'اختر نوع الفاتورة:';
+  String get select_invoice_type => 'اختر نوع الفاتورة';
 
   @override
   String get cash_invoice => 'فاتورة نقدية';
@@ -225,19 +225,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get select_products => 'اختر المنتجات';
 
   @override
-  String get select_product => 'اختر منتج:';
+  String get select_product => 'اختر منتج';
 
   @override
   String get add_item => 'إضافة منتج';
 
   @override
-  String get item => 'المنتج:';
+  String get item => 'المنتج';
 
   @override
   String get notifications => 'الإشعارات';
 
   @override
-  String get tax_number => 'الرقم الضريبي:';
+  String get tax_number => 'الرقم الضريبي';
 
   @override
   String get products => 'المنتجات';
@@ -252,31 +252,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get category => 'الفئة';
 
   @override
-  String get select_category => 'اختر الفئة:';
+  String get select_category => 'اختر الفئة';
 
   @override
-  String get amount => 'الكمية:';
+  String get amount => 'الكمية';
 
   @override
-  String get discount => 'الخصم:';
+  String get discount => 'الخصم';
 
   @override
-  String get enter_discount => 'أدخل قيمة الخصم:';
+  String get enter_discount => 'أدخل قيمة الخصم';
 
   @override
-  String get tax => 'قيمة الضريبة:';
+  String get tax => 'قيمة الضريبة';
 
   @override
   String get enter_tax => 'أدخل قيمة الضريبة';
 
   @override
-  String get subtotal => 'المجموع الجزئي:';
+  String get subtotal => 'المجموع الجزئي';
 
   @override
-  String get date => 'تاريخ اليوم:';
+  String get date => 'تاريخ اليوم';
 
   @override
-  String get total => 'المجموع الكلي:';
+  String get total => 'المجموع الكلي';
 
   @override
   String get cash => 'نقدي';
@@ -285,10 +285,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get debt => 'ذمم';
 
   @override
-  String get add_item_prompt => 'قم بتعبئة الحقول لإضافة منتج:';
+  String get add_item_prompt => 'قم بتعبئة الحقول لإضافة منتج';
 
   @override
-  String get unit_price => 'سعر الوحدة:';
+  String get unit_price => 'سعر الوحدة';
 
   @override
   String get failed_to_create_user_profile => 'فشل إنشاء مستخدم جديد';
@@ -844,4 +844,106 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get monthly_sales_target => 'هدف المبيعات الشهري';
+
+  @override
+  String get english => 'انجليزي';
+
+  @override
+  String get arabic => 'عربي';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get are_you_sure_you_want_to_logout => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get enter_daily_target => 'أدخل الهدف اليومي';
+
+  @override
+  String get enter_monthly_target => 'أدخل الهدف الشهري';
+
+  @override
+  String get set_daily_target => 'تعيين الهدف اليومية';
+
+  @override
+  String get set_monthly_target => 'تعيين الهدف الشهري';
+
+  @override
+  String get change_language => 'تغيير اللغة';
+
+  @override
+  String get select_client => 'اختيار العميل';
+
+  @override
+  String get issue_date => 'تاريخ الفاتورة';
+
+  @override
+  String get due_date => 'تاريخ الاستحقاق';
+
+  @override
+  String get save_invoice => 'حفظ الفاتورة';
+
+  @override
+  String get summary => 'ملخص الفاتورة';
+
+  @override
+  String get selected_products => 'المنتجات المختارة';
+
+  @override
+  String get total_amount => 'إجمالي المبلغ';
+
+  @override
+  String get final_total => 'الإجمالي النهائي';
+
+  @override
+  String get error_creating_invoice => 'حدث خطأ أثناء إنشاء الفاتورة';
+
+  @override
+  String get select => 'تحديد';
+
+  @override
+  String get recent_activity => 'الأنشطة الأخيرة';
+
+  @override
+  String get visited_client => 'تم زيارة العميل';
+
+  @override
+  String get view_clients => 'عرض العملاء';
+
+  @override
+  String get enter_invoice_number => 'أدخل رقم الفاتورة';
+
+  @override
+  String get grand_total => 'الإجمالي النهائي';
+
+  @override
+  String get client => 'العميل';
+
+  @override
+  String get no_client => 'لا يوجد عميل';
+
+  @override
+  String get view_details => 'عرض التفاصيل';
+
+  @override
+  String get all_invoices => 'كل الفواتير';
+
+  @override
+  String get no_invoices_found => 'لا توجد فواتير';
+
+  @override
+  String get error_loading_invoices => 'حدث خطأ أثناء تحميل الفواتير';
+
+  @override
+  String get add_new_client => 'أضف عميل جديد';
+
+  @override
+  String get tax_type => 'نوع الضريبة';
+
+  @override
+  String get exempt => 'معفى';
+
+  @override
+  String get inclusive => 'شامل';
 }

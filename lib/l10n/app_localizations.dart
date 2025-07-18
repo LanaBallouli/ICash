@@ -632,7 +632,7 @@ abstract class AppLocalizations {
   /// No description provided for @total.
   ///
   /// In en, this message translates to:
-  /// **'Total:'**
+  /// **'Total'**
   String get total;
 
   /// No description provided for @cash.
@@ -1768,6 +1768,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Monthly Sales Target'**
   String get monthly_sales_target;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logout;
+
+  /// No description provided for @are_you_sure_you_want_to_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get are_you_sure_you_want_to_logout;
+
+  /// No description provided for @enter_daily_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter daily target'**
+  String get enter_daily_target;
+
+  /// No description provided for @enter_monthly_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter monthly target'**
+  String get enter_monthly_target;
+
+  /// No description provided for @set_daily_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Daily Target'**
+  String get set_daily_target;
+
+  /// No description provided for @set_monthly_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Monthly Target'**
+  String get set_monthly_target;
+
+  /// No description provided for @change_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get change_language;
+
+  /// No description provided for @select_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Client'**
+  String get select_client;
+
+  /// No description provided for @issue_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue Date'**
+  String get issue_date;
+
+  /// No description provided for @due_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get due_date;
+
+  /// No description provided for @save_invoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Invoice'**
+  String get save_invoice;
+
+  /// No description provided for @summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
+  /// No description provided for @selected_products.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected Products'**
+  String get selected_products;
+
+  /// No description provided for @total_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount'**
+  String get total_amount;
+
+  /// No description provided for @final_total.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Total'**
+  String get final_total;
+
+  /// No description provided for @error_creating_invoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Error creating invoice'**
+  String get error_creating_invoice;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @recent_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get recent_activity;
+
+  /// No description provided for @visited_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Visited Client'**
+  String get visited_client;
+
+  /// No description provided for @view_clients.
+  ///
+  /// In en, this message translates to:
+  /// **'View Clients'**
+  String get view_clients;
+
+  /// No description provided for @enter_invoice_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter invoice number'**
+  String get enter_invoice_number;
+
+  /// No description provided for @grand_total.
+  ///
+  /// In en, this message translates to:
+  /// **'Grand Total'**
+  String get grand_total;
+
+  /// No description provided for @client.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get client;
+
+  /// No description provided for @no_client.
+  ///
+  /// In en, this message translates to:
+  /// **'No Client'**
+  String get no_client;
+
+  /// No description provided for @view_details.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get view_details;
+
+  /// No description provided for @all_invoices.
+  ///
+  /// In en, this message translates to:
+  /// **'All Invoices'**
+  String get all_invoices;
+
+  /// No description provided for @no_invoices_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No invoices found'**
+  String get no_invoices_found;
+
+  /// No description provided for @error_loading_invoices.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading invoices'**
+  String get error_loading_invoices;
+
+  /// No description provided for @add_new_client.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Client'**
+  String get add_new_client;
+
+  /// No description provided for @tax_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type'**
+  String get tax_type;
+
+  /// No description provided for @exempt.
+  ///
+  /// In en, this message translates to:
+  /// **'Exempt'**
+  String get exempt;
+
+  /// No description provided for @inclusive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inclusive'**
+  String get inclusive;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

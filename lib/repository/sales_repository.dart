@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -6,21 +5,40 @@ class SalesRepository {
   final SupabaseClient _client = Supabase.instance.client;
 
   Future<double> getDailySales() async {
-    final today = DateTime.now().toIso8601String().split('T').first;
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-    final response = await _client
-        .from('invoices')
-        .select('total')
-        .eq('issue_date', today);
+    try {
+      final startOfDay = "$today 00:00:00";
+      final endOfDay = "$today 23:59:59";
 
-    final List<dynamic> salesList = response;
+      final response = await _client
+          .from('invoices')
+          .select('total')
+          .gte('creation_time', startOfDay)
+          .lte('creation_time', endOfDay);
 
-    double totalSales = 0.0;
-    if (salesList.isNotEmpty) {
-      totalSales = salesList.map((s) => s['total'] as double).sum;
+      if (response.isEmpty) return 0.0;
+
+      double totalSales = 0.0;
+
+      for (var item in response) {
+        final dynamic rawTotal = item['total'];
+
+        if (rawTotal is num) {
+          totalSales += rawTotal.toDouble();
+        } else if (rawTotal is String) {
+          final parsed = double.tryParse(rawTotal);
+          if (parsed != null) {
+            totalSales += parsed;
+          }
+        }
+      }
+
+      return totalSales;
+    } catch (e) {
+      print("Error fetching daily sales: $e");
+      return 0.0;
     }
-
-    return totalSales;
   }
 
   Future<double> getMonthlySales({int? userId}) async {
@@ -29,23 +47,31 @@ class SalesRepository {
     final toDate = DateFormat('yyyy-MM-dd').format(DateTime(now.year, now.month + 1, 0));
 
     try {
-      final query = _client
-          .from('invoices')
-          .select('total');
+      final query = _client.from('invoices').select('total');
 
       if (userId != null) {
         query.eq('user_id', userId);
       }
 
       final response = await query
-          .gte('created_at', fromDate)
-          .lte('created_at', toDate);
+          .gte('creation_time', "$fromDate 00:00:00")
+          .lte('creation_time', "$toDate 23:59:59");
 
       final List<dynamic> data = response;
 
       double totalSales = 0.0;
-      if (data.isNotEmpty && data[0].containsKey('total')) {
-        totalSales = data.map((row) => row['total'] as double).sum;
+
+      for (var item in data) {
+        final dynamic rawTotal = item['total'];
+
+        if (rawTotal is num) {
+          totalSales += rawTotal.toDouble();
+        } else if (rawTotal is String) {
+          final parsed = double.tryParse(rawTotal);
+          if (parsed != null) {
+            totalSales += parsed;
+          }
+        }
       }
 
       return totalSales;
@@ -53,5 +79,4 @@ class SalesRepository {
       print("Error fetching monthly sales: $e");
       return 0.0;
     }
-  }
-}
+  }}

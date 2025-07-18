@@ -49,6 +49,30 @@ class InvoiceItem {
     };
   }
 
+  InvoiceItem copyWith({
+    int? id,
+    int? invoiceId,
+    int? productId,
+    int? quantity,
+    double? priceAtTime,
+    double? discount,
+    double? total,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return InvoiceItem(
+      id: id ?? this.id,
+      invoiceId: invoiceId ?? this.invoiceId,
+      productId: productId ?? this.productId,
+      quantity: quantity ?? this.quantity,
+      priceAtTime: priceAtTime ?? this.priceAtTime,
+      discount: discount ?? this.discount,
+      total: total ?? this.total,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   // Helper method to calculate item total
   double calculateTotal({required double price, required int quantity, double discount = 0}) {
     return (price * quantity) - discount;

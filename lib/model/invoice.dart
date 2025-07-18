@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Invoice {
   final int? id;
   final String invoiceNumber;
@@ -35,21 +37,43 @@ class Invoice {
     return Invoice(
       id: json['id'],
       invoiceNumber: json['invoice_number'],
-      type: json['type'],
+      type: json['type'] ?? "Cash",
       clientId: json['client_id'],
-      issueDate: DateTime.parse(json['issue_date']),
-      dueDate: DateTime.parse(json['due_date']),
+      issueDate: safeParseDate(json['issue_date']), // ✅ Safe parsing
+      dueDate: safeParseDate(json['due_date']),
       tax: json['tax']?.toDouble() ?? 0.0,
       taxNumber: json['tax_number'] ?? "",
       discount: json['discount']?.toDouble() ?? 0.0,
       status: json['status'] ?? "Pending",
-      creationTime: DateTime.parse(json['creation_time']),
+      creationTime: safeParseDate(json['creation_time']),
       notes: json['notes'] ?? "",
       userId: json['user_id'],
       total: json['total']?.toDouble() ?? 0.0,
     );
   }
 
+  static DateTime safeParseDate(dynamic date) {
+    final now = DateTime.now();
+
+    if (date == null) return now;
+
+    try {
+      if (date is String) {
+        if (date.contains('T')) {
+          return DateTime.parse(date); // ISO format
+        } else {
+          return DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
+        }
+      } else if (date is int) {
+        return DateTime.fromMillisecondsSinceEpoch(date * 1000);
+      }
+
+      return now;
+    } catch (e) {
+      print("Error parsing date: $e");
+      return now;
+    }
+  }
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
@@ -69,4 +93,38 @@ class Invoice {
     };
   }
 
+
+  Invoice copyWith({
+    int? id,
+    String? invoiceNumber,
+    String? type,
+    int? clientId,
+    DateTime? issueDate,
+    DateTime? dueDate,
+    double? tax,
+    String? taxNumber,
+    double? discount,
+    String? status,
+    DateTime? creationTime,
+    String? notes,
+    int? userId,
+    double? total,
+  }) {
+    return Invoice(
+      id: id ?? this.id,
+      invoiceNumber: invoiceNumber ?? this.invoiceNumber,
+      type: type ?? this.type,
+      clientId: clientId ?? this.clientId,
+      issueDate: issueDate ?? this.issueDate,
+      dueDate: dueDate ?? this.dueDate,
+      tax: tax ?? this.tax,
+      taxNumber: taxNumber ?? this.taxNumber,
+      discount: discount ?? this.discount,
+      status: status ?? this.status,
+      creationTime: creationTime ?? this.creationTime,
+      notes: notes ?? this.notes,
+      userId: userId ?? this.userId,
+      total: total ?? this.total,
+    );
+  }
 }

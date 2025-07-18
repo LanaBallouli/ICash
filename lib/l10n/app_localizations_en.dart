@@ -276,7 +276,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get date => 'Date:';
 
   @override
-  String get total => 'Total:';
+  String get total => 'Total';
 
   @override
   String get cash => 'Cash';
@@ -844,4 +844,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get monthly_sales_target => 'Monthly Sales Target';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get are_you_sure_you_want_to_logout => 'Are you sure you want to logout?';
+
+  @override
+  String get enter_daily_target => 'Enter daily target';
+
+  @override
+  String get enter_monthly_target => 'Enter monthly target';
+
+  @override
+  String get set_daily_target => 'Set Daily Target';
+
+  @override
+  String get set_monthly_target => 'Set Monthly Target';
+
+  @override
+  String get change_language => 'Change Language';
+
+  @override
+  String get select_client => 'Select Client';
+
+  @override
+  String get issue_date => 'Issue Date';
+
+  @override
+  String get due_date => 'Due Date';
+
+  @override
+  String get save_invoice => 'Save Invoice';
+
+  @override
+  String get summary => 'Summary';
+
+  @override
+  String get selected_products => 'Selected Products';
+
+  @override
+  String get total_amount => 'Total Amount';
+
+  @override
+  String get final_total => 'Final Total';
+
+  @override
+  String get error_creating_invoice => 'Error creating invoice';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get recent_activity => 'Recent Activity';
+
+  @override
+  String get visited_client => 'Visited Client';
+
+  @override
+  String get view_clients => 'View Clients';
+
+  @override
+  String get enter_invoice_number => 'Enter invoice number';
+
+  @override
+  String get grand_total => 'Grand Total';
+
+  @override
+  String get client => 'Client';
+
+  @override
+  String get no_client => 'No Client';
+
+  @override
+  String get view_details => 'View Details';
+
+  @override
+  String get all_invoices => 'All Invoices';
+
+  @override
+  String get no_invoices_found => 'No invoices found';
+
+  @override
+  String get error_loading_invoices => 'Error loading invoices';
+
+  @override
+  String get add_new_client => 'Add New Client';
+
+  @override
+  String get tax_type => 'Tax type';
+
+  @override
+  String get exempt => 'Exempt';
+
+  @override
+  String get inclusive => 'Inclusive';
 }

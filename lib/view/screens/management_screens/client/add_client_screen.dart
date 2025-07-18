@@ -340,6 +340,7 @@ class AddClientScreen extends StatelessWidget {
                     );
                   } else {
                     print("Debug: Form validation failed.");
+                    final langController = Provider.of<LangController>(context, listen: false);
 
                     showDialog(
                       context: context,
@@ -347,8 +348,17 @@ class AddClientScreen extends StatelessWidget {
                         return DialogWidget(
                           title: AppLocalizations.of(context)!
                               .something_went_wrong,
-                          content:
-                              AppLocalizations.of(context)!.fill_all_fields,
+                          content: Text(
+                            AppLocalizations.of(context)!.fill_all_fields,
+                            textAlign: TextAlign.center,
+                            style: AppStyles.getFontStyle(
+                              langController,
+                              fontSize: 12,
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+
                           imageUrl: "assets/images/cancel.png",
                           actions: [
                             CustomButtonWidget(

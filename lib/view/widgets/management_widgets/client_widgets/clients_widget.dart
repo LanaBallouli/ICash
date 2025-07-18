@@ -26,7 +26,7 @@ class ClientsWidget extends StatelessWidget {
 
     final langController = Provider.of<LangController>(context, listen: false);
     final region = Provider.of<ClientsController>(context, listen: false)
-        .getRegionName(client.regionId, context);
+        .getRegionName(client.regionId!, context);
 
     return Row(
       children: [

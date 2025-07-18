@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../controller/invoice_controller.dart';
 import '../../controller/login_controller.dart';
 import '../../controller/secure_storage_controller.dart';
 import 'registration_screens/login_screen.dart';
@@ -30,10 +31,19 @@ class _SplashScreenState extends State<SplashScreen> {
       );
       loginProvider.setRememberMe(credentials['email'] != null);
 
+      // ✅ Only fetch invoices if user is logged in
+      if (credentials['email'] != null) {
+        final invoiceCtrl = context.read<InvoicesController>();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await invoiceCtrl.fetchAllInvoices();
+        });
+      }
+
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => LoginScreen()),
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
         );
       }
     } catch (e) {
