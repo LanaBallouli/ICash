@@ -309,8 +309,13 @@
   "all_invoices": "كل الفواتير",
   "no_invoices_found": "لا توجد فواتير",
   "error_loading_invoices": "حدث خطأ أثناء تحميل الفواتير",
-"add_new_client": "أضف عميل جديد",
+  "add_new_client": "أضف عميل جديد",
   "tax_type": "نوع الضريبة",
   "exempt": "معفى",
-  "inclusive": "شامل"
+  "inclusive": "شامل",
+  "set_tax_number": "تعيين الرقم الضريبي",
+  "enter_tax_number": "ادخل الرقم الضريبي",
+  "invalid_tax_number": "رقم ضريبي غير صالح",
+  "invalid_monthly_target": "هدف شهري غير صالح",
+  "invalid_daily_target": "هدف يومي غير صالح"
 }

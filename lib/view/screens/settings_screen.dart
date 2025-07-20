@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_sales/app_constants.dart';
 import 'package:test_sales/app_styles.dart';
+import 'package:test_sales/controller/invoice_controller.dart';
 import 'package:test_sales/controller/management_controller.dart';
 import 'package:test_sales/l10n/app_localizations.dart';
 import 'package:test_sales/view/screens/registration_screens/login_screen.dart';
@@ -124,7 +125,7 @@ class SettingsScreen extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        "local.invalid_daily_target",
+                                        local.invalid_daily_target,
                                       ),
                                     ),
                                   );
@@ -183,7 +184,7 @@ class SettingsScreen extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        "local.invalid_monthly_target",
+                                        local.invalid_monthly_target,
                                       ),
                                     ),
                                   );
@@ -195,6 +196,62 @@ class SettingsScreen extends StatelessWidget {
                                 Navigator.pop(context);
                                 print(
                                     "New monthly Target: ${managementController.monthlyTarget} --------------------------------");
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            SizedBox(
+              height: 6.h,
+            ),
+            _buildButton(
+              langController: langController,
+              icon: Icons.percent,
+              title: local.tax_number,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Consumer<InvoicesController>(
+                      builder: (context, invoicesController, child) {
+                        return DialogWidget(
+                          title: local.set_tax_number,
+                          actions: [
+                            InputWidget(
+                              textEditingController:
+                                  invoicesController.taxNumberController,
+                              label: local.tax_number,
+                              hintText: local.enter_tax_number,
+                              keyboardType: TextInputType.number,
+                            ),
+                            SizedBox(height: 16.h),
+                            CustomButtonWidget(
+                              title: local.save,
+                              onPressed: () {
+                                final String value =
+                                    invoicesController.taxNumberController.text;
+                                final int? parsedValue = int.tryParse(value);
+
+                                if (parsedValue == null || parsedValue <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        local.invalid_tax_number,
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                invoicesController.setTaxNumber(parsedValue);
+
+                                Navigator.pop(context);
+                                print(
+                                    "New Tax Number: ${invoicesController.taxNumber} --------------------------------");
                               },
                             ),
                           ],

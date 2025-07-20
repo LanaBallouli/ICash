@@ -19,12 +19,20 @@ class InvoicesController extends ChangeNotifier {
   TextEditingController invoiceNumberCtrl = TextEditingController();
   TextEditingController taxCtrl = TextEditingController(text: "0");
   TextEditingController discountCtrl = TextEditingController(text: "0");
+  TextEditingController taxNumberController = TextEditingController();
   late DateTime issueDate = DateTime.now();
   late DateTime dueDate = DateTime.now().add(const Duration(days: 7));
   String type = "Cash";
   String notes = "";
+  int taxNumber = 0;
+
 
   InvoicesController(this.repository);
+
+  void setTaxNumber(int value) {
+    taxNumber = value;
+    notifyListeners();
+  }
 
   void setSelectedClient(Client client) {
     selectedClient = client;

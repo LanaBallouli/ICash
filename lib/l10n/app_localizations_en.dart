@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get active_rep => 'Active Sales Representatives';
 
   @override
-  String get num_active_rep => 'Number of Active Representatives:';
+  String get num_active_rep => 'Number of Active Representatives';
 
   @override
   String get total_rep => '';
@@ -117,10 +117,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboard => 'Dashboard';
 
   @override
-  String get debts_num => 'Number of unpaid invoices:';
+  String get debts_num => 'Number of unpaid invoices';
 
   @override
-  String get total_debts => 'Total Debts:';
+  String get total_debts => 'Total Debts';
 
   @override
   String get quick_access => 'Quick Access';
@@ -129,16 +129,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get create_invoice => 'Create Invoice';
 
   @override
-  String get create_invoice_prompt => 'Fill in the fields to create an invoice:';
+  String get create_invoice_prompt => 'Fill in the fields to create an invoice';
 
   @override
-  String get invoice_type => 'Invoice Type:';
+  String get invoice_type => 'Invoice Type';
 
   @override
   String get invoice_num => 'Invoice NO.';
 
   @override
-  String get select_invoice_type => 'Select Invoice Type:';
+  String get select_invoice_type => 'Select Invoice Type';
 
   @override
   String get cash_invoice => 'Cash Invoice';
@@ -252,7 +252,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category => 'Category';
 
   @override
-  String get select_category => 'Select category:';
+  String get select_category => 'Select category';
 
   @override
   String get amount => 'Amount:';
@@ -261,19 +261,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discount => 'Discount';
 
   @override
-  String get enter_discount => 'Enter discount amount:';
+  String get enter_discount => 'Enter discount amount';
 
   @override
-  String get tax => 'Tax amount:';
+  String get tax => 'Tax amount';
 
   @override
   String get enter_tax => 'Enter tax amount';
 
   @override
-  String get subtotal => 'SubTotal:';
+  String get subtotal => 'SubTotal';
 
   @override
-  String get date => 'Date:';
+  String get date => 'Date';
 
   @override
   String get total => 'Total';
@@ -285,7 +285,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debt => 'Debt';
 
   @override
-  String get add_item_prompt => 'Fill in all fields to add an item:';
+  String get add_item_prompt => 'Fill in all fields to add an item';
 
   @override
   String get unit_price => 'Unit price:';
@@ -946,4 +946,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inclusive => 'Inclusive';
+
+  @override
+  String get set_tax_number => 'Set Tax Number';
+
+  @override
+  String get enter_tax_number => 'Enter tax number';
+
+  @override
+  String get invalid_tax_number => 'Invalid Tax Number';
+
+  @override
+  String get invalid_monthly_target => 'Invalid monthly target';
+
+  @override
+  String get invalid_daily_target => 'Invalid daily target';
 }

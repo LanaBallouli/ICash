@@ -946,4 +946,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get inclusive => 'شامل';
+
+  @override
+  String get set_tax_number => 'تعيين الرقم الضريبي';
+
+  @override
+  String get enter_tax_number => 'ادخل الرقم الضريبي';
+
+  @override
+  String get invalid_tax_number => 'رقم ضريبي غير صالح';
+
+  @override
+  String get invalid_monthly_target => 'هدف شهري غير صالح';
+
+  @override
+  String get invalid_daily_target => 'هدف يومي غير صالح';
 }

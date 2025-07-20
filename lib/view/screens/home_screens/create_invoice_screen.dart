@@ -32,7 +32,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
   final TextEditingController _discountCtrl = TextEditingController(text: "0");
   final TextEditingController _notesCtrl = TextEditingController();
 
-  DateTime _issueDate = DateTime.now();
+  final DateTime _issueDate = DateTime.now();
   final List<Product> _selectedProducts = [];
 
   @override
@@ -264,7 +264,9 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
                         SizedBox(
                           height: 12.h,
                         ),
-                        Divider(color: Colors.grey[300],),
+                        Divider(
+                          color: Colors.grey[300],
+                        ),
                         SizedBox(
                           height: 12.h,
                         ),

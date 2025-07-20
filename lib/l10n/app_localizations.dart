@@ -290,7 +290,7 @@ abstract class AppLocalizations {
   /// No description provided for @num_active_rep.
   ///
   /// In en, this message translates to:
-  /// **'Number of Active Representatives:'**
+  /// **'Number of Active Representatives'**
   String get num_active_rep;
 
   /// No description provided for @total_rep.
@@ -314,13 +314,13 @@ abstract class AppLocalizations {
   /// No description provided for @debts_num.
   ///
   /// In en, this message translates to:
-  /// **'Number of unpaid invoices:'**
+  /// **'Number of unpaid invoices'**
   String get debts_num;
 
   /// No description provided for @total_debts.
   ///
   /// In en, this message translates to:
-  /// **'Total Debts:'**
+  /// **'Total Debts'**
   String get total_debts;
 
   /// No description provided for @quick_access.
@@ -338,13 +338,13 @@ abstract class AppLocalizations {
   /// No description provided for @create_invoice_prompt.
   ///
   /// In en, this message translates to:
-  /// **'Fill in the fields to create an invoice:'**
+  /// **'Fill in the fields to create an invoice'**
   String get create_invoice_prompt;
 
   /// No description provided for @invoice_type.
   ///
   /// In en, this message translates to:
-  /// **'Invoice Type:'**
+  /// **'Invoice Type'**
   String get invoice_type;
 
   /// No description provided for @invoice_num.
@@ -356,7 +356,7 @@ abstract class AppLocalizations {
   /// No description provided for @select_invoice_type.
   ///
   /// In en, this message translates to:
-  /// **'Select Invoice Type:'**
+  /// **'Select Invoice Type'**
   String get select_invoice_type;
 
   /// No description provided for @cash_invoice.
@@ -584,7 +584,7 @@ abstract class AppLocalizations {
   /// No description provided for @select_category.
   ///
   /// In en, this message translates to:
-  /// **'Select category:'**
+  /// **'Select category'**
   String get select_category;
 
   /// No description provided for @amount.
@@ -602,13 +602,13 @@ abstract class AppLocalizations {
   /// No description provided for @enter_discount.
   ///
   /// In en, this message translates to:
-  /// **'Enter discount amount:'**
+  /// **'Enter discount amount'**
   String get enter_discount;
 
   /// No description provided for @tax.
   ///
   /// In en, this message translates to:
-  /// **'Tax amount:'**
+  /// **'Tax amount'**
   String get tax;
 
   /// No description provided for @enter_tax.
@@ -620,13 +620,13 @@ abstract class AppLocalizations {
   /// No description provided for @subtotal.
   ///
   /// In en, this message translates to:
-  /// **'SubTotal:'**
+  /// **'SubTotal'**
   String get subtotal;
 
   /// No description provided for @date.
   ///
   /// In en, this message translates to:
-  /// **'Date:'**
+  /// **'Date'**
   String get date;
 
   /// No description provided for @total.
@@ -650,7 +650,7 @@ abstract class AppLocalizations {
   /// No description provided for @add_item_prompt.
   ///
   /// In en, this message translates to:
-  /// **'Fill in all fields to add an item:'**
+  /// **'Fill in all fields to add an item'**
   String get add_item_prompt;
 
   /// No description provided for @unit_price.
@@ -1972,6 +1972,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Inclusive'**
   String get inclusive;
+
+  /// No description provided for @set_tax_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Tax Number'**
+  String get set_tax_number;
+
+  /// No description provided for @enter_tax_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter tax number'**
+  String get enter_tax_number;
+
+  /// No description provided for @invalid_tax_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Tax Number'**
+  String get invalid_tax_number;
+
+  /// No description provided for @invalid_monthly_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid monthly target'**
+  String get invalid_monthly_target;
+
+  /// No description provided for @invalid_daily_target.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid daily target'**
+  String get invalid_daily_target;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
